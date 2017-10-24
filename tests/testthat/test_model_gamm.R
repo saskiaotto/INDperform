@@ -1,0 +1,138 @@
+context("test model_gamm")
+
+test_id <- 64
+dat <- model_gamm(ind_init_ex[test_id, ])
+
+# set control parameters
+lmc <- nlme::lmeControl(niterEM = 5000, msMaxIter = 1000)
+
+# Manual fitting for comparison -----------
+ind <- ind_init_ex$ind_train[[test_id]]
+i_test <- ind_init_ex$ind_test[[test_id]]
+press <- ind_init_ex$press_train[[test_id]]
+p_test <- ind_init_ex$press_test[[test_id]]
+time <- ind_init_ex$time_train[[test_id]]
+test_dat <- data.frame(ind = ind, press = press, time = time)
+test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
+  control = lmc)
+
+test_ar1 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
+  correlation = nlme::corARMA(value = 0.3, form = ~time,
+    p = 1, q = 0), control = lmc, data = test_dat)
+test_ar2 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
+  correlation = nlme::corARMA(value = c(0.3, -0.3),
+    form = ~time, p = 2, q = 0), control = lmc,
+  data = test_dat)
+test_arma11 <- mgcv::gamm(formula = ind ~ s(press,
+  k = 5), correlation = nlme::corARMA(value = c(0.3,
+  0.3), form = ~time, p = 1, q = 1), control = lmc,
+  data = test_dat)
+test_arma12 <- mgcv::gamm(formula = ind ~ s(press,
+  k = 5), correlation = nlme::corARMA(value = c(0.3,
+  -0.3, 0.3), form = ~time, p = 1, q = 2), control = lmc,
+  data = test_dat)
+test_arma21 <- mgcv::gamm(formula = ind ~ s(press,
+  k = 5), correlation = nlme::corARMA(value = c(0.3,
+  0.3, -0.3), form = ~time, p = 2, q = 1), control = lmc,
+  data = test_dat)
+model <- list(test_ar0, test_ar1, test_ar2, test_arma11,
+  test_arma12, test_arma21)
+
+model_type <- unlist(purrr::map(seq_along(model), ~class(model[[.]])[1]))
+corrstruct <- c("none", "ar1", "ar2", "arma11", "arma12",
+  "arma21")
+aic <- purrr::map_dbl(model, ~stats::AIC(.$lme))
+summary <- purrr::map(model, ~mgcv::summary.gam(.$gam))
+edf <- get_sum_output(summary, "edf")
+p_val <- get_sum_output(summary, "s.table", cell = 4)
+signif_code <- get_signif_code(p_val)
+r_sq <- get_sum_output(summary, "r.sq")
+nrmse <- calc_nrmse(calc_pred(model, list(p_test, p_test,
+  p_test, p_test, p_test, p_test))$pred, list(i_test,
+  i_test, i_test, i_test, i_test, i_test))
+res <- purrr::map(model, ~mgcv::residuals.gam(.$gam))
+res_tac <- purrr::map(model, ~residuals(.$lme, type = "normalized"))
+ks_test <- unlist(lapply(res, FUN = function(x) round(stats::ks.test(x,
+  "pnorm", mean(x), sd(x))$p.value, 4)))
+tac <- unlist(lapply(res_tac, FUN = function(x) test_tac(list(x))$tac))
+
+# -------------------------
+
+test_that("compare manual results", {
+  purrr::map2(model, dat$model, ~expect_equivalent(.x$lme,
+    .y$lme))
+  expect_equal(model_type, dat$model_type)
+  expect_is(model_type[1], "character")
+  expect_equal(corrstruct, dat$corrstruc)
+  expect_is(corrstruct[1], "character")
+  expect_equal(aic, dat$aic)
+  expect_is(aic[1], "numeric")
+  expect_equal(edf, dat$edf)
+  expect_is(edf[1], "numeric")
+  expect_equal(p_val, dat$p_val)
+  expect_is(p_val[1], "numeric")
+  expect_equal(signif_code, dat$signif_code)
+  expect_is(signif_code[1], "character")
+  expect_equal(r_sq, dat$r_sq)
+  expect_is(r_sq[1], "numeric")
+  expect_equal(nrmse, dat$nrmse)
+  expect_is(nrmse[1], "numeric")
+  expect_equal(ks_test[1], dat$ks_test[1])
+  expect_is(ks_test[1], "numeric")
+  expect_equal(tac, dat$tac)
+  expect_false(dat$tac[2])
+  expect_true(all(dat$id == test_id))
+  expect_true(all(dat$ind == "Cod"))
+  expect_true(all(dat$press == "Tsum"))
+  expect_message(model_gamm(ind_init_ex[44, ]),
+    "Warning: The following models can not be fitted via gamm")
+})
+
+# Test outlier
+example <- model_gamm(ind_init_ex[39, ], excl_outlier = as.list(rep(8,
+  6)))  # need to be provided for each GAMM!
+# Manually add an NA to the training data (but then
+# also to the train_na vector!)
+ind_init2 <- ind_init_ex[39, ]
+ind_init2$ind_train[[1]][8] <- NA
+ind_init2$train_na[[1]][8] <- TRUE
+example2 <- model_gamm(ind_init2)
+
+test_that("test excl outlier", {
+  expect_equivalent(example$p_val, example2$p_val)
+  expect_equivalent(example$nrmse, example2$nrmse)
+  expect_error(model_gamm(ind_init_ex[102, ], excl_outlier = as.list(c(8,
+    6))))  #only 1 list entry can be recycled
+})
+
+# Binomal distribution
+set.seed(123)
+vec_train <- sample(x = c(0, 1), size = 27, replace = TRUE)
+vec_test <- sample(x = c(0, 1), size = 3, replace = TRUE)
+data <- ind_init_ex[1, ]
+data$ind_train <- list(vec_train)
+data$ind_test <- list(vec_test)
+example <- suppressWarnings(model_gamm(data, family = stats::binomial(link = log)))
+
+test_that("test binomial family", {
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[1]] ==
+    "binomial")
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[2]] ==
+    "log")
+})
+
+# Poisson distribution:
+set.seed(123)
+vec_train <- rpois(27, 15)
+vec_test <- rpois(3, 15)
+data <- ind_init_ex[1, ]
+data$ind_train <- list(vec_train)
+data$ind_test <- list(vec_test)
+example <- model_gamm(data, family = stats::poisson(link = identity))
+
+test_that("test poisson family", {
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[1]] ==
+    "poisson")
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[2]] ==
+    "identity")
+})
