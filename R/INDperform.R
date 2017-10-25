@@ -21,9 +21,6 @@
 #' state indicators operational under given management schemes such as the
 #' EU Marine Strategy Framework Directive.
 #'
-#' To learn more about INDperform, start with the vignette:
-#' \code{browseVignettes(package = "INDperform")}
-#'
 #' @section Usage:
 #' INDperform offers function that can be applied individually to some
 #' extent but mostly build upon each other to follow the 7-step approach.

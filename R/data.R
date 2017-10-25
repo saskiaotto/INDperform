@@ -39,7 +39,7 @@
 #'
 #' @format A data frame with 30 rows and 13 variables. These indicator time series
 #' represent a slight modification of the original time series represented in
-#' Otto et al. (2018)
+#' Otto et al. (2018).
 #' \describe{
 #' \item{Year}{year given as integer}
 #' \item{TZA}{ln-transformed Total Zooplankton Abundance}

@@ -13,7 +13,7 @@ Description: An implementation of the 7-step approach suggested by Otto et al.
     and to select a suite of complimentary and well performing indicators. 
     This suite can be then used to assess the current state of the system 
     in comparison to a reference period.
-URL: https://github.com/SaskiaAOtto/INDperform
+URL: https://github.com/saskiaotto/INDperform
 BugReports: https://github.com/SaskiaAOtto/INDperform/issues
 Encoding: UTF-8
 Depends:
