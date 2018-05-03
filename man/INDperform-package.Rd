@@ -27,9 +27,6 @@ individual performances can be quantified, visualized, and compared. The
 combination of tools provided in this package can significantly help making
 state indicators operational under given management schemes such as the
 EU Marine Strategy Framework Directive.
-
-To learn more about INDperform, start with the vignette:
-\code{browseVignettes(package = "INDperform")}
 }
 \section{Usage}{
 
@@ -154,7 +151,7 @@ doi: https://doi.org/10.1016/j.ecolind.2017.05.045
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/SaskiaAOtto/INDperform}
+  \item \url{https://github.com/saskiaotto/INDperform}
   \item Report bugs at \url{https://github.com/SaskiaAOtto/INDperform/issues}
 }
 
