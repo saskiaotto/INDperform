@@ -9,8 +9,8 @@
 #' @param init_tbl The output tibble of the \code{\link{ind_init}} function.
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the
 #'  default is 5.
-#' @param family This is a family object specifying the distribution and
-#'  link to use in fitting the GAMM (see also \code{\link{family}}).
+#' @param family A description of the error distribution and link to be used in the GAM.
+#'  This needs to be defined as a family function (see also \code{\link{family}}).
 #' @param excl_outlier A list of values identified as outliers in specific
 #'  IND~pressure GAMMs, which should be excluded in this modelling step
 #'  (the output tibble of this function includes the variable
@@ -18,9 +18,10 @@
 #'  all indices of values with cook's distance > 1 (see below). The function
 #'  can be re-run again, then excluding all these outliers provided in
 #'  \code{$pres_outlier} from the the first run (see example)).
-#' @param filter logical; a filter used to select specific rows in init_tbl. That could be
-#'  the \code{tac} column in the \code{model_gam} output tibble which indicates
-#'  whether the model residuals show TAC.
+#' @param filter logical; a filter used to select specific rows in init_tbl
+#'  (row gets selected if value TRUE). That could be the \code{tac} column
+#'  in the \code{model_gam} output tibble which indicates whether the model
+#'  residuals show TAC.
 #'
 #' @details
 #' Modelling first-differenced indicator time series can be an alternative solution
@@ -81,10 +82,27 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   # Filter for models with tac only
   if (!is.null(filter)) {
-    init_tbl <- init_tbl[filter, ]
+  		if (length(filter) != nrow(init_tbl)) {
+  			 stop("The length of the logical 'filter' vector deviates from the number of rows in 'ind_init'!")
+  		} else {
+  			 init_tbl <- init_tbl[filter, ]
+  		}
   }
 
   # Data input validation ---------------------
+		# Check input tibble
+		init_tbl <- check_input_tbl(
+				init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
+				var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
+					"ind_test", "press_test", "time_test", "train_na"),
+				dt_to_check = c("integer", "character", "character", rep("list", 7))
+		)
+
+		# Check family class
+		if (class(family) != "family") {
+				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
+		}
+
   # Check that excl_outlier list has the correct length
   # (i.e. 6 times the id: 1 for each GAMM)
   if (!is.null(excl_outlier)) {

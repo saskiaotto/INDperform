@@ -39,6 +39,10 @@ merge_models <- function(mod_tbl1, mod_tbl2) {
 
 	 # Data input validation --------------------------
 
+		# Check input tibbles
+		mod_tbl1 <- check_input_tbl(mod_tbl1, tbl_name = "mod_tbl1")
+		mod_tbl2 <- check_input_tbl(mod_tbl2, tbl_name = "mod_tbl2")
+
   # Check if certain ids are in both datasets and if yes if
 	 # they also contain the same ind/press names
   ids <- c(unique(mod_tbl1$id), unique(mod_tbl2$id))

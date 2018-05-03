@@ -12,18 +12,20 @@ mod_tbl2d <- model_gamm_ex[model_gamm_ex$id %in% 68:69,1:3]
   # multiple occurrences of id 4 and 5 in tibble (all corrstruc)
 test <- merge_models(mod_tbl1, mod_tbl2a)
 
-
-test_that("check warnings and messages", {
-  expect_message(merge_models(mod_tbl1, mod_tbl2c))
-  expect_error(merge_models(mod_tbl1, mod_tbl2b))
-  expect_error(merge_models(mod_tbl1, mod_tbl2d))
-  expect_error(merge_models(mod_tbl1b, mod_tbl2a))
-  expect_error(merge_models(mod_tbl1b, mod_tbl2d))
-})
-
 test_that("check if merging is correct", {
   expect_equal(nrow(test), (nrow(mod_tbl1) + nrow(mod_tbl2a)))
   expect_true(all(names(test) %in% unique(names(mod_tbl1),
     names(mod_tbl2a))) & all(unique(names(mod_tbl1),
     names(mod_tbl2a)) %in% names(test)))
+})
+
+
+
+test_that("check warnings and messages", {
+  expect_message(merge_models(mod_tbl1, mod_tbl2c))
+  expect_error(merge_models(mod_tbl1, mod_tbl2b), "occur in both tibbles")
+  expect_error(merge_models(mod_tbl1, mod_tbl2d), "occur in mod_tbl2")
+  expect_error(merge_models(mod_tbl1b, mod_tbl2a), "occur in mod_tbl1")
+  expect_error(merge_models(mod_tbl1b, mod_tbl2d), "occur in mod_tbl1")
+				# (stopped already at error in mod_tbl1b, so error in mod_tbl2d not even checked)
 })

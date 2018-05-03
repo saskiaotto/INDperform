@@ -26,7 +26,7 @@ res_new <- NULL
 res_new[place_resid] <- res
 tac <- test_tac(list(res_new))$tac
 
-test_that("test the tibble", {
+test_that("test the returned tibble", {
   expect_equal(dat[, 1:3], model_gam_ex[, 1:3])
   expect_equal(ind_init_ex[, 1:3], model_gam_ex[,
     1:3])
@@ -79,7 +79,7 @@ test_that("test binomial family", {
     "log")
 })
 
-# Poisson distribution:
+# Poisson distribution
 set.seed(123)
 vec <- rpois(27, 15)
 data <- ind_init_ex[1, ]
@@ -107,4 +107,21 @@ test_that("negative biomial distribution", {
     "Negative Binomial(5.855)")
   expect_true(mgcv::summary.gam(example$model[[1]])$family[[2]] ==
     "sqrt")
+})
+
+
+# Test error messages
+dat <- ind_init_ex[1:5, ]
+dat2 <- ind_init_ex[1:5, 1:3]
+dat3 <- dat; dat3[1] <- "list"
+dat4 <- as.data.frame(dat)
+
+test_that("error messages", {
+	 expect_error(model_gam(dat, family = poisson), "The specified family is not")
+	 # not all variables needed are provided in input:
+	 expect_error(model_gam(dat2))
+	 # data type is not as required (indication of modification)
+	 expect_error(model_gam(dat3))
+	 # input not a tibble anymore
+	 expect_error(model_gam(dat4))
 })

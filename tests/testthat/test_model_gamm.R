@@ -121,7 +121,7 @@ test_that("test binomial family", {
     "log")
 })
 
-# Poisson distribution:
+# Poisson distribution
 set.seed(123)
 vec_train <- rpois(27, 15)
 vec_test <- rpois(3, 15)
@@ -136,3 +136,31 @@ test_that("test poisson family", {
   expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[2]] ==
     "identity")
 })
+
+
+# Test error messages and filter
+dat <- ind_init_ex[1:5, ]
+dat2 <- ind_init_ex[1:5, 1:3]
+dat3 <- dat; dat3[1] <- "list"
+dat4 <- as.data.frame(dat)
+dat_filter <- c(TRUE, FALSE, TRUE, FALSE)
+
+test_ids <- c(63:70)
+gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
+gamm_test <- model_gamm(ind_init_ex[test_ids,], filter = gam_tbl$tac)
+
+test_that("error messages and filter", {
+		expect_error(model_gamm(dat, family = poisson), "The specified family is not")
+		# not all variables needed are provided in input:
+		expect_error(model_gamm(dat2))
+		# data type is not as required (indication of modification)
+		expect_error(model_gamm(dat3))
+		# input not a tibble anymore
+		expect_error(model_gamm(dat4))
+		expect_error(model_gamm(dat, filter = dat_filter),
+			 "The length of the logical 'filter'")
+		# should NOT provide an error message (filter length correct) and return a tibble
+	 expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,],
+	 	 filter = gam_tbl$tac)))
+})
+

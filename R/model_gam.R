@@ -6,6 +6,8 @@
 #'
 #' @param init_tbl The output tibble of the \code{\link{ind_init}} function.
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the default is 5.
+#' @param family A description of the error distribution and link to be used in the GAM.
+#'  This needs to be defined as a family function (see also \code{\link{family}}).
 #' @param family This is a family object specifying the distribution and link to use in
 #'  fitting the GAM (see also \code{\link{family}}).
 #' @param excl_outlier A list of values identified as outliers in specific
@@ -121,7 +123,21 @@
 model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL) {
 
-  # Exclude outliers given in excl_outliers
+		# Data input validation -----------------------
+		# Check input tibble
+	 init_tbl <- check_input_tbl(
+	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
+	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
+	 	 	 "ind_test", "press_test", "time_test", "train_na"),
+	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
+	 	)
+	 # Check family class
+		if (class(family) != "family") {
+				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
+		}
+	 # ----------------
+
+	 # Exclude outliers given in excl_outliers
   if (!is.null(excl_outlier)) {
     ind_train_sub <- purrr::map2(init_tbl$ind_train,
       excl_outlier, ~replace(.x, .y, NA))  # (NULLs will not be replaced)
@@ -152,7 +168,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
     mode = "list")
   for (i in 1:nrow(init_tbl)) {
     # Create input for model so that the formula will
-    # have real names instead of ind/ press
+    # have real names instead of ind / press
     dat <- data.frame(ind = ind_train_sub[[i]],
       press = press_train_sub[[i]])
     names(dat) <- init_tbl[i, c("ind", "press")]

@@ -4,9 +4,11 @@
 #' Generalized Additive Models (GAM) and returns a tibble with
 #' IND-specific GAM outputs.
 #'.
-#' @param ind_tbl A dataframe, matrix or tibble containing only the IND variables.
-#'  Single indicators need to be coerced into a dataframe.
-#' @param time A vector containing the actual time series.
+#' @param ind_tbl A data frame, matrix or tibble containing only the (numeric) IND
+#'  variables. Single indicators should be coerced into a data frame to keep the
+#'  indicator name. If kept as vector, default name will be 'ind'.
+#' @param time A vector containing the actual time steps (e.g. years; should be the same
+#'  for the IND data).
 #' @param train The proportion of observations that should go into the training data
 #'  on which the GAMs are fitted. Has to be a numeric value between 0 and 1; the default
 #'  is 1 (i.e. the full time series is fitted).
@@ -14,8 +16,8 @@
 #'  chosen? Default is FALSE.
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the
 #'  default is 4.
-#' @param family This is a family object specifying the distribution and link to use in
-#'   fitting the gam (see also \code{\link[mgcv]{family.mgcv}}).
+#' @param family A description of the error distribution and link to be used in the GAM.
+#'  This needs to be defined as a family function (see also \code{\link{family}}).
 #'
 #' @details
 #' To test for linear or non-linear long-term changes, each indicator (IND)
@@ -60,25 +62,28 @@
 #'
 #' @examples
 #' # Using the Baltic Sea demo data in this package
-#' ind_tbl <- ind_ex[ ,-1]
+#' ind_tbl <- ind_ex[ ,-1] # excluding the year
 #' time <- ind_ex$Year
 #' # Using the default settings
 #' trend_tbl <- model_trend(ind_tbl, time)
 #' # Change the training and test data assignment
 #' model_trend(ind_tbl, time, train = .5, random = TRUE)
+#' # To keep the name when testing only one indicator, coerce vector to data frame
+#' model_trend(data.frame(MS = ind_tbl$MS), time, train = .5, random = TRUE)
 model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   k = 4, family = stats::gaussian()) {
 
   # Data input validation -----------------------
   # Check parameters
-  y_ <- check_input(ind_tbl)
+  y_ <- check_ind_press(ind_tbl)
+  time_ <- check_time(time)
+  # equal length?
+  if (nrow(y_) != length(time_)) {
+  		stop("The number of time steps in 'time' and 'ind_tbl' have to be the same (i.e. the	length of the time vector and length or row number in 'ind_tbl' differ)")
+  }
 
-  if (train < 0 | train > 1)
-    stop("The train argument has to be between 0 and 1 (all observations in time)!")
-  if (is.factor(time)) {
-    time_ <- as.integer(as.character(time))
-  } else {
-    time_ <- time
+  if (train < 0 | train > 1) {
+  	 stop("The train argument has to be between 0 and 1 (all observations in time)!")
   }
   # ----------------
 

@@ -4,12 +4,14 @@
 #' one tibble with defined training and test observations. All INDs are combined
 #' with all pressures provided as input.
 #'
-#' @param ind_tbl A dataframe, matrix or tibble containing only the IND variables.
-#'  Single indicators need to be coerced into a dataframe.
-#' @param press_tbl A dataframe, matrix or tibble containing only the pressure variables.
-#'  Single indicators need to be coerced into a dataframe.
-#' @param time A vector containing the actual time series (should be the same for
-#'  the IND and pressure data).
+#' @param ind_tbl A data frame, matrix or tibble containing only the (numeric) IND
+#'  variables. Single indicators should be coerced into a data frame to keep the
+#'  indicator name. If kept as vector, default name will be 'ind'.
+#' @param press_tbl A data frame, matrix or tibble containing only the (numeric)
+#'  pressure variables. Single pressures should be coerced into a data frame to keep
+#'  the pressure name. If kept as vector, default name will be 'press'.
+#' @param time A vector containing the actual time steps (e.g. years; should be the same
+#'  as in the IND and pressure data).
 #' @param train The proportion of observations that should go into the training data
 #'  on which the GAMs are later fitted. Has to be a numeric value between 0 and 1;
 #'  the default is 0.9.
@@ -24,7 +26,8 @@
 #'
 #' If not all IND~pressure combinations should be modelled,
 #' the respective rows can simply be removed from the output tibble or \code{ind_init} is
-#' applied multiple times on data subsets and their output tibbles merged later.
+#' applied multiple times on data subsets and their output tibbles merged later using
+#' e.g. \code{\link[dplyr]{bind_rows}}.
 #'
 #' @return
 #' The function returns a \code{\link[tibble]{tibble}}, which is a trimmed down version of
@@ -59,22 +62,28 @@
 #' # Assign randomly 50% of the observations as training data and
 #' # the other 50% as test data
 #' ind_init(ind_tbl, press_tbl, time, train = 0.5, random = TRUE)
+#' # To keep the name when testing only one indicator and pressre, coerce both vectors
+#' data frames
+#' ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = press_tbl$Tsum),
+#'  time, train = .5, random = TRUE)
 ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
   random = FALSE) {
 
-  x_ <- check_input(press_tbl)
-  y_ <- check_input(ind_tbl)
-  if (is.factor(time)) {
-    time_ <- as.integer(as.character(time))
-  } else {
-    time_ <- time
+		# Data input validation -----------------------
+		# Check parameters
+		x_ <- check_ind_press(press_tbl, input = "press")
+		y_ <- check_ind_press(ind_tbl)
+		time_ <- check_time(time)
+		# equal length?
+		if ( nrow(y_) != length(time_) || nrow(y_) != nrow(x_) ) {
+			 stop("The number of time steps in 'time', 'ind_tbl' and 'press_tbl' have to be the same!")
+		}
+
+  if (train < 0 | train > 1) {
+  	 stop("The train argument has to be between 0 and 1!")
   }
 
-  # Test input parameters
-  if (train < 0 | train > 1)
-    stop("The train argument has to be between 0 and 1!")
-  if (nrow(ind_tbl) != nrow(press_tbl))
-    warning("Number of rows in ind_tbl and press_tbl is not the same")
+  # ----------------
 
   # Creates a vector with id's for each combination
   # ind ~ press
@@ -84,15 +93,15 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
   # Creates a vector with press
   pressure <- rep(x = names(x_), times = ncol(y_))
   # Calc n to split input in train and test data
-  nr_train <- round(nrow(press_tbl) * train)
+  nr_train <- round(nrow(x_) * train)
   if (random) {
-    select_train <- sort(sample(1:nrow(press_tbl),
+    select_train <- sort(sample(1:nrow(x_),
       size = nr_train, replace = FALSE))
-    select_test <- sort((1:nrow(press_tbl))[!(1:nrow(press_tbl) %in%
+    select_test <- sort((1:nrow(x_))[!(1:nrow(x_) %in%
       select_train)])
   } else {
     select_train <- 1:nr_train
-    select_test <- (nr_train + 1):nrow(press_tbl)
+    select_test <- (nr_train + 1):nrow(x_)
   }
 
   init_tab <- tibble::tibble(id = id, ind = indicator,
