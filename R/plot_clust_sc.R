@@ -28,6 +28,14 @@
 #'  ggplot2::theme(title = ggplot2::element_text(colour = "blue", size = 10))
 plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
 
+	 # Data input validation --------
+	 # 'dendro_data' works only with specific objects:
+	 if (!class(x) %in% c("hclust", "dendrogram",
+	 	"tree", "rpart", "agnes", "diana", "twins")) {
+	 	 stop("'x' is not an object than contains dendrogram information (should be of class hclust, dendrogram. tree, rpwart, agnes, diana, twins). Use the output of clust_sc() function here!")
+	 }
+	 # ------------------------------
+
   dataClass <- if (inherits(x, "dendro")) {
     x$class
   } else {

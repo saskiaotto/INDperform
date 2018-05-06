@@ -107,6 +107,21 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Data input validation ---------------------
 
+  # Check input tibbles
+  init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
+    parent_func = "ind_init()", var_to_check = c("id",
+      "ind", "press", "ind_train", "press_train",
+      "time_train", "ind_test", "press_test",
+      "time_test", "train_na"), dt_to_check = c("integer",
+      "character", "character", rep("list", 7)))
+  mod_tbl <- check_input_tbl(mod_tbl, tbl_name = "mod_tbl",
+    parent_func = "model_gam(), model_gamm()/select_model(), calc_deriv() or test_interaction()",
+    var_to_check = c("id", "ind", "press", "edf",
+      "p_val", "r_sq", "expl_dev", "nrmse", "model"),
+    dt_to_check = c("integer", "character", "character",
+      "numeric", "numeric", "numeric", "numeric",
+      "numeric", "list"))
+
   # Check if init_tbl represents the same full set or
   # subset of IND-pressure combinations than mod_tbl
   # and otherwise filter for mod_tbl$id (if there is
@@ -126,12 +141,12 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # Check if the chosen value for choose_thresh_gam
   # exceeds the minimum number of threshold-GAMs
   # listed in 'thresh_models':
-  if (any(grepl("interaction", names(mod_tbl)) == TRUE)) {
+  if (any(grepl("interaction", names(mod_tbl)) ==
+    TRUE)) {
     if (!is.null(choose_thresh_gam)) {
-      temp <- mod_tbl$thresh_models %>%
-      	 purrr::compact(.) %>%
-        purrr::discard(., is.na) %>%
-      	 purrr::map(., ~length(.) < choose_thresh_gam) %>%
+      temp <- mod_tbl$thresh_models %>% purrr::compact(.) %>%
+        purrr::discard(., is.na) %>% purrr::map(.,
+        ~length(.) < choose_thresh_gam) %>%
         purrr::keep(., isTRUE)
       if (length(temp) > 0) {
         stop(paste0("The selected value for choose_thresh_gam exceeds the minimum number of thresh_gams for some ids. Select a lower value."))
@@ -144,8 +159,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Combine train/ test data and calculate pred on
   # observed press and sequence
-  time <- purrr::map2(.x = init_tbl$time_train,
-  	 .y = init_tbl$time_test, .f = c)
+  time <- purrr::map2(.x = init_tbl$time_train, .y = init_tbl$time_test,
+    .f = c)
   id_train <- purrr::map(1:length(time), ~which(time[[.]] %in%
     init_tbl$time_train[[.]]))
   id_test <- purrr::map(1:length(time), ~which(!time[[.]] %in%
@@ -156,19 +171,23 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   props_p1$topleft <- data.frame(x_prop = 0, y_prop = 0.1)
   props_p1$topright <- data.frame(x_prop = 0.2, y_prop = 0.1)
   props_p1$bottomleft <- data.frame(x_prop = 0, y_prop = 0.1)
-  props_p1$bottomright <- data.frame(x_prop = 0.2, y_prop = 0.1)
+  props_p1$bottomright <- data.frame(x_prop = 0.2,
+    y_prop = 0.1)
 
   props_p2 <- vector("list", length = 4)
   props_p2$topleft <- data.frame(x_prop = 0, y_prop = 0.05)
-  props_p2$topright <- data.frame(x_prop = 0.25, y_prop = 0.05)
+  props_p2$topright <- data.frame(x_prop = 0.25,
+    y_prop = 0.05)
   props_p2$bottomleft <- data.frame(x_prop = 0, y_prop = 0.1)
-  props_p2$bottomright <- data.frame(x_prop = 0.25, y_prop = 0.1)
+  props_p2$bottomright <- data.frame(x_prop = 0.25,
+    y_prop = 0.1)
 
   props_p3 <- vector("list", length = 4)
   props_p3$topleft <- data.frame(x_prop = 0, y_prop = 0.1)
   props_p3$topright <- data.frame(x_prop = 0.3, y_prop = 0.1)
   props_p3$bottomleft <- data.frame(x_prop = 0, y_prop = 0.1)
-  props_p3$bottomright <- data.frame(x_prop = 0.3, y_prop = 0.1)
+  props_p3$bottomright <- data.frame(x_prop = 0.3,
+    y_prop = 0.1)
 
 
   # Plot 1 - Response curve ---------------------
@@ -196,29 +215,32 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Text position
   if (pos_label == "topleft") {
-  	 pos_text <- purrr::map2(.x = x_range, .y = y_range,
-  		 .f = ~place_text(.x, .y, x_prop = props_p1[[pos_label]]$x_prop,
-        y_prop = props_p1[[pos_label]]$y_prop, pos = pos_label))
+    pos_text <- purrr::map2(.x = x_range, .y = y_range,
+      .f = ~place_text(.x, .y, x_prop = props_p1[[pos_label]]$x_prop,
+        y_prop = props_p1[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "topright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p1[[pos_label]]$x_prop,
-        y_prop = props_p1[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p1[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomleft") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p1[[pos_label]]$x_prop,
-        y_prop = props_p1[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p1[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p1[[pos_label]]$x_prop,
-        y_prop = props_p1[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p1[[pos_label]]$y_prop,
+        pos = pos_label))
   }
 
   # Create annotation label and axes labels
-  label <- paste0(
-  	 "edf = ", round(mod_tbl$edf, digits = 2),
+  label <- paste0("edf = ", round(mod_tbl$edf, digits = 2),
     "\nR_sq = ", round(mod_tbl$r_sq, digits = 2),
     "\np = ", round(mod_tbl$p_val, digits = 2))
   xlab <- as.list(init_tbl$press)
@@ -232,10 +254,11 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
 
 
-  # Plot 2 - Predictive performance ---------------------
+  # Plot 2 - Predictive performance
+  # ---------------------
 
-  ind <- purrr::map2(.x = init_tbl$ind_train,
-  	 .y = init_tbl$ind_test, .f = c)
+  ind <- purrr::map2(.x = init_tbl$ind_train, .y = init_tbl$ind_test,
+    .f = c)
   press <- purrr::map2(.x = init_tbl$press_train,
     .y = init_tbl$press_test, .f = c)
   pred <- calc_pred(model_list = mod_tbl$model, obs_press = press)$pred
@@ -247,37 +270,43 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # To zoom into the test data only
   zoom_x_range <- function(time, id_test) {
     time_range <- range(time[id_test])
-    time_range_ext <- c((time_range[1] - 2),
-      (time_range[2] + 1))
+    time_range_ext <- c((time_range[1] - 2), (time_range[2] +
+      1))
     return(time_range_ext)
   }
-  x_range <- purrr::map2(time, id_test, ~zoom_x_range(.x, .y))
+  x_range <- purrr::map2(time, id_test, ~zoom_x_range(.x,
+    .y))
   # Get subsets of x_range
-  zoom <- purrr::map(id_test, ~c((min(.) - 2):(max(.) + 1)))
+  zoom <- purrr::map(id_test, ~c((min(.) - 2):(max(.) +
+    1)))
   # Get also zoomed y-range for text position
   y_range <- purrr::pmap(.l = list(ind, pred, ci_low,
     ci_up, zoom), .f = calc_y_range)
 
   # Text position
   if (pos_label == "topleft") {
-  	 pos_text <- purrr::map2(.x = x_range, .y = y_range,
-  		 .f = ~place_text(.x, .y, x_prop = props_p2[[pos_label]]$x_prop,
-        y_prop = props_p2[[pos_label]]$y_prop, pos = pos_label))
+    pos_text <- purrr::map2(.x = x_range, .y = y_range,
+      .f = ~place_text(.x, .y, x_prop = props_p2[[pos_label]]$x_prop,
+        y_prop = props_p2[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "topright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p2[[pos_label]]$x_prop,
-        y_prop = props_p2[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p2[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomleft") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p2[[pos_label]]$x_prop,
-        y_prop = props_p2[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p2[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p2[[pos_label]]$x_prop,
-        y_prop = props_p2[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p2[[pos_label]]$y_prop,
+        pos = pos_label))
   }
 
   # Create annotation label and axes labels
@@ -294,7 +323,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
     plot_predict)
 
 
-  # Plot 3 - Derivatives of non-linear smoothers -----------
+  # Plot 3 - Derivatives of non-linear smoothers
+  # -----------
 
   if ("zero_in_conf" %in% names(mod_tbl)) {
     press_seq <- mod_tbl$press_seq
@@ -313,33 +343,37 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
       ci_low = deriv1_ci_up, ci_up = deriv1_ci_low),
       .f = calc_y_range))
 
-		  # Text position
-		  if (pos_label == "topleft") {
-		  	 pos_text <- purrr::map2(.x = x_range, .y = y_range,
-		  		 .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
-		        y_prop = props_p3[[pos_label]]$y_prop, pos = pos_label))
-		  }
-		  if (pos_label == "topright") {
-		    pos_text <- purrr::map2(.x = x_range, .y = y_range,
-		      .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
-		        y_prop = props_p3[[pos_label]]$y_prop, pos = pos_label))
-		  }
-		  if (pos_label == "bottomleft") {
-		    pos_text <- purrr::map2(.x = x_range, .y = y_range,
-		      .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
-		        y_prop = props_p3[[pos_label]]$y_prop, pos = pos_label))
-		  }
-		  if (pos_label == "bottomright") {
-		    pos_text <- purrr::map2(.x = x_range, .y = y_range,
-		      .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
-		        y_prop = props_p3[[pos_label]]$y_prop, pos = pos_label))
-		  }
+    # Text position
+    if (pos_label == "topleft") {
+      pos_text <- purrr::map2(.x = x_range, .y = y_range,
+        .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
+          y_prop = props_p3[[pos_label]]$y_prop,
+          pos = pos_label))
+    }
+    if (pos_label == "topright") {
+      pos_text <- purrr::map2(.x = x_range, .y = y_range,
+        .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
+          y_prop = props_p3[[pos_label]]$y_prop,
+          pos = pos_label))
+    }
+    if (pos_label == "bottomleft") {
+      pos_text <- purrr::map2(.x = x_range, .y = y_range,
+        .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
+          y_prop = props_p3[[pos_label]]$y_prop,
+          pos = pos_label))
+    }
+    if (pos_label == "bottomright") {
+      pos_text <- purrr::map2(.x = x_range, .y = y_range,
+        .f = ~place_text(.x, .y, x_prop = props_p3[[pos_label]]$x_prop,
+          y_prop = props_p3[[pos_label]]$y_prop,
+          pos = pos_label))
+    }
 
     # Create annotation label and axes labels
     label <- paste0(paste0("Response to ", round(mod_tbl$prop,
       digits = 2) * 100), "% \nof pressure range")
-      xlab <- init_tbl$press
-      ylab <- rep(init_tbl$ind)
+    xlab <- init_tbl$press
+    ylab <- rep(init_tbl$ind)
 
     # Apply plot_deriv if derivative data in tibble
     p3 <- vector(mode = "list", length = nrow(mod_tbl))
@@ -350,8 +384,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
         p3[[i]] <- plot_deriv(press_seq[[i]],
           deriv1[[i]], deriv1_ci_low[[i]],
           deriv1_ci_up[[i]], zic_start_end[[i]],
-          zero_in_conf[[i]], xlab[i], ylab[i], pos_text[[i]],
-          label[i])
+          zero_in_conf[[i]], xlab[i], ylab[i],
+          pos_text[[i]], label[i])
       } else {
         p3[[i]] <- plot_empty()
       }
@@ -361,8 +395,9 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   }
 
 
-  # Plot 4 - Plot strongest interaction: ------------------
-  # (show best performing thresh_model)
+  # Plot 4 - Plot strongest interaction:
+  # ------------------ (show best performing
+  # thresh_model)
 
   if ("interaction" %in% names(mod_tbl)) {
     p4 <- vector(mode = "list", length = nrow(mod_tbl))
@@ -403,7 +438,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # required variables not in input or no plot
   # generated per id as edf=1 / interaction = FALSE
   if ("zero_in_conf" %in% names(mod_tbl)) {
-  	 sel <- purrr::map_lgl(mod_tbl$zero_in_conf, is.null)
+    sel <- purrr::map_lgl(mod_tbl$zero_in_conf,
+      is.null)
     plot_tab$deriv_plot[sel] <- NA
   } else {
     plot_tab$deriv_plot <- NA
@@ -422,9 +458,9 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 }
 
 
-  # Internal helper function --------------------
+# Internal helper function --------------------
 
- # Get full y-range shown in plot
+# Get full y-range shown in plot
 calc_y_range <- function(y1, y2 = NULL, ci_low, ci_up,
   zoom = NULL) {
   # x: list of vectors (can have any length)

@@ -97,11 +97,20 @@
 statespace_ch <- function(x, y, time, period_ref, period_current) {
 
   # Data input validation -----------------------
-  # Testing for required package installation
+
+	 # Testing for required package installation
   if (!requireNamespace("tripack", quietly = TRUE)) {
     stop("The package 'tripack' is needed for this function to work. Please install it.",
       call. = FALSE)
   }
+  # Check input vectors
+	 x <- check_input_vec(x, "x")
+	 y <- check_input_vec(y, "y")
+	 time <- check_input_vec(time, "time")
+
+	 if (length(x) != length(y) | length(x) != length(time)) {
+	 	 stop("One of the x, y, or time vectors has a different length!")
+	 }
 
   # Testing input of both periods
   if (any(period_ref %in% time == FALSE) | any(period_current %in%

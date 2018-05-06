@@ -27,6 +27,10 @@
 #'     axis.title=ggplot2::element_text(size = 18))
 plot_statespace_ed <- function(x) {
 
+	# Data input validation ---------
+	x <- check_input_tbl(x, tbl_name = "x", parent_func = "statespace_ed()")
+ # -------------------------------
+
 	# Set general layout theme
   ggplot2::theme_set(ggplot2::theme_bw())
 

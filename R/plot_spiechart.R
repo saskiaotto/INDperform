@@ -85,6 +85,12 @@
 plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   col_crit8_11 = NULL, lab_size = 6) {
 
+  # Data input validation -----------------------
+  # Check input list
+	 if (!is.list(summary_tbl)) {
+	 	 stop("'summary_tbl has to be a list (output of summary_sc() function)!")
+	 }
+
   # Data reorganization ----------------------------
 
   # Check if crit 8 and 11 were scored (pressure

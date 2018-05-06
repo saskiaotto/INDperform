@@ -135,6 +135,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 		if (class(family) != "family") {
 				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
 		}
+
 	 # ----------------
 
 	 # Exclude outliers given in excl_outliers

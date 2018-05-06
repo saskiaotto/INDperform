@@ -76,7 +76,7 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   # Data input validation -----------------------
   # Check parameters
   y_ <- check_ind_press(ind_tbl)
-  time_ <- check_time(time)
+  time_ <- check_input_vec(time, "time")
   # equal length?
   if (nrow(y_) != length(time_)) {
   		stop("The number of time steps in 'time' and 'ind_tbl' have to be the same (i.e. the	length of the time vector and length or row number in 'ind_tbl' differ)")

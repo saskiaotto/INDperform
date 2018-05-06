@@ -4,7 +4,7 @@
 #'  defined reference conditions to assess the development of a suite of
 #'  ecological state indicators.
 #'
-#' @param x A dataframe of selected indicators.
+#' @param x A dataframe, tibble, matrix or vector of selected indicator(s).
 #' @param time A vector containing the actual time series.
 #' @param ref_time The reference time (single point in time, e.g. specific
 #'  year) on which to base the Euclidean distance. Default is set to the
@@ -40,11 +40,18 @@
 #' @examples
 #' # Using the Baltic Sea demo data in the package
 #' ind_sel <- ind_ex[,c(2,3,4,8,10,11)]
-#'   # --> selection of complementary and well performing indicators
+#' # --> selection of complementary and well performing indicators
+#' # There are different ways to define the reference time step:
 #' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = ind_ex$Year[1])
+#' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = 1987)
+#' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = "1987")
 statespace_ed <- function(x, time, ref_time = NULL) {
 
   # Data input validation --------------------
+	 if (class(x) == "list") {
+	 	 stop("'x' cannot be a list.")
+	 }
+	 time <- check_input_vec(time, "time")
   if (is.null(ref_time)) {
     id <- 1
   } else {

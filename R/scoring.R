@@ -6,7 +6,7 @@
 #' @param trend_tbl Output tibble from the \code{\link{model_trend}} function.
 #' @param mod_tbl Output tibble from the IND~pressure modelling functions.
 #' @param press_type Dataframe with pressure names in first column and
-#'  corresponding pressure types in second column.
+#'  corresponding pressure types in second column. Needed for spiechart!
 #' @param crit_scores Internal tibble of (sub)criteria and respective scores
 #'  named \code{crit_scores_tmpl}; can be modified by saving this dataframe as
 #'  new object and removing single (sub)criteria or assigning weights (default
@@ -93,20 +93,54 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Data input validation --------------------------
 
+	 # Check input tibbles
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				var_to_check = c("ind", "press"), dt_to_check = c("character", "character")
+		)
+
+	 if (!is.null(trend_tbl)) {
+	 	 trend_tbl <- check_input_tbl(
+	 	 trend_tbl, tbl_name = "trend_tbl", parent_func = "model_trend()",
+	 	   var_to_check = c("ind"), dt_to_check = c("character")
+	   )
+	 }
+
+	 # Check if all ind are present in both input tibbles (if trend_tbl needed)
+  if ("C8" %in% crit_scores$crit == TRUE & !is.null(trend_tbl)) {
+		  if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) &
+		    all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
+		    stop("Some indicators are only present in one input tibble.")
+		  }
+  }
+
+	 # Check if all variables required according to the crit_scores table are
+  # in all input tibbles
+  crit_var <- unique(crit_scores$condition_var)[!is.na(unique(crit_scores$condition_var))]
+  crit_var <- crit_var[crit_var != "expect"] # this var will be generated in this function
+  provided_var <- c(names(trend_tbl), names(mod_tbl))
+  if (any(!crit_var %in% provided_var)) {
+  missing_var <- crit_var[!crit_var %in% provided_var]
+  stop(paste0("The following variables required for the scoring (see your crit_scores table) are not provided in any of the input tibbles: ",
+    	paste0(missing_var, collapse = ", ")))
+  }
+
   # Criterion 8 (Trend)
-  if ("C8" %in% crit_scores$crit == TRUE & is.null(trend_tbl)) {
+  if ("C8" %in% crit_scores$crit == TRUE)  {
+  	if (is.null(trend_tbl)) {
     stop("You must provide data for the 'trend_tbl' argument (output of the 'model_trend' function) if you include the trend criterion (C8)!")
+   } else {
+   	c8_var <- unique(crit_scores$condition_var[crit_scores$crit == "C8"])
+  	 if (any(!c8_var %in% names(trend_tbl))) {
+  	 	missing_c8_var <- c8_var[!c8_var %in% names(trend_tbl)]
+  	 	 stop(paste0("The following variables required for scoring crit. 8 (see your crit_scores table) are not provided in 'trend_tbl': ",
+    	paste0(missing_c8_var, collapse = ", ")))
+  	 }
+   }
   }
 
-  # Criterion 11 (Management)
-  if ("C11" %in% crit_scores$crit == TRUE & is.null(press_type)) {
-    message("You must provide a dataframe with pressure types (named 'press_type') assigned to each pressure (named 'press') as follows:")
-    print(data.frame(press = unique(mod_tbl$press),
-      press_type = rep("add here", length(unique(mod_tbl$press)))))
-    stop()
-  }
 
-  # Subcriteria in 9 (Sensitivity) and 10 (Robustness)
+	 # Subcriteria in 9 (Sensitivity) and 10 (Robustness)
   d <- as.data.frame(unique(crit_scores[crit_scores$crit %in%
     c("C9", "C10") & crit_scores$subcrit != "C10_1",
     c("condition_var", "func_name")]))
@@ -118,13 +152,28 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     stop()
   }
 
-  # Check if all ind are present in both input tibbles (if trend_tbl needed)
-  if ("C8" %in% crit_scores$crit == TRUE & !is.null(trend_tbl)) {
-		  if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) &
-		    all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
-		    message("Some indicators are only present in one input tibble.")
-		  }
+  # Criterion 11 (Management)
+  if ("C11" %in% crit_scores$crit == TRUE & is.null(press_type)) {
+    message("You must provide for crit.11 a data frame or tibble with pressure types (named 'press_type') assigned to each pressure (named 'press') as follows:")
+    print(data.frame(press = unique(mod_tbl$press),
+    	press_type = rep("add here", length(unique(mod_tbl$press)))))
+    stop()
   }
+
+  # If press_type is not provided give note that error will occurr in spiechart function,
+  # else check if all pressures in mod_tbl are also in press_type
+  if (is.null(press_type)) {
+  	 message("You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the spiechart function!")
+  } else {
+  	press_v <- unique(mod_tbl$press)
+  	if (any(!press_v %in% press_type$press)) {
+    missing_press <- press_v[!press_v %in% press_type$press]
+    stop(paste0("The following pressure variables in 'mod_tbl' are not listed in the 'press_type' tibble: ",
+    	paste0(missing_press, collapse = ", ")))
+  	}
+  }
+
+
 
   # Data preparation --------------------------
 

@@ -27,6 +27,12 @@
 dist_sc <- function(scores_tbl, method_dist = "euclidean",
   ...) {
 
+	 # Data input validation -----------------------
+	 # Check input tibble
+  scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
+    parent_func = "scoring()", var_to_check = c("ind"),
+    dt_to_check = c("character"))
+
   # Data preparation for calculating distance matrix ------
 
   # Seperate data into general and pressure-specific

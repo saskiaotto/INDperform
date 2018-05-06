@@ -211,6 +211,20 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     return(z)
   }
 
+  # Check input tibbles
+	 init_tbl <- check_input_tbl(
+	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
+	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
+	 	 	 "ind_test", "press_test", "time_test", "train_na"),
+	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
+	 )
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "excl_outlier", "model"),
+				dt_to_check = c("integer", "character", "character", "character", "numeric", "numeric",
+					 "list", "list")
+		)
+
   # Test if there are any ids with NAs in models (if,
   # e.g., GAMMs were manually selected and
   # convergence errors occurred)

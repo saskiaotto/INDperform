@@ -33,6 +33,12 @@
 plot_statespace_ch <- function(x, col_ch_ref = "red",
   col_ch_cur = "blue", size_time = 4) {
 
+	 # Data input validation --------
+		if (!is.list(x)) {
+	 	 stop("'x' has to be a list (output of statespace_ch() function)!")
+	 }
+  # -------------------------
+
   # Get indices of selected periods
   index_ref <- match(x$period_ref, x$time)
   index_current <- match(x$period_current, x$time)

@@ -98,7 +98,7 @@ plot_diagnostics <- function(model_list) {
   }
   # If only 1 model used as input, which is not a
   # list -> conversion
-  if (sum(c("gam", "gamm") %in% class(model_list)) > 0) {
+  if (any(c("gam", "gamm") %in% class(model_list))) {
     model_list <- list(model_list)
   }
 

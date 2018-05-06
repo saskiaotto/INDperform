@@ -73,7 +73,7 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
 		# Check parameters
 		x_ <- check_ind_press(press_tbl, input = "press")
 		y_ <- check_ind_press(ind_tbl)
-		time_ <- check_time(time)
+		time_ <- check_input_vec(time, "time")
 		# equal length?
 		if ( nrow(y_) != length(time_) || nrow(y_) != nrow(x_) ) {
 			 stop("The number of time steps in 'time', 'ind_tbl' and 'press_tbl' have to be the same!")

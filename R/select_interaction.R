@@ -32,6 +32,16 @@
 #' test <- select_interaction(mod_tbl = merge_models_ex[1:5,])
 
 select_interaction <- function(mod_tbl) {
+
+	 # Data input validation --------
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl",
+	 		parent_func = "model_gam() or model_gam()/select_gam() or calc_deriv()",
+				var_to_check = c("id", "ind", "press"),
+				dt_to_check = c("integer", "character", "character")
+		)
+	 # --------------
+
   # Create each possible combination for all
   # pressures
   pressures <- unique(mod_tbl$press) %>% merge(., .)
