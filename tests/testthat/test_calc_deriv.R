@@ -4,6 +4,8 @@ a <- ind_init_ex[c(1, 9, 48), ]
 b <- merge_models_ex[c(1, 9, 48), ]
 b2 <- b
 b2$model[[2]] <- NA
+b3 <- b
+b3$edf <- as.character(b3$edf)
 
 test_that("test warnings and errors", {
   expect_error(calc_deriv(a, b2))
@@ -25,6 +27,15 @@ test_that("test warnings and errors", {
   expect_error(calc_deriv(a, b, seed = "sometext"))
   expect_error(calc_deriv(a, b[ ,-16], excl_outlier = TRUE))
   expect_message(calc_deriv(a, b, edf_filter = 10))
+  # check of input tibbles
+  expect_error(calc_deriv(a[, -(1:3)], b)) # init_tbl missing variables
+  expect_error(calc_deriv(a, b[, -(1:3)])) # mod_tbl missing variables
+  expect_error(calc_deriv(a, b3)) # wrong data type in required variable
+
+  # that should not return an error (all required variables in mod_tbl), just
+  # a message that no edf > edf_filter
+  expect_message(calc_deriv(ind_init_ex[1, ],
+  	b[1, c("id", "ind", "press", "corrstruc","edf", "p_val", "excl_outlier", "model")]))
 })
 
 a <- ind_init_ex[c(1, 9), ]
@@ -58,3 +69,11 @@ test_that("test method", {
   expect_true(all(c("pred_ci_low", "pred_ci_up") %in%
     names(dat3)) == FALSE)
 })
+
+
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "excl_outlier", "model"),
+				dt_to_check = c("integer", "character", "character", "character", "numeric", "numeric",
+					 "list", "list")
+		)

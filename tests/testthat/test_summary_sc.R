@@ -45,3 +45,11 @@ test_that("test content of sublist 2", {
   expect_lte(max(out2[, prop_list2]), 100)
 })
 
+test_that("error messages", {
+		expect_error(summary_sc(scores_tbl = as.data.frame(scores_ex)),
+			 "The input object 'scores_tbl'")
+	 expect_error(summary_sc(scores_tbl = scores_ex[, -1]),
+			 "The following variables required")
+})
+
+	x <- as.data.frame(scores_ex)

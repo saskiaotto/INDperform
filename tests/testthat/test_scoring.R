@@ -38,11 +38,36 @@ test_that("test scores", {
     0)
 })
 
-test_that("test error messages", {
-  # press_type missing
-  expect_error(scoring(trend_tbl = model_trend_ex,
-    mod_tbl = all_results_ex))
-  # Overlap in conditions (subcrit)
+test_that("test error messages and warnings", {
+
+	  # Check of input tibbles
+  expect_error(scoring(mod_tbl = all_results_ex, press_type = press_type_ex),
+  	"You must provide data for the 'trend_tbl'") # trend_tbl missing but needed (C8)
+	expect_error(scoring(trend_tbl = model_trend_ex, press_type = press_type_ex)) # mod_tbl missing (always needed)
+	expect_error(scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex)) # press_type missing (needed for C11)
+
+	# Check if all pressures in mod_tbl are also in press_type
+	  expect_error(scoring(trend_tbl = model_trend_ex,
+    mod_tbl = all_results_ex, press_type = INDperform::press_type_ex[-(1:3), ]),
+	  	"are not listed in the 'press_type' tibble")
+
+	 # Check if variables present in crit scores are missing in trend_tbl/mod_tbl
+		expect_error(scoring(trend_tbl = dplyr::select(model_trend_ex, -p_val),
+    mod_tbl = all_results_ex, press_type = INDperform::press_type_ex),
+	  	"are not provided in 'trend_tbl'")
+							expect_error(scoring(trend_tbl = dplyr::select(model_trend_ex, -ind),
+    mod_tbl = all_results_ex, press_type = INDperform::press_type_ex),
+	  	"missing in 'trend_tbl'")
+							expect_error(scoring(trend_tbl = model_trend_ex,
+    mod_tbl = dplyr::select(all_results_ex, -edf), press_type = INDperform::press_type_ex),
+	  	"not provided in any of the input tibbles")
+
+			# Check if all ind are present in both input tibbles (if trend_tbl needed)
+			expect_error(scoring(trend_tbl = model_trend_ex[-1,], # ind TZA removed in trend_tbl
+				mod_tbl = all_results_ex, press_type = INDperform::press_type_ex),
+				"Some indicators are only present")
+
+	# Overlap in conditions (subcrit)
   expect_error(scoring(trend_tbl = model_trend_ex,
     mod_tbl = all_results_ex, press_type = INDperform::press_type_ex,
     crit_scores = crit_scores_mod1))
@@ -51,7 +76,6 @@ test_that("test error messages", {
     mod_tbl = all_results_ex, press_type = INDperform::press_type_ex,
     crit_scores = crit_scores_mod2))
 })
-
 
 
 ######################### Remove criteria #############

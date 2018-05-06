@@ -163,6 +163,20 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   # Data input validation ----------------
 
+	 # Check input tibbles
+	 init_tbl <- check_input_tbl(
+	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
+	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
+	 	 	 "ind_test", "press_test", "time_test", "train_na"),
+	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
+	 )
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				var_to_check = c("id", "ind", "press", "model_type", "p_val", "excl_outlier", "model"),
+				dt_to_check = c("integer", "character", "character", "character", "numeric",
+					 "list", "list")
+		)
+
   if ((!"excl_outlier" %in% names(mod_tbl)) &
     isTRUE(excl_outlier)) {
     stop("There is no column 'excl_outlier'. Please set excl_outlier to FALSE!")
@@ -183,6 +197,16 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       stop("Not all ids in mod_tbl are provided in init_tbl.")
     }
   }
+
+	 # Test whether all ind~press combis in interactions are also in mod_tbl
+	 ind_press_it <- paste(interactions$ind, interactions$press, sep = "~")
+		ind_press_mod <- paste(mod_tbl$ind, mod_tbl$press, sep = "~")
+
+	 if (any(!ind_press_it %in% ind_press_mod)) {
+				missing_it <- which(!ind_press_it %in% ind_press_mod)
+				stop(paste0("The following 'ind~press' combinations provided in the 'interactions' tibble are missing in 'mod_tbl': ",
+						paste(missing_it, collapse = ", ")))
+		}
 
   # Test if there are any ids with NAs in models (if
   # GAMMs manually selected and convergence errors

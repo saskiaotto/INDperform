@@ -4,30 +4,6 @@ dat <- statespace_ch(x = rnorm(30, 9, 2.5), y = rnorm(30,
   0.5, 0.05), time = 1979:2008, period_ref = 1979:1983,
   period_current = 2004:2008)
 
-
-test_that("test error messages", {
-  # periods are partly outside the time series
-  # (1979:2008)
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1975:1980,
-    period_current = 2004:2008))
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1979:1981,
-    period_current = 2008:2011))
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1975:1980,
-    period_current = 2008:2011))
-  # periods do not contain minimum of 3 years
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1980, period_current = 2004:2008))
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1979:1981,
-    period_current = 2007:2008))
-  expect_error(statespace_ch(x = ind_ex$TZA, y = ind_ex$MS,
-    time = ind_ex$Year, period_ref = 1980, period_current = 2007:2008))
-})
-
-
 test_that("test structure of returned object", {
   expect_true(is.list(dat))
   expect_length(dat, 7)
@@ -50,4 +26,43 @@ test_that("test convex hull", {
   expect_equal(dplyr::first(dat$ch_cur), dplyr::last(dat$ch_cur))
 })
 
+# Test of data input validation
+
+x <- ind_ex$TZA
+y <- ind_ex$MS
+time <- ind_ex$Year
+period_ref <- 1979:1981
+period_ref2 <- 1975:1980
+period_current <- 2004:2008
+period_current2 <- 2008:2011
+
+test_that("test error messages", {
+	 # check of inputs
+	 expect_error(statespace_ch(as.data.frame(x), y, time,
+	 	period_ref, period_current), "'x' has to be a VECTOR!")
+  expect_error(statespace_ch(x, as.character(y), time,
+	 	period_ref, period_current), "'y' has to be a NUMERIC vector!")
+  expect_error(statespace_ch(x, y, as.character(time),
+	 	period_ref, period_current), "'time' has to be a NUMERIC vector!")
+  expect_error(statespace_ch(x, y, time, period_current))
+  expect_error(statespace_ch(x, y, period_ref, period_current))
+
+  # check length difference error message
+  expect_error(statespace_ch(x[-1], y, time, period_ref, period_current))
+  expect_error(statespace_ch(x, y[-1], time, period_ref, period_current))
+  expect_error(statespace_ch(x, y, time[-1], period_ref, period_current))
+
+  # periods are partly outside the time series
+  # (1979:2008)
+  expect_error(statespace_ch(x, y, time, period_ref,
+    period_current2))
+  expect_error(statespace_ch(x, y, time, period_ref2,
+    period_current))
+  # periods do not contain minimum of 3 years
+  expect_error(statespace_ch(x, y, time, period_ref = 1980, period_current))
+  expect_error(statespace_ch(x, y, time, period_ref,
+    period_current = 2007:2008))
+  expect_error(statespace_ch(x, y, time, period_ref = 1980,
+  	 period_current = 2007:2008))
+})
 

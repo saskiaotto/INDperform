@@ -12,6 +12,8 @@ test_that("test structure of returned object", {
 })
 
 test_that("test error messages and printed message", {
+	 expect_error(clust_sc(dist_mat = as.list(dist_ex)),
+	 	 "'dist_mat' is not an object of ")
 		expect_error(clust_sc(dist_ex, method_clust = "gower"))  # method in dist_sc
 		expect_message(clust_sc(dist_ex, method_clust = "complete"))
 })

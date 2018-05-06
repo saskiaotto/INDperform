@@ -13,5 +13,8 @@ test_that("test structure of returned object", {
 test_that("error messages", {
   expect_error(dist_sc(scores_ex, method_dist = "complete"))
 	 # method in clust_sc
+	 expect_message(dist_sc(scores_ex[ ,1:2]), "You have only one criterion ")
+	 expect_error(dist_sc(scores_tbl = as.data.frame(scores_ex)))
+	 expect_error(dist_sc(scores_tbl = scores_ex[, -1]),
+			 "The following variables required")
 })
-

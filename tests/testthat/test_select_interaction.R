@@ -13,3 +13,13 @@ test_that("test output", {
 		expect_true(all(unique(dat$press) %in% mod_tbl$press))
 		expect_true(all(unique(dat$t_var) %in% mod_tbl$press))
 })
+
+a1 <- mod_tbl[, -1]
+a2 <- mod_tbl[, -2]
+a3 <- mod_tbl[, -3]
+
+test_that("test error messages of data input validation", {
+  expect_error(select_interaction(a1), "The following variables")
+		expect_error(select_interaction(a2), "The following variables")
+		expect_error(select_interaction(a3), "The following variables")
+})

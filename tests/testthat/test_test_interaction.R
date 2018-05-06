@@ -44,18 +44,32 @@ test_that("test output", {
     stats::quantile(init_tbl$press_train[[10]],
       prob = 0.1, na.rm = TRUE))
 })
+mod_tbl2 <- mod_tbl
+mod_tbl2$press <- as.list(mod_tbl2$press)
 
 test_that("test warnings and errors", {
   # gives error if init_tbl has no values for t_var
   expect_error(test_interaction(test_error, mod_tbl,
     interactions))
-  expect_error(test_interaction(init_tbl[-c(1:20),
-    ], mod_tbl, interactions))
+  expect_error(test_interaction(init_tbl[-c(1:20), ],
+    mod_tbl, interactions))
   # gives error because no interactions are given
   expect_error(test_interaction(init_tbl, mod_tbl))
   expect_error(test_interaction(init_tbl, mod_tbl, sign_level = TRUE))
   expect_error(test_interaction(init_tbl, mod_tbl, sign_level = 1.5))
   expect_error(test_interaction(init_tbl, mod_tbl[ ,-16], excl_outlier = TRUE))
+
+  # missing ind~press in mod_tbl that are in interactions
+  expect_error(test_interaction(init_tbl, mod_tbl[2, ], interactions))
+
+  # check of input tibbles
+  expect_error(test_interaction(init_tbl[, -(1:3)], mod_tbl, interactions)) # init_tbl missing variables
+  expect_error(test_interaction(init_tbl, mod_tbl[, -(1:3)])) # mod_tbl missing variables
+  expect_error(test_interaction(init_tbl, mod_tbl2)) # wrong data type in required variable
+
+  # that should not return an error (all required variables in mod_tbl), just
+  # a message that no edf > edf_filter
+  expect_true(tibble::is.tibble(test_interaction(init_tbl,
+  	 mod_tbl[2, c("id", "ind", "press", "model_type", "p_val", "excl_outlier", "model")],
+  	 interactions[1,])))
 })
-
-
