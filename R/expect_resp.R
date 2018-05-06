@@ -39,13 +39,26 @@
 #'  scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
 #'    press_type = press_type_ex)
 #'  # Then run the expect_resp() shiny function to correct one criterion
-#'  test <- expect_resp(all_results_ex, scores_tbl)
+#'  scores_tbl <- expect_resp(all_results_ex, scores_tbl)
+#'  # Check if it worked:
+#'  expect_resp(all_results_ex, scores_tbl)
 #' }
 
 expect_resp <- function(mod_tbl, scores_tbl,
 	 crit_scores = INDperform::crit_scores_tmpl) {
 
 		# Data input validation ----------------------
+
+	 # Check input tibbles
+	 mod_tbl <- check_input_tbl(
+				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				var_to_check = c("id", "model"), dt_to_check = c("integer", "list")
+		)
+	 scores_tbl <- check_input_tbl(
+				scores_tbl, tbl_name = "mod_tbl", parent_func = "scoring()",
+				var_to_check = c("ind", "press_spec_sc"), dt_to_check = c("character", "list")
+		)
+
 		# Check if subcrit 10_1 exists in the crit_scores table, if TRUE continue
 		names_press_spec_sp <- scores_tbl %>%
 			dplyr::select_("press_spec_sc") %>% tidyr::unnest() %>% names(.)
@@ -126,7 +139,9 @@ expect_resp <- function(mod_tbl, scores_tbl,
 						shiny::helpText("The current scoring of subcriterion 10.1 is displayed.",
 							"Check whether you want to change it. If so, choose another",
 							"level in the column 'response_as_expected. Once you are done,",
-							"press the 'Press Me!' button, which saves the table and closes the window"),
+							"press the 'Press Me!' button, which saves the table and closes the window",
+							" (if you opened this shiny app in a browser, close manually the window",
+							"after you pressed the 'Press Me' button)."),
 
 						shiny::wellPanel(
 							shiny::h3("Save table and close window"),
@@ -197,7 +212,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		# Convert data into the original nested tibble for return
 		pre_out <- pre_out %>%
 			dplyr::group_by_("ind") %>%
-			tidyr::nest()
+			tidyr::nest(.key = "press_spec_sc")
 
 		# Merge back into the old
   out <- scores_tbl %>%
