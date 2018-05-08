@@ -3,7 +3,7 @@
 #' The function models the long-term trend of each indicator (IND) based on
 #' Generalized Additive Models (GAM) and returns a tibble with
 #' IND-specific GAM outputs.
-#'.
+#'
 #' @param ind_tbl A data frame, matrix or tibble containing only the (numeric) IND
 #'  variables. Single indicators should be coerced into a data frame to keep the
 #'  indicator name. If kept as vector, default name will be 'ind'.

@@ -8,8 +8,6 @@
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the default is 5.
 #' @param family A description of the error distribution and link to be used in the GAM.
 #'  This needs to be defined as a family function (see also \code{\link{family}}).
-#' @param family This is a family object specifying the distribution and link to use in
-#'  fitting the GAM (see also \code{\link{family}}).
 #' @param excl_outlier A list of values identified as outliers in specific
 #'  IND~pressure GAMs, which should be excluded in this modelling step
 #'  (the output tibble of this function includes the variable
