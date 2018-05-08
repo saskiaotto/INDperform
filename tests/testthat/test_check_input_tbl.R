@@ -19,7 +19,7 @@ test_that("correct returned object", {
   )
   expect_equal(x, y)
   expect_equal(x, y2)
-  xpect_equal(class(x), class(y2))
+  expect_equal(class(x), class(y2))
   expect_equal(dim(x), dim(y2))
   expect_equal(names(x), names(y2))
 })

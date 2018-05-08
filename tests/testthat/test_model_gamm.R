@@ -147,7 +147,6 @@ dat_filter <- c(TRUE, FALSE, TRUE, FALSE)
 
 test_ids <- c(63:70)
 gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
-gamm_test <- model_gamm(ind_init_ex[test_ids,], filter = gam_tbl$tac)
 
 test_that("error messages and filter", {
 		expect_error(model_gamm(dat, family = poisson), "The specified family is not")
@@ -161,6 +160,6 @@ test_that("error messages and filter", {
 			 "The length of the logical 'filter'")
 		# should NOT provide an error message (filter length correct) and return a tibble
 	 expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,],
-	 	 filter = gam_tbl$tac)))
+	 	 filter = gam_test$tac)))
 })
 

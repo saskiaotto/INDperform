@@ -69,11 +69,3 @@ test_that("test method", {
   expect_true(all(c("pred_ci_low", "pred_ci_up") %in%
     names(dat3)) == FALSE)
 })
-
-
-	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "excl_outlier", "model"),
-				dt_to_check = c("integer", "character", "character", "character", "numeric", "numeric",
-					 "list", "list")
-		)

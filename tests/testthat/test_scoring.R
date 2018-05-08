@@ -8,6 +8,8 @@ ind_v <- unique(dat$ind)
 crit_v <- names(dat) %in% c("C8", "C11")
 subcrit_v <- c("C9_1", "C9_2", "C10_1", "C10_2", "C10_3",
   "C10_4")
+press_type_ex2 <- press_type_ex
+names(press_type_ex2)[2] <- "something_else"
 
 # Change conditions to create error messages
 crit_scores_mod1 <- crit_scores_tmpl
@@ -38,16 +40,27 @@ test_that("test scores", {
     0)
 })
 
+
+# DIV: Test for error and warning messages
+all_results_ex2 <- all_results_ex
+all_results_ex2$edf <- is.character(all_results_ex2$edf)
+all_results_ex3 <- all_results_ex
+all_results_ex3$edf <- NA_real_
+
 test_that("test error messages and warnings", {
 
 	  # Check of input tibbles
   expect_error(scoring(mod_tbl = all_results_ex, press_type = press_type_ex),
-  	"You must provide data for the 'trend_tbl'") # trend_tbl missing but needed (C8)
-	expect_error(scoring(trend_tbl = model_trend_ex, press_type = press_type_ex)) # mod_tbl missing (always needed)
-	expect_error(scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex)) # press_type missing (needed for C11)
+  	 "You must provide data for the 'trend_tbl'") # trend_tbl missing but needed (C8)
+ 	expect_error(scoring(trend_tbl = model_trend_ex, press_type = press_type_ex)) # mod_tbl missing (always needed)
+	 expect_error(scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex)) # press_type missing (needed for C11)
+		expect_error(scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
+			 press_type = press_type_ex[,-1]), "press_type has to be a data frame or tibble")
+  expect_error(scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
+			 press_type = press_type_ex2), "The following variables required ")
 
 	# Check if all pressures in mod_tbl are also in press_type
-	  expect_error(scoring(trend_tbl = model_trend_ex,
+	 expect_error(scoring(trend_tbl = model_trend_ex,
     mod_tbl = all_results_ex, press_type = INDperform::press_type_ex[-(1:3), ]),
 	  	"are not listed in the 'press_type' tibble")
 
@@ -66,6 +79,13 @@ test_that("test error messages and warnings", {
 			expect_error(scoring(trend_tbl = model_trend_ex[-1,], # ind TZA removed in trend_tbl
 				mod_tbl = all_results_ex, press_type = INDperform::press_type_ex),
 				"Some indicators are only present")
+
+			# Check for correct datatype in mod_tbl
+   expect_error(scoring(model_trend_ex, all_results_ex2, INDperform::press_type_ex))
+
+			# Check whether any variable to score is null or NA/NaN
+   expect_error(scoring(model_trend_ex, all_results_ex3, INDperform::press_type_ex),
+   	 "contains no information")
 
 	# Overlap in conditions (subcrit)
   expect_error(scoring(trend_tbl = model_trend_ex,

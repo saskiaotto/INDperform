@@ -14,7 +14,7 @@ test_that("correct coercion", {
   expect_equal(class(y), class(check_ind_press(y_tib)))
   expect_equal(class(y), class(check_ind_press(y_vec)))
   expect_true(names(check_ind_press(y_vec)) == "ind")
-  expect_true(names(check_ind_press(y_vec, input =="press")) == "press")
+  expect_true(names(check_ind_press(y_vec, input ="press")) == "press")
 })
 
 y2 <- data.frame(a = c(1, 2, 3), b = as.factor(c("a",
