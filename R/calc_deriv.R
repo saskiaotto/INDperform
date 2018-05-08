@@ -190,8 +190,8 @@
 #'
 #' @examples
 #' # Using some models of the Baltic Sea demo data
-#' init_tbl <- ind_init_ex[ind_init_ex$id %in% c(5,9,75), ]
-#' mod_tbl <- merge_models_ex[merge_models_ex$id  %in% c(5,9,75), ]
+#' init_tbl <- ind_init_ex[ind_init_ex$id %in% c(5,9,48,75), ]
+#' mod_tbl <- merge_models_ex[merge_models_ex$id  %in% c(5,9,48,75), ]
 #' deriv_tbl <- calc_deriv(init_tbl=init_tbl, mod_tbl=mod_tbl,
 #'   n_boot = 40, par_comp = FALSE, seed=1)
 calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
@@ -220,9 +220,9 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 	 )
 	 mod_tbl <- check_input_tbl(
 				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "excl_outlier", "model"),
+				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "model"),
 				dt_to_check = c("integer", "character", "character", "character", "numeric", "numeric",
-					 "list", "list")
+					 "list")
 		)
 
   # Test if there are any ids with NAs in models (if,
