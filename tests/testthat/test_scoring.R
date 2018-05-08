@@ -43,7 +43,7 @@ test_that("test scores", {
 
 # DIV: Test for error and warning messages
 all_results_ex2 <- all_results_ex
-all_results_ex2$edf <- is.character(all_results_ex2$edf)
+all_results_ex2$edf <- as.character(all_results_ex2$edf)
 all_results_ex3 <- all_results_ex
 all_results_ex3$edf <- NA_real_
 

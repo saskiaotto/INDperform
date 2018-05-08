@@ -154,11 +154,11 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 					 cv_dt = c("numeric","numeric","numeric","numeric","logical"),
   	 	 stringsAsFactors = FALSE
 			 )
-				req_var <- dplyr::filter(cond_var_tmpl, cv %in% cond_var)
+				req_var <- cond_var_tmpl[cond_var_tmpl$cv %in% cond_var, ]
     provided_var_dt <- purrr::map_chr(mod_tbl, class)
     if (any(provided_var_dt[req_var$cv] != req_var$cv_dt)) {
-				  wrong_dt <- req_var$cv_dt[req_var$cv_dt != provided_var_dt[req_vars$cv]]
-						var_wrong_dt <- req_var$cv[req_var$cv_dt != provided_var_dt[req_vars$cv]]
+				  wrong_dt <- req_var$cv_dt[req_var$cv_dt != provided_var_dt[req_var$cv]]
+						var_wrong_dt <- req_var$cv[req_var$cv_dt != provided_var_dt[req_var$cv]]
 						message(paste0("The following variables required for the scoring (see your crit_scores table) have not the required data types in 'mod_tbl':"))
 					 	 print(data.frame(variable = var_wrong_dt, required_data_type = wrong_dt))
 						stop()

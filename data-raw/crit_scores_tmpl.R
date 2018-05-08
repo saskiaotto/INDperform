@@ -38,7 +38,7 @@ crit_scores_tmpl <- tibble::tibble(
 																			 rep("expect", 3), rep("edf", 2), rep("nrmse", 3),
 																			 rep("interaction", 2), rep(NA, 3) ),
 	func_name = c( rep("model_trend", 2),
-															 rep("model_gam/model_gamm", 4), rep("boot_deriv", 4),
+															 rep("model_gam/model_gamm", 4), rep("calc_deriv", 4),
 															 rep("expect_resp", 3), rep("model_gam/model_gamm", 2),
 															 rep("model_gam/model_gamm", 3), rep("test_interaction", 2),
 															 rep(NA, 3) )
