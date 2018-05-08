@@ -5,8 +5,9 @@
 #'
 #' @param trend_tbl Output tibble from the \code{\link{model_trend}} function.
 #' @param mod_tbl Output tibble from the IND~pressure modelling functions.
-#' @param press_type Dataframe with pressure names in first column and
-#'  corresponding pressure types in second column. Needed for spiechart!
+#' @param press_type Dataframe or tibble with pressure names (named 'press') in
+#'  first column and corresponding pressure types in second column (named 'press_type').
+#'  Needed for spiechart! (see for an example \code{\link{press_type_ex}})
 #' @param crit_scores Internal tibble of (sub)criteria and respective scores
 #'  named \code{crit_scores_tmpl}; can be modified by saving this dataframe as
 #'  new object and removing single (sub)criteria or assigning weights (default
@@ -93,6 +94,15 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Data input validation --------------------------
 
+	 # helper function
+	 empty_values <- function(x) {
+  	 temp_null <- is.null(x)
+  	 temp_na <- sum(is.na(x)) == length(x)
+  		temp_nan <- sum(is.nan(x)) == length(x)
+    temp <- any(temp_null, temp_na, temp_nan)
+    return(temp)
+  }
+
 	 # Check input tibbles
 	 mod_tbl <- check_input_tbl(
 				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
@@ -106,6 +116,20 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 	   )
 	 }
 
+	 if (!is.null(press_type)) {
+    if (!any(is.data.frame(press_type) | tibble::is_tibble(press_type))) {
+    	 stop("press_type has to be a data frame or tibble.")
+    }
+	 	 if (any(!c("press", "press_type") %in% names(press_type))) {
+	 		  press_var <- c("press", "press_type")
+	 		  missing_var <- press_var[!press_var %in% names(press_type)]
+			 		  stop(paste0("The following variables required for this function are missing in 'press_type' (or simply re-name if you used a different column name) : ",
+			 				  paste0(missing_var, collapse = ", ")))
+	 	 } else {
+	 	 	 press_type <- dplyr::mutate_all(press_type, .funs = as.character)
+	 	 }
+	 }
+
 	 # Check if all ind are present in both input tibbles (if trend_tbl needed)
   if ("C8" %in% crit_scores$crit == TRUE & !is.null(trend_tbl)) {
 		  if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) &
@@ -115,14 +139,38 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   }
 
 	 # Check if all variables required according to the crit_scores table are
-  # in all input tibbles
-  crit_var <- unique(crit_scores$condition_var)[!is.na(unique(crit_scores$condition_var))]
-  crit_var <- crit_var[crit_var != "expect"] # this var will be generated in this function
+  # in all input tibbles and have the correct data type and are not NAs
+  cond_var <- unique(crit_scores$condition_var)[!is.na(unique(crit_scores$condition_var))]
+  cond_var <- cond_var[cond_var != "expect"] # this var will be generated in this function
   provided_var <- c(names(trend_tbl), names(mod_tbl))
-  if (any(!crit_var %in% provided_var)) {
-  missing_var <- crit_var[!crit_var %in% provided_var]
-  stop(paste0("The following variables required for the scoring (see your crit_scores table) are not provided in any of the input tibbles: ",
-    	paste0(missing_var, collapse = ", ")))
+  if (any(!cond_var %in% provided_var)) {
+    missing_var <- cond_var[!cond_var %in% provided_var]
+    stop(paste0("The following variables required for the scoring (see your crit_scores table) are not provided in any of the input tibbles: ",
+    	 paste0(missing_var, collapse = ", ")))
+  } else {
+  	 # check for correct datatype in mod_tbl (based on unmodified template!)
+  	 cond_var_tmpl <- data.frame(
+				 	cv = c("r_sq","prop","edf","nrmse","interaction"),
+					 cv_dt = c("numeric","numeric","numeric","numeric","logical"),
+  	 	 stringsAsFactors = FALSE
+			 )
+				req_var <- dplyr::filter(cond_var_tmpl, cv %in% cond_var)
+    provided_var_dt <- purrr::map_chr(mod_tbl, class)
+    if (any(provided_var_dt[req_var$cv] != req_var$cv_dt)) {
+				  wrong_dt <- req_var$cv_dt[req_var$cv_dt != provided_var_dt[req_vars$cv]]
+						var_wrong_dt <- req_var$cv[req_var$cv_dt != provided_var_dt[req_vars$cv]]
+						message(paste0("The following variables required for the scoring (see your crit_scores table) have not the required data types in 'mod_tbl':"))
+					 	 print(data.frame(variable = var_wrong_dt, required_data_type = wrong_dt))
+						stop()
+    }
+    # Check if variables to score have values and not NAs, NaNs,..
+    var_in_mod_tbl <- cond_var[cond_var %in% names(mod_tbl) ]
+    var_in_mod_tbl_empty <- purrr::map_lgl(mod_tbl[var_in_mod_tbl], empty_values)
+    if (any(var_in_mod_tbl_empty)) {
+    	 empty_var <- var_in_mod_tbl[var_in_mod_tbl_empty]
+    	 stop(paste0("The following variables required for scoring contains no information (e.g. all NAs): ",
+    	 	 paste0(empty_var, collapse = ", ")))
+    }
   }
 
   # Criterion 8 (Trend)
@@ -163,7 +211,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # If press_type is not provided give note that error will occurr in spiechart function,
   # else check if all pressures in mod_tbl are also in press_type
   if (is.null(press_type)) {
-  	 message("You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the spiechart function!")
+  	 message("NOTE: You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the spiechart function!")
   } else {
   	press_v <- unique(mod_tbl$press)
   	if (any(!press_v %in% press_type$press)) {
@@ -177,15 +225,9 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Data preparation --------------------------
 
-  # Prepare crit_score and press_type for scoring
+  # Prepare crit_score for scoring
   crit_scores$weighted_score <- crit_scores$score *
     crit_scores$weight
-  if (tibble::is.tibble(press_type) == FALSE)
-    press_type <- tibble::as_tibble(press_type)
-  if (is.factor(press_type$press))
-    press_type$press <- as.character(press_type$press)
-  if (is.factor(press_type$press_type))
-    press_type$press_type <- as.character(press_type$press_type)
 
   # Add logical variable 'expect' with TRUE as
   # default
@@ -270,7 +312,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       names(sc_var) <- c("scr", "var")
 
       # Wrapper function for Crit 9 and 10 that applies
-      # score_f() vectorwise for each element of the
+      # score_f() vector-wise for each element of the
       # variable of interest using purrr
       apply_score <- function(var, crit_df, scr) {
         crit_df_sub <- crit_df[crit_df$subcrit ==
