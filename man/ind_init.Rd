@@ -7,14 +7,16 @@
 ind_init(ind_tbl, press_tbl, time, train = 0.9, random = FALSE)
 }
 \arguments{
-\item{ind_tbl}{A dataframe, matrix or tibble containing only the IND variables.
-Single indicators need to be coerced into a dataframe.}
+\item{ind_tbl}{A data frame, matrix or tibble containing only the (numeric) IND
+variables. Single indicators should be coerced into a data frame to keep the
+indicator name. If kept as vector, default name will be 'ind'.}
 
-\item{press_tbl}{A dataframe, matrix or tibble containing only the pressure variables.
-Single indicators need to be coerced into a dataframe.}
+\item{press_tbl}{A data frame, matrix or tibble containing only the (numeric)
+pressure variables. Single pressures should be coerced into a data frame to keep
+the pressure name. If kept as vector, default name will be 'press'.}
 
-\item{time}{A vector containing the actual time series (should be the same for
-the IND and pressure data).}
+\item{time}{A vector containing the actual time steps (e.g. years; should be the same
+as in the IND and pressure data).}
 
 \item{train}{The proportion of observations that should go into the training data
 on which the GAMs are later fitted. Has to be a numeric value between 0 and 1;
@@ -55,7 +57,8 @@ IND~pressure modelling functions.
 
 If not all IND~pressure combinations should be modelled,
 the respective rows can simply be removed from the output tibble or \code{ind_init} is
-applied multiple times on data subsets and their output tibbles merged later.
+applied multiple times on data subsets and their output tibbles merged later using
+e.g. \code{\link[dplyr]{bind_rows}}.
 }
 \examples{
 # Using the Baltic Sea demo data in this package
@@ -65,6 +68,10 @@ time <- ind_ex[ ,1]
 # Assign randomly 50\% of the observations as training data and
 # the other 50\% as test data
 ind_init(ind_tbl, press_tbl, time, train = 0.5, random = TRUE)
+# To keep the name when testing only one indicator and pressure, coerce both vectors
+# data frames
+ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = press_tbl$Tsum),
+ time, train = .5, random = TRUE)
 }
 \seealso{
 \code{\link[tibble]{tibble}} and the \code{vignette("tibble")} for more
