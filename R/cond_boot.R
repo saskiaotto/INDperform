@@ -149,7 +149,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   # Create list of correlation parameter for
   # arima.sim function (when creating bootstrapped
   # y's with GAMMs)
-  cor_params <- list(ar1 = c("Phi"), ar2 = c("Phi1",
+  cor_params <- list(ar1 = c("Phi", "Phi1"), ar2 = c("Phi1",
     "Phi2"), arma11 = c("Phi1", "Theta1"), arma12 = c("Phi1",
     "Theta1", "Theta2"), arma21 = c("Phi1", "Phi2",
     "Theta1"))
@@ -160,8 +160,11 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       cor_coef <- stats::coef(model$lme$modelStruct$corStruct,
         unconstrained = F)
       cor_param <- names(cor_coef)
-      if (identical(cor_param, cor_params[[1]])) {
-        arma_list <- list(ar = cor_coef)
+      if (any(
+      	identical(cor_param, cor_params[[1]][1]) | identical(cor_param, cor_params[[1]][2]) )) {
+       # corARMA(1,0) writes it 'Phi1' (our setting), corAR1 writes it just 'Phi'
+      	# so in casew user applies manual GAM both versions included
+      	arma_list <- list(ar = cor_coef)
       }
       if (identical(cor_param, cor_params[[2]])) {
         arma_list <- list(ar = cor_coef)
