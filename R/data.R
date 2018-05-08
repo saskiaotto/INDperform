@@ -61,19 +61,15 @@
 #' Environmental variables representing pressures for pelagic food webs in
 #' the Central Baltic Sea (Bornholm Basin).
 #'
-#' @format A data frame with 30 rows and 12 variables. These indicator time series
+#' @format A data frame with 30 rows and 8 variables. These indicator time series
 #' represent a slight modification of the original time series represented in
 #' Otto et al. (2018)
 #' \describe{
 #' \item{Year}{year given as integer}
-#' \item{Tsum}{temperature summer}
-#' \item{Ssum}{salinity summer}
+#' \item{Tsum}{temperature summer (in °C)}
 #' \item{Swin}{salinity winter}
-#' \item{Psum}{phosphate in summer}
-#' \item{Pwin}{phosphate in winter}
-#' \item{Nsum}{nitrogen in summer}
-#' \item{Nwin}{nitrogen winter}
-#' \item{rNPsum}{ratio of nitrogen to phasphate in summer}
+#' \item{Pwin}{phosphate in winter (in mg/m3)}
+#' \item{Nwin}{nitrogen winter (in mg/m3)}
 #' \item{Fsprat}{fishing mortality of sprat}
 #' \item{Fher}{fishing mortality of herring}
 #' \item{Fcod}{fishing mortality of cod}

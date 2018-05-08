@@ -7,13 +7,6 @@ model_trend_ex <- model_trend(ind = ind_ex[, -1], time = ind_ex[, 1])
 ind_init_ex <- ind_init(press = press_ex[, -1], ind = ind_ex[, -1],
 	time = ind_ex[, 1])
 
-
-# Select only subset of combinations:
-press_sub <- press_ex[, c(2,4,6,8,10:12)]
-ind_init_ex <- ind_init(press = press_sub, ind = ind_ex[, -1],
-	time = ind_ex[, 1])
-
-
 ### Apply simple gam function
 model_gam_ex <- model_gam(ind_init_ex)
 # Remove outlier
