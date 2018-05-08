@@ -13,7 +13,7 @@ scoring(trend_tbl = NULL, mod_tbl, press_type = NULL,
 \item{mod_tbl}{Output tibble from the IND~pressure modelling functions.}
 
 \item{press_type}{Dataframe with pressure names in first column and
-corresponding pressure types in second column.}
+corresponding pressure types in second column. Needed for spiechart!}
 
 \item{crit_scores}{Internal tibble of (sub)criteria and respective scores
 named \code{crit_scores_tmpl}; can be modified by saving this dataframe as

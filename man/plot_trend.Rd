@@ -9,7 +9,8 @@ plot_trend(trend_tbl, pos_label = "topleft")
 \arguments{
 \item{trend_tbl}{Output tibble from the \code{\link{model_trend}} function.}
 
-\item{pos_label}{Specifies the position of the annotation in the plot.
+\item{pos_label}{Specifies the position of the annotation in the plot. Should
+be one of "topleft" (default), "topright", "bottomleft" or "bottomright".
 For more details see \code{\link{place_text}}.}
 }
 \value{

@@ -18,7 +18,8 @@ plot_model(init_tbl, mod_tbl, choose_thresh_gam = NULL,
  The default is NULL, which shows the best performing threshold_GAM
  (based on the GCV as selection criterion).}
 
-\item{pos_label}{Specifies the position of the annotation in the plot.
+\item{pos_label}{Specifies the position of the annotation in the plot. Should
+be one of "topleft" (default), "topright", "bottomleft" or "bottomright".
 For more details see \code{\link{place_text}}.}
 
 \item{header}{logical; if TRUE, each plot will have a header including the IND

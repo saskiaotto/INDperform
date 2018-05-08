@@ -12,8 +12,8 @@ model_gam(init_tbl, k = 5, family = stats::gaussian(),
 
 \item{k}{Choice of knots (for the smoothing function \code{\link{s}}); the default is 5.}
 
-\item{family}{This is a family object specifying the distribution and link to use in
-fitting the GAM (see also \code{\link{family}}).}
+\item{family}{A description of the error distribution and link to be used in the GAM.
+This needs to be defined as a family function (see also \code{\link{family}}).}
 
 \item{excl_outlier}{A list of values identified as outliers in specific
 IND~pressure GAMs, which should be excluded in this modelling step

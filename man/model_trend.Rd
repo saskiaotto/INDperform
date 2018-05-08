@@ -8,10 +8,12 @@ model_trend(ind_tbl, time, train = 1, random = FALSE, k = 4,
   family = stats::gaussian())
 }
 \arguments{
-\item{ind_tbl}{A dataframe, matrix or tibble containing only the IND variables.
-Single indicators need to be coerced into a dataframe.}
+\item{ind_tbl}{A data frame, matrix or tibble containing only the (numeric) IND
+variables. Single indicators should be coerced into a data frame to keep the
+indicator name. If kept as vector, default name will be 'ind'.}
 
-\item{time}{A vector containing the actual time series.}
+\item{time}{A vector containing the actual time steps (e.g. years; should be the same
+for the IND data).}
 
 \item{train}{The proportion of observations that should go into the training data
 on which the GAMs are fitted. Has to be a numeric value between 0 and 1; the default
@@ -23,8 +25,8 @@ chosen? Default is FALSE.}
 \item{k}{Choice of knots (for the smoothing function \code{\link{s}}); the
 default is 4.}
 
-\item{family}{This is a family object specifying the distribution and link to use in
-fitting the gam (see also \code{\link[mgcv]{family.mgcv}}).}
+\item{family}{A description of the error distribution and link to be used in the GAM.
+This needs to be defined as a family function (see also \code{\link{family}}).}
 }
 \value{
 The function returns a \code{\link[tibble]{tibble}}, which is a trimmed down version of
@@ -49,7 +51,6 @@ the data.frame(), including the following elements:
 The function models the long-term trend of each indicator (IND) based on
 Generalized Additive Models (GAM) and returns a tibble with
 IND-specific GAM outputs.
-.
 }
 \details{
 To test for linear or non-linear long-term changes, each indicator (IND)
@@ -67,12 +68,14 @@ maximum level of non-linearity by setting the number of knots:
 }
 \examples{
 # Using the Baltic Sea demo data in this package
-ind_tbl <- ind_ex[ ,-1]
+ind_tbl <- ind_ex[ ,-1] # excluding the year
 time <- ind_ex$Year
 # Using the default settings
 trend_tbl <- model_trend(ind_tbl, time)
 # Change the training and test data assignment
 model_trend(ind_tbl, time, train = .5, random = TRUE)
+# To keep the name when testing only one indicator, coerce vector to data frame
+model_trend(data.frame(MS = ind_tbl$MS), time, train = .5, random = TRUE)
 }
 \seealso{
 \code{\link{plot_diagnostics}} for assessing model diagnostics,
