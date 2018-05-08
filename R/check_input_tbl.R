@@ -1,22 +1,23 @@
-#' Check class and variable types of input table
+#' Check class, existing variables and data types of input objects
 #'
-#' UPDATE DOCUMENTATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#' \code{check_input_tbl} is a helper function for various modelling and
+#' scoring functions in 'INDperform'. It checks whether the input object
+#' is of class tibble (should be if an output of one of the required functions)
+#' and if all required variables are included in the tibble with the correct
+#' data type. If not, an error message will be returned.
 #'
-#' \code{check_input_tbl} is a helper function for \code{\link{model_trend}}
-#' and \code{\link{ind_init}}. It coerce the data table into a data frame
-#' if needed and checks the type of each variable. If any of the variables is not
-#' a number (double or integer) it will return an error message.
+#' @param x An output tibble from one of the INDperform modelling or scoring
+#'  functions.
+#' @param tbl_name The name of 'x' for the error message.
+#' @param parent_func The name of the function that generates the output tibble 'x'.
+#' @param var_to_check A character vector listing the variables to check for in 'x'.
+#' @param dt_to_check A character vector listing the data types of each variable
+#'  listed in var_to_check (has to be the same order!) to check for.
 #'
-#' @param x A table object (dataframe, tibble, or matrix).
-#'
-#' @seealso \code{\link{model_trend}} and the \code{\link{ind_init}}
+#' @return
+#' The function returns the checked input tibble unchanged.
 #'
 #' @keywords internal
-#'  x = ind_init_ex
-#'  tbl_name = "init_tbl"
-#'  parent_func = "ind_init()"
-#'  var_to_check = names(x)[1:4]
-#'  dt_to_check = letters[1:4]# dt2c#unlist(purrr::map(1:3, ~ typeof(x[[.]])))
 #' @export
 check_input_tbl <- function(x, tbl_name, parent_func = NULL, var_to_check = NULL,
 	 dt_to_check = NULL) {

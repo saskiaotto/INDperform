@@ -1,4 +1,4 @@
-#' Check class and variable types of input table
+#' Check class and variable types of ind and press data
 #'
 #' \code{check_ind_press} is a helper function for \code{\link{model_trend}}
 #' and \code{\link{ind_init}}. It coerces the data into a data frame and
@@ -7,8 +7,12 @@
 #'
 #' @param x A data object containing only the indicator or pressure
 #' variables (vector, matrix, dataframe or tibble).
-#' @param input Indication whether x represents the indicator (default) or pressure variable(s).
-#'  If x is a vector, 'input' determines the variable name when coerced to a data frame.
+#' @param input Indication whether x represents the indicator (default) or
+#'  pressure variable(s). If x is a vector, 'input' determines the variable
+#'  name when coerced to a data frame.
+#'
+#' @return
+#' The function returns the input object as data frame.
 #'
 #' @seealso \code{\link{model_trend}} and the \code{\link{ind_init}}
 #'

@@ -1,14 +1,18 @@
 #' Check class and data type of input vector
 #'
 #' \code{check_input_vec} is a helper function for \code{\link{model_trend}},
-#' \code{\link{ind_init}} and \code{\link{statespace_ed}}. It checks whether the
-#' time object is a numeric vector. If not (a vector OR numeric) it will return an
-#' error message.
+#' \code{\link{ind_init}}, \code{\link{statespace_ed}} and \code{\link{statespace_ch}}.
+#'  It checks whether the time object is a numeric vector. If not (a vector
+#' OR numeric) it will return an error message.
 #'
 #' @param x An R object, which should be a numeric vector.
-#' @param vec_name An R object, which should be a numeric vector.
+#' @param vec_name The name of the input object for the error message.
 #'
-#' @seealso \code{\link{model_trend}} and the \code{\link{ind_init}}
+#' @return
+#' The function returns the checked input vector unchanged.
+#'
+#' @seealso \code{\link{model_trend}}, \code{\link{ind_init}},
+#'  \code{\link{statespace_ed}} and \code{\link{statespace_ch}}
 #'
 #' @keywords internal
 #' @export
