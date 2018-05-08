@@ -62,8 +62,8 @@
 #' # Assign randomly 50% of the observations as training data and
 #' # the other 50% as test data
 #' ind_init(ind_tbl, press_tbl, time, train = 0.5, random = TRUE)
-#' # To keep the name when testing only one indicator and pressre, coerce both vectors
-#' data frames
+#' # To keep the name when testing only one indicator and pressure, coerce both vectors
+#' # data frames
 #' ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = press_tbl$Tsum),
 #'  time, train = .5, random = TRUE)
 ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
