@@ -48,14 +48,21 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 crit_scores = INDperform::crit_scores_tmpl) {
 
 		# Data input validation ----------------------
+		 if (missing(mod_tbl)) {
+	 	stop("Argument 'mod_tbl' is missing.")
+		 }
+		 if (missing(scores_tbl)) {
+	 	stop("Argument 'scores_tbl' is missing.")
+	 }
 
 	 # Check input tibbles
-	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "model"), dt_to_check = c("integer", "list")
+		mod_tbl <- check_input_tbl(
+			mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+			var_to_check = c("id", "model"), dt_to_check = c("integer", "list")
 		)
+
 	 scores_tbl <- check_input_tbl(
-				scores_tbl, tbl_name = "mod_tbl", parent_func = "scoring()",
+				scores_tbl, tbl_name = "scores_tbl", parent_func = "scoring()",
 				var_to_check = c("ind", "press_spec_sc"), dt_to_check = c("character", "list")
 		)
 
@@ -84,7 +91,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 # (for table displayed in the shiny app)
 	 dat$response_as_expected <- factor(dat$C10_1,
 		 levels = crit_scores$weighted_score[crit_scores$subcrit == "C10_1"],
-		 crit_scores$score_explanation[crit_scores$subcrit == "C10_1"])
+		 labels = crit_scores$score_explanation[crit_scores$subcrit == "C10_1"])
 
 	 # Select few variables only for table displayed
 	 dat <- dplyr::select_(dat,
@@ -99,7 +106,13 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
 	 # Split first the model data based on whether the pressure effect
 	 # was considered in the scoring (i.e. same rows as in dats)
-	 mod_tbl_split <- mod_tbl[dat$id, ]
+	 mod_tbl_split <- mod_tbl[mod_tbl$id %in% dat$id, ] %>%
+	 	dplyr::arrange_(.dots="id")
+
+	 # return error message if mod_tbl_split is empty (no sign. IND~PRESS)
+	 if (nrow(mod_tbl_split) == 0) {
+	 	 stop("There is IND~PRESS model where scores can be adjusted.")
+	 }
 
 
 		# Helper function to create 'sparkline.js' charts
@@ -176,7 +189,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 					dat <- values[["dat"]]
 					if (!is.null(dat))
 						rhandsontable::rhandsontable(dat, stretchH = "all",
-							readOnly = TRUE) %>%
+							readOnly = TRUE, height=500) %>%
 						rhandsontable::hot_col("response_as_expected",
 							readOnly=FALSE, allowInvalid=FALSE) %>%
 						rhandsontable::hot_col("response",
