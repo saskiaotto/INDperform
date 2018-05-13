@@ -101,13 +101,17 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   		temp_nan <- sum(is.nan(x)) == length(x)
     temp <- any(temp_null, temp_na, temp_nan)
     return(temp)
-  }
+	 }
+
+	 if (missing(mod_tbl)) {
+	 	stop("Argument 'mod_tbl' is missing.")
+	 }
 
 	 # Check input tibbles
 	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("ind", "press"), dt_to_check = c("character", "character")
-		)
+				  mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
+				  var_to_check = c("ind", "press"), dt_to_check = c("character", "character")
+		  )
 
 	 if (!is.null(trend_tbl)) {
 	 	 trend_tbl <- check_input_tbl(
@@ -299,11 +303,15 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
         sign_level)
 
       # Non-significant models (`FALSE` list) scored zero
-      score_c910_split$`FALSE`[, subcrit_v] <- 0
+      if(!is.null(score_c910_split$`FALSE`)) {
+      	 score_c910_split$`FALSE`[, subcrit_v] <- 0
+      }
 
 
       # Score significant models (`TRUE` list) per
       # subcriterion --------
+
+      if (!is.null(mod_tbl_split$`TRUE`)) {
 
       # To get the correct variable for the respective
       # subcriterion
@@ -337,6 +345,8 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       score_c910 <- dplyr::bind_rows(score_c910_split$`FALSE`,
         score_c910_split$`TRUE`)
       score_c910 <- score_c910 %>% dplyr::arrange_(.dots = "id")
+
+      } # end of if statement for mod_tbl_split$`TRUE` not NULL
 
     }  # end of if statement for C9/10 selection
 

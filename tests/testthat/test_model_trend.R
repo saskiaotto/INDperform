@@ -33,7 +33,13 @@ dat <- ind_ex[, 2:3]
 dat$TZA <- as.factor(dat$TZA)
 
 test_that("error messages", {
-		expect_error(model_trend(ind_ex[, -1], time = ind_ex[, -1]),
+		expect_error(model_trend(time = ind_ex[, -1]),
+				"Argument 'ind_tbl' is missing")
+	expect_error(model_trend(ind_tbl = ind_ex[, -1]),
+				"Argument 'time' is missing")
+		expect_error(model_trend(ind_ex[, -1]),
+				"Argument 'time' is missing")
+	 expect_error(model_trend(ind_ex[, -1], time = ind_ex[, -1]),
 				"'time' has to be a VECTOR!")
 		expect_error(model_trend(ind_ex[, -1], time = as.factor(ind_ex$Year)),
 				"not a factor!")

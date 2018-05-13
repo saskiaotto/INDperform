@@ -122,6 +122,9 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL) {
 
 		# Data input validation -----------------------
+	 if (missing(init_tbl)) {
+	 	stop("Argument 'init_tbl' is missing.")
+	 }
 		# Check input tibble
 	 init_tbl <- check_input_tbl(
 	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",

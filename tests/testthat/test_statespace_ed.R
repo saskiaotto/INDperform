@@ -34,6 +34,10 @@ test_that("test 'ed' variable in output dfr", {
 
 # Test data input validation
 test_that("test error messages", {
+	 # missing arguments
+	 expect_error(statespace_ed(ind_ex), "Argument 'time' is missing")
+	 expect_error(statespace_ed(time = ind_ex$Year), "Argument 'x' is missing")
+
 	 expect_error(statespace_ed(x = as.list(ind_ex), time = ind_ex$Year),
 	 	"'x' cannot be a list")
 	expect_error(statespace_ed(x = ind_ex[ ,-1], time = as.character(ind_ex$Year)),

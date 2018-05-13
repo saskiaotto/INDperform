@@ -40,6 +40,12 @@
 select_model <- function(gam_tbl, gamm_tbl){
 
 		# Data input validation -----------------------
+		if (missing(gam_tbl)) {
+	 	stop("Argument 'gam_tbl' is missing.")
+		}
+		if (missing(gamm_tbl)) {
+	 	stop("Argument 'gamm_tbl' is missing.")
+	 }
 		# Check input tibbles
 		gam_tbl <- check_input_tbl(
 				gam_tbl, tbl_name = "gam_tbl", parent_func = "model_gam()",

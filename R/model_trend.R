@@ -74,6 +74,12 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   k = 4, family = stats::gaussian()) {
 
   # Data input validation -----------------------
+	 if (missing(ind_tbl)) {
+	 	stop("Argument 'ind_tbl' is missing.")
+	 }
+	 if (missing(time)) {
+	 	stop("Argument 'time' is missing.")
+	 }
   # Check parameters
   y_ <- check_ind_press(ind_tbl)
   time_ <- check_input_vec(time, "time")

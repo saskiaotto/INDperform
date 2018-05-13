@@ -151,7 +151,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 					shiny::sidebarPanel(
 						shiny::helpText("The current scoring of subcriterion 10.1 is displayed.",
 							"Check whether you want to change it. If so, choose another",
-							"level in the column 'response_as_expected. Once you are done,",
+							"level in the column 'response_as_expected'. Once you are done,",
 							"press the 'Press Me!' button, which saves the table and closes the window",
 							" (if you opened this shiny app in a browser, close manually the window",
 							"after you pressed the 'Press Me' button)."),

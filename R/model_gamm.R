@@ -75,21 +75,15 @@
 #' gam_tbl <- model_gam(dat_init)
 #' # Any temporal autocorrelation
 #' gam_tbl$tac
-#' # Applying model_gamm function and passing the $tac list as filter
+#' # Applying model_gamm function and passing the $tac variable as filter
 #' gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
 model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL, filter = NULL) {
 
-  # Filter for models with tac only
-  if (!is.null(filter)) {
-  		if (length(filter) != nrow(init_tbl)) {
-  			 stop("The length of the logical 'filter' vector deviates from the number of rows in 'ind_init'!")
-  		} else {
-  			 init_tbl <- init_tbl[filter, ]
-  		}
-  }
-
   # Data input validation ---------------------
+		if (missing(init_tbl)) {
+	 	stop("Argument 'init_tbl' is missing.")
+	 }
 		# Check input tibble
 		init_tbl <- check_input_tbl(
 				init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
@@ -112,6 +106,15 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
         " so the required length is: ", 6 *
           nrow(init_tbl)))
     }
+  }
+
+		# Filter for models with tac only
+  if (!is.null(filter)) {
+  		if (length(filter) != nrow(init_tbl)) {
+  			 stop("The length of the logical 'filter' vector deviates from the number of rows in 'ind_init'!")
+  		} else {
+  			 init_tbl <- init_tbl[filter, ]
+  		}
   }
 
   # Create input list -------------------------------
@@ -182,11 +185,9 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
         "press")]
       gamms[[i]] <- mgcv::gamm(formula = stats::as.formula(paste0(names(inputs[[i]])[1],
         " ~ s(", names(inputs[[i]])[2], ", k = ",
-        k, ")")), data = inputs[[i]], family = family,
-        control = lmc)
+        k, ")")), data = inputs[[i]], family = family)
       # Save original data as in model_gam
       gamms[[i]]$gam$train_na <- train_na_rep[[i]]
-
     } else {
     	 # Create GAMMs with corr structure
       names(inputs[[i]])[1:2] <- dat[i, c("ind",

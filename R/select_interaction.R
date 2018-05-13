@@ -34,12 +34,22 @@
 select_interaction <- function(mod_tbl) {
 
 	 # Data input validation --------
+	 if (missing(mod_tbl)) {
+	 	 stop("Argument 'mod_tbl' is missing.")
+	 }
+
 	 mod_tbl <- check_input_tbl(
 				mod_tbl, tbl_name = "mod_tbl",
 	 		parent_func = "model_gam() or model_gam()/select_gam() or calc_deriv()",
 				var_to_check = c("id", "ind", "press"),
 				dt_to_check = c("integer", "character", "character")
 		)
+
+	 # Check whether there are more than 1 pressure to test for interactions
+	 if (length(unique(mod_tbl$press)) == 1) {
+	 	 stop("'mod_tbl' contains only 1 pressure!")
+	 }
+
 	 # --------------
 
   # Create each possible combination for all
@@ -59,6 +69,9 @@ select_interaction <- function(mod_tbl) {
   # Sort columns
   pressures <- dplyr::select_(pressures, "ind", "press",
     "t_var")
+
+
+
 
   return(pressures)
 }

@@ -211,6 +211,13 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     return(z)
   }
 
+  if (missing(init_tbl)) {
+	 	stop("Argument 'init_tbl' is missing.")
+  }
+  if (missing(mod_tbl)) {
+	 	stop("Argument 'mod_tbl' is missing.")
+	 }
+
   # Check input tibbles
 	 init_tbl <- check_input_tbl(
 	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",

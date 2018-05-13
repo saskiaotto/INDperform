@@ -3,8 +3,8 @@ context("test ind_init")
 ind_tbl <- ind_ex[,	-1]
 press_tbl <- press_ex[, -1]
 time_vec <- ind_ex[, 1]
-test <- ind_init(press = press_tbl, ind = ind_tbl, time = time_vec)
-test2 <- ind_init(time = time_vec, press = press_tbl, ind = ind_tbl,
+test <- ind_init(press_tbl = press_tbl, ind_tbl = ind_tbl, time = time_vec)
+test2 <- ind_init(time = time_vec, press_tbl = press_tbl, ind_tbl = ind_tbl,
 	train = 0.5, random = TRUE)
 
 test_that("correct output", {
@@ -29,7 +29,13 @@ press_tbl2 <- press_ex[, 2:3]
 press_tbl2$Tsum <- as.factor(press_tbl2$Tsum)
 
 test_that("check error messages", {
-		expect_error(ind_init(ind_tbl, press_tbl, time = ind_tbl),
+		expect_error(ind_init(press_tbl = press_tbl, time = time_vec),
+			 "Argument 'ind_tbl' is missing")
+		expect_error(ind_init(ind_tbl = ind_tbl, time = time_vec),
+			 "Argument 'press_tbl' is missing")
+				expect_error(ind_init(ind = ind_tbl, press = press_tbl),
+			 "Argument 'time' is missing")
+	expect_error(ind_init(ind_tbl, press_tbl, time = ind_tbl),
 			 "'time' has to be a VECTOR!")
 		expect_error(ind_init(ind_tbl, press_tbl, time = as.factor(time_vec)),
 			 "not a factor!")
@@ -42,11 +48,11 @@ test_that("check error messages", {
 		expect_error(ind_init(ind_tbl2, press_tbl2, time_vec),
 		 	"have to be NUMERIC!")
 		expect_error(ind_init(ind_tbl, press_tbl, time_vec[-1]),
-		 	"The number of time steps")
+		 	"The time steps in 'time'")
 		expect_error(ind_init(ind_tbl, press_tbl[-1, ], time_vec),
-		 	"The number of time steps")
+		 	"The time steps in 'time'")
 		expect_error(ind_init(ind_tbl[-(1:10), ], press_tbl[-1, ], time_vec),
-		 	"The number of time steps")
+		 	"The time steps in 'time'")
 		expect_error(ind_init(ind_tbl, press_tbl, time_vec, train = 1.5),
 		 	"The train argument has to be")
 })

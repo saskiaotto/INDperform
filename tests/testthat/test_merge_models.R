@@ -22,7 +22,9 @@ test_that("check if merging is correct", {
 
 
 test_that("check warnings and messages", {
-  expect_message(merge_models(mod_tbl1, mod_tbl2c))
+  expect_error(merge_models(mod_tbl1), "Argument 'mod_tbl2' is missing")
+	 expect_error(merge_models(mod_tbl2 = mod_tbl2), "Argument 'mod_tbl1' is missing")
+	 expect_message(merge_models(mod_tbl1, mod_tbl2c))
   expect_error(merge_models(mod_tbl1, mod_tbl2b), "occur in both tibbles")
   expect_error(merge_models(mod_tbl1, mod_tbl2d), "occur in mod_tbl2")
   expect_error(merge_models(mod_tbl1b, mod_tbl2a), "occur in mod_tbl1")

@@ -103,6 +103,23 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
     stop("The package 'tripack' is needed for this function to work. Please install it.",
       call. = FALSE)
   }
+
+		if (missing(x)) {
+	 	stop("Argument 'x' is missing.")
+		}
+		if (missing(y)) {
+	 	stop("Argument 'y' is missing.")
+		}
+	 if (missing(time)) {
+	 	stop("Argument 'time' is missing.")
+		}
+	 if (missing(period_ref)) {
+	 	stop("Argument 'period_ref' is missing.")
+	 }
+	 if (missing(period_current)) {
+	 	stop("Argument 'period_current' is missing.")
+	 }
+
   # Check input vectors
 	 x <- check_input_vec(x, "x")
 	 y <- check_input_vec(y, "y")

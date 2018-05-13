@@ -33,6 +33,9 @@
 summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   # Data input validation -----------------------
+	if (missing(scores_tbl)) {
+	 	stop("Argument 'scores_tbl' is missing.")
+	 }
   # Check input tibble
   scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
     parent_func = "scoring()", var_to_check = c("ind"),

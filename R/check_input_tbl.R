@@ -54,7 +54,7 @@ check_input_tbl <- function(x, tbl_name, parent_func = NULL, var_to_check = NULL
 									 stop()
 								}
 			 		}
-    }
+			 }
 		}
 
   return(x)

@@ -49,6 +49,10 @@ all_results_ex3$edf <- NA_real_
 
 test_that("test error messages and warnings", {
 
+	 # Missing arguments
+	expect_error(scoring(press_type = press_type_ex, trend_tbl = model_trend_ex),
+  	 "Argument 'mod_tbl' is missing")
+
 	  # Check of input tibbles
   expect_error(scoring(mod_tbl = all_results_ex, press_type = press_type_ex),
   	 "You must provide data for the 'trend_tbl'") # trend_tbl missing but needed (C8)

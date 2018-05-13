@@ -107,7 +107,12 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   pos_label = "topleft", header = TRUE) {
 
   # Data input validation ---------------------
-
+  if (missing(init_tbl)) {
+	 	stop("Argument 'init_tbl' is missing.")
+  }
+	if (missing(mod_tbl)) {
+	 	stop("Argument 'mod_tbl' is missing.")
+	 }
   # Check input tibbles
   init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
     parent_func = "ind_init()", var_to_check = c("id",

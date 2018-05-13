@@ -29,6 +29,9 @@
 plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
 
 	 # Data input validation --------
+	 if (missing(x)) {
+	 	stop("Argument 'x' is missing.")
+	 }
 	 # 'dendro_data' works only with specific objects:
 	 if (!class(x) %in% c("hclust", "dendrogram",
 	 	"tree", "rpart", "agnes", "diana", "twins")) {

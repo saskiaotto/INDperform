@@ -91,7 +91,9 @@
 plot_diagnostics <- function(model_list) {
 
   # Data input validation --------------------
-
+  if (missing(model_list)) {
+	 	stop("Argument 'model_list' is missing.")
+  }
   # Check input and return warning if not a model
   if ("data.frame" %in% class(model_list)) {
     stop("You must provide a model or a list of models")

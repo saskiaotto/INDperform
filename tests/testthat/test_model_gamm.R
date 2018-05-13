@@ -149,6 +149,7 @@ test_ids <- c(63:70)
 gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
 
 test_that("error messages and filter", {
+	 expect_error(model_gamm(k = 3),	"Argument 'init_tbl' is missing")
 		expect_error(model_gamm(dat, family = poisson), "The specified family is not")
 		# not all variables needed are provided in input:
 		expect_error(model_gamm(dat2))

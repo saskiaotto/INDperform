@@ -48,6 +48,14 @@
 statespace_ed <- function(x, time, ref_time = NULL) {
 
   # Data input validation --------------------
+	 if (missing(x)) {
+	 	stop("Argument 'x' is missing.")
+	 }
+	if (missing(time)) {
+	 	stop("Argument 'time' is missing.")
+	 }
+
+	 # Check for correct input format
 	 if (class(x) == "list") {
 	 	 stop("'x' cannot be a list.")
 	 }

@@ -86,8 +86,8 @@ thresh_gam <- function(model, ind_vec, press_vec, t_var, name_t_var, k, a, b) {
 		names(dat) <- c(all.vars(model$formula), name_t_var)
 		thresh_gams$model <- vector(length = nrow(thresh_gams), mode = "list")
 
-		for(i in 1:nrow(thresh_gams)) {
-			if(thresh_gams$change[i]) {
+		for (i in 1:nrow(thresh_gams)) {
+			if (thresh_gams$change[i]) {
 				#create the model formula
 				formula <- paste0(names(dat)[1],                                  #ind
                       " ~ 1 + s(", names(dat)[2],                     #press

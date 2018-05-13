@@ -37,6 +37,18 @@ period_current <- 2004:2008
 period_current2 <- 2008:2011
 
 test_that("test error messages", {
+	 # missing arguments
+	 expect_error(statespace_ch(y = y, time = time, period_ref = period_ref,
+	 	period_current = period_current), "Argument 'x' is missing")
+	 expect_error(statespace_ch(x = x, time = time, period_ref = period_ref,
+	 	period_current = period_current), "Argument 'y' is missing")
+	 expect_error(statespace_ch(x = x, y = y, period_ref = period_ref,
+	 	period_current = period_current), "Argument 'time' is missing")
+	 expect_error(statespace_ch(x = x, y = y, time = time,
+	 	period_current = period_current), "Argument 'period_ref' is missing")
+	 expect_error(statespace_ch(x = x, y = y, time = time, period_ref = period_ref),
+	 	"Argument 'period_current' is missing")
+
 	 # check of inputs
 	 expect_error(statespace_ch(as.data.frame(x), y, time,
 	 	period_ref, period_current), "'x' has to be a VECTOR!")

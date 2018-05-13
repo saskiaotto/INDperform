@@ -25,6 +25,19 @@
 #' gridExtra::grid.arrange(grobs = pt)
 plot_trend <- function(trend_tbl, pos_label = "topleft") {
 
+	 # Data input validation ---------------------
+  if (missing(trend_tbl)) {
+	 	stop("Argument 'trend_tbl' is missing.")
+	 }
+  # Check input tibble
+		trend_tbl <- check_input_tbl(
+	   trend_tbl, tbl_name = "trend_tbl", parent_func = "model_trend()",
+	 	 var_to_check = c("ind", "p_val", "ind_train", "time_train", "pred",
+	 	 	 "ci_up", "ci_low"),
+			 dt_to_check = c("character", "numeric", "list", "list", "list", "list", "list")
+	 )
+		# -----------------------------------------
+
   # For text placement
   props_p <- vector("list", length = 4)
   props_p$topleft <- data.frame(x_prop = 0, y_prop = 0.1)

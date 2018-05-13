@@ -11,7 +11,10 @@ test_that("test structure of returned object", {
 })
 
 test_that("error messages", {
-  expect_error(dist_sc(scores_ex, method_dist = "complete"))
+	 # missing argument
+  expect_error(dist_sc(method_dist = "complete"), "Argument 'scores_tbl' is missing")
+	 # invalid method
+	 expect_error(dist_sc(scores_ex, method_dist = "complete"))
 	 # method in clust_sc
 	 expect_message(dist_sc(scores_ex[ ,1:2]), "You have only one criterion ")
 	 expect_error(dist_sc(scores_tbl = as.data.frame(scores_ex)))

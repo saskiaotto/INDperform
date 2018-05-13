@@ -19,7 +19,10 @@ a2 <- mod_tbl[, -2]
 a3 <- mod_tbl[, -3]
 
 test_that("test error messages of data input validation", {
-  expect_error(select_interaction(a1), "The following variables")
-		expect_error(select_interaction(a2), "The following variables")
+  expect_error(select_interaction(), "Argument 'mod_tbl' is missing")
+	 expect_error(select_interaction(mod_tbl = merge_models_ex[1,]),
+		 "'mod_tbl' contains only 1 pressure")
+	 expect_error(select_interaction(a1), "The following variables")
+	 expect_error(select_interaction(a2), "The following variables")
 		expect_error(select_interaction(a3), "The following variables")
 })

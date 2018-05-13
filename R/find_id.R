@@ -30,6 +30,11 @@
 #' # Look for specific pressures in combination with every IND
 #' find_id(mod_tbl, press_name = press_name)
 find_id <- function(mod_tbl, ind_name = NULL, press_name = NULL) {
+
+	 # Data input validation -------
+  if (missing(mod_tbl)) {
+  	 stop("Argument 'mod_tbl' is missing.")
+  }
   # Check input
   if (is.null(press_name)) {
     # Check input

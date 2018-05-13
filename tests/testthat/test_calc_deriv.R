@@ -8,7 +8,8 @@ b3 <- b
 b3$edf <- as.character(b3$edf)
 
 test_that("test warnings and errors", {
-  expect_error(calc_deriv(a, b2))
+	 expect_error(calc_deriv(mod_tbl = b), "Argument 'init_tbl' is missing")
+  expect_error(calc_deriv(init_tbl = a), "Argument 'mod_tbl' is missing")
   expect_error(calc_deriv(a[-1, ], b))
   expect_error(calc_deriv(a, b, ci_boot = 1.5))
   expect_error(calc_deriv(a, b, ci_boot = NULL))

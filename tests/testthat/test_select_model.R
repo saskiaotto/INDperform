@@ -14,25 +14,16 @@ test_that("check if merging of gam and gamm works", {
 
 
 # Test error messages and warnings
-dat <- ind_init_ex[1:5, ]
-dat2 <- ind_init_ex[1:5, 1:3]
-dat3 <- dat; dat3[1] <- "list"
-dat4 <- as.data.frame(dat)
-
 gam_tbl2 <- gam_tbl
 gam_tbl2$aic <- NULL
 gamm_tbl2 <- gamm_tbl[4:7]
 
 test_that("test error messages", {
+	 expect_error(select_model(gamm_tbl = gamm_tbl), "Argument 'gam_tbl' is missing")
+	 expect_error(select_model(gam_tbl), "Argument 'gamm_tbl' is missing")
 	 expect_error(select_model(gam_tbl2, gamm_tbl), "The following variables")
 	 expect_error(select_model(gam_tbl, gamm_tbl2), "The following variables")
 	 expect_error(select_model(gam_tbl2, gamm_tbl2))
-	 # not all variables needed are provided in input:
-	 expect_error(model_gam(dat2))
-	 # data type is not as required (indication of modification)
-	 expect_error(model_gam(dat3))
-	 # input not a tibble anymore
-	 expect_error(model_gam(dat4))
 })
 
 gam_tbl3 <- model_gam_ex[model_gam_ex$id == 1:3, ]

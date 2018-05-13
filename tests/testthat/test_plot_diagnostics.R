@@ -8,6 +8,7 @@ model_dfr <- all_results_ex
 
 
 test_that("test error messages", {
+	expect_error(plot_diagnostics(), "Argument 'model_list' is missing" )
 	expect_error(plot_diagnostics(model_list = model_dfr) )
 })
 

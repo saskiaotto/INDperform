@@ -15,3 +15,7 @@ test_that("test functions calls to find id ", {
     mod_tbl = ids)$id, model_gam_ex$id[model_gam_ex$ind ==
     iv & model_gam_ex$press == pv])
 })
+
+test_that("error messages", {
+		expect_error(find_id(ind_name = iv),	"Argument 'mod_tbl' is missing")
+})

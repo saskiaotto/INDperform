@@ -48,7 +48,14 @@ mod_tbl2 <- mod_tbl
 mod_tbl2$press <- as.list(mod_tbl2$press)
 
 test_that("test warnings and errors", {
-  # gives error if init_tbl has no values for t_var
+  # argument missing
+	 expect_error(test_interaction(mod_tbl = mod_tbl,
+    interactions = interactions), "Argument 'init_tbl' is missing")
+		 expect_error(test_interaction(init_tbl,
+    interactions = interactions), "Argument 'mod_tbl' is missing")
+		 	 expect_error(test_interaction(init_tbl, mod_tbl),
+		 	 	"Argument 'interactions' is missing")
+	# gives error if init_tbl has no values for t_var
   expect_error(test_interaction(test_error, mod_tbl,
     interactions))
   expect_error(test_interaction(init_tbl[-c(1:20), ],

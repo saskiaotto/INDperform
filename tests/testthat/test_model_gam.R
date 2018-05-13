@@ -117,6 +117,7 @@ dat3 <- dat; dat3[1] <- "list"
 dat4 <- as.data.frame(dat)
 
 test_that("error messages", {
+		expect_error(model_gam(k = 3),	"Argument 'init_tbl' is missing")
 	 expect_error(model_gam(dat, family = poisson), "The specified family is not")
 	 # not all variables needed are provided in input:
 	 expect_error(model_gam(dat2))

@@ -6,7 +6,6 @@
 #' @param scores_tbl The output tibble from the scoring.
 #' @param method_dist Dissimilarity index used in the vegdist function to
 #'  to calculate the dissimilarity matrix based on the scores.
-#'
 #'  Default is "Euclidean", for alternatives see \code{\link[vegan]{vegdist}}.
 #' @param ... Further arguments to be passed to the method \code{vegdist}.
 #'
@@ -28,6 +27,9 @@ dist_sc <- function(scores_tbl, method_dist = "euclidean",
   ...) {
 
 	 # Data input validation -----------------------
+	 if (missing(scores_tbl)) {
+	 	stop("Argument 'scores_tbl' is missing.")
+	 }
 	 # Check input tibble
   scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
     parent_func = "scoring()", var_to_check = c("ind"),

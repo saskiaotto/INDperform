@@ -29,6 +29,8 @@ mod_tbl2$edf <- as.character(mod_tbl2$edf)
 init_tbl2 <- ind_init_ex[14:15, ]
 
 test_that("test error messages", {
+	expect_error(plot_model(init_tbl), "Argument 'mod_tbl' is missing")
+	expect_error(plot_model(mod_tbl = mod_tbl), "Argument 'init_tbl' is missing")
   expect_error(plot_model(init_tbl, mod_tbl, choose_thresh_gam = 2),
     "value for choose_thresh_gam exceeds")
   expect_error(plot_model(init_tbl[, -(1:3)], mod_tbl),
