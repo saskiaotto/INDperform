@@ -102,7 +102,7 @@ m_press <- test_interaction(init_tbl = dat_init, mod_tbl = m_press,
 # Scoring based on model output ------------
 scores <- scoring(trend_tbl = m_trend, mod_tbl = m_press, press_type)
 # Runs a shiny app to modify the score for the subcriterion 10.1:
-scores <- expect_resp(scores)
+scores <- expect_resp(mod_tbl = m_press, scores_tbl = scores)
 sum_sc <- summary_sc(scores)
 spie <- plot_spiechart(sum_sc)
 spie$TZA # shows the spiechart of the indicator TZA
