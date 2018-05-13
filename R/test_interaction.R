@@ -162,6 +162,15 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   sign_level = 0.05, k = 4, a = 0.2, b = 0.8, excl_outlier = FALSE) {
 
   # Data input validation ----------------
+	 if (missing(init_tbl)) {
+	 	stop("Argument 'init_tbl' is missing.")
+	 }
+		 if (missing(mod_tbl)) {
+	 	stop("Argument 'mod_tbl' is missing.")
+		 }
+		 if (missing(interactions)) {
+	 	stop("Argument 'interactions' is missing.")
+	 }
 
 	 # Check input tibbles
 	 init_tbl <- check_input_tbl(
@@ -287,7 +296,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   prog_max <- list(length(model))
 
 
-  # Actual thresh-GAMM fitting -----------------
+  # Actual thresh-GAM fitting -----------------
 
   # Helper function that runs the external loocv
   # function and adds progress bar
@@ -299,11 +308,13 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       k = k_list, a = a_list, b = b_list, time = time)
     return(res)
   }
+  show_prog_safe <- purrr::possibly(show_prog, NA)
   # Apply show_prog to every model (each interaction)
-  temp_gam <- purrr::pmap_lgl(.l = list(model, y,
+  temp_gam <- purrr::pmap(.l = list(model, y,
     x1, x2, name_x2, k_list, a_list, b_list, time,
-    prog_now, prog_max), show_prog)
-  final_tab$interaction <- temp_gam
+    prog_now, prog_max), show_prog_safe)
+  final_tab$interaction <- temp_gam %>% flatten_lgl()
+
 
   # Save every thresh_gam better than the
   # corresponding gam, NA vector
@@ -311,13 +322,13 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     length = nrow(final_tab))
   final_tab$train.na <- vector(mode = "list", length = nrow(final_tab))
   final_tab$tac_in_thresh <- rep(NA, length = nrow(final_tab))
-  final_tab$thresh_var <- rep(NA, length = nrow(final_tab))
+  final_tab$thresh_var <- rep(NA_character_, length = nrow(final_tab))
 
   # Within a loop apply the external helper function
   # thresh_gam to all models where thresh-GAMM was
   # better
   for (i in 1:nrow(final_tab)) {
-    if (final_tab$interaction[i]) {
+    if (!is.na(final_tab$interaction[i]) & final_tab$interaction[i] == TRUE) {
       final_tab$thresh_models[[i]] <- thresh_gam(model = model[[i]],
         ind_vec = y[[i]], press_vec = x1[[i]],
         t_var = x2[[i]], name_t_var = name_x2[[i]],
@@ -356,7 +367,8 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # thresh_gam is better max becomes 1 = TRUE -->
   # thresh_gam was better than gam
   temp <- final_tab %>% dplyr::group_by_(.dots = c("ind",
-    "press")) %>% dplyr::summarise_(.dots = stats::setNames(list(~as.logical(max(interaction))),
+    "press")) %>% dplyr::summarise_(
+    	.dots = stats::setNames(list(~as.logical(max(interaction, na.rm = TRUE))),
     "interaction"))
 
   # Get every thresh_gam better than the
