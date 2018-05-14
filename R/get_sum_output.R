@@ -31,7 +31,8 @@ get_sum_output <- function(sum_list, varname, cell = NULL) {
   # Data input validation ----------
 	 # Check if requested element contains only one value
   # and if cell is NULL
-  if (is.null(cell) & length(sum_list[[1]][[varname]]) >
+		ok <- which(!is.na(sum_list))
+  if (is.null(cell) & length(sum_list[[ok[1]]][[varname]]) >
     1) {
     stop("The requested summary element contains more than one value. Select\n\t\t\tthe specific value using the 'cell' argument")
   } else {
@@ -46,7 +47,7 @@ get_sum_output <- function(sum_list, varname, cell = NULL) {
   result <- purrr::map_if(sum_list, choose, ~.[[varname]][cell])
   # check output
   if (any(purrr::map_dbl(result, length) != 1)) {
-    stop("I don't know what could have happend, but it's not ok!")
+    stop("I don't know what happend, but it's not ok!")
   }
   return(unlist(result))
 }
