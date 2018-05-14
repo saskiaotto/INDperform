@@ -329,6 +329,7 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
     plot_predict)
 
 
+
   # Plot 3 - Derivatives of non-linear smoothers
   # -----------
 

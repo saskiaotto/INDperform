@@ -162,20 +162,16 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
     out <- out[!is.na(out)]
     return(out)
   }
-  x_zoom <- zoom_no_nas(x, zoom)
-  y_pred_zoom <- zoom_no_nas(y_pred, zoom)
-  ci_up_zoom <- zoom_no_nas(ci_up, zoom)
-  ci_low_zoom <- zoom_no_nas(ci_low, zoom)
+  x_zoom <- x[zoom]
+  y_pred_zoom <- y_pred[zoom]
+  ci_up_zoom <- ci_up[zoom]
+  ci_low_zoom <- ci_low[zoom]
   x_train_zoom <- x_train[x_train %in% zoom]
-  poly_x <- c(sort(x_zoom, decreasing = FALSE), sort(x_zoom,
-    decreasing = TRUE))
-  poly_y <- c(ci_up_zoom[order(x_zoom, decreasing = FALSE)],
-    ci_low_zoom[order(x_zoom, decreasing = TRUE)])
 
   p <- ggplot2::ggplot() +
-  	 ggplot2::geom_polygon(data = NULL,
-      ggplot2::aes_(x = poly_x, y = poly_y), fill = "darkseagreen4",
-      alpha = 0.2) +
+  	 ggplot2::geom_ribbon(data = NULL,
+  		  ggplot2::aes_(x = x_zoom, ymin=ci_low_zoom, ymax=ci_up_zoom),
+  	 	  fill = "darkseagreen4", alpha = 0.2) +
   	 ggplot2::geom_line(data = NULL,
       ggplot2::aes_(x = x_zoom, y = y_pred_zoom),
       colour = "darkseagreen4", size = 1) +
