@@ -10,9 +10,8 @@ dist_sc(scores_tbl, method_dist = "euclidean", ...)
 \item{scores_tbl}{The output tibble from the scoring.}
 
 \item{method_dist}{Dissimilarity index used in the vegdist function to
- to calculate the dissimilarity matrix based on the scores.
-
- Default is "Euclidean", for alternatives see \code{\link[vegan]{vegdist}}.}
+to calculate the dissimilarity matrix based on the scores.
+Default is "Euclidean", for alternatives see \code{\link[vegan]{vegdist}}.}
 
 \item{...}{Further arguments to be passed to the method \code{vegdist}.}
 }
