@@ -59,10 +59,10 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
   # check first if criteria are present in scoring
   # tibble
 
-  if (sum(c("C8", "C11") %in% names(scores_tbl)) >
-    0) {
-    scores_c811 <- scores_tbl %>% dplyr::select_(.dots = names(scores_tbl)[names(scores_tbl) %in%
-      c("ind", "C8", "C11")])
+  if (sum(c("C8", "C11") %in% names(scores_tbl)) > 0) {
+    scores_c811 <- scores_tbl %>%
+    	 dplyr::select_(.dots = names(scores_tbl)[names(scores_tbl) %in%
+        c("ind", "C8", "C11")])
 
     # Add proportions only to the
     for (i in 2:ncol(scores_c811)) {
@@ -170,7 +170,7 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
 
 
-  # Generate Output Table 1 -------------------------
+  # Generate Output Table 2 -------------------------
   # (Pressure-specific scores)
 
   if ("press_spec_sc" %in% names(scores_tbl) == TRUE) {
