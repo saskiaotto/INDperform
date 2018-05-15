@@ -5,7 +5,7 @@
 \title{Create score-based spiechart}
 \usage{
 plot_spiechart(summary_tbl, col_press_type = NULL, col_crit8_11 = NULL,
-  lab_size = 6)
+  lab_size = 6, title_size = 8)
 }
 \arguments{
 \item{summary_tbl}{The output tibble from the
@@ -22,6 +22,8 @@ criteria 8 (trend) and 11 (management application). The default is
 set to cyan1 and yellow2.}
 
 \item{lab_size}{Size for the labels naming the significant pressures. The default is 6.}
+
+\item{title_size}{Size for the title naming the indicator. The default is 8.}
 }
 \value{
 The function returns a list of \code{\link[ggplot2]{ggplot}} objects.
@@ -67,7 +69,7 @@ p$TZA
 # To modify the plot
 p <- plot_spiechart(summary_tbl, col_crit8_11 = c("black",
   "thistle4"), col_press_type = RColorBrewer::brewer.pal(3,
-  name = "Accent"), lab_size = 10)
+  name = "Accent"), lab_size = 4, title_size = 4)
 gridExtra::grid.arrange(grobs = p)
 
 # Remove pressure-independent criteria for the plot (e.g.
@@ -84,6 +86,7 @@ summary_tbl[[1]] <- summary_tbl[[1]][ ,
   ! names(summary_tbl[[1]]) \%in\% c("C9", "C9_in\%")]
 p <- plot_spiechart(summary_tbl)
 gridExtra::grid.arrange(grobs = p)
+
 }
 }
 \references{

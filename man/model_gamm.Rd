@@ -73,7 +73,7 @@ dat_init <- ind_init(
 gam_tbl <- model_gam(dat_init)
 # Any temporal autocorrelation
 gam_tbl$tac
-# Applying model_gamm function and passing the $tac list as filter
+# Applying model_gamm function and passing the $tac variable as filter
 gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
 }
 \references{

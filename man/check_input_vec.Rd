@@ -17,8 +17,8 @@ The function returns the checked input vector unchanged.
 \description{
 \code{check_input_vec} is a helper function for \code{\link{model_trend}},
 \code{\link{ind_init}}, \code{\link{statespace_ed}} and \code{\link{statespace_ch}}.
- It checks whether the time object is a numeric vector. If not (a vector
-OR numeric) it will return an error message.
+ It checks whether the time object is an integer vector. If not (a vector
+OR integer) it will return an error message.
 }
 \seealso{
 \code{\link{model_trend}}, \code{\link{ind_init}},
