@@ -126,19 +126,6 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
     ~name_values(.x, .y))
   trend_tab$time_train <- time_train
 
-  # Compute the trend GAMs using this helper function:
-  apply_gam <- function(ind_name, ind_ts, time_ts) {
-    dat <- data.frame(ind_ts, time = time_ts)
-    names(dat)[1] <- ind_name
-    model <- mgcv::gam(stats::as.formula(paste0(ind_name,
-      " ~ 1 + s(time, k = ", k, ")")), na.action = "na.omit",
-      family = family, data = dat)
-  }
-
-  trend_tab$model <- purrr::pmap(.l = list(ind_name = trend_tab$ind,
-    ind_ts = trend_tab$ind_train, time_ts = trend_tab$time_train),
-    .f = apply_gam)
-
   # Add a logical vector of NA presences in ind_train
   # (incl. NAs in the original data AND of the test
   # data if random = TRUE)
@@ -170,25 +157,52 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
       ind_test_na_sub[[.]])[sorted_years])
   }
 
-  # Save train_na in model lists
-  for (i in seq_along(train_na)) {
-    trend_tab$model[[i]]$train_na <- train_na[[i]]
+  # Compute the trend GAMs using this helper function:
+  apply_gam <- function(ind_name, ind_ts, time_ts, train_na_ts,
+  	k, family) {
+    dat <- data.frame(ind_ts, time = time_ts)
+    names(dat)[1] <- ind_name
+    model <- mgcv::gam(stats::as.formula(paste0(ind_name,
+      " ~ 1 + s(time, k = ", k, ")")), na.action = "na.omit",
+      family = family, data = dat)
+    # Save train_na in model
+    model$train_na <- train_na_ts
+    return(model)
   }
+  apply_gam_safe <- purrr::safely(apply_gam, otherwise = NA)
 
-  # Get p-values
-  temp <- lapply(trend_tab$model, FUN = mgcv::summary.gam)
-  trend_tab$p_val <- get_sum_output(temp, "s.table",
-    4)
+  temp_mod <- suppressWarnings(purrr::pmap(.l = list(ind_name = trend_tab$ind,
+    ind_ts = trend_tab$ind_train, time_ts = trend_tab$time_train,
+  	 train_na_ts = train_na), .f = apply_gam_safe,
+    k = k, family = family)) %>%
+  	  purrr::transpose()
+  trend_tab$model <-	temp_mod$result
 
-  # Calculate pred +/- CI using another help function
-  temp <- calc_pred(trend_tab$model, obs_press = trend_tab$time_train)
-  trend_tab <- tibble::as_data_frame(cbind(trend_tab,
-    temp))
-
-
-  trend_tab <- dplyr::select_(trend_tab, .dots = c("ind_id",
+  if (all(is.na(temp_mod$result))) {
+  	 stop("No indicator trend model could be fitted! Check if you chose the correct error distribution (default is 'gaussian()').")
+  } else {
+  	 # Get p-values
+  	 gam_smy <- suppressWarnings(trend_tab$model %>%
+  	 		purrr::map(.f = purrr::possibly(mgcv::summary.gam, NA_real_)))
+  	 trend_tab$p_val <- get_sum_output(gam_smy, "s.table", 4)
+		  # Calculate pred +/- CI using another help function
+		  temp_pred <- calc_pred(trend_tab$model, obs_press = trend_tab$time_train)
+		  trend_tab <- dplyr::bind_cols(trend_tab, temp_pred)
+				# Generate final output tibble
+		  trend_tab <- dplyr::select_(trend_tab, .dots = c("ind_id",
     "ind", "p_val", "model", "ind_train", "time_train",
     "pred", "ci_up", "ci_low"))
+  }
+
+  # Warning if some models were not fitted
+  if (any(!purrr::map_lgl(temp_mod$error, .f = is.null))) {
+  	 sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
+			 miss_mod <- trend_tab[sel, 1:2]
+			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
+			 	 purrr::flatten_chr()
+			 message("For the following indicators fitting procedure failed:")
+  	 print(miss_mod)
+  }
 
   ### END OF FUNCTION
   return(trend_tab)
