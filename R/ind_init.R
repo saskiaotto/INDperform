@@ -179,6 +179,27 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
       purrr::map(~c(train_na[[.]], test_na_sub[[.]])[sorted_years])
   }
 
+  # Check if there are too many NAs in the test data and return warning
+  test_steps <- length(select_test)
+  test_na <- purrr::map2(init_tab$ind, init_tab$press,
+  	~is.na(y_[select_test, .x]) | is.na(x_[select_test,
+  		.y]))
+  prop_na <- purrr::map_dbl(test_na, ~sum(.)/test_steps)
+
+  if(any(prop_na > 0.5)) {
+    sel <- which(prop_na > 0.5)
+    too_many_nas <- init_tab[sel, 1:3]
+    too_many_nas$nr_test_timesteps <- test_steps
+    too_many_nas$NAs_in_ind_press <- purrr::map_int(test_na, .f = sum)[sel]
+    message(paste0("NOTE: For the following IND~pressure combinations the number of NAs ",
+    	 "in the test data exceeds 50%! This will cause biased or no results when ",
+    	 "calculating the normalized root mean square error (NRMSE) in model_gam()/",
+ 					"model_gamm(). You might want to choose a different test period, ",
+    	 "replace the NAs with means/interpolated values or remove specific indicator ",
+    	 "or pressure variables"))
+  	 print(too_many_nas)
+  }
+
   ### END OF FUNCTION
   return(init_tab)
 }
