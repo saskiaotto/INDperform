@@ -181,9 +181,9 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 	 )
 	 mod_tbl <- check_input_tbl(
 				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "ind", "press", "model_type", "p_val", "excl_outlier", "model"),
+				var_to_check = c("id", "ind", "press", "model_type", "p_val", "model"),
 				dt_to_check = c("integer", "character", "character", "character", "numeric",
-					 "list", "list")
+					 "list")
 		)
 
   if ((!"excl_outlier" %in% names(mod_tbl)) &
@@ -308,13 +308,12 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       k = k_list, a = a_list, b = b_list, time = time)
     return(res)
   }
-  show_prog_safe <- purrr::possibly(show_prog, NA)
-  # Apply show_prog to every model (each interaction)
-  temp_gam <- purrr::pmap(.l = list(model, y,
+  show_prog_safe <- purrr::safely(show_prog, otherwise = NA)
+  # Apply show_prog_safe to every model (each interaction)
+  suppressWarnings(temp_gam <- purrr::pmap(.l = list(model, y,
     x1, x2, name_x2, k_list, a_list, b_list, time,
-    prog_now, prog_max), show_prog_safe)
-  final_tab$interaction <- temp_gam %>% flatten_lgl()
-
+    prog_now, prog_max), show_prog_safe) %>% purrr::transpose())
+  final_tab$interaction <- temp_gam$result %>% purrr::flatten_lgl()
 
   # Save every thresh_gam better than the
   # corresponding gam, NA vector
@@ -373,10 +372,11 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   # Get every thresh_gam better than the
   # corresponding gam
-  out <- final_tab %>% dplyr::group_by_(.dots = c("ind",
-    "press")) %>% dplyr::select_(.dots = c("ind",
+  out <- final_tab %>% dplyr::group_by_(.dots = c("ind", "press")) %>%
+    dplyr::select_(.dots = c("ind",
     "press", "interaction", "thresh_var", "tac_in_thresh",
-    "thresh_models")) %>% dplyr::summarise_(thresh_var = lazyeval::interp(~list(var),
+    "thresh_models")) %>%
+  	dplyr::summarise_(thresh_var = lazyeval::interp(~list(var),
     var = as.name("thresh_var")), tac_in_thresh = lazyeval::interp(~list(var),
     var = as.name("tac_in_thresh")), thresh_models = lazyeval::interp(~list(var),
     var = as.name("thresh_models"))) %>% dplyr::left_join(temp,
@@ -399,6 +399,16 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     "press"))
   out <- sort_output_tbl(out)
   out <- dplyr::arrange_(out, .dots = "id")
+
+
+  # Warning if some models were not fitted
+  if (any(is.na(final_tab$interaction))) {
+  	 miss_mod <- final_tab[is.na(final_tab$interaction), 1:3]
+			 miss_mod$error_message <- purrr::map(temp_gam$error, .f = as.character) %>%
+			 	purrr::flatten_chr()
+			 message("For the following indicators fitting procedure failed:")
+  	 print(miss_mod)
+  }
 
 
   ### END OF FUNCTION ####
