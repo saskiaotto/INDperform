@@ -18,15 +18,16 @@
 #'
 sort_output_tbl <- function(mod_tbl) {
   # Create vector with all potential variables
-  defined_var <- c("id", "ind_id", "ind", "press",
-    "model_type", "corrstruc", "aic", "edf", "p_val",
-    "signif_code", "r_sq", "expl_dev", "nrmse",
-    "ks_test", "tac", "pres_outlier", "excl_outlier",
-    "model", "interaction", "thresh_var", "thresh_models",
-    "tac_in_thresh", "prop", "zero_in_conf", "zic_start_end",
-    "press_seq", "pred", "pred_ci_up", "pred_ci_low",
-    "deriv1", "deriv1_ci_up", "deriv1_ci_low",
-    "excl_outlier_boot")
+		defined_var <- c("id", "ind_id", "ind", "press",
+			"model_type", "corrstruc", "aic", "edf", "p_val",
+			"signif_code", "r_sq", "expl_dev", "nrmse",
+			"ks_test", "tac", "pres_outlier", "excl_outlier",
+			"model", "prop", "zero_in_conf", "zic_start_end",
+			"press_seq", "pred", "pred_ci_up", "pred_ci_low",
+			"deriv1", "deriv1_ci_up", "deriv1_ci_low",
+			"excl_outlier_boot", "interaction", "thresh_var",
+			"thresh_models", "tac_in_thresh")
+
   # Variables in tibble
   nam <- names(mod_tbl)
   # Get existing variables in mod_tbl and order them

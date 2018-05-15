@@ -55,6 +55,8 @@ test_that("error messages", {
 			 "The train argument has to be")
 		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year, train = 1.5),
 			 "The train argument has to be")
+		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year, family = poisson),
+			 "The specified family is not")
 		# Fitting procedure failed
 		expect_error(model_trend(ind_tbl = ind_ex[, 4:7], time = ind_ex$Year,
 		 	family = binomial()), "No indicator trend model could be fitted!")
