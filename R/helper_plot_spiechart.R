@@ -11,23 +11,8 @@ plot_spie <- function(split_input, scale, parting,
   x_ring1, theme_infog, edge = "grey30", ind, lab_size,
 	 title_size) {
 
-#
-# i=2;
-# 	ind=summary_tbl[[i]]$ind; lab_size=lab_size
-# 	split_input=split_input[[i]]; scale=scale; parting=parting;
-#   cat=cat; summary_tbl=summary_tbl[[1]]; ground=ground;
-#   n_c8_c11=n_c8_c11; n_c9_c10=n_c9_c10; col_crit8_11=col_crit8_11;
-#   x_ring1=x_ring1; theme_infog=theme_infog; edge = "grey30";
-
-#
-#
 
 	# Data reorganization (now IND-specific) ---------------
-
-	# WOZU DAS HIER?
-  # split_input <- split_input[order(split_input$press_type,
-  #   decreasing = TRUE), ]
-	# ---
 
   # Borders for press_type for outer ring2
   temp <- vector(mode = "integer", length = nrow(cat))
@@ -90,8 +75,6 @@ plot_spie <- function(split_input, scale, parting,
   if (!all(n_c8_c11)) {
     if (any(n_c8_c11)) {
       x_bar_press <- x_bar_press - parting/2
-    } else {
-
     }
   }
   # Get y values for pressures
@@ -143,8 +126,8 @@ plot_spie <- function(split_input, scale, parting,
   }
   if (any(n_c8_c11)) {
     x_bar_ind <- scale[c(1, length(scale))]
-    y_bar_ind <- c(unlist(summary_tbl[summary_tbl$ind ==
-      ind, c("C8_in%", "C11_in%")[n_c8_c11]]))
+    y_bar_ind <- c(unlist(summary_tbl[summary_tbl$ind == ind,
+      c("C8_in%", "C11_in%")[n_c8_c11]]))
     parting_ind <- parting
     # Double value for remaining crit if one is
     # excluded
@@ -193,20 +176,20 @@ plot_spie <- function(split_input, scale, parting,
   		# Plot the pressure specific data
 		  ggplot2::geom_bar(data = NULL, ggplot2::aes_(x = x_bar_press,
 		    y = y_bar_press), stat = "identity", width = parting,
-		    fill = col_slice, alpha = alpha, col = "grey30") +
+		    fill = col_slice, alpha = alpha, col = "grey30", na.rm=TRUE) +
 		  # Plot the pressure-unspecific data
 		  ggplot2::geom_bar(data = NULL, ggplot2::aes_(x = x_bar_ind,
 		    y = y_bar_ind), stat = "identity", width = parting_ind,
-		    fill = col_crit8_11, col = edge) +
+		    fill = col_crit8_11, col = edge, na.rm=TRUE) +
 		  # Add 100% line
   	 ggplot2::geom_abline(intercept = 100, slope = 0,
 		    linetype = 1, col = "grey60") +
   	 # Add labels for sig pressures
 		  ggplot2::geom_text(ggplot2::aes_(x = x_lab, y = 100,
-		    label = lab), size = lab_size) +
+		    label = lab), size = lab_size, na.rm=TRUE) +
   	 # Add title
 		  ggplot2::geom_text(ggplot2::aes_(x = x_ring1[1],
-		    y = 150, label = ind), size = title_size)
+		    y = 150, label = ind), size = title_size, na.rm=TRUE)
 
   return(p)
 }
