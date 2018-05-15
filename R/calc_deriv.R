@@ -382,12 +382,13 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 
 
     # Calculate significance for derivatives -------------
+
     filt_deriv$zero_in_conf <- purrr::map2(.x = filt_deriv$deriv1_ci_low,
       .y = filt_deriv$deriv1_ci_up, function(x,
         y) ifelse(x < 0 & y > 0, TRUE, FALSE))
 
-    filt_deriv$zic_start_end <- purrr::map(.x = filt_deriv$zero_in_conf,
-      x_range)
+    filt_deriv$zic_start_end <- purrr::map(1:length(filt_deriv$zero_in_conf),
+      ~ x_range(vec = filt_deriv$zero_in_conf[.]))
 
     filt_deriv$prop <- purrr::map_dbl(.x = filt_deriv$zic_start_end,
       ~round((1 - sum(.x)/length(.x)), digits = 2))
@@ -411,21 +412,25 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 # Function to identify boundary areas where the zero-line is
 # within the confidence intervals
 x_range <- function(vec) {
-  n <- length(vec)
-  temp_for_if_break <- vector(length = n)
-  for (i in 1:n) {
-    if (vec[i] == FALSE) {
-      break
-    }
-    temp_for_if_break[i] <- TRUE
-  }
-  for (j in n:1) {
-    if (vec[j] == FALSE) {
-      break
-    }
-    temp_for_if_break[j] <- TRUE
-  }
-
+	 if (is.na(vec)) {
+	 	 temp_for_if_break <- NA
+	 } else {
+	 	 vec <-  unlist(vec)
+			 n <- length(vec)
+		  temp_for_if_break <- vector(length = n)
+		  for (i in 1:n) {
+		    if (vec[i] == FALSE) {
+		      break
+		    }
+		    temp_for_if_break[i] <- TRUE
+		  }
+		  for (j in n:1) {
+		    if (vec[j] == FALSE) {
+		      break
+		    }
+		    temp_for_if_break[j] <- TRUE
+		  }
+	 }
   return(temp_for_if_break)
 }
 

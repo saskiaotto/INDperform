@@ -8,12 +8,26 @@
 #' @export
 plot_spie <- function(split_input, scale, parting,
   cat, summary_tbl, ground, n_c8_c11, n_c9_c10, col_crit8_11,
-  x_ring1, theme_infog, edge = "grey30", ind, lab_size) {
+  x_ring1, theme_infog, edge = "grey30", ind, lab_size,
+	 title_size) {
+
+#
+# i=2;
+# 	ind=summary_tbl[[i]]$ind; lab_size=lab_size
+# 	split_input=split_input[[i]]; scale=scale; parting=parting;
+#   cat=cat; summary_tbl=summary_tbl[[1]]; ground=ground;
+#   n_c8_c11=n_c8_c11; n_c9_c10=n_c9_c10; col_crit8_11=col_crit8_11;
+#   x_ring1=x_ring1; theme_infog=theme_infog; edge = "grey30";
+
+#
+#
 
 	# Data reorganization (now IND-specific) ---------------
 
-  split_input <- split_input[order(split_input$press_type,
-    decreasing = TRUE), ]
+	# WOZU DAS HIER?
+  # split_input <- split_input[order(split_input$press_type,
+  #   decreasing = TRUE), ]
+	# ---
 
   # Borders for press_type for outer ring2
   temp <- vector(mode = "integer", length = nrow(cat))
@@ -46,7 +60,7 @@ plot_spie <- function(split_input, scale, parting,
   		dplyr::group_by_(.dots = "press_type") %>%
     dplyr::summarise_(.dots = stats::setNames(list(~unique(n_press)),
       "n_press")) %>% dplyr::left_join(cat, .))
-
+  # DEN TEIL VERSTEH ICH HIER NICHT:
   take$n_press[is.na(take$n_press)] <- 0
   x <- vector(mode = "list", length = nrow(take))
   for (i in 1:nrow(take)) {
@@ -56,6 +70,7 @@ plot_spie <- function(split_input, scale, parting,
     x[[i]] <- c(x[[i]], rep(FALSE, times = take$n[i] -
       take$n_press[i]))
   }
+  #--------???
 
   take <- unlist(x)
   if (!all(n_c9_c10)) {
@@ -156,6 +171,7 @@ plot_spie <- function(split_input, scale, parting,
   # Actual plot -----------------------
 
   p <- ggplot2::ggplot() + theme_infog +
+
   	# Create a white background
 		  ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = ground$x,
 		    y = ground$y1), fill = "white") +
@@ -173,6 +189,7 @@ plot_spie <- function(split_input, scale, parting,
   	 ggplot2::geom_segment(ggplot2::aes_(x = border,
 		    xend = border, y = 0, yend = 100), colour = "grey60",
 		    data = NULL, linetype = 2) +
+
   		# Plot the pressure specific data
 		  ggplot2::geom_bar(data = NULL, ggplot2::aes_(x = x_bar_press,
 		    y = y_bar_press), stat = "identity", width = parting,
@@ -189,7 +206,7 @@ plot_spie <- function(split_input, scale, parting,
 		    label = lab), size = lab_size) +
   	 # Add title
 		  ggplot2::geom_text(ggplot2::aes_(x = x_ring1[1],
-		    y = 150, label = ind), size = 8)
+		    y = 150, label = ind), size = title_size)
 
   return(p)
 }
