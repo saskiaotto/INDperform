@@ -36,23 +36,26 @@ calc_nrmse <- function(pred, obs_ind) {
       nrmse[[i]] <- (obs_ind[[i]] - pred[[i]])^2
     }
   }
+  incl <- purrr::map_if(nrmse, choose, ~ !is.na(.) )
+  obs_ind_incl <- purrr::map2(obs_ind, incl, ~ .x[.y] )
   # Column sums
   nrmse <- purrr::map_dbl(nrmse, ~sum(., na.rm = TRUE))
-  # Divide by n (length(obs_ind))
-  nrmse <- purrr::map_if(nrmse, choose, ~./length(obs_ind[[1]]))
+  # Divide by n (length(obs_ind_incl))
+  nrmse <- purrr::map2(nrmse, obs_ind_incl, ~.x / length(.y) )
   # Get square root
   nrmse <- purrr::map_dbl(nrmse, ~sqrt(.))
-  # Get mean for each vector in obs_ind
-  mean_obs_ind <- purrr::map_if(obs_ind, choose,
-    mean, na.rm = TRUE)
-  # Replace missing models with NA
-  mean_obs_ind[!choose] <- NA
+  # Get mean for each vector in obs_ind_incl
+  mean_obs_ind <- purrr::map_dbl(obs_ind_incl, .f = mean, na.rm = TRUE)
   # Divide by mean of respective column of
   # observations
   nrmse <- purrr::map2_dbl(.x = nrmse, .y = mean_obs_ind,
     .f = ~.x/.y)
   # Get absolute values (for scoring)
   nrmse <- abs(nrmse)
+  # Replace missing models with NA
+  nrmse[!choose] <- NA
+  # Replace NaN with NA
+  nrmse[is.nan(nrmse)] <- NA
 
   return(nrmse)
 }
