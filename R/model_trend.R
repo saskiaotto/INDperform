@@ -91,6 +91,11 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   if (train < 0 | train > 1) {
   	 stop("The train argument has to be between 0 and 1 (all observations in time)!")
   }
+
+  # Check family class
+		if (!"family" %in% class(family)) {
+				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
+		}
   # ----------------
 
   # Define time units to be included in the model

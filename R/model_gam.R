@@ -133,7 +133,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
 	 	)
 	 # Check family class
-		if (class(family) != "family") {
+		if (!"family" %in% class(family)) {
 				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
 		}
 
