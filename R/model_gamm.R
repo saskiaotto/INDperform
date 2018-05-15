@@ -183,9 +183,9 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       # Create ar0 GAMMs
       names(inputs[[i]])[1:2] <- dat[i, c("ind",
         "press")]
-      gamms[[i]] <- mgcv::gamm(formula = stats::as.formula(paste0(names(inputs[[i]])[1],
+      gamms[[i]] <- suppressWarnings(try(mgcv::gamm(formula = stats::as.formula(paste0(names(inputs[[i]])[1],
         " ~ s(", names(inputs[[i]])[2], ", k = ",
-        k, ")")), data = inputs[[i]], family = family)
+        k, ")")), data = inputs[[i]], family = family), silent = TRUE))
       # Save original data as in model_gam
       gamms[[i]]$gam$train_na <- train_na_rep[[i]]
     } else {
@@ -221,7 +221,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   no_fit <- gamm_tab[!choose, ]
   no_fit$model <- NULL
   if (nrow(no_fit) >= 1) {
-    message("Warning: The following models can not be fitted via gamm")
+    message("Warning: The following gamm models cannot be fitted:")
     print(as.data.frame(no_fit))
   }
 
@@ -265,8 +265,8 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
     type = "normalized"))
 
   # Test for normality in residual distribution
-  temp <- purrr::map_if(res, choose, ~stats::ks.test(x = .,
-    "pnorm", mean(.), sd(.))$p.value)
+  suppressWarnings(temp <- purrr::map_if(res, choose, ~stats::ks.test(x = .,
+    "pnorm", mean(.), sd(.))$p.value) )
   gamm_tab$ks_test <- round(unlist(temp), 4)
 
   # Test for TAC - need NA'S
