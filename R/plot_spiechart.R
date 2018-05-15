@@ -15,6 +15,7 @@
 #'  criteria 8 (trend) and 11 (management application). The default is
 #'  set to cyan1 and yellow2.
 #' @param lab_size Size for the labels naming the significant pressures. The default is 6.
+#' @param title_size Size for the title naming the indicator. The default is 8.
 #'
 #' @details
 #' The overall performance of each tested IND is illustrated using a spie chart,
@@ -64,7 +65,7 @@
 #' # To modify the plot
 #' p <- plot_spiechart(summary_tbl, col_crit8_11 = c("black",
 #'   "thistle4"), col_press_type = RColorBrewer::brewer.pal(3,
-#'   name = "Accent"), lab_size = 10)
+#'   name = "Accent"), lab_size = 4, title_size = 4)
 #' gridExtra::grid.arrange(grobs = p)
 #'
 #' # Remove pressure-independent criteria for the plot (e.g.
@@ -81,9 +82,10 @@
 #'   ! names(summary_tbl[[1]]) %in% c("C9", "C9_in%")]
 #' p <- plot_spiechart(summary_tbl)
 #' gridExtra::grid.arrange(grobs = p)
+#'
 #' }
 plot_spiechart <- function(summary_tbl, col_press_type = NULL,
-  col_crit8_11 = NULL, lab_size = 6) {
+  col_crit8_11 = NULL, lab_size = 6, title_size = 8) {
 
   # Data input validation -----------------------
 	 if (missing(summary_tbl)) {
@@ -110,12 +112,18 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
     any(grepl("C10_in%",
     	names(summary_tbl[[1]])) == TRUE))
 
+  # Order pressure-specific summary by ind, press_type and then press
+  summary_tbl[[2]] <- summary_tbl[[2]] %>%
+  	 dplyr::arrange_("ind", "press_type", "press")
+
   # Split summary_tbl by indicators
   split_input <- purrr::map(summary_tbl[[1]]$ind,
     ~summary_tbl[[2]][summary_tbl[[2]]$ind == ., ])
 
   # Get all press_types
-  press_type <- unique(summary_tbl[[2]]$press_type)[!is.na(unique(summary_tbl[[2]]$press_type))]
+  press_type <- unique(
+  	summary_tbl[[2]]$press_type)[!is.na(unique(summary_tbl[[2]]$press_type))] %>%
+  	sort()
 
   # Get categories and subcategories for scaling
   cat <- data.frame(press_type = press_type, n = 0,
@@ -184,12 +192,13 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
       axis.text.y = ggplot2::element_blank(),
   	 	 axis.text.x = ggplot2::element_blank())
 
-  p <- suppressWarnings(purrr::map2(
+  p <- purrr::map2(
     split_input, summary_tbl[[1]]$ind,
   	 ~plot_spie(.x, scale, parting, cat,
       summary_tbl[[1]], ground, n_c8_c11,
       n_c9_c10, col_crit8_11, x_ring1,
-      theme_infog, ind = .y, lab_size = lab_size)))
+      theme_infog, ind = .y, lab_size = lab_size,
+  	 	title_size = title_size))
 
   # Give sublists names
   names(p) <- summary_tbl$overview$ind
