@@ -141,10 +141,11 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
     return(resid)
   }
+  calc_resid_safe <- purrr::possibly(calc_resid, otherwise = NA)
 
   dat$resid <- purrr::pmap(.l = list(x = dat$press_train,
     y = dat$ind_train, model = dat$model, dfF = dat$dfF),
-    .f = calc_resid)
+    .f = calc_resid_safe)
 
   # Create list of correlation parameter for
   # arima.sim function (when creating bootstrapped
@@ -184,13 +185,14 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
     return(arma_list)
   }
-  dat$arma_list <- purrr::map(.x = dat$model,
-    .f = get_arma_list, cor_params = cor_params)
+  get_arma_list_safe <- purrr::possibly(get_arma_list, otherwise = NA)
 
+  dat$arma_list <- purrr::map(.x = dat$model,
+    .f = get_arma_list_safe, cor_params = cor_params)
 
   # Actual conditional bootstrap per id -----------------
 
-  # Helper function that generates y_boot,
+  # Helper functions that generate y_boot,
   # refits models, calculates preds and derivs,
   # averages across bootstraps, including ci's
 
@@ -310,7 +312,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     return(boot_tbl)
   }
 
-  apply_boot_safe <- purrr::safely(apply_boot)
+  apply_boot_safe <- purrr::safely(apply_boot, otherwise = NA)
 
   # -------
 
@@ -377,25 +379,24 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   alp <- (1 - ci)/2
 
   dat$pred <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$boot_pred,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
       fun = mean))
   dat$pred_ci_up <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$boot_pred,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
       fun = calc_ci, z = 1 - alp, n = n_boot))
   dat$pred_ci_low <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$boot_pred,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
       fun = calc_ci, z = alp, n = n_boot))
 
   dat$deriv1 <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$deriv1,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
       fun = mean))
   dat$deriv1_ci_up <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$deriv1,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
       fun = calc_ci, z = 1 - alp, n = n_boot))
   dat$deriv1_ci_low <- purrr::map(1:length(dat$boot_tbl),
-    ~calc_value(input_list = dat$boot_tbl[[.]]$deriv1,
+    ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
       fun = calc_ci, z = alp, n = n_boot))
-
 
 
   # ------------------------------
@@ -407,6 +408,18 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   	 "time_test", "train_na", "delta", "xp", "xm", "dfF",
   	 "values", "resid", "arma_list", "boot_tbl")]
   out <- dat %>% dplyr::select_(.dots = incl_var)
+
+
+   # Warning if some models were not fitted
+	  if (any(!purrr::map_lgl(boot_per_id_t$error, .f = is.null))) {
+	  	 sel <- !purrr::map_lgl(boot_per_id_t$error, .f = is.null)
+				 miss_mod <- out[sel, 1:4]
+				 miss_mod$error_message <- purrr::map(boot_per_id_t$error, .f = as.character) %>%
+				 	 purrr::flatten_chr()
+				 message("For the following IND~pressure GAMs bootstrapping fitting procedure failed:")
+	  	 print(miss_mod)
+	  }
+
 
   ### END OF FUNCTION
   return(out)
@@ -429,10 +442,13 @@ check_n_boot <- function(n_boot, ci) {
 }
 
  # To apply function like mean to lists
-  calc_value <- function(input_list, fun, ...) {
-    result <- do.call(cbind, input_list) %>% apply(.,
-      MARGIN = 1, FUN = fun, ...)
+  calc_value <- function(input_list, var, fun, ...) {
+  	if (is.na(input_list)) {
+  		 result <- NA
+  	} else {
+  		 x <- input_list %>% purrr::flatten_dfr() %>% .[[var]]
+     result <- do.call(cbind, x) %>% apply(.,
+       MARGIN = 1, FUN = fun,...)
+  	}
     return(result)
   }
-
-
