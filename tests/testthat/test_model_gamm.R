@@ -13,8 +13,8 @@ press <- ind_init_ex$press_train[[test_id]]
 p_test <- ind_init_ex$press_test[[test_id]]
 time <- ind_init_ex$time_train[[test_id]]
 test_dat <- data.frame(ind = ind, press = press, time = time)
-test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
-  control = lmc)
+test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5))#,
+  #control = lmc)
 
 test_ar1 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
   correlation = nlme::corARMA(value = 0.3, form = ~time,
@@ -85,7 +85,7 @@ test_that("compare manual results", {
   expect_true(all(dat$ind == "Cod"))
   expect_true(all(dat$press == "Tsum"))
   expect_message(model_gamm(ind_init_ex[44, ]),
-    "Warning: The following models can not be fitted via gamm")
+    "Warning: The following gamm models cannot be fitte")
 })
 
 # Test outlier

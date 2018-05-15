@@ -27,20 +27,22 @@ ind_tbl2 <- ind_ex[, 2:3]
 ind_tbl2$TZA <- as.factor(ind_tbl2$TZA)
 press_tbl2 <- press_ex[, 2:3]
 press_tbl2$Tsum <- as.factor(press_tbl2$Tsum)
+press_tbl3 <- press_ex[, 2:3]
+press_tbl3$Tsum[27:30] <- NA
 
 test_that("check error messages", {
 		expect_error(ind_init(press_tbl = press_tbl, time = time_vec),
 			 "Argument 'ind_tbl' is missing")
 		expect_error(ind_init(ind_tbl = ind_tbl, time = time_vec),
 			 "Argument 'press_tbl' is missing")
-				expect_error(ind_init(ind = ind_tbl, press = press_tbl),
+		expect_error(ind_init(ind = ind_tbl, press = press_tbl),
 			 "Argument 'time' is missing")
-	expect_error(ind_init(ind_tbl, press_tbl, time = ind_tbl),
+	 expect_error(ind_init(ind_tbl, press_tbl, time = ind_tbl),
 			 "'time' has to be a VECTOR!")
 		expect_error(ind_init(ind_tbl, press_tbl, time = as.factor(time_vec)),
 			 "not a factor!")
 		expect_error(ind_init(ind_tbl, press_tbl, time = as.character(time_vec)),
-			 "'time' has to be a NUMERIC vector!")
+			 "'time' has to be an INTEGER vector!")
 		expect_error(ind_init(ind_tbl2, press_tbl, time_vec),
 			 "have to be NUMERIC!")
 		expect_error(ind_init(ind_tbl, press_tbl2, time_vec),
@@ -55,6 +57,7 @@ test_that("check error messages", {
 		 	"The time steps in 'time'")
 		expect_error(ind_init(ind_tbl, press_tbl, time_vec, train = 1.5),
 		 	"The train argument has to be")
+		expect_message(ind_init(ind_tbl, press_tbl3, time_vec))
 })
 
 

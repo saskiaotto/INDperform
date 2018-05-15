@@ -41,7 +41,7 @@ test_that("test error messages", {
 	 expect_error(statespace_ed(x = as.list(ind_ex), time = ind_ex$Year),
 	 	"'x' cannot be a list")
 	expect_error(statespace_ed(x = ind_ex[ ,-1], time = as.character(ind_ex$Year)),
-	 	"'time' has to be a NUMERIC vector")
+	 	"'time' has to be an INTEGER vector")
 	expect_error(statespace_ed(x = ind_ex[ ,-1], time = as.data.frame(ind_ex$Year)),
 	 	"'time' has to be a VECTOR")
 	expect_error(statespace_ed(x = ind_ex[, c(2, 3, 4, 8, 10,

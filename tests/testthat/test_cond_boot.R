@@ -11,17 +11,22 @@ test_that("test check_n_boot", {
     ci = 1.5))))
 })
 
-a <- ind_init_ex
-test_list <- a$press_train[1:3]
-test <- mean(c(a$press_train[[1]][1], a$press_train[[2]][1],
-  a$press_train[[3]][1]))
-names(test) <- as.character(a$time_train[[1]][1])
+test_list <- list(ind_init_ex)
+
+set.seed(1)
+a <- tibble::tibble(
+	id=1:3,
+	test_list = list(x1 = rnorm(20), x2 = rnorm(20), x3 = rnorm(20))
+	) %>% list()
+
+test <- apply(cbind(a[[1]]$test_list[[1]], a[[1]]$test_list[[2]],
+  a[[1]]$test_list[[3]]), 1, mean)
 
 test_that("test calc_value", {
-  expect_true(is.numeric(calc_value(test_list, mean)))
-  expect_true(length(calc_value(test_list, mean)) ==
-    length(test_list[[1]]))
-  expect_equal(calc_value(test_list, mean)[1], test)
+  expect_true(is.numeric(calc_value(a, "test_list", mean)))
+  expect_true(length(calc_value(a, "test_list", mean)) ==
+    length(a[[1]]$test_list[[1]]))
+  expect_equal(calc_value(a, "test_list", mean), test)
 })
 
 

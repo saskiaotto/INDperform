@@ -53,9 +53,9 @@ test_that("test error messages", {
 	 expect_error(statespace_ch(as.data.frame(x), y, time,
 	 	period_ref, period_current), "'x' has to be a VECTOR!")
   expect_error(statespace_ch(x, as.character(y), time,
-	 	period_ref, period_current), "'y' has to be a NUMERIC vector!")
+	 	period_ref, period_current), "'y' has to be an INTEGER vector!")
   expect_error(statespace_ch(x, y, as.character(time),
-	 	period_ref, period_current), "'time' has to be a NUMERIC vector!")
+	 	period_ref, period_current), "'time' has to be an INTEGER vector!")
   expect_error(statespace_ch(x, y, time, period_current))
   expect_error(statespace_ch(x, y, period_ref, period_current))
 
