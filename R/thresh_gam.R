@@ -76,6 +76,9 @@ thresh_gam <- function(model, ind_vec, press_vec, t_var, name_t_var, k, a, b) {
 		t_val <- seq(from = lower, to = upper, by = (upper - lower) / nthd)
 		#family and link
 		family <- mgcv::summary.gam(model)$family[[1]]
+		if (stringr::str_detect(family, "Negative Binomial")) {
+			family <- "nb"
+		}
 		link <- mgcv::summary.gam(model)$family[[2]]
 
 		thresh_gams <- compare_thresholds(t_val, t_var)
