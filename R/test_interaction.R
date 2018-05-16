@@ -332,11 +332,13 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
         ind_vec = y[[i]], press_vec = x1[[i]],
         t_var = x2[[i]], name_t_var = name_x2[[i]],
         k = k, a = a, b = b)
+
       # Get the NA vector considering NAs now in ind,
       # press and the t_var
       temp <- final_tab$thresh_models[[i]]$original_data
       train_na <- data.frame(time = as.integer(rownames(temp)),
         na = as.logical(rowSums(is.na(temp))))
+
       # If time has missing values due to the random
       # extraction of test observations
       time_full <- data.frame(time = seq(min(train_na$time),
@@ -346,12 +348,14 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       train_na_full$na[is.na(train_na_full$na)] <- TRUE
       final_tab$train.na[[i]] <- train_na_full$na
       names(final_tab$train.na[[i]]) <- train_na_full$time
+
       # Calculate residuals and tac
       res <- mgcv::residuals.gam(final_tab$thresh_models[[i]],
         type = "deviance")
       res_full <- rep(NA, length(final_tab$train.na[[i]]))
       res_full[!final_tab$train.na[[i]]] <- res  #12,15,18,20,
       final_tab$tac_in_thresh[[i]] <- test_tac(list(res_full))$tac
+
       # Store NA vector in model for plot_diagnostics
       final_tab$thresh_models[[i]]$train_na <- final_tab$train.na[[i]]
       # Save name of threshold variable
