@@ -42,7 +42,7 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   # Internal check:
   if (!all(purrr::map2_lgl(.x = data_train, .y = data_test,
     ~all(c(.x$time, .y$time) %in% time)))) {
-    stop("Data splitting with exlusion of 1 obs did not work!")
+    stop("Data splitting with exclusion of 1 obs did not work!")
   }
 
   # Create model lists and result tibble
@@ -59,6 +59,9 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
 
   # Capture family and link from the input
   family <- mgcv::summary.gam(model)$family[[1]]
+  if (stringr::str_detect(family, "Negative Binomial")) {
+  	family <- "nb"
+  }
   link <- mgcv::summary.gam(model)$family[[2]]
 
   # Model fitting ------------------------------
@@ -79,8 +82,6 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       t_var = t_var)
     formula_gam <- paste0("ind ~ 1 + s(press, k = ",
       k, ") + s(t_var, k = ", k, ")")
-    family_gam <- mgcv::summary.gam(model)$family[[1]]
-    link_gam <- mgcv::summary.gam(model)$family[[2]]
     gam <- mgcv::gam(formula = stats::as.formula(formula_gam),
       data = dat, family = paste0(family, "(link = ",
         link, ")"))
