@@ -23,7 +23,8 @@ sort_output_tbl <- function(mod_tbl) {
 			"signif_code", "r_sq", "expl_dev", "nrmse",
 			"ks_test", "tac", "pres_outlier", "excl_outlier",
 			"model", "prop", "zero_in_conf", "zic_start_end",
-			"press_seq", "pred", "pred_ci_up", "pred_ci_low",
+			"adj_n_boot", "boot_error", "press_seq", "pred",
+			"pred_ci_up", "pred_ci_low",
 			"deriv1", "deriv1_ci_up", "deriv1_ci_low",
 			"excl_outlier_boot", "interaction", "thresh_var",
 			"thresh_models", "tac_in_thresh")
