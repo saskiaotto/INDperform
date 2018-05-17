@@ -37,7 +37,7 @@
 #'  similar to lapply and adds further a progress bar.
 #'
 #' @return
-#' The function returns the input model tibble with the following 7 columns added
+#' The function returns the input model tibble with the following 9 columns added
 #' \describe{
 #'   \item{\code{press_seq}}{A list-column with sequences of evenly spaced pressure
 #'              values (with the length of the time series).}
@@ -53,6 +53,8 @@
 #'              bootstrapped first derivatives.}
 #'   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
 #'              bootstrapped first derivatives.}
+#'   \item{\code{boot_error}}{HIER TEXT REIN A list-column}
+#'   \item{\code{adj_n_boot}}{HIER TEXT REIN A vector}
 #'  }
 #'
 #' @seealso the wrapper function \code{\link{calc_deriv}}
@@ -121,10 +123,13 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   # with fixed k! With GAMMs it does not work and
   # the original model is used)
   calc_resid <- function(x, y, model, dfF) {
-    dat <- data.frame(x = x, y = y)
+  	dat <- data.frame(x = x, y = y)
     if (class(model)[1] == "gam") {
       k <- dfF + 1
       family <- mgcv::summary.gam(model)$family[[1]]
+      if (stringr::str_detect(family, "Negative Binomial")) {
+      	 family <- "nb"
+      }
       link <- mgcv::summary.gam(model)$family[[2]]
       fit <- mgcv::gam(stats::as.formula(paste0("y ~ s(x, k = ",
         k, ", fx = TRUE)")), family = paste0(family,
@@ -190,6 +195,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   dat$arma_list <- purrr::map(.x = dat$model,
     .f = get_arma_list_safe, cor_params = cor_params)
 
+
   # Actual conditional bootstrap per id -----------------
 
   # Helper functions that generate y_boot,
@@ -213,37 +219,45 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     return(out)
   }
 
-  boot_fit <- function(y_boot, x, t, model, dfF,
+  boot_fit <- function(y_boot, pr, t, model, dfF,
     v) {
-    dat <- data.frame(x = x, y_boot = y_boot, t = t)
+    dat <- data.frame(pr = pr, y_boot = y_boot, t = t)
     if (class(model)[1] == "gam") {
       k <- dfF + 1
       family <- mgcv::summary.gam(model)$family[[1]]
+      if (stringr::str_detect(family, "Negative Binomial")) {
+      	 family <- "nb"
+      }
       link <- mgcv::summary.gam(model)$family[[2]]
-      fit <- mgcv::gam(
-      	 stats::as.formula(paste0("y_boot ~ s(x, k = ",
+      dat$y_boot <- mod_y_boot(x = dat$y_boot, family = family)
+      fit <- suppressWarnings(mgcv::gam(
+      	 stats::as.formula(paste0("y_boot ~ s(pr, k = ",
         k, ", fx = TRUE)")), family = paste0(family,
-        "(link = ", link, ")"), data = dat)
+        "(link = ", link, ")"), data = dat))
     } else {
       lmc <- nlme::lmeControl(niterEM = 5000,
         msMaxIter = 1000)
       k <- dfF + 1
       family <- mgcv::summary.gam(model$gam)$family[[1]]
+      if (stringr::str_detect(family, "Negative Binomial")) {
+      	 family <- "nb"
+      }
       link <- mgcv::summary.gam(model$gam)$family[[2]]
+      dat$y_boot <- mod_y_boot(x = dat$y_boot, family = family)
       pass_p <- attr(model$lme$modelStruct$corStruct,
         "p")
       pass_q <- attr(model$lme$modelStruct$corStruct,
         "q")
-      fit <- mgcv::gamm(
-      	 formula = stats::as.formula(paste0("y_boot ~ s(x, k = ",
+      fit <- suppressWarnings(mgcv::gamm(
+      	 formula = stats::as.formula(paste0("y_boot ~ s(pr, k = ",
         k, ")")), family = paste0(family, "(link = ",
         link, ")"), correlation = nlme::corARMA(value = v,
         form = stats::as.formula("~t"), p = pass_p,
-        q = pass_q), data = dat, control = lmc)
+        q = pass_q), data = dat, control = lmc))
     }
     return(fit)
   }
-  boot_fit_safe <- purrr::safely(boot_fit)
+  boot_fit_safe <- purrr::safely(boot_fit, otherwise = NA)
 
 
   # Wrapper function where above helper functions are
@@ -264,17 +278,21 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
 
     boot_fit_l <- purrr::map(.x = boot_tbl$y_boot,
-      .f = boot_fit_safe, x = x$press_train[[1]],
+      .f = boot_fit_safe, pr = x$press_train[[1]],
       t = x$time_train[[1]], model = x$model[[1]],
-      dfF = x$dfF[[1]], v = x$values[[1]])
-    boot_tbl$boot_fit <- boot_fit_l %>% purrr::transpose() %>%
-      .$result
+      dfF = x$dfF[[1]], v = x$values[[1]]) %>%
+    	 purrr::transpose()
+    boot_tbl$boot_fit <- boot_fit_l %>% .$result
+    boot_tbl$boot_each_error <- boot_fit_l %>% .$error
+
 
     # Here comes a loop to repeat the bootstrapping for
     # those cases where errors occurred (to get full
-    # n_bt)
+    # n_bt) -> but to avoid infinity loop set max to
+    # 400 iterations
     for (i in seq_along(boot_tbl$boot_id)) {
-      if (is.null(boot_tbl$boot_fit[[i]])) {
+      if (is.na(boot_tbl$boot_fit[i])) {
+      	 m = 1
         repeat {
           temp_y_boot <- boot_y(y = x$ind_train[[1]],
           resid = x$resid[[1]], model = x$model[[1]],
@@ -284,7 +302,8 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
           x = x$press_train[[1]], t = x$time_train[[1]],
           model = x$model[[1]], dfF = x$dfF[[1]],
           v = x$values[[1]])
-          if (!is.null(temp_boot_fit$result)) {
+          m = m + 1
+          if (!is.na(temp_boot_fit$result) | m == 401) {
           break
           }
         }
@@ -320,8 +339,9 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   boot_per_id <- vector(mode = "list", length = length(dat$id))
 
   if (par_comp == FALSE) {
-    if (!is.null(seed))
-      set.seed(seed)
+    if (!is.null(seed)) {
+    	 set.seed(seed)
+    }
     # Apply the function in a loop now with progress
     # bar (most time consuming step)
     pb <- dplyr::progress_estimated(length(dat$id))
@@ -334,17 +354,17 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     # Stop progress bar
     pb$stop()
 
-  } else {
-    # parallel computing
+  } else {  # parallel computing
 
     op <- pbapply::pboptions(type = "timer", char = "=")
     dat_list <- split(dat, dat$id)
     names(dat_list) <- NULL
-    if (is.null(no_clust))
-      no_clust <- parallel::detectCores() - 1
+    if (is.null(no_clust)) {
+    	no_clust <- parallel::detectCores() - 1
+    }
     cl <- parallel::makeCluster(no_clust, type = "PSOCK")
     parallel::clusterExport(cl, c("boot_y", "boot_fit",
-      "boot_fit_safe"), envir = environment())
+      "mod_y_boot", "boot_fit_safe"), envir = environment())
 
     if (!is.null(seed)) {
       parallel::clusterEvalQ(cl, {
@@ -364,39 +384,42 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     parallel::stopCluster(cl)
     pbapply::pboptions(op)
 
-  }
+ }
 
   # Group result and error sublists together
-  # boot_per_id_l <- unsplit(result, dat$id)
   boot_per_id_t <- boot_per_id %>% purrr::transpose()
   dat$boot_tbl <- boot_per_id_t$result
+  dat$boot_error <- purrr::map(boot_per_id_t$result,	~.x$boot_each_error)
 
-  # Calculate means and ci
-  calc_ci <- function(x, z, n) {
-    result <- sort(x)[n * z]
-    return(result)
-  }
+  # Check if number of successfull boots is acceptable
+  n_succ <- purrr::map_dbl(dat$boot_tbl, ~ sum(!is.na(.x$boot_fit)))
+  dat$adj_n_boot <- purrr::map_dbl(n_succ, .f = adj_n_boot)
+  dat$boot_tbl <- purrr::map2(.x = dat$boot_tbl, .y = dat$adj_n_boot,
+  	.f = sample_boot)
+
+
+  # Calculate means and ci's for predicted and derivative values
   alp <- (1 - ci)/2
 
   dat$pred <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
-      fun = mean))
+      fun = mean, na.rm = TRUE))
   dat$pred_ci_up <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
-      fun = calc_ci, z = 1 - alp, n = n_boot))
+      fun = calc_ci, z = 1 - alp, n = dat$adj_n_boot[.]))
   dat$pred_ci_low <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "boot_pred",
-      fun = calc_ci, z = alp, n = n_boot))
+      fun = calc_ci, z = alp, n = dat$adj_n_boot[.]))
 
   dat$deriv1 <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
       fun = mean))
   dat$deriv1_ci_up <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
-      fun = calc_ci, z = 1 - alp, n = n_boot))
+      fun = calc_ci, z = 1 - alp, n = dat$adj_n_boot[.]))
   dat$deriv1_ci_low <- purrr::map(1:length(dat$boot_tbl),
     ~calc_value(input_list = dat$boot_tbl[.], var = "deriv1",
-      fun = calc_ci, z = alp, n = n_boot))
+      fun = calc_ci, z = alp, n = dat$adj_n_boot[.]))
 
 
   # ------------------------------
@@ -411,15 +434,15 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
 
    # Warning if some models were not fitted
-	  if (any(!purrr::map_lgl(boot_per_id_t$error, .f = is.null))) {
-	  	 sel <- !purrr::map_lgl(boot_per_id_t$error, .f = is.null)
-				 miss_mod <- out[sel, 1:4]
-				 miss_mod$error_message <- purrr::map(boot_per_id_t$error, .f = as.character) %>%
-				 	 purrr::flatten_chr()
-				 message("For the following IND~pressure GAMs bootstrapping fitting procedure failed:")
+	  if (any(is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot)) {
+					sel <- is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot
+					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but 'prop' included in calc_deriv
+				 message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
+				 	"failed completely ('adj_n_boot' = NA) or partly so that the number of bootstraps ",
+						"had to be reduced. See 'boot_error' in the output tibble for the error message of ",
+						"each iteration. Try for these models the alternative 'approx_deriv' method:"))
 	  	 print(miss_mod)
 	  }
-
 
   ### END OF FUNCTION
   return(out)
@@ -441,14 +464,72 @@ check_n_boot <- function(n_boot, ci) {
   return(n_boot)
 }
 
- # To apply function like mean to lists
-  calc_value <- function(input_list, var, fun, ...) {
-  	if (is.na(input_list)) {
-  		 result <- NA
-  	} else {
-  		 x <- input_list %>% purrr::flatten_dfr() %>% .[[var]]
-     result <- do.call(cbind, x) %>% apply(.,
-       MARGIN = 1, FUN = fun,...)
-  	}
-    return(result)
-  }
+# Function to modify y_boot according to the family
+# (predicted values and residuals always double format,
+# which causes y_boot to be not in required integer or binary format)
+mod_y_boot <- function(x, family) {
+	if (family %in% c("poisson", "quasipoisson", "nb")) {
+		out <- ceiling(x)
+		out[out<0] <- 0
+		out <- as.integer(out)
+	} else {
+		if (family %in% c("binomial")) {
+			out <- rep(0, length(x))
+			out[x >= 0.5] <- 1
+		} else {
+			out <- x
+		}
+	}
+	return(out)
+}
+
+
+# Re-adjust the number of bootstrap iterations depending on
+# the number of successfull model fits
+# (if x is less than the min. required NA returned)
+adj_n_boot <- function(x) {
+		n_boot_seq <- seq(40, 120000, 40)
+		y <- n_boot_seq[n_boot_seq <= x]
+		if (length(y) == 0) y <- NA
+		n_req <- max(y)
+		return(n_req)
+}
+
+# Sample from the successfull bootstrap iterations based on
+# the adjusted n_boot for calculating mean/ci of pred/derivs
+sample_boot <- function(x, y) {
+	# x: the boot_tbl to sample from
+	# y: number of required iterations
+	x$considered <- rep(FALSE, length(x$boot_fit))
+	if (!is.na(y)) {
+		 fit_succ <- which(!purrr::map_lgl(1:length(x$boot_fit),
+		 ~ is.na(x$boot_fit[.])))
+		 fit_sample <- sample(fit_succ, y)
+	  x$considered[fit_sample] <- TRUE
+	}
+	return(x)
+}
+
+# Calculate means and ci
+calc_ci <- function(x, z, n) {
+	result <- sort(x)[n * z]
+	return(result)
+}
+
+# To apply function like mean to lists
+calc_value <- function(input_list, var, fun, ...) {
+	if (is.na(input_list)) {
+		result <- NA
+	} else {
+		sel <- input_list %>% purrr::flatten_dfr() %>% .$considered
+		if (sum(sel) == 0) {
+			result <- NA
+		} else {
+			x <- input_list %>% purrr::flatten_dfr() %>% .[[var]]
+			x <- x[sel]
+			result <- do.call(cbind, x) %>% apply(.,
+				MARGIN = 1, FUN = fun, ...)
+		}
+	}
+	return(result)
+}
