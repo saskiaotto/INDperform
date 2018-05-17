@@ -103,13 +103,18 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 		}
 
   # Check that excl_outlier list has the correct length
-  # (i.e. 6 times the id: 1 for each GAMM)
+  # (i.e. 6 times the filtered id: 1 for each GAMM)
   if (!is.null(excl_outlier)) {
-    if (length(excl_outlier) != 6 * nrow(init_tbl)) {
+	  	if (!is.null(filter)) {
+	  		  n_id <- nrow(init_tbl[filter, ])
+	  	} else {
+	  		 n_id <- nrow(init_tbl)
+	  	}
+    if (length(excl_outlier) != 6 * n_id) {
       stop(paste0("The list of outliers to exclude in each GAMM",
         " has not the correct length.", " It should be a sixfold (6 GAMMs are computed) of all ids,",
         " so the required length is: ", 6 *
-          nrow(init_tbl)))
+          n_id))
     }
   }
 
