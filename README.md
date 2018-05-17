@@ -28,9 +28,9 @@ devtools::install_github("saskiaotto/INDperform")
 Usage
 -----
 
-INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2017) (see also the package's cheat sheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
+INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2018) (see also the package's cheat sheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
 
-This is a suggested workflow deomstrated on the example data included in the package:
+This is a suggested workflow demonstrated on the example data included in the package:
 
 ``` r
 library(INDperform)
@@ -44,7 +44,7 @@ crit_scores_tmpl
 
 # Trend modelling -------------
 
-m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
+m_trend <- model_trend(ind_tbl = ind_ex[ ,1],
   time = ind_ex$Year)
 # Model diagnostics
 pd <- plot_diagnostics(model_list = m_trend$model)
@@ -56,40 +56,56 @@ pt$TZA # shows trend of TZA indicator
 
 # Indicator response modelling ------------
 
-# Initialize data (combining IND with pressures)
+### Initialize data (combining IND with pressures)
 dat_init <- ind_init(ind_tbl = ind_ex[ ,-1],
   press_tbl = press_ex[ ,-1], time = ind_ex$Year)
 
-# Model responses
+### Model responses
 m_gam <- model_gam(init_tbl = dat_init)
+
 # Model diagnostics (e.g. first model)
 plot_diagnostics(model_list = m_gam$model[[1]])$all_plots[[1]]
+# Any outlier? 
+m_gam$pres_outlier
+# - get number of models with outliers detected
+purrr::map_lgl(m_gam$pres_outlier, ~!is.null(.)) %>% sum() 
+# - which models and what observations?
+m_gam %>%
+    dplyr::select(id, ind, press, pres_outlier) %>%
+    dplyr::filter(!purrr::map_lgl(m_gam$pres_outlier, .f = is.null)) %>%
+    tidyr::unnest(pres_outlier)
+# Exclude outlier in models
+m_gam <- model_gam(init_tbl = dat_init, excl_outlier = m_gam$pres_outlier)
+
 # If temporal autocorrelation present
 m_gamm <- model_gamm(init_tbl = dat_init,
   filter = m_gam$tac)
+# Again, any outlier?
+purrr::map_lgl(m_gamm$pres_outlier, ~!is.null(.)) %>% sum() 
+
 # Select best GAMM from different correlation structures
 # (based on AIC)
 best_gamm <- select_model(gam_tbl = m_gam,
   gamm_tbl = m_gamm)
 plot_diagnostics(model_list = best_gamm$model[[1]])$all_plots[[1]]
 # Merge GAM and GAMMs
-m_press <- merge_models(m_gam[m_gam$tac == FALSE, ], best_gamm)
+m_merged <- merge_models(m_gam[m_gam$tac == FALSE, ], best_gamm)
 
 # Calculate derivatives
-m_press <- calc_deriv(init_tbl = dat_init,
-  mod_tbl = m_press)
+m_calc <- calc_deriv(init_tbl = dat_init,
+  mod_tbl = m_merged)
 
 # Test for pressure interactions
-it <- select_interaction(mod_tbl = m_press)
+it <- select_interaction(mod_tbl = m_calc)
 # (creates combinations to test for)
-m_press <- test_interaction(init_tbl = dat_init, mod_tbl = m_press,
+m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
      interactions = it)
 
 
 # Scoring based on model output ------------
-scores <- scoring(trend_tbl = m_trend, mod_tbl = m_press, press_type)
+scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, press_type = press_type_ex)
 # Runs a shiny app to modify the score for the subcriterion 10.1:
-scores <- expect_resp(scores)
+scores <- expect_resp(mod_tbl = m_all, scores_tbl = scores)
 sum_sc <- summary_sc(scores)
 spie <- plot_spiechart(sum_sc)
 spie$TZA # shows the spiechart of the indicator TZA
@@ -107,7 +123,7 @@ Each IND is modelled as a function of time or a single pressure variable using G
 -   `model_gamm()` accounts for temporal autocorrelation in the time series by including correlation structures in the model (using Generalized Additive Mixed Models (GAMMs): AR1, AR2, ARMA1.1, ARMA2.1, ARMA1.2.
 -   `select_model()` selects for each IND~pressure the best correlation structure computed with `model_gamm()` based on the Akaike Information Criterion.
 -   `merge_models()` merges any 2 model output tibbles.
--   `calc_deriv()` calculates for non-linear responses the 1st derivative of the smoothing function and the proportion of pressure range in which the IND shows a response. Output is input tibble with few additional variables, incl. mean and confidence interval of smoothing function and derivatives from boostrapped GAMs.
+-   `calc_deriv()` calculates for non-linear responses the 1st derivative of the smoothing function and the proportion of pressure range in which the IND shows a response. Output is input tibble with few additional variables, incl. mean and confidence interval of smoothing function and derivatives from bootstrapped GAMs.
 -   `test_interaction()` tests for each significant GAM(M) whether a selection of pressure variables modifies the IND response to the original pressure using a threshold-GAM formulation. Output is input tibble with few additional variables.
 
 To show the model diagnostics or complete model results
@@ -123,7 +139,7 @@ To show the model diagnostics or complete model results
 -   `plot_trend()` creates a list of ggplot2 objects with all IND trends from the input tibble.
 -   `plot_model()` creates a tibble with 4 individual plots (ggplot2 objects) and one combined plot (cowplot object):
     -   `$response_plot` shows the observed and predicted IND response to the single pressure (based on the training data).
-    -   `$predict_plot` shows the test (and train) observations predicted from the model. Included is the normalised root mean square error (NRMSE) for the test data as a measure of model robustness.
+    -   `$predict_plot` shows the test (and train) observations predicted from the model. Included is the normalized root mean square error (NRMSE) for the test data as a measure of model robustness.
     -   `$deriv_plot` shows the first derivative of non-linear IND~pressure response curves and the proportion of the pressure range where the IND shows no further significant change (i.e., slope approximates zero).
     -   `$thresh_plot` shows the IND response curve under a low and high regime of an interacting 2nd pressure variable.
     -   `$all_plots` shows all plots together.
