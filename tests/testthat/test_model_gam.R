@@ -138,5 +138,5 @@ test_that("error messages", {
 	 expect_error(model_gam(dat4))
 	 # fitting procedure failed
 	 expect_error(model_gam(dat, family = binomial()), "No IND~pressure GAM could be fitted")
-	 expect_message(model_gam(dat5), "For the following")
+	 expect_message(model_gam(dat5), "NOTE: For the following")
 })

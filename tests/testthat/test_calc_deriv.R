@@ -46,7 +46,7 @@ dat <- calc_deriv(a, b, n_boot = 40)
 test_that("output tibble", {
   expect_s3_class(dat, "tbl_df")
   # test columns
-  expect_equal(ncol(dat), 27)
+  expect_equal(ncol(dat), 29)
   expect_true(all(names(b) %in% names(dat)))
   # test rows
   expect_true(all(b$id %in% dat$id))
@@ -172,9 +172,6 @@ test_init <- ind_init(data.frame(y_bin = y_bin, y_pois = y_pois), x, time = 1970
 test_mod1 <- model_gam(test_init[1,], family = binomial())
 test_mod1$edf <- 1.6
 test_mod1$model[[1]]$family$family <- "poisson"
-
-test1 <- calc_deriv(test_init[1,], test_mod1, p_val = 0.9, n_boot = 40)
-
 
 test_that("check message", {
   expect_message(calc_deriv(test_init[1,], test_mod1, p_val = 0.9, n_boot = 40))

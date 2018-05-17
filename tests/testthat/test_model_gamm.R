@@ -78,14 +78,14 @@ test_that("compare manual results", {
   expect_equal(nrmse, dat$nrmse)
   expect_is(nrmse[1], "numeric")
   expect_equal(ks_test[1], dat$ks_test[1])
-  expect_is(ks_test[1], "numeric")
+  expect_is(ks_test[1], "numeric") # error
   expect_equal(tac, dat$tac)
   expect_false(dat$tac[2])
   expect_true(all(dat$id == test_id))
   expect_true(all(dat$ind == "Cod"))
   expect_true(all(dat$press == "Tsum"))
   expect_message(model_gamm(ind_init_ex[44, ]),
-    "Warning: The following gamm models cannot be fitte")
+    "NOTE: For the following IND~pressure GAMMs")
 })
 
 # Test outlier
@@ -178,6 +178,10 @@ dat2 <- ind_init_ex[1:5, 1:3]
 dat3 <- dat; dat3[1] <- "list"
 dat4 <- as.data.frame(dat)
 dat_filter <- c(TRUE, FALSE, TRUE, FALSE)
+x <- ind_ex[ ,4:5]
+x$test_ind <- NA_real_
+y <- press_ex[ ,2]
+dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
 
 test_ids <- c(63:70)
 gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
@@ -196,5 +200,8 @@ test_that("error messages and filter", {
 		# should NOT provide an error message (filter length correct) and return a tibble
 	 expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,],
 	 	 filter = gam_test$tac)))
+	 # fitting procedure failed
+	 expect_error(model_gam(dat, family = binomial()), "No IND~pressure GAM could be fitted")
+	 expect_message(model_gam(dat5), "For the following")
 })
 
