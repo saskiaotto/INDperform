@@ -99,14 +99,20 @@ set.seed(123)
 vec <- rnbinom(27, size = 5.855, mu = 1/exp(-3))
 data <- ind_init_ex[1, ]
 data$ind_train <- list(vec)
-example <- model_gam(data, family = mgcv::negbin(theta = 5.855,
+example1 <- model_gam(data, family = mgcv::negbin(theta = 5.855,
   link = "sqrt"))
+# mgcv::nb() works only for gam() not gamm()!!!!!
+example2 <- model_gam(data, family = mgcv::nb())
 
 test_that("negative biomial distribution", {
-  expect_true(mgcv::summary.gam(example$model[[1]])$family[[1]] ==
+  expect_true(mgcv::summary.gam(example1$model[[1]])$family[[1]] ==
     "Negative Binomial(5.855)")
-  expect_true(mgcv::summary.gam(example$model[[1]])$family[[2]] ==
+  expect_true(mgcv::summary.gam(example1$model[[1]])$family[[2]] ==
     "sqrt")
+  expect_true(mgcv::summary.gam(example2$model[[1]])$family[[1]] ==
+    "Negative Binomial(4.461)")
+  expect_true(mgcv::summary.gam(example2$model[[1]])$family[[2]] ==
+    "log")
 })
 
 
@@ -118,7 +124,7 @@ dat4 <- as.data.frame(dat)
 x <- ind_ex[ ,4:5]
 x$test_ind <- NA_real_
 y <- press_ex[ ,2]
-dat5 <- ind_init(x, y, time = ind_ex$Year)
+dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
 
 
 test_that("error messages", {

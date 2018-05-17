@@ -138,6 +138,40 @@ test_that("test poisson family", {
 })
 
 
+# Poisson distribution
+set.seed(123)
+vec_train <- rpois(27, 15)
+vec_test <- rpois(3, 15)
+data <- ind_init_ex[1, ]
+data$ind_train <- list(vec_train)
+data$ind_test <- list(vec_test)
+example <- model_gamm(data, family = stats::poisson(link = identity))
+
+test_that("test poisson family", {
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[1]] ==
+    "poisson")
+  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[2]] ==
+    "identity")
+})
+
+# Negative Binomal distribution
+set.seed(123)
+vec_train <- rnbinom(27, size = 5.855, mu = 1/exp(-3))
+vec_test <- rnbinom(3, size = 5.855, mu = 1/exp(-3))
+data <- ind_init_ex[1, ]
+data$ind_train <- list(vec_train)
+data$ind_test <- list(vec_test)
+example1 <- model_gamm(data, family = mgcv::negbin(theta = 5.855,
+  link = "sqrt"))
+
+test_that("negative biomial distribution", {
+  expect_true(mgcv::summary.gam(example1$model[[1]]$gam)$family[[1]] ==
+    "Negative Binomial(5.855)")
+  expect_true(mgcv::summary.gam(example1$model[[1]]$gam)$family[[2]] ==
+    "sqrt")
+})
+
+
 # Test error messages and filter
 dat <- ind_init_ex[1:5, ]
 dat2 <- ind_init_ex[1:5, 1:3]
