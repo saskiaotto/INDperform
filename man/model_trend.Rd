@@ -26,7 +26,10 @@ chosen? Default is FALSE.}
 default is 4.}
 
 \item{family}{A description of the error distribution and link to be used in the GAM.
-This needs to be defined as a family function (see also \code{\link{family}}).}
+This needs to be defined as a family function (see also \code{\link{family}}). All
+standard family functions can be used as well some of the distribution families in
+the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{negbin}}
+or \code{\link[mgcv]{nb}}).}
 }
 \value{
 The function returns a \code{\link[tibble]{tibble}}, which is a trimmed down version of

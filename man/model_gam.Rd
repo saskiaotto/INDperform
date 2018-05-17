@@ -13,7 +13,10 @@ model_gam(init_tbl, k = 5, family = stats::gaussian(),
 \item{k}{Choice of knots (for the smoothing function \code{\link{s}}); the default is 5.}
 
 \item{family}{A description of the error distribution and link to be used in the GAM.
-This needs to be defined as a family function (see also \code{\link{family}}).}
+This needs to be defined as a family function (see also \code{\link{family}}). All
+standard family functions can be used as well some of the distribution families in
+the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{negbin}}
+or \code{\link[mgcv]{nb}}).}
 
 \item{excl_outlier}{A list of values identified as outliers in specific
 IND~pressure GAMs, which should be excluded in this modelling step

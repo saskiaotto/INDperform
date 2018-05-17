@@ -10,7 +10,11 @@
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the
 #'  default is 5.
 #' @param family A description of the error distribution and link to be used in the GAM.
-#'  This needs to be defined as a family function (see also \code{\link{family}}).
+#'  This needs to be defined as a family function (see also \code{\link{family}}). All
+#'  standard family functions can be used as well some of the distribution families in
+#'  the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{negbin}}).
+#'  Note that \code{\link[mgcv]{nb}}, which estimates \code{theta} parameter, cannot be used
+#'  for \code{\link[mgcv]{gamm}}.
 #' @param excl_outlier A list of values identified as outliers in specific
 #'  IND~pressure GAMMs, which should be excluded in this modelling step
 #'  (the output tibble of this function includes the variable
@@ -79,6 +83,7 @@
 #' gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
 model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL, filter = NULL) {
+	# init_tbl = dat_init
 
   # Data input validation ---------------------
 		if (missing(init_tbl)) {
@@ -174,6 +179,28 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   match <- seq(from = 1, to = length(inputs), by = 6)
 
 
+  # self-made GAMM function to capture side-effects (error messages)
+  gamm_ar0_func <- function(x, y, data, family){
+  	form <- stats::as.formula(paste0(y, " ~ s(", x, ", k = ",
+  		k, ")"))
+  	temp_mod <- mgcv::gamm(formula = form, data = data, family = family)
+  	return(temp_mod)
+  }
+  gamm_ar0_func_safe <- purrr::safely(gamm_ar0_func, otherwise = NA)
+
+  gamm_ar_func <- function(x, y, data, family, ar_values, p, q,
+  	control){
+  	form <- stats::as.formula(paste0(y, " ~ s(", x, ", k = ",
+  		k, ")"))
+  	temp_mod <- mgcv::gamm(formula = form, data = data, family = family,
+  		correlation = nlme::corARMA(value = ar_values,
+  			form = stats::as.formula("~time"), p = p, q = q),
+  		control = control)
+  	return(temp_mod)
+  }
+  gamm_ar_func_safe <- purrr::safely(gamm_ar_func, otherwise = NA)
+
+
   # Loop with progress bar -------------------------
   # Initialise progress bar
   pb <- dplyr::progress_estimated(length(inputs))
@@ -183,23 +210,24 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       # Create ar0 GAMMs
       names(inputs[[i]])[1:2] <- dat[i, c("ind",
         "press")]
-      gamms[[i]] <- suppressWarnings(try(mgcv::gamm(formula = stats::as.formula(paste0(names(inputs[[i]])[1],
-        " ~ s(", names(inputs[[i]])[2], ", k = ",
-        k, ")")), data = inputs[[i]], family = family), silent = TRUE))
-      # Save original data as in model_gam
-      gamms[[i]]$gam$train_na <- train_na_rep[[i]]
+      gamms[[i]] <- suppressWarnings(
+      	gamm_ar0_func_safe(x = names(inputs[[i]])[2], y = names(inputs[[i]])[1],
+      		data = inputs[[i]], family = family))
+      # Save original data in model_gam if fitting successfull
+      if (is.null(gamms[[i]]$error)) {
+      	 gamms[[i]]$result$gam$train_na <- train_na_rep[[i]]
+      }
     } else {
     	 # Create GAMMs with corr structure
       names(inputs[[i]])[1:2] <- dat[i, c("ind",
         "press")]
-      gamms[[i]] <- suppressWarnings(try(mgcv::gamm(formula = stats::as.formula(paste0(names(inputs[[i]])[1],
-        " ~ s(", names(inputs[[i]])[2], ", k = ",
-        k, ")")), correlation = nlme::corARMA(value = values[[i]],
-        form = stats::as.formula("~time"),
-        p = pass_p[i], q = pass_q[i]), data = inputs[[i]],
-        family = family, control = lmc), silent = TRUE))
-      try(gamms[[i]]$gam$train_na <- train_na_rep[[i]],
-        silent = TRUE)
+      gamms[[i]] <- suppressWarnings(
+      	gamm_ar_func_safe(x = names(inputs[[i]])[2], y = names(inputs[[i]])[1],
+      		data = inputs[[i]], family = family, ar_values =values[[i]],
+      		p = pass_p[i], q = pass_q[i],control = lmc))
+      if (is.null(gamms[[i]]$error)) {
+      	 gamms[[i]]$result$gam$train_na <- train_na_rep[[i]]
+      }
     }
     # Increment progress bar
     pb$tick()$print()
@@ -207,90 +235,107 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   # Stop progress bar
   pb$stop()
 
-  # Convert to dataframe with list columns and add
-  # input data!
-  gamm_tab <- tibble::tibble(id = temp$id, corrstruc = rep(c("none",
-    "ar1", "ar2", "arma11", "arma12", "arma21"),
-    length.out = length(gamms)), model = gamms) %>%
-    dplyr::left_join(init_tbl[, 1:3], by = "id") %>%
-    dplyr::arrange_(~id)
+  # Transpose gamm list
+  temp_mod <- gamms %>%	purrr::transpose()
 
-  # Report erroneous gamms
-  choose <- purrr::map_chr(gamm_tab$model,
-  	  ~class(.)[1]) != "try-error"
-  no_fit <- gamm_tab[!choose, ]
-  no_fit$model <- NULL
-  if (nrow(no_fit) >= 1) {
-    message("Warning: The following gamm models cannot be fitted:")
-    print(as.data.frame(no_fit))
-  }
+  if (all(is.na(temp_mod$result))) {
+  	stop("No IND~pressure GAMM could be fitted! Check if you chose the correct error distribution (default is 'gaussian()').")
+  } else {
 
-  # Add mmodel_type
-  gamm_tab$model_type <- "gamm"
-  # Rearrange columns
-  gamm_tab <- dplyr::select_(gamm_tab, .dots = c("id", "ind",
-    "press", "model_type", "corrstruc", "model"))
-  # Replace every 'try-error' with NA
-  gamm_tab$model[!choose] <- NA
+  	# Convert to dataframe with list columns and add
+  	# input data!
+  	gamm_tab <- tibble::tibble(id = temp$id,
+  		corrstruc = rep(c("none",
+  			"ar1", "ar2", "arma11", "arma12", "arma21"),
+  			length.out = length(temp_mod$result)),
+  		model = temp_mod$result) %>%
+  		dplyr::left_join(init_tbl[, 1:3], by = "id") %>%
+  		dplyr::arrange_(~id)
 
-  # Save summary for each gamm
-  gamm_summary <- purrr::map_if(gamm_tab$model,
-    choose, ~mgcv::summary.gam(.$gam))
+  	# Add model_type
+  	gamm_tab$model_type <- "gamm"
+  	# Rearrange columns
+  	gamm_tab <- dplyr::select_(gamm_tab, .dots = c("id", "ind",
+  		"press", "model_type", "corrstruc", "model"))
 
-  # AIC for $gam is always numeric(0); get AIC from
-  # lme object
-  temp <- purrr::map_if(gamm_tab$model, choose, ~stats::AIC(.$lme))
-  gamm_tab$aic <- unlist(temp)
+  	# Save summary for each gam (cannot handle NAs, hence use of possibly())
+  	summary_gam_safe <- purrr::possibly(mgcv::summary.gam, NA_real_)
+  	gamm_smy <- suppressWarnings(purrr::map(gamm_tab$model,
+    ~summary_gam_safe(.$gam)))
 
-  # Calculate nrmse using external helper function
-  dummy <- dplyr::left_join(gamm_tab, init_tbl, by = c("press",
-    "ind", "id"))
-  tab <- calc_pred(model_list = dummy$model, obs_press = dummy$press_test)
-  gamm_tab$nrmse <- calc_nrmse(pred = tab$pred, obs_ind = dummy$ind_test)
+  	# Get some output from the summary
+  	gamm_tab$edf <- get_sum_output(sum_list = gamm_smy,
+  		varname = "edf")
+  	gamm_tab$r_sq <- get_sum_output(sum_list = gamm_smy,
+  		varname = "r.sq")
+  	gamm_tab$p_val <- get_sum_output(sum_list = gamm_smy,
+  		varname = "s.table", cell = 4)
 
-  # Get some summary output
-  gamm_tab$edf <- get_sum_output(gamm_summary,
-    varname = "edf")
-  gamm_tab$r_sq <- get_sum_output(gamm_summary,
-    varname = "r.sq")
-  gamm_tab$p_val <- get_sum_output(gamm_summary,
-    varname = "s.table", cell = 4)
+  	# Apply the significant code using external helper
+  	# function
+  	gamm_tab$signif_code <- get_signif_code(gamm_tab$p_val)
 
-  # Apply the significant code using external helper
-  # function
-  gamm_tab$signif_code <- get_signif_code(gamm_tab$p_val)
+  	# Save AIC value for each gam (cannot handle NAs, hence use of possibly())
+  	aic_safe <- purrr::possibly(stats::AIC, NA_real_)
+  	gamm_tab$aic <- gamm_tab$model %>% purrr::map_dbl(~aic_safe(.$lme))
 
-  # Get residuals
-  res <- purrr::map_if(gamm_tab$model, choose, ~residuals(.$lme,
+  	# Calculate nrmse using external helper function
+  	dummy <- dplyr::left_join(gamm_tab, init_tbl, by = c("press",
+  		"ind", "id"))
+  	gamm_tab$nrmse <- calc_nrmse(
+  		pred = calc_pred(model_list = dummy$model,
+  			obs_press = dummy$press_test)$pred,
+  		obs_ind = dummy$ind_test)
+
+  	# Get residuals (cannot handle NAs, hence use of possibly())
+  	choose <- purrr::map_lgl(temp_mod$error, .f = is.null)
+  	res <- purrr::map_if(gamm_tab$model, choose, ~residuals(.$lme,
     type = "normalized"))
 
-  # Test for normality in residual distribution
-  suppressWarnings(temp <- purrr::map_if(res, choose, ~stats::ks.test(x = .,
-    "pnorm", mean(.), sd(.))$p.value) )
-  gamm_tab$ks_test <- round(unlist(temp), 4)
+  	# Test for normality in residual distribution
+  	# (requires self-made safely function if res = NA)
+  	norm_test <- function(x, family) {
+  		p <- stats::ks.test(x = x, "pnorm", mean(x, na.rm = TRUE),
+  			stats::sd(x, na.rm = TRUE))$p.value
+  		return(p)
+  	}
+  	norm_test_safe <- purrr::safely(norm_test, otherwise = NA_real_)
+  	suppressWarnings(gamm_tab$ks_test <- res %>%
+  			purrr::map(.f = norm_test_safe) %>%
+  			purrr::transpose() %>% .$result %>% unlist() %>% round(., 4))
 
-  # Test for TAC - need NA'S
-  res_new <- vector(mode = "list", length = nrow(gamm_tab))
-  for (i in seq_along(res_new)) {
-    res_new[[i]] <- rep(NA, length(train_na_rep[[i]]))
-    res_new[[i]][!train_na_rep[[i]]] <- res[[i]]
+  	# Test for TAC - needs NA's in residuals!
+  	res_new <- vector(mode = "list", length = nrow(gamm_tab))
+  	for (i in seq_along(res_new)) {
+  		res_new[[i]] <- rep(NA, length(train_na_rep[[i]]))
+  		res_new[[i]][!train_na_rep[[i]]] <- res[[i]]
+  	}
+  	gamm_tab$tac <- test_tac(res_new)$tac
+
+  	# Check for outlier (cook's distance > 1) in residuals
+  	#  (cannot handle NAs, hence use of possibly())
+  	cooks_dist <- purrr::map(gamm_tab$model,
+  		.f = purrr::possibly(stats::cooks.distance, NA))
+  	warn <- purrr::map_lgl(cooks_dist, ~any(. > 1,
+  		na.rm = TRUE))
+  	gamm_tab$pres_outlier <- purrr::map2(cooks_dist,
+  		warn, ~if (.y == TRUE)
+  			which(.x > 1))
+  	gamm_tab$excl_outlier <- excl_outlier
   }
-  gamm_tab$tac <- test_tac(res_new)$tac
-
-  # Check for outliers (cook's distance > 1) (in
-  # residuals)
-  cooks_dist <- purrr::map_if(gamm_tab$model, choose,
-    ~cooks_dist_gamm(.$gam))
-  warn <- purrr::map_lgl(cooks_dist, ~any(. > 1,
-    na.rm = TRUE))
-  gamm_tab$pres_outlier <- purrr::map2(cooks_dist,
-    warn, ~if (.y == TRUE)
-      which(.x > 1))
-  gamm_tab$excl_outlier <- excl_outlier
 
   # Sort variables
   gamm_tab <- sort_output_tbl(gamm_tab)
 
+  # Warning if some models were not fitted
+  if (any(!purrr::map_lgl(temp_mod$error, .f = is.null))) {
+  	 sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
+			 miss_mod <- gamm_tab[sel, 1:5]
+			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
+			 	 purrr::flatten_chr()
+			 message("NOTE: For the following IND~pressure GAMMs fitting procedure failed:")
+  	 print(miss_mod)
+  }
 
   ### END OF FUNCTION
   return(gamm_tab)

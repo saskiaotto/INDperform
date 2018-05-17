@@ -7,7 +7,10 @@
 #' @param init_tbl The output tibble of the \code{\link{ind_init}} function.
 #' @param k Choice of knots (for the smoothing function \code{\link{s}}); the default is 5.
 #' @param family A description of the error distribution and link to be used in the GAM.
-#'  This needs to be defined as a family function (see also \code{\link{family}}).
+#'  This needs to be defined as a family function (see also \code{\link{family}}). All
+#'  standard family functions can be used as well some of the distribution families in
+#'  the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{negbin}}
+#'  or \code{\link[mgcv]{nb}}).
 #' @param excl_outlier A list of values identified as outliers in specific
 #'  IND~pressure GAMs, which should be excluded in this modelling step
 #'  (the output tibble of this function includes the variable
@@ -195,7 +198,9 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   } else {
 
   # Save summary for each gam (cannot handle NAs, hence use of possibly())
-  gam_smy <- suppressWarnings(gam_tab$model %>% purrr::map(.f = purrr::possibly(mgcv::summary.gam, NA_real_)))
+  gam_smy <- suppressWarnings(gam_tab$model %>%
+  		purrr::map(.f = purrr::possibly(mgcv::summary.gam, NA_real_)))
+
   # Get some output from the summary
   gam_tab$edf <- get_sum_output(sum_list = gam_smy,
     varname = "edf")
@@ -209,12 +214,10 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   # Apply the significant code using external helper function
   gam_tab$signif_code <- get_signif_code(gam_tab$p_val)
 
-  # Save aic value for each gam (cannot handle NAs, hence use of possibly())
+  # Save AIC value for each gam (cannot handle NAs, hence use of possibly())
   gam_tab$aic <- gam_tab$model %>% purrr::map_dbl(.f = purrr::possibly(stats::AIC, NA_real_))
 
   # Calculate nrmse using external helper function
-  # tab <- calc_pred(model_list = gam_tab$model,
-  # 	 obs_press = press_train_sub)
   gam_tab$nrmse <- calc_nrmse(
   	 pred = calc_pred(model_list = gam_tab$model,
       obs_press = init_tbl$press_test)$pred,
@@ -266,7 +269,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 			 miss_mod <- gam_tab[sel, 1:3]
 			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
 			 	 purrr::flatten_chr()
-			 message("For the following IND~pressure GAMs fitting procedure failed:")
+			 message("NOTE: For the following IND~pressure GAMs fitting procedure failed:")
   	 print(miss_mod)
   }
 
