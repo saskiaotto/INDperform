@@ -297,16 +297,6 @@
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
-#'   \item{\code{interaction}}{logical; if TRUE, at least one thresh_gam
-#'              performs better than its corresponding gam based on the leave-one-out
-#'              cross-validation.}
-#'   \item{\code{thresh_var}}{A list-column with the threshold variables of the
-#'              better performing thresh_models.}
-#'   \item{\code{thresh_models}}{A list-column with nested lists containing the
-#'              better performing thresh_models.}
-#'   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
-#'              thresh_model whether temporal autocorrelation (TAC) was
-#'              detected in the residuals. TRUE if model residuals show TAC.}
 #'   \item{\code{prop}}{The proportion of the observed pressure range where the IND
 #'              indicator shows a response (see the last section in \emph{Details})}
 #'   \item{\code{zero_in_conf}}{A list-column of logical vectors indicating for
@@ -331,6 +321,22 @@
 #'              bootstrapped first derivatives.}
 #'   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
 #'              bootstrapped first derivatives.}
+#'   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
+#'              actually used for calculating the mean and confidence intervals of
+#'              the predicted indicator reponse and the derivative.}
+#'   \item{\code{boot_error}}{A list-column capturing potential error messages that
+#'              occurred as side effects when refitting the GAM(M)s on each bootstrap
+#'              sample.}
+#'   \item{\code{interaction}}{logical; if TRUE, at least one thresh_gam
+#'              performs better than its corresponding gam based on the leave-one-out
+#'              cross-validation.}
+#'   \item{\code{thresh_var}}{A list-column with the threshold variables of the
+#'              better performing thresh_models.}
+#'   \item{\code{thresh_models}}{A list-column with nested lists containing the
+#'              better performing thresh_models.}
+#'   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
+#'              thresh_model whether temporal autocorrelation (TAC) was
+#'              detected in the residuals. TRUE if model residuals show TAC.}
 #' }
 "all_results_ex"
 

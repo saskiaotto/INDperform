@@ -59,7 +59,7 @@ stream under serial computation. To reproduce results use the same type of
 computation with the same seed and no_clust.}
 }
 \value{
-The function returns the input model tibble with the following 10 columns added
+The function returns the input model tibble with the following 12 columns added
 \describe{
   \item{\code{prop}}{The proportion of the observed pressure range where the IND
              indicator shows a response (see the last section in \emph{Details}).
@@ -88,12 +88,12 @@ The function returns the input model tibble with the following 10 columns added
              bootstrapped first derivatives.}
   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
              bootstrapped first derivatives.}
-  \item{\code{boot_error}}{A list-column capturing potential error messages that
-             occurred as side effects when refitting the GAM(M)s on each bootstrap
-             sample.}
   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
              actually used for calculating the mean and confidence intervals of
              the predicted indicator reponse and the derivative.}
+  \item{\code{boot_error}}{A list-column capturing potential error messages that
+             occurred as side effects when refitting the GAM(M)s on each bootstrap
+             sample.}
 }
 If none of the significant models has edf > edf_filter, only the variable \code{prop}
 will be added. If the 'approx_deriv' method was used, the output tibble will

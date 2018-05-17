@@ -54,12 +54,12 @@ The function returns the input model tibble with the following 9 columns added
              bootstrapped first derivatives.}
   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
              bootstrapped first derivatives.}
-  \item{\code{boot_error}}{A list-column capturing potential error messages that
-             occurred as side effects when refitting the GAM(M)s on each bootstrap
-             sample.}
   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
              actually used for calculating the mean and confidence intervals of
              the predicted indicator reponse and the derivative.}
+  \item{\code{boot_error}}{A list-column capturing potential error messages that
+             occurred as side effects when refitting the GAM(M)s on each bootstrap
+             sample.}
  }
 }
 \description{
