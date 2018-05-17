@@ -166,6 +166,8 @@
 #'              bootstrapped first derivatives.}
 #'   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
 #'              bootstrapped first derivatives.}
+#'   \item{\code{boot_error}}{HIER TEXT REIN A list-column}
+#'   \item{\code{adj_n_boot}}{HIER TEXT REIN A vector}
 #' }
 #' If none of the significant models has edf > edf_filter, only the variable \code{prop}
 #' will be added. If the 'approx_deriv' method was used, the output tibble will
@@ -384,8 +386,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     # Calculate significance for derivatives -------------
 
     filt_deriv$zero_in_conf <- purrr::map2(.x = filt_deriv$deriv1_ci_low,
-      .y = filt_deriv$deriv1_ci_up, function(x,
-        y) ifelse(x < 0 & y > 0, TRUE, FALSE))
+      .y = filt_deriv$deriv1_ci_up, .f = calc_in_out)
 
     filt_deriv$zic_start_end <- purrr::map(1:length(filt_deriv$zero_in_conf),
       ~ x_range(vec = filt_deriv$zero_in_conf[.]))
@@ -401,16 +402,29 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     output_tbl <- dplyr::arrange_(output_tbl, .dots= "id")
 
     # End of else condition
-    return(output_tbl)
+
   }
 
   ### END OF FUNCTION
+		return(output_tbl)
 }
+
+
 
 # Internal helper function -------------------------------------
 
-# Function to identify boundary areas where the zero-line is
+# Functions to identify boundary areas where the zero-line is
 # within the confidence intervals
+
+calc_in_out <- function(x, y) {
+	if (all(is.na(x) | is.na(y))) {
+		out <- NA
+	} else {
+		 out <- ifelse(x < 0 & y > 0, TRUE, FALSE)
+	}
+}
+
+
 x_range <- function(vec) {
 	 if (is.na(vec)) {
 	 	 temp_for_if_break <- NA
