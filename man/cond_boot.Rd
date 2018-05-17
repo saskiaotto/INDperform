@@ -38,7 +38,7 @@ stream under serial computation. To reproduce results use the same type of
 computation with the same seed and no_clust.}
 }
 \value{
-The function returns the input model tibble with the following 7 columns added
+The function returns the input model tibble with the following 9 columns added
 \describe{
   \item{\code{press_seq}}{A list-column with sequences of evenly spaced pressure
              values (with the length of the time series).}
@@ -54,6 +54,12 @@ The function returns the input model tibble with the following 7 columns added
              bootstrapped first derivatives.}
   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
              bootstrapped first derivatives.}
+  \item{\code{boot_error}}{A list-column capturing potential error messages that
+             occurred as side effects when refitting the GAM(M)s on each bootstrap
+             sample.}
+  \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
+             actually used for calculating the mean and confidence intervals of
+             the predicted indicator reponse and the derivative.}
  }
 }
 \description{

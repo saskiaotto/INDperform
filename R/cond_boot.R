@@ -53,8 +53,12 @@
 #'              bootstrapped first derivatives.}
 #'   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
 #'              bootstrapped first derivatives.}
-#'   \item{\code{boot_error}}{HIER TEXT REIN A list-column}
-#'   \item{\code{adj_n_boot}}{HIER TEXT REIN A vector}
+#'   \item{\code{boot_error}}{A list-column capturing potential error messages that
+#'              occurred as side effects when refitting the GAM(M)s on each bootstrap
+#'              sample.}
+#'   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
+#'              actually used for calculating the mean and confidence intervals of
+#'              the predicted indicator reponse and the derivative.}
 #'  }
 #'
 #' @seealso the wrapper function \code{\link{calc_deriv}}
