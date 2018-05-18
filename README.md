@@ -66,7 +66,7 @@ m_gam <- model_gam(init_tbl = dat_init)
 # Model diagnostics (e.g. first model)
 plot_diagnostics(model_list = m_gam$model[[1]])$all_plots[[1]]
 # Any outlier? 
-m_gam$pres_outlier
+m_gam$pres_outlier %>% purrr::compact(.)
 # - get number of models with outliers detected
 purrr::map_lgl(m_gam$pres_outlier, ~!is.null(.)) %>% sum() 
 # - which models and what observations?
