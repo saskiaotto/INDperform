@@ -1,7 +1,7 @@
-^README\.Rmd$
-^README-.*\.png$
-NEWS\.Rmd
-^data-raw$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^README\.Rmd$
+^README-.*\.png$
 ^NEWS\.md$
+^cran-comments\.md$
