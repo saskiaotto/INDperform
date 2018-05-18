@@ -1,7 +1,7 @@
 Type: Package
 Package: INDperform
 Version: 0.0.0.9000
-Title: Performance validation of ecological state indicators
+Title: Evaluation of indicator performances for assessing ecosystem states
 Authors@R: c(
     person("Saskia A.", "Otto", email = "saskia.a.otto@gmail.com", role = c("aut", "cre")),
     person("Rene", "Plonus", role = "aut"),
@@ -12,7 +12,9 @@ Description: An implementation of the 7-step approach suggested by Otto et al.
     (2018, Ecol. Ind. 84:619-631) to validate ecological state indicators
     and to select a suite of complimentary and well performing indicators. 
     This suite can be then used to assess the current state of the system 
-    in comparison to a reference period.
+    in comparison to a reference period. However, the tools in this package 
+    are very generic and can be used to test any type of indicator (e.g. social 
+    or economic indicators).
 URL: https://github.com/saskiaotto/INDperform
 BugReports: https://github.com/SaskiaAOtto/INDperform/issues
 Encoding: UTF-8
