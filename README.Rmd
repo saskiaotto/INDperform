@@ -89,6 +89,12 @@ m_gam %>%
 	tidyr::unnest(pres_outlier)
 # Exclude outlier in models
 m_gam <- model_gam(init_tbl = dat_init, excl_outlier = m_gam$pres_outlier)
+# Any temporal autocorrelation
+sum(m_gam$tac)
+# - which models 
+m_gam %>%
+	dplyr::select(id, ind, press, tac) %>%
+	dplyr::filter(tac)
 
 # If temporal autocorrelation present
 m_gamm <- model_gamm(init_tbl = dat_init,
