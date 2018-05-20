@@ -361,8 +361,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 
     # Divide mod_tbl/init_tbl in filtered and
     # unfiltered ids
-    filt <- mod_tbl[mod_tbl$edf > edf_filter &
-      mod_tbl$p_val <= p_val_filter, ]
+    filt <- dplyr::filter(mod_tbl, edf > edf_filter, p_val <= p_val_filter)
     unfilt <- mod_tbl[!mod_tbl$id %in% filt$id, ]
     filt_init <- init_tbl[init_tbl$id %in% filt$id, ]
 
