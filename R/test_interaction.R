@@ -143,6 +143,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # Using some models of the Baltic Sea demo data in this package
 #' init_tbl <- ind_init_ex
 #' mod_tbl <- merge_models_ex[c(5:7),]
@@ -158,6 +159,7 @@
 #'                                press = "Fsprat",
 #'                                t_var = "Pwin" )
 #' test <- test_interaction(init_tbl, mod_tbl, interactions)
+#' }
 test_interaction <- function(init_tbl, mod_tbl, interactions,
   sign_level = 0.05, k = 4, a = 0.2, b = 0.8, excl_outlier = FALSE) {
 
@@ -257,7 +259,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   names(final_tab)[names(final_tab) == "press_train.y"] <- "press_train"
   names(final_tab)[names(final_tab) == "press_train.x"] <- "t_var_train"
   # Filter data for significance
-  final_tab <- final_tab[final_tab$p_val <= sign_level, ]
+  final_tab <- final_tab %>% dplyr::filter(p_val <= sign_level)
   # Stop if no models left
   if (nrow(final_tab) == 0) {
     stop("Not a single model has a p_val <= sign_level!")

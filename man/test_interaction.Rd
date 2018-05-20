@@ -136,6 +136,7 @@ regime of the threshold variable. In the case of significant TAC (indicated by t
 modify the \code{interaction}) output variable accordingly.
 }
 \examples{
+\dontrun{
 # Using some models of the Baltic Sea demo data in this package
 init_tbl <- ind_init_ex
 mod_tbl <- merge_models_ex[c(5:7),]
@@ -151,6 +152,7 @@ interactions <- tibble::tibble(ind = "TZA",
                                press = "Fsprat",
                                t_var = "Pwin" )
 test <- test_interaction(init_tbl, mod_tbl, interactions)
+}
 }
 \references{
 Ciannelli, L., Chan, K.-S., Bailey, K.M., Stenseth, N.C. (2004) Nonadditive
