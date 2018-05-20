@@ -264,14 +264,18 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     n <- length(cond)
     cond_bool <- vector(length = n)
     for (i in 1:n) cond_bool[i] <- eval(parse(text = cond[[i]]))  # parse() turns the the condition into an R expression which is then evaluated with eval()
-    if (sum(cond_bool) > 1) {
+    if (sum(cond_bool, na.rm = TRUE) > 1) {
       stop(cat(paste("The conditions set in the crit_scores table for sub-criterion",
         scr, "are not unique, i.e. conditions are met multiple times!",
         "Please correct your crit_score table before you continue.",
         sep = "\n")))
     } else {
-      fin_score_scr <- crit_df_sub$weighted_score[cond_bool]
-      return(fin_score_scr)
+      if (is.na(x) | is.null(x) | is.nan(x)) {
+        fin_score_scr <- 0
+      } else {
+        fin_score_scr <- crit_df_sub$weighted_score[cond_bool]
+      }
+    	return(fin_score_scr)
     }
   }
 
@@ -298,9 +302,14 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       # level set a priori); in the case of the latter,
       # all sub-criteria scores are set to zero:
       mod_tbl_split <- split(mod_tbl, mod_tbl$p_val <=
-        sign_level)
+        sign_level &
+          !(is.na(mod_tbl$p_val) | is.nan(mod_tbl$p_val) |
+              is.null(mod_tbl$p_val)) )
+      # & !is.na(mod_tbl$p_val).. has to be included
+      # -> otherwise rows where p_val=NA,NaN,NULL excluded completely
       score_c910_split <- split(score_c910, mod_tbl$p_val <=
-        sign_level)
+        sign_level & !(is.na(mod_tbl$p_val) | is.nan(mod_tbl$p_val) |
+              is.null(mod_tbl$p_val)))
 
       # Non-significant models (`FALSE` list) scored zero
       if(!is.null(score_c910_split$`FALSE`)) {
