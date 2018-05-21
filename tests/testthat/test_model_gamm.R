@@ -105,6 +105,16 @@ test_that("test excl outlier", {
     6))))  #only 1 list entry can be recycled
 })
 
+# Test filter
+dat <- ind_init_ex[1:5, ]
+dat_filter <- c(TRUE, NA, NA, NA, FALSE)
+test <- model_gamm(init_tbl = dat, filter = dat_filter)
+
+test_that("test filter with NAs", {
+  expect_equal(nrow(test), 6)
+})
+
+
 # Binomal distribution
 set.seed(123)
 vec_train <- sample(x = c(0, 1), size = 27, replace = TRUE)
@@ -182,6 +192,7 @@ x <- ind_ex[ ,4:5]
 x$test_ind <- NA_real_
 y <- press_ex[ ,2]
 dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
+dat_filter2 <- c(FALSE, NA, NA, NA, FALSE)
 
 test_ids <- c(63:70)
 gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
@@ -201,7 +212,9 @@ test_that("error messages and filter", {
 	 expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,],
 	 	 filter = gam_test$tac)))
 	 # fitting procedure failed
-	 expect_error(model_gam(dat, family = binomial()), "No IND~pressure GAM could be fitted")
-	 expect_message(model_gam(dat5), "For the following")
+	 expect_error(model_gamm(dat, family = binomial()), "No IND~pressure GAMM could be fitted")
+	 expect_message(model_gamm(dat5), "For the following")
+	 expect_error(model_gamm(init_tbl = dat, filter = dat_filter2),
+	 	 "Your filter contains no TRUE element")
 })
 
