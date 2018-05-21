@@ -30,3 +30,19 @@ test_that("structure of returned object", {
  # if no threshold-GAM included
 	expect_true(is.na(plots2$gcvv_plot[[1]]))
 })
+
+# Check if NAs are correctly placed
+x <- 1:13
+y <- c(NA,0,NA,0,0,NA,0,0,NA,0,0, 0, 0)
+# if all values are zero model results will be NaN or -Inf
+dat_init <- ind_init(y, x, time = 1:13)
+test_mod <- model_gam(init_tbl = dat_init)
+test_plot <- plot_diagnostics(test_mod$model)
+
+test_that("NAs in returned object", {
+ expect_true(is.na(test_plot$cooks_dist[[1]]))
+	expect_true(is.na(test_plot$acf_plot[[1]]))
+	expect_true(is.na(test_plot$pacf_plot[[1]]))
+	expect_true(is.na(test_plot$gcvv_plot[[1]]))
+	expect_true(is.na(test_plot$all_plots[[1]]))
+})
