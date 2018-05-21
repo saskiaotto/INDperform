@@ -162,11 +162,16 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
     out <- out[!is.na(out)]
     return(out)
   }
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  {
+			abs(x - round(x)) < tol
+		}
   x_zoom <- x[zoom]
   y_pred_zoom <- y_pred[zoom]
   ci_up_zoom <- ci_up[zoom]
   ci_low_zoom <- ci_low[zoom]
   x_train_zoom <- x_train[x_train %in% zoom]
+  x_seq_on_axis <- pretty(seq(x_range[1],x_range[2],1))
+  x_seq_on_axis <- x_seq_on_axis[is.wholenumber(x_seq_on_axis)]
 
   p <- ggplot2::ggplot() +
   	 ggplot2::geom_ribbon(data = NULL,
@@ -184,8 +189,9 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
   	 ggplot2::geom_point(data = NULL,
       ggplot2::aes_(x = x[x_test], y = y_pred[x_test]),
       shape = 17, size = 3, colour = "darkseagreen4") +
-    ggplot2::xlim(x_range) +
   	 ggplot2::ylim(y_range) +
+    ggplot2::scale_x_continuous(breaks= x_seq_on_axis,
+  				limits = x_range ) +
     ggplot2::labs(x = xlab, y = ylab) +
   	 ggplot2::annotate(geom = "text", x = pos_text$x,
       y = pos_text$y, label = label, hjust = 0) +
