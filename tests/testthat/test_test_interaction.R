@@ -80,3 +80,26 @@ test_that("test warnings and errors", {
   	 mod_tbl[2, c("id", "ind", "press", "model_type", "p_val", "excl_outlier", "model")],
   	 interactions[1,])))
 })
+
+
+# Testing filtering by p_val and not including NAs
+init_tbl <- ind_init_ex
+mod_tbl <- merge_models_ex[c(4:10),]
+interactions <- select_interaction(mod_tbl)[12:13, ]
+mod_tbl1 <- mod_tbl
+mod_tbl2 <- mod_tbl
+mod_tbl3 <- mod_tbl
+mod_tbl1$p_val <- NA_real_
+mod_tbl2$p_val[c(2,3,7)] <- NA_real_
+mod_tbl3$p_val[c(3,7)] <- NA_real_
+
+test <- test_interaction(init_tbl, mod_tbl3, interactions)
+
+test_that("test filtering and NAs", {
+		expect_error(test_interaction(init_tbl, mod_tbl1, interactions),
+			"Not a single model has a p_val <= sign_level!")
+	expect_error(test_interaction(init_tbl, mod_tbl2, interactions),
+			"Not a single model has a p_val <= sign_level!")
+	expect_equal(sum(is.na(test$interaction)), 6)
+ expect_true(test$interaction[2] == TRUE)
+})

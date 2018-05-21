@@ -49,7 +49,7 @@ all_results_ex3$edf <- NA_real_
 
 test_that("test error messages and warnings", {
 
-	 # Missing arguments
+	# Missing arguments
 	expect_error(scoring(press_type = press_type_ex, trend_tbl = model_trend_ex),
   	 "Argument 'mod_tbl' is missing")
 
@@ -99,7 +99,55 @@ test_that("test error messages and warnings", {
   expect_error(scoring(trend_tbl = model_trend_ex,
     mod_tbl = all_results_ex, press_type = INDperform::press_type_ex,
     crit_scores = crit_scores_mod2))
+
 })
+
+
+# Test dealing with NAs
+trend_tbl <- model_trend_ex[7:8, ]
+mod_tbl = all_results_ex %>%
+	dplyr::filter(ind %in% trend_tbl$ind)
+press_type <- INDperform::press_type_ex[]
+trend_tbl2 <- trend_tbl
+trend_tbl3 <- trend_tbl
+trend_tbl2$p_val <- NA
+trend_tbl3$p_val[2] <- NA
+mod_tbl2 <- mod_tbl; mod_tbl2$p_val <- NA
+mod_tbl3 <- mod_tbl; mod_tbl3$p_val[1:6] <- NA # NAs
+mod_tbl4 <- mod_tbl; mod_tbl4$p_val[1:5] <- NA
+mod_tbl5 <- mod_tbl; mod_tbl5$edf <- NA
+mod_tbl6 <- mod_tbl; mod_tbl6$edf[1:5] <- NA
+mod_tbl7 <- mod_tbl; mod_tbl7$r_sq <- NA
+mod_tbl8 <- mod_tbl; mod_tbl8$r_sq[1:6] <- NA
+
+test1 <- scoring(trend_tbl2, mod_tbl, press_type)
+test2 <- scoring(trend_tbl3, mod_tbl, press_type)
+test3 <- scoring(trend_tbl, mod_tbl3, press_type)
+test4 <- scoring(trend_tbl, mod_tbl4, press_type)
+test5 <- scoring(trend_tbl, mod_tbl6, press_type)
+test6 <- scoring(trend_tbl, mod_tbl8, press_type)
+
+test_that("test dealing with NAs", {
+  expect_true(all(test1$C8 == 0)) # both NAs should be zero
+	 expect_equal(sum(test2$C8 == 0), 1) # only 1 NA so 1 zero
+  # pressure-specific
+	 expect_equal(sum(test3$press_spec_sc[[1]][4:9]), 0) # nothing sign. anymore
+  expect_equal(sum(test3$press_spec_sc[[2]][4:9]), 0)
+	 expect_equal(sum(test4$press_spec_sc[[1]][4:9]), 5) # the sign. model unaffected
+  expect_equal(sum(test4$press_spec_sc[[2]][4:9]), 0)
+  expect_equal(sum(test5$press_spec_sc[[1]][4:9]), 5) # the sign. model unaffected
+  expect_equal(sum(test5$press_spec_sc[[2]][4:9]), 0)
+  expect_equal(sum(test6$press_spec_sc[[1]][4:9]), 3) # only 9.1 should be zero now
+  expect_equal(sum(test6$press_spec_sc[[2]][4:9]), 0)
+
+	 # should return error messages since for entire
+	 # variable values = NA
+	 expect_error(scoring(trend_tbl, mod_tbl2, press_type),
+	 	 "The following variables required")
+	 expect_error(scoring(trend_tbl, mod_tbl5, press_type))
+	 expect_error(scoring(trend_tbl, mod_tbl7, press_type))
+})
+
 
 
 ######################### Remove criteria #############

@@ -15,8 +15,8 @@ test_that("test warnings and errors for DIV routines", {
   expect_error(calc_deriv(a, b, ci_boot = NULL))
   expect_error(calc_deriv(a, b, edf_filter = NULL))
   expect_error(calc_deriv(a, b, edf_filter = 1))
-  expect_error(calc_deriv(a, b, p_val_filter = 1.5))
-  expect_error(calc_deriv(a, b, p_val_filter = NULL))
+  expect_error(calc_deriv(a, b, sign_level = 1.5))
+  expect_error(calc_deriv(a, b, sign_level = NULL))
   expect_error(calc_deriv(a, b, edf_filter = 1))
   expect_error(calc_deriv(a, b, method = "conditional_boot"))
   expect_error(calc_deriv(a, b, par_comp = TRUE,
@@ -138,9 +138,9 @@ test_mod1$edf <- 1.6
 test_mod2$edf <- 1.6
 test_mod3$edf <- 1.6
 
-test1 <- calc_deriv(test_init[1,], test_mod1, p_val = 0.9, n_boot = 40)
-test2 <- calc_deriv(test_init[2,], test_mod2, p_val = 0.9, n_boot = 40)
-test3 <- calc_deriv(test_init[2,], test_mod3, p_val = 0.9, n_boot = 40)
+test1 <- calc_deriv(test_init[1,], test_mod1, sign_level = 0.9, n_boot = 40)
+test2 <- calc_deriv(test_init[2,], test_mod2, sign_level = 0.9, n_boot = 40)
+test3 <- calc_deriv(test_init[2,], test_mod3, sign_level = 0.9, n_boot = 40)
 
 
 errors1 <- sum(purrr::map_lgl(1:40, ~ is.null(test1$boot_error[[1]][.])))
@@ -174,6 +174,22 @@ test_mod1$edf <- 1.6
 test_mod1$model[[1]]$family$family <- "poisson"
 
 test_that("check message", {
-  expect_message(calc_deriv(test_init[1,], test_mod1, p_val = 0.9, n_boot = 40))
+  expect_message(calc_deriv(test_init[1,], test_mod1, sign_level = 0.9, n_boot = 40))
+})
+
+
+# Testing filtering by edf and sign_level and not including NAs
+a <- ind_init_ex[c(1, 9), ]
+b <- merge_models_ex[c(1, 9), ]
+b1 <- b
+b2 <- b
+b1$edf <- c(NA_real_, NA_real_)
+b2$p_val[2] <- NA_real_
+
+test_that("test filtering and NAs", {
+		expect_message(calc_deriv(a, b1),
+			"contains no significant model")
+		expect_message(calc_deriv(a, b2),
+			"contains no significant model")
 })
 
