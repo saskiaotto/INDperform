@@ -165,8 +165,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Combine train/ test data and calculate pred on
   # observed press and sequence
-  time <- purrr::map2(.x = init_tbl$time_train, .y = init_tbl$time_test,
-    .f = c)
+  time <- purrr::map(1:length(init_tbl$time_train),
+  	~ sort(c(init_tbl$time_train[[.]], init_tbl$time_test[[.]])))
   id_train <- purrr::map(1:length(time), ~which(time[[.]] %in%
     init_tbl$time_train[[.]]))
   id_test <- purrr::map(1:length(time), ~which(!time[[.]] %in%
@@ -263,10 +263,12 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # Plot 2 - Predictive performance
   # ---------------------
 
-  ind <- purrr::map2(.x = init_tbl$ind_train, .y = init_tbl$ind_test,
-    .f = c)
-  press <- purrr::map2(.x = init_tbl$press_train,
-    .y = init_tbl$press_test, .f = c)
+  ind <- purrr::map(1:length(ind_train),
+  	~ c(init_tbl$ind_train[[1]],
+  		init_tbl$ind_test[[1]])[ order(c(id_train[[1]], id_test[[1]])) ])
+  press <- purrr::map(1:length(press_train),
+  	~ c(init_tbl$press_train[[1]],
+  		init_tbl$press_test[[1]])[ order(c(id_train[[1]], id_test[[1]])) ])
   pred <- calc_pred(model_list = mod_tbl$model, obs_press = press)$pred
   ci_low <- calc_pred(model_list = mod_tbl$model,
     obs_press = press)$ci_low
@@ -285,6 +287,9 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # Get subsets of x_range
   zoom <- purrr::map(id_test, ~c((min(.) - 2):(max(.) +
     1)))
+  # exclude zero and neg. indices (as they don't extist
+  # and were only produced when id_test starts with 1 or 2)
+  zoom <- purrr::map(zoom, ~ .[. > 0])
   # Get also zoomed y-range for text position
   y_range <- purrr::pmap(.l = list(ind, pred, ci_low,
     ci_up, zoom), .f = calc_y_range)
