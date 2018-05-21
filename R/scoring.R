@@ -301,61 +301,58 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       # effect is significant or not (based on the alpha
       # level set a priori); in the case of the latter,
       # all sub-criteria scores are set to zero:
-      mod_tbl_split <- split(mod_tbl, mod_tbl$p_val <=
-        sign_level &
-          !(is.na(mod_tbl$p_val) | is.nan(mod_tbl$p_val) |
-              is.null(mod_tbl$p_val)) )
-      # & !is.na(mod_tbl$p_val).. has to be included
+      mod_tbl_split <- split(mod_tbl, is_value(mod_tbl$p_val) &
+      	mod_tbl$p_val	<= sign_level)
+      # is_value() has to be included
       # -> otherwise rows where p_val=NA,NaN,NULL excluded completely
-      score_c910_split <- split(score_c910, mod_tbl$p_val <=
-        sign_level & !(is.na(mod_tbl$p_val) | is.nan(mod_tbl$p_val) |
-              is.null(mod_tbl$p_val)))
+      score_c910_split <- split(score_c910, is_value(mod_tbl$p_val) &
+      	mod_tbl$p_val	<= sign_level)
 
       # Non-significant models (`FALSE` list) scored zero
-      if(!is.null(score_c910_split$`FALSE`)) {
+      if (!is.null(score_c910_split$`FALSE`)) {
       	 score_c910_split$`FALSE`[, subcrit_v] <- 0
       }
 
 
       # Score significant models (`TRUE` list) per
       # subcriterion --------
-
       if (!is.null(mod_tbl_split$`TRUE`)) {
 
-      # To get the correct variable for the respective
-      # subcriterion
-      sc_var <- unique(crit_scores[crit_scores$crit %in%
-        c("C9", "C10"), c("subcrit", "condition_var")])
-      names(sc_var) <- c("scr", "var")
+		      # To get the correct variable for the respective
+		      # subcriterion
+		      sc_var <- unique(crit_scores[crit_scores$crit %in%
+		        c("C9", "C10"), c("subcrit", "condition_var")])
+		      names(sc_var) <- c("scr", "var")
 
-      # Wrapper function for Crit 9 and 10 that applies
-      # score_f() vector-wise for each element of the
-      # variable of interest using purrr
-      apply_score <- function(var, crit_df, scr) {
-        crit_df_sub <- crit_df[crit_df$subcrit ==
-          scr, ]
-        temp <- purrr::map_dbl(.x = var, .f = score_f,
-          crit_df_sub = crit_df_sub, scr = scr)
-        return(temp)
-      }
-      # Loop where the apply_score function is applied
-      # for each subcriterion that needs to be scored
-      for (i in 1:length(subcrit_v)) {
-        var_ch <- sc_var$var[sc_var$scr ==
-          subcrit_v[i]]
-        var_num <- mod_tbl_split$`TRUE` %>%
-          dplyr::select_(.dots = var_ch) %>%
-          .[[1]]  # .[[1]] needed to get vector, not 1D tibble
-        score_c910_split$`TRUE`[, subcrit_v[i]] <- apply_score(var = var_num,
-          crit_df = crit_scores, scr = subcrit_v[i])
-      }
-
+		      # Wrapper function for Crit 9 and 10 that applies
+		      # score_f() vector-wise for each element of the
+		      # variable of interest using purrr
+		      apply_score <- function(var, crit_df, scr) {
+		        crit_df_sub <- crit_df[crit_df$subcrit ==
+		          scr, ]
+		        temp <- purrr::map_dbl(.x = var, .f = score_f,
+		          crit_df_sub = crit_df_sub, scr = scr)
+		        return(temp)
+		      }
+		      # Loop where the apply_score function is applied
+		      # for each subcriterion that needs to be scored
+		      for (i in 1:length(subcrit_v)) {
+		        var_ch <- sc_var$var[sc_var$scr ==
+		          subcrit_v[i]]
+		        var_num <- mod_tbl_split$`TRUE` %>%
+		          dplyr::select_(.dots = var_ch) %>%
+		          .[[1]]  # .[[1]] needed to get vector, not 1D tibble
+		        score_c910_split$`TRUE`[, subcrit_v[i]] <- apply_score(var = var_num,
+		          crit_df = crit_scores, scr = subcrit_v[i])
+		      }
+      } # end of if statement for mod_tbl_split$`TRUE` not NULL
       # Combine both lists and sort by id
+
+      # Merging both tables (if both are present)
+      # if not, bind_rows simply returns the one not NULL
       score_c910 <- dplyr::bind_rows(score_c910_split$`FALSE`,
         score_c910_split$`TRUE`)
       score_c910 <- score_c910 %>% dplyr::arrange_(.dots = "id")
-
-      } # end of if statement for mod_tbl_split$`TRUE` not NULL
 
     }  # end of if statement for C9/10 selection
 
