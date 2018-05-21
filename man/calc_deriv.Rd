@@ -5,7 +5,7 @@
 \title{Calculate the derivatives of the IND response functions and the proportion
 of pressure range in which the response is significant}
 \usage{
-calc_deriv(init_tbl, mod_tbl, edf_filter = 1.5, p_val_filter = 0.05,
+calc_deriv(init_tbl, mod_tbl, edf_filter = 1.5, sign_level = 0.05,
   excl_outlier = FALSE, method = "cond_boot", n_boot = 200,
   ci_boot = 0.95, ci_prop_se = 25, par_comp = FALSE, no_clust = NULL,
   seed = NULL)
@@ -20,8 +20,8 @@ best model for each IND~pressure pair.}
 \item{edf_filter}{The minimum edf value at which derivatives are calculated
 for the respective model. The default is set to 1.5.}
 
-\item{p_val_filter}{Significance level for selecting models on which to calculate
-the derivatives. Only models with a p value smaller than the p_val_filter will be
+\item{sign_level}{Significance level for selecting models on which to calculate
+the derivatives. Only models with a p value smaller than the sign_level will be
 selected; the default is 0.05.}
 
 \item{excl_outlier}{logical; if TRUE, the outliers excluded in the original

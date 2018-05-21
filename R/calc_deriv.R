@@ -25,8 +25,8 @@
 #'  best model for each IND~pressure pair.
 #' @param edf_filter The minimum edf value at which derivatives are calculated
 #'  for the respective model. The default is set to 1.5.
-#' @param p_val_filter Significance level for selecting models on which to calculate
-#'  the derivatives. Only models with a p value smaller than the p_val_filter will be
+#' @param sign_level Significance level for selecting models on which to calculate
+#'  the derivatives. Only models with a p value smaller than the sign_level will be
 #'  selected; the default is 0.05.
 #' @param excl_outlier logical; if TRUE, the outliers excluded in the original
 #'  models will be also excluded in the bootstrapped models.
@@ -201,7 +201,7 @@
 #' deriv_tbl <- calc_deriv(init_tbl=init_tbl, mod_tbl=mod_tbl,
 #'   n_boot = 40, par_comp = FALSE, seed=1)
 calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
-  p_val_filter = 0.05, excl_outlier = FALSE, method = "cond_boot",
+  sign_level = 0.05, excl_outlier = FALSE, method = "cond_boot",
 	 n_boot = 200, ci_boot = 0.95, ci_prop_se = 25,
   par_comp = FALSE, no_clust = NULL, seed = NULL) {
 
@@ -264,7 +264,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 
   # Test if there are any ids with NAs in models (if GAMMs manually selected and convergence errors occurred)
   if (any(is.na(mod_tbl$model))) {
-  	stop(paste0("The following ids have missing models: ",
+  	warning(paste0("The following ids have missing models: ",
   		paste0(mod_tbl$id[is.na(mod_tbl$model)], collapse = ", ")))
   }
 
@@ -277,13 +277,13 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     }
   }
 
-  # Correct p_val_filter (between 0 and 1)?
-  if (is.null(p_val_filter)) {
-    stop("The p_val_filter value must be a single numeric value between 0 and 1.")
+  # Correct sign_level (between 0 and 1)?
+  if (is.null(sign_level)) {
+    stop("The sign_level value must be a single numeric value between 0 and 1.")
   } else {
-    if (!is.numeric(p_val_filter) | (p_val_filter <
-      0) | (p_val_filter > 1)) {
-      stop("The p_val_filter value must be a numeric value between 0 and 1.")
+    if (!is.numeric(sign_level) | (sign_level <
+      0) | (sign_level > 1)) {
+      stop("The sign_level value must be a numeric value between 0 and 1.")
     }
   }
 
@@ -346,22 +346,25 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   # Filter mod_tbl and apply the respective deriv
   # method to filtered ids
 
-  if (nrow(mod_tbl[mod_tbl$edf > edf_filter & mod_tbl$p_val <=
-    p_val_filter, ]) == 0) {
-
+  if (nrow(mod_tbl[
+  	 mod_tbl$edf > edf_filter & mod_tbl$p_val <= sign_level &
+  	 	 is_value(mod_tbl$edf) & is_value(mod_tbl$p_val),
+  	 ]) == 0) {
     # Alternative output as no derivatives have to be
     # calculated --> just add prop = 1.00
     alter_output <- mod_tbl
     alter_output$prop <- 1
     alter_output <- sort_output_tbl(alter_output)
-    message("None of the models has an edf > edf_filter and a p_val <= p_val filter, hence, the prop value will be 1 for all.")
+    message(paste0("'mod_tbl' contains no significant model (p_val <= sign_level) ",
+    	" or NONE of the significant models is non-linear (edf > edf_filter)! ",
+					"Significant linear models will get automatically a proportion (prop) value of 1."))
     return(alter_output)
-
   } else {
 
     # Divide mod_tbl/init_tbl in filtered and
     # unfiltered ids
-    filt <- dplyr::filter(mod_tbl, edf > edf_filter, p_val <= p_val_filter)
+    filt <- mod_tbl[is_value(mod_tbl$edf) & is_value(mod_tbl$p_val) &
+    		mod_tbl$edf > edf_filter &	mod_tbl$p_val <= sign_level, ]
     unfilt <- mod_tbl[!mod_tbl$id %in% filt$id, ]
     filt_init <- init_tbl[init_tbl$id %in% filt$id, ]
 
@@ -369,7 +372,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     # (NA if not sign.)
     if (!nrow(unfilt) == 0) {
     	unfilt$prop <- NA
-    	unfilt$prop[unfilt$p_val <= p_val_filter] <- 1.0
+    	unfilt$prop[is_value(unfilt$p_val) & unfilt$p_val <= sign_level] <- 1.0
     }
 
     # Apply method to filtered ids (functions work on

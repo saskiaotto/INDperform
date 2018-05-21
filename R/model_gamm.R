@@ -106,7 +106,8 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   # (i.e. 6 times the filtered id: 1 for each GAMM)
   if (!is.null(excl_outlier)) {
 	  	if (!is.null(filter)) {
-	  		  n_id <- nrow(init_tbl[filter, ])
+	  		  n_id <- nrow(init_tbl[filter & is_value(filter), ])
+	  		  # is_value() has to be included to leave out NAs, NaN,etc.
 	  	} else {
 	  		 n_id <- nrow(init_tbl)
 	  	}
@@ -123,14 +124,18 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   		if (length(filter) != nrow(init_tbl)) {
   			 stop("The length of the logical 'filter' vector deviates from the number of rows in 'ind_init'!")
   		} else {
-  			 init_tbl <- init_tbl[filter, ]
+  			  if (!any(filter, na.rm = TRUE)) {
+  			  	 stop("Your filter contains no TRUE element, hence no row in init_tbl will be selected for applying GAMMs!")
+  			  } else {
+  			  	 init_tbl <- init_tbl[filter & is_value(filter), ]
+  			  }
   		}
   }
 
   # Create input list -------------------------------
   # Lengthen init_tbl to create 6 models
   temp <- tibble::tibble(id = rep(init_tbl$id, each = 6))
-  dat <- dplyr::left_join(temp, init_tbl)
+  dat <- dplyr::left_join(temp, init_tbl, by = "id")
   inputs <- purrr::map(1:nrow(dat),
   	 ~tibble::tibble(ind = dat[[., "ind_train"]],
   	 	  press = dat[[., "press_train"]],

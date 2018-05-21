@@ -228,7 +228,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
         collapse = ", ")))
   }
 
-  # Correct p_val_filter (between 0 and 1)?
+  # Correct sign_level (between 0 and 1)?
   if (is.null(sign_level)) {
     stop("The sign_level value must be a single numeric value between 0 and 1.")
   } else {
@@ -241,10 +241,10 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # Data preparation -----------------------
 
   data <- dplyr::left_join(mod_tbl[, c("id", "p_val",
-    "model_type", "model", "excl_outlier")], by = "id",
-    init_tbl)
+    "model_type", "model", "excl_outlier")], init_tbl,
+    by = "id")
 
-  # Select variables: press_train = x2
+  # Select variables: press_train = x2 (=_tvar)
   interactions <- interactions %>% dplyr::left_join(.,
     init_tbl[, c("ind", "press", "press_train")],
     by = c(ind = "ind", t_var = "press"))
@@ -259,7 +259,9 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   names(final_tab)[names(final_tab) == "press_train.y"] <- "press_train"
   names(final_tab)[names(final_tab) == "press_train.x"] <- "t_var_train"
   # Filter data for significance
-  final_tab <- final_tab %>% dplyr::filter(p_val <= sign_level)
+  final_tab <- final_tab[is_value(final_tab$p_val) &
+  		final_tab$p_val <= sign_level, ]
+
   # Stop if no models left
   if (nrow(final_tab) == 0) {
     stop("Not a single model has a p_val <= sign_level!")
