@@ -235,24 +235,50 @@ plot_diagnostics <- function(model_list) {
 
 	 title <- purrr::map(model_list, ~create_title(.x))
 
+
   # Apply helper plot functions to each model
-  cook_plots <- purrr::map(cooks_dist, plot_cook)
-  acf_plots <- purrr::map2(acf_lag, tac$acf,
-  		~plot_acf(x_var = .x, y_var = .y))
-  pacf_plots <- purrr::map2(pacf_lag, tac$pacf,
-  	 ~plot_pacf(x_var = .x, y_var = .y))
-  resid_plots <- purrr::map2(model_pred, model_resid,
-    ~plot_resid(model_resid = .y[!is.na(.y)], model_fitted = .x))
-  qq_plots <- purrr::map2(theo_quan, model_resid,
-    ~plot_qq(model_resid = .y[!is.na(.y)], theo_quan = .x[!is.na(.y)]))
+	 # (if input ihas values)
+  cook_plots <- purrr::map(1:length(cooks_dist),
+  		~ if ( all(is_value(cooks_dist[[.]])) ) {
+  					plot_cook(values = cooks_dist[[.]])
+  			} else {NA})
+
+  acf_plots <- purrr::map(1:length(tac$acf),
+  		~ if ( all(is_value(tac$acf[[.]])) ) {
+  			plot_acf(x_var = acf_lag[[.]],
+  			y_var = tac$acf[[.]])
+  			} else {NA})
+
+  pacf_plots <- purrr::map(1:length(tac$pacf),
+  		~ if ( all(is_value(tac$pacf[[.]])) ) {
+  			plot_pacf(x_var = pacf_lag[[.]],
+  			y_var = tac$pacf[[.]])
+  			} else {NA})
+
+  resid_plots <- purrr::map(1:length(model_pred),
+  		~ if ( all(is_value(model_pred[[.]])) | all(is_value(model_resid[[.]])) ) {
+  			plot_resid(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
+  			model_fitted = model_pred[[.]])
+  			} else {NA} )
+
+  qq_plots <- purrr::map(1:length(model_resid),
+  		~ if ( all(is_value(model_resid[[.]])) ) {
+  			plot_qq(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
+  			theo_quan = theo_quan[[.]][!is.na(theo_quan[[.]])])
+  			} else {NA})
+
   gcvv_plots <- purrr::pmap(list(t_val, gcvv, model_list,
     best_t_val), plot_gcvv)
+
   # Plot everything on 1 page (the absolutely longest
   # step)
+  # --> since some plots might be NULL return NA instead
+  plot_all_diag_safe <- purrr::possibly(plot_all_diag, otherwise = NA)
   all_plots <- suppressWarnings(purrr::pmap(list(p1 = cook_plots,
     p2 = acf_plots, p3 = pacf_plots, p4 = resid_plots,
     p5 = qq_plots, p6 = gcvv_plots, title = title),
-    plot_all_diag))
+    plot_all_diag_safe))
+
 
   # Get ind and press for output_tbl
   get_names <- function(x) {
