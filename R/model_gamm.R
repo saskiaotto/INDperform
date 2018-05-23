@@ -155,7 +155,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
     time <- purrr::map2(inputs, excl_outlier,
     	 ~replace(.x$time, .y, NA))  # (NULLs will not be replaced)
     inputs <- purrr::pmap(.l = list(ind = ind,
-      press = press, time = time), function(ind,
+      press = press, time = time), .f = function(ind,
       press, time) tibble::tibble(ind = ind,
       press = press, time = time))
 
@@ -324,14 +324,20 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   	# Check for outlier (cook's distance > 1) in residuals
   	#  (cannot handle NAs, hence use of possibly())
+  	cooks_dist_gamm_safe <- purrr::possibly(cooks_dist_gamm, NA)
   	cooks_dist <- purrr::map(gamm_tab$model,
-  		.f = purrr::possibly(stats::cooks.distance, NA))
+  		~cooks_dist_gamm_safe(.$gam))
   	warn <- purrr::map_lgl(cooks_dist, ~any(. > 1,
   		na.rm = TRUE))
-  	gamm_tab$pres_outlier <- purrr::map2(cooks_dist,
-  		warn, ~if (.y == TRUE)
-  			which(.x > 1))
-  	gamm_tab$excl_outlier <- excl_outlier
+   outlier <- purrr::map2(warn, cooks_dist,
+    ~if (.x == TRUE) which(.y > 1))
+  # Get correct position of outlier in ind_train (important
+  # if NAs present) and save in tibble
+  gamm_tab$pres_outlier <- purrr::map(1: length(inputs),
+				~if (warn[[.]] == TRUE)  which(!is.na(inputs[[.]][[1]]))[outlier[[.]]])
+  gamm_tab$excl_outlier <- excl_outlier
+
+  # end of if-statement (temp_mod$result not NA)
   }
 
   # Sort variables
