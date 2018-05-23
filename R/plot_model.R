@@ -163,6 +163,10 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Input data for all ------------------------
 
+  # Sort init_tbl and mod_tbl by id to make sure row order is same
+  mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
+  init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
+
   # Combine train/ test data and calculate pred on
   # observed press and sequence
   time <- purrr::map(1:length(init_tbl$time_train),

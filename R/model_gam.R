@@ -253,12 +253,16 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   	 .f = purrr::possibly(stats::cooks.distance, NA))
   warn <- purrr::map_lgl(cooks_dist, ~any(. > 1,
     na.rm = TRUE))
-  gam_tab$pres_outlier <- purrr::map2(cooks_dist,
-    warn, ~if (.y == TRUE)
-      which(.x > 1))
+  outlier <- purrr::map2(warn, cooks_dist,
+    ~if (.x == TRUE) which(.y > 1))
+  # Get correct position of outlier in ind_train (important
+  # if NAs present) and save in tibble
+  gam_tab$pres_outlier <- purrr::map(1: length(ind_train_sub),
+				~if (warn[[.]] == TRUE)  which(!is.na(ind_train_sub[[.]]))[outlier[[.]]])
   gam_tab$excl_outlier <- excl_outlier
 
-  }
+  # end of if-statement (temp_mod$result not NA)
+ 	}
 
   # Sort variables
   gam_tab <- sort_output_tbl(gam_tab)
