@@ -244,10 +244,11 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     "model_type", "model", "excl_outlier")], init_tbl,
     by = "id")
 
-  # Select variables: press_train = x2 (=_tvar)
+  # Add training data of t_var to interaction tibble
   interactions <- interactions %>% dplyr::left_join(.,
-    init_tbl[, c("ind", "press", "press_train")],
-    by = c(ind = "ind", t_var = "press"))
+    init_tbl[, c("press", "press_train")],
+    by = c(t_var = "press"))
+   names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
 
   # Combine press values with press & t_var
   # combinations.
@@ -256,8 +257,6 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       "ind_train", "p_val", "model_type", "model",
       "excl_outlier")) %>% dplyr::left_join(interactions,
     ., by = c("ind", "press")))
-  names(final_tab)[names(final_tab) == "press_train.y"] <- "press_train"
-  names(final_tab)[names(final_tab) == "press_train.x"] <- "t_var_train"
   # Filter data for significance
   final_tab <- final_tab[is_value(final_tab$p_val) &
   		final_tab$p_val <= sign_level, ]
