@@ -266,6 +266,8 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   # Sort variables
   gam_tab <- sort_output_tbl(gam_tab)
+  # Sort rows
+  gam_tab <- dplyr::arrange_(gam_tab, .dots = "id")
 
   # Warning if some models were not fitted
   if (any(!purrr::map_lgl(temp_mod$error, .f = is.null))) {
