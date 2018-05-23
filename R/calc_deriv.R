@@ -362,7 +362,9 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   } else {
 
     # Divide mod_tbl/init_tbl in filtered and
-    # unfiltered ids
+    # unfiltered id (before sort both)
+  		mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
+  		init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
     filt <- mod_tbl[is_value(mod_tbl$edf) & is_value(mod_tbl$p_val) &
     		mod_tbl$edf > edf_filter &	mod_tbl$p_val <= sign_level, ]
     unfilt <- mod_tbl[!mod_tbl$id %in% filt$id, ]
