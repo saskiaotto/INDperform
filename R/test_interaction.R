@@ -311,12 +311,12 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       k = k_list, a = a_list, b = b_list, time = time)
     return(res)
   }
-  show_prog_safe <- purrr::safely(show_prog, otherwise = NA)
-  # Apply show_prog_safe to every model (each interaction)
+  # Apply show_prog to every model (each interaction)
   suppressWarnings(temp_gam <- purrr::pmap(.l = list(model, y,
     x1, x2, name_x2, k_list, a_list, b_list, time,
-    prog_now, prog_max), show_prog_safe) %>% purrr::transpose())
+    prog_now, prog_max), show_prog) %>% purrr::transpose())
   final_tab$interaction <- temp_gam$result %>% purrr::flatten_lgl()
+  final_tab$thresh_error <- temp_gam$error %>%	purrr::flatten_chr()
 
   # Save every thresh_gam better than the
   # corresponding gam, NA vector
@@ -327,7 +327,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   final_tab$thresh_var <- rep(NA_character_, length = nrow(final_tab))
 
   # Within a loop apply the external helper function
-  # thresh_gam to all models where thresh-GAMM was
+  # thresh_gam to all models where thresh_gam was
   # better
   for (i in 1:nrow(final_tab)) {
     if (!is.na(final_tab$interaction[i]) & final_tab$interaction[i] == TRUE) {
@@ -372,10 +372,10 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # Get ind~press where interaction is TRUE if any
   # thresh_gam is better max becomes 1 = TRUE -->
   # thresh_gam was better than gam
-  temp <- final_tab %>% dplyr::group_by_(.dots = c("ind",
+  temp <- suppressWarnings(final_tab %>% dplyr::group_by_(.dots = c("ind",
     "press")) %>% dplyr::summarise_(
     	.dots = stats::setNames(list(~as.logical(max(interaction, na.rm = TRUE))),
-    "interaction"))
+    "interaction")))
 
   # Get every thresh_gam better than the
   # corresponding gam
@@ -410,10 +410,9 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   # Warning if some models were not fitted
   if (any(is.na(final_tab$interaction))) {
-  	 miss_mod <- final_tab[is.na(final_tab$interaction), 1:3]
-			 miss_mod$error_message <- purrr::map(temp_gam$error, .f = as.character) %>%
-			 	purrr::flatten_chr()
-			 message("For the following indicators fitting procedure failed:")
+  	 miss_mod <- final_tab[is.na(final_tab$interaction), c(1:3, 13)]
+			 message(paste0("For the following indicators fitting procedure failed ",
+				"(see also column 'thresh_error' in output tibble):"))
   	 print(miss_mod)
   }
 

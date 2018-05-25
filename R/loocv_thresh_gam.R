@@ -46,15 +46,12 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   }
 
   # Create model lists and result tibble
-  gams_pred <- thresh_gams_pred <- vector(mode = "list",
+  thresh_gam_list <- vector(mode = "list",
     length = length(time))
   dat <- tibble::tibble(
-  	 gams_pred = vector(mode = "numeric",
-    length = length(time)),
-  	 thresh_gams_pred = vector(mode = "numeric",
-    length = length(time)),
-  	 observation = vector(mode = "numeric",
-    length = length(time))
+  	 gams_pred = rep(NA_real_, length(time)),
+  	 thresh_gams_pred = rep(NA_real_, length(time)),
+  	 observation = rep(NA_real_, length(time))
   	)
 
   # Capture family and link from the input
@@ -64,18 +61,21 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   }
   link <- mgcv::summary.gam(model)$family[[2]]
 
+  # To capture error messages of thresh_gam:
+  thresh_gam_safe <- purrr::safely(thresh_gam, otherwise = NA)
+
   # Model fitting ------------------------------
 
   # Loop with progress bar
-  pb <- dplyr::progress_estimated(length(gams_pred))
+  pb <- dplyr::progress_estimated(length(time))
 		  # (initializes progress bar)
-  for (i in seq_along(gams_pred)) {
+  for (i in seq_along(time)) {
     # Create input for model (formula cannot
     # handle [[]])
     ind <- data_train[[i]]$ind
     press <- data_train[[i]]$press
     t_var <- data_train[[i]]$t_var
-    test <- data_test[[i]]
+				test <- data_test[[i]]
 
     # Normal GAMM
     dat_gam <- data.frame(ind = ind, press = press,
@@ -86,30 +86,32 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       data = dat, family = paste0(family, "(link = ",
         link, ")"))
 
-    # threshold-GAMM
-    thresh_gam <- thresh_gam(ind_vec = ind, press_vec = press,
-      t_var = t_var, name_t_var = name_t_var,
+    # threshold-GAMM - apply safe version for capturing errors
+    thresh_gam_list[[i]] <- thresh_gam_safe(ind_vec = ind,
+    	 press_vec = press, t_var = t_var, name_t_var = name_t_var,
       k = k, a = a, b = b, model = model)
 
     # Capture output
-    dat$gams_pred[[i]] <- mgcv::predict.gam(gam,
+    if (!is.na(thresh_gam_list[[i]]$result)) {
+    	 dat$gams_pred[[i]] <- mgcv::predict.gam(gam,
       newdata = test)
-    # Add t_val to test_data for prediction
-    test$modifier_level <- thresh_gam$mr
-    # Names has to be the same as in formula
-    names(test)[c(1:3)] <- c(all.vars(model$formula),
-      name_t_var)
-    dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam,
-      newdata = test)
-    dat$observation[i] <- as.numeric(test[, 1])
+    	 # Add t_val to test_data for prediction
+    	 test$modifier_level <- thresh_gam$mr
+    	 # Names has to be the same as in formula
+    	 names(test)[c(1:3)] <- c(all.vars(model$formula),
+    	 	name_t_var)
+    	 dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam,
+    	 	newdata = test)
+    	 dat$observation[i] <- as.numeric(test[, 1])
+    }
     # Increment progress bar
     pb$tick()$print()
   } # end of loop
   # Stop progress bar
   pb$stop()
 
-  # Calculate the LOOCV by averaging all (mean)
-  # sqare errors of each test observation
+  # Function to calculate the LOOCV by averaging across
+  # squared errors of each test observation
   calc_loocv <- function(pred, obs) {
     diff <- pred - obs
     diff_sq <- diff^2
@@ -118,12 +120,27 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
     return(loocv_val)
   }
 
-  if (calc_loocv(dat$gams_pred, dat$observation) >
-    calc_loocv(dat$thresh_gams_pred, dat$observation)) {
-    out <- TRUE
+  # Calculate LOOCV only if number of all thresh_gams
+  # were fitted successfully
+  if (!any(is.na(thresh_gam_list[[i]]$result))) {
+	  	if (calc_loocv(dat$gams_pred, dat$observation) >
+	  			calc_loocv(dat$thresh_gams_pred, dat$observation)) {
+	  		out_result <- TRUE
+	  	} else {
+	  		out_result <- FALSE
+	  	}
   } else {
-    out <- FALSE
+  	out_result <- NA
   }
+
+  	# Save and return also all error messages
+  	out_error <- thresh_gam_list %>% purrr::transpose() %>% .$error
+  	out_error <- purrr::map(out_error, ~ .$message) %>%
+  		unlist() %>% unique() %>% paste(., collapse = "; ")
+
+  	### END OF FUNCTION
+  	out <- list(result = out_result,
+  		error = out_error)
 
   return(out)
 }
