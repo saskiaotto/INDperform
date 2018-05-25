@@ -134,10 +134,10 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 	 	 }
 	 }
 
-	 # Check if all ind are present in both input tibbles (if trend_tbl needed)
+	 # Check if ind are the same in both input tibbles (if trend_tbl needed)
   if ("C8" %in% crit_scores$crit == TRUE & !is.null(trend_tbl)) {
-		  if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) &
-		    all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
+		  if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) |
+		    !all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
 		    stop("Some indicators are only present in one input tibble.")
 		  }
   }
