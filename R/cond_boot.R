@@ -287,7 +287,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       dfF = x$dfF[[1]], v = x$values[[1]]) %>%
     	 purrr::transpose()
     boot_tbl$boot_fit <- boot_fit_l %>% .$result
-    boot_tbl$boot_each_error <- boot_fit_l %>% .$error
+    boot_tbl$boot_each_error <- purrr::map(boot_each_error$error, ~ .$message)
 
 
     # Here comes a loop to repeat the bootstrapping for
@@ -440,11 +440,12 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
    # Warning if some models were not fitted
 	  if (any(is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot)) {
 					sel <- is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot
-					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but 'prop' included in calc_deriv
+					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but 'prop' included in calc_deriv before
 				 message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
 				 	"failed completely ('adj_n_boot' = NA) or partly so that the number of bootstraps ",
 						"had to be reduced. See 'boot_error' in the output tibble for the error message of ",
-						"each iteration. Try for these models the alternative 'approx_deriv' method:"))
+						"each iteration. If 'adj_n_boot' = NA, try for these models the alternative ",
+						"'approx_deriv' method:"))
 	  	 print(miss_mod)
 	  }
 
