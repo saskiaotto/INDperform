@@ -27,7 +27,7 @@ sort_output_tbl <- function(mod_tbl) {
 			"pred_ci_up", "pred_ci_low",
 			"deriv1", "deriv1_ci_up", "deriv1_ci_low",
 			"excl_outlier_boot", "interaction", "thresh_var",
-			"thresh_models", "tac_in_thresh")
+			"thresh_models", "thresh_error", "tac_in_thresh")
 
   # Variables in tibble
   nam <- names(mod_tbl)
