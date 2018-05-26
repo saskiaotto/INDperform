@@ -1,6 +1,6 @@
 context("test plot_diagnostics")
 
-model_list <- c(all_results_ex$thresh_models[[13]],
+model_list <- c(all_results_ex$thresh_models[[48]],
 	model_gam_ex$model[39], all_results_ex$model[76])
 plots <- plot_diagnostics(model_list)
 plots2 <- plot_diagnostics(model_gam_ex$model[39])
@@ -46,3 +46,4 @@ test_that("NAs in returned object", {
 	expect_true(is.na(test_plot$gcvv_plot[[1]]))
 	expect_true(is.na(test_plot$all_plots[[1]]))
 })
+
