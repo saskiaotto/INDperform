@@ -200,7 +200,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 	 }
 
   if (!all(unique(interactions$t_var) %in% unique(init_tbl$press))) {
-    stop("Init_tbl has to have all the observed data needed for t_var!")
+    stop("init_tbl has to have all the observed data needed for t_var!")
   }
 
   if (!identical(init_tbl$id, mod_tbl$id)) {
@@ -209,7 +209,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     }
   }
 
-	 # Test whether all ind~press combis in interactions are also in mod_tbl
+	 # Test whether all ind~press combis in interactions are also in mod_tbl or
 	 ind_press_it <- paste(interactions$ind, interactions$press, sep = "~")
 		ind_press_mod <- paste(mod_tbl$ind, mod_tbl$press, sep = "~")
 
@@ -217,7 +217,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 				missing_it <- which(!ind_press_it %in% ind_press_mod)
 				stop(paste0("The following 'ind~press' combinations provided in the 'interactions' tibble are missing in 'mod_tbl': ",
 						paste(missing_it, collapse = ", ")))
-		}
+	 }
 
   # Test if there are any ids with NAs in models (if
   # GAMMs manually selected and convergence errors
@@ -307,7 +307,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     k_list, a_list, b_list, time, prog_now, prog_max) {
     message(paste0(prog_now), "/", prog_max)
     res <- loocv_thresh_gam(model = model, ind_vec = y,
-      press_vec = x1, t_var = x2, name_t_var = name_x2,
+      press_vec = x1, t_var_vec = x2, name_t_var = name_x2,
       k = k_list, a = a_list, b = b_list, time = time)
     return(res)
   }
