@@ -4,7 +4,8 @@
 \alias{loocv_thresh_gam}
 \title{Leave-One-Out Cross-Validation (LOOCV) procedure for (threshold-)GAMs}
 \usage{
-loocv_thresh_gam(model, ind_vec, press_vec, t_var, name_t_var, k, a, b, time)
+loocv_thresh_gam(model, ind_vec, press_vec, t_var_vec, name_t_var, k, a, b,
+  time)
 }
 \arguments{
 \item{model}{A single GAM object from the model tibble needed to extract
@@ -16,9 +17,6 @@ defined outliers).}
 \item{press_vec}{A vector with the training observations (including or excluding
 defined outliers) of pressure 1 (i.e. the orginal significant pressure in the
 GAM(M)).}
-
-\item{t_var}{A vector with the training observations (including or excluding
-defined outliers) of the threshold variable (i.e. a second pressure variable).}
 
 \item{name_t_var}{The name of the threshold variable (pressure 2). t_var will be
 named after this string in the model formula.}
@@ -34,6 +32,16 @@ the estimated threshold is not allowed to exceed; the default is 0.8.}
 
 \item{time}{A vector containing the actual time series.}
 }
+\value{
+The function returns a list with the following 2 sublists:
+\describe{
+  \item{\code{result}}{logical; if TRUE, at least one thresh_gam
+             performs better than its corresponding gam based on LOOCV value.}
+  \item{\code{error}}{A string capturing potential error messages that
+             occurred as side effects when fitting the threshold GAM for the
+             LOOCV.}
+}
+}
 \description{
 \code{loocv_thresh_gam} applies a LOOCV on a threshold-GAM and its corresponding GAM and
 returns TRUE if the threshold-GAM has a lower estimate, else FALSE (see for more infos on
@@ -44,7 +52,7 @@ the LOOCV procedure the details section in \code{\link{test_interaction}}).
 loocv_thresh_gam(model = model_gam_ex$model[[1]],
   ind_vec = ind_init_ex$ind_train[[1]],
   press_vec = ind_init_ex$press_train[[1]],
-  t_var = ind_init_ex$press_train[[2]],
+  t_var_vec = ind_init_ex$press_train[[2]],
   name_t_var = "Swin",
   k = 4, a = 0.2, b = 0.8,
   time = ind_init_ex$time_train[[1]])

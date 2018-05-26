@@ -7,6 +7,16 @@
 #' @inheritParams thresh_gam
 #' @param time A vector containing the actual time series.
 #'
+#' @return
+#' The function returns a list with the following 2 sublists:
+#' \describe{
+#'   \item{\code{result}}{logical; if TRUE, at least one thresh_gam
+#'              performs better than its corresponding gam based on LOOCV value.}
+#'   \item{\code{error}}{A string capturing potential error messages that
+#'              occurred as side effects when fitting the threshold GAM for the
+#'              LOOCV.}
+#' }
+#'
 #' @seealso \code{\link{thresh_gam}} which creates a threshold-GAM object and
 #' \code{\link{test_interaction}} which applies thresh_gam and loocv_thresh_gam
 #'
@@ -18,18 +28,18 @@
 #' loocv_thresh_gam(model = model_gam_ex$model[[1]],
 #'   ind_vec = ind_init_ex$ind_train[[1]],
 #'   press_vec = ind_init_ex$press_train[[1]],
-#'   t_var = ind_init_ex$press_train[[2]],
+#'   t_var_vec = ind_init_ex$press_train[[2]],
 #'   name_t_var = "Swin",
 #'   k = 4, a = 0.2, b = 0.8,
 #'   time = ind_init_ex$time_train[[1]])
 loocv_thresh_gam <- function(model, ind_vec, press_vec,
-  t_var, name_t_var, k, a, b, time) {
+  t_var_vec, name_t_var, k, a, b, time) {
 
 	 # Data input preparation -------------------
 
   # Combine input vectors and create subsamples!
   data <- tibble::tibble(ind = ind_vec, press = press_vec,
-    t_var = t_var, time = time)
+    t_var = t_var_vec, time = time)
 
   # Create as many sub-tibbles as there are observations
   # with one observation left out in each (used for
@@ -82,9 +92,10 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       t_var = t_var)
     formula_gam <- paste0("ind ~ 1 + s(press, k = ",
       k, ") + s(t_var, k = ", k, ")")
-    gam <- mgcv::gam(formula = stats::as.formula(formula_gam),
+    # don't capture error for GAMs -> will occurr anyway also in thresh_gam
+    gam <- try(mgcv::gam(formula = stats::as.formula(formula_gam),
       data = dat, family = paste0(family, "(link = ",
-        link, ")"))
+        link, ")")), silent = TRUE)
 
     # threshold-GAMM - apply safe version for capturing errors
     thresh_gam_list[[i]] <- thresh_gam_safe(ind_vec = ind,
@@ -92,15 +103,15 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       k = k, a = a, b = b, model = model)
 
     # Capture output
-    if (!is.na(thresh_gam_list[[i]]$result)) {
+    if (is.null(thresh_gam_list[[i]]$error)) {
     	 dat$gams_pred[[i]] <- mgcv::predict.gam(gam,
       newdata = test)
     	 # Add t_val to test_data for prediction
-    	 test$modifier_level <- thresh_gam$mr
+    	 test$modifier_level <- thresh_gam_list[[i]]$result$mr
     	 # Names has to be the same as in formula
     	 names(test)[c(1:3)] <- c(all.vars(model$formula),
     	 	name_t_var)
-    	 dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam,
+    	 dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam_list[[i]]$result,
     	 	newdata = test)
     	 dat$observation[i] <- as.numeric(test[, 1])
     }
@@ -134,9 +145,14 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   }
 
   	# Save and return also all error messages
-  	out_error <- thresh_gam_list %>% purrr::transpose() %>% .$error
-  	out_error <- purrr::map(out_error, ~ .$message) %>%
+  	out_error_list <- thresh_gam_list %>% purrr::transpose() %>% .$error
+  	if (all(purrr::map_lgl(out_error_list, .f = is.null))) {
+  		out_error <- NA
+  	} else {
+  		out_error <- purrr::map(out_error_list, ~ .$message)	%>%
   		unlist() %>% unique() %>% paste(., collapse = "; ")
+  	}
+
 
   	### END OF FUNCTION
   	out <- list(result = out_result,
