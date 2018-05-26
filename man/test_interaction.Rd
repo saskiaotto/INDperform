@@ -8,11 +8,11 @@ test_interaction(init_tbl, mod_tbl, interactions, sign_level = 0.05, k = 4,
   a = 0.2, b = 0.8, excl_outlier = FALSE)
 }
 \arguments{
-\item{init_tbl}{The full output tibble of the \code{\link{ind_init}} function.}
+\item{init_tbl}{The (full) output tibble of the \code{\link{ind_init}} function.}
 
 \item{mod_tbl}{A model output tibble from \code{\link{model_gam}},
-\code{\link{select_model}} or \code{\link{merge_models}} representing the
-best model for each IND~pressure pair.}
+\code{\link{select_model}}, \code{\link{merge_models}} or \code{\link{calc_deriv}}
+representing the best model for each IND~pressure pair.}
 
 \item{interactions}{A tibble of all potential pressure combinations to test
 for interactions for specific INDs.}
@@ -34,15 +34,17 @@ estimated threshold is not allowed to exceed; the default is 0.8.}
 models will be also excluded in the interaction models.}
 }
 \value{
-The function returns the input model tibble mod_tbl with the following 4 columns added:
+The function returns the input model tibble 'mod_tbl' with the following 5 columns added:
 \describe{
   \item{\code{interaction}}{logical; if TRUE, at least one thresh_gam
-             performs better than its corresponding gam based on the leave-one-out
-             cross-validation.}
+             performs better than its corresponding gam based on LOOCV value.}
   \item{\code{thresh_var}}{A list-column with the threshold variables of the
              better performing thresh_models.}
   \item{\code{thresh_models}}{A list-column with nested lists containing the
              better performing thresh_models.}
+  \item{\code{thresh_error}}{A list-column capturing potential error messages that
+             occurred as side effects when fitting the threshold GAMs and performing the
+             LOOCV.}
   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
              thresh_model whether temporal autocorrelation (TAC) was
              detected in the residuals. TRUE if model residuals show TAC.}
@@ -58,10 +60,10 @@ formulation of the GAM.
 
 To identify potential interactions between pressures (relevant for sub-crit. 10.4),
 threshold formulations are applied to every significant IND-pressure GAM.
-threshold-GAMs or TGAMs represent a special type of varying-coefficient models
+Threshold-GAMs or TGAMs represent a special type of varying-coefficient models
 and were first introduced by Ciannelli \emph{et al.} (2004). In varying-coefficient
 models coefficients are allowed to vary as a smooth functions of other variables
-(Hastie and Tibshirani, 1993), which allows the detect interactions between two
+(Hastie and Tibshirani, 1993), which allows to detect interactions between two
 external pressures. Threshold-GAMs are particularly useful if the response to the
 interacting pressure variables is not continuous but rather step-wise. They have
 been applied to data from real ecosystems to model population dynamics
@@ -102,7 +104,7 @@ freedom of all model terms.
 
 \strong{Implementation of threshold modelling}
 
-For each IND~pressure pair specific pressures to test for interactions can be selected
+For each IND~pressure pair, specific pressures to test for interactions can be selected
 by creating a tibble containing the IND (termed 'ind'), the pressure 1 (termed 'press')
 and the pressure 2 (termed 't_var'). The easiest is to use the helper function
 \code{\link{select_interaction}}: it creates all combinations of IND~press pairs and

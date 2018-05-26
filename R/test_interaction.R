@@ -4,10 +4,10 @@
 #' pressure modifies the IND response to the original pressure using a threshold
 #' formulation of the GAM.
 #'
-#' @param init_tbl The full output tibble of the \code{\link{ind_init}} function.
+#' @param init_tbl The (full) output tibble of the \code{\link{ind_init}} function.
 #' @param mod_tbl A model output tibble from \code{\link{model_gam}},
-#'  \code{\link{select_model}} or \code{\link{merge_models}} representing the
-#'  best model for each IND~pressure pair.
+#'  \code{\link{select_model}}, \code{\link{merge_models}} or \code{\link{calc_deriv}}
+#'  representing the best model for each IND~pressure pair.
 #' @param interactions A tibble of all potential pressure combinations to test
 #'  for interactions for specific INDs.
 #' @param sign_level Significance level for selecting models on which to test for
@@ -28,10 +28,10 @@
 #'
 #' To identify potential interactions between pressures (relevant for sub-crit. 10.4),
 #' threshold formulations are applied to every significant IND-pressure GAM.
-#' threshold-GAMs or TGAMs represent a special type of varying-coefficient models
+#' Threshold-GAMs or TGAMs represent a special type of varying-coefficient models
 #' and were first introduced by Ciannelli \emph{et al.} (2004). In varying-coefficient
 #' models coefficients are allowed to vary as a smooth functions of other variables
-#' (Hastie and Tibshirani, 1993), which allows the detect interactions between two
+#' (Hastie and Tibshirani, 1993), which allows to detect interactions between two
 #' external pressures. Threshold-GAMs are particularly useful if the response to the
 #' interacting pressure variables is not continuous but rather step-wise. They have
 #' been applied to data from real ecosystems to model population dynamics
@@ -72,7 +72,7 @@
 #'
 #'\strong{Implementation of threshold modelling}
 #'
-#' For each IND~pressure pair specific pressures to test for interactions can be selected
+#' For each IND~pressure pair, specific pressures to test for interactions can be selected
 #' by creating a tibble containing the IND (termed 'ind'), the pressure 1 (termed 'press')
 #' and the pressure 2 (termed 't_var'). The easiest is to use the helper function
 #' \code{\link{select_interaction}}: it creates all combinations of IND~press pairs and
@@ -106,15 +106,17 @@
 #' modify the \code{interaction}) output variable accordingly.
 #'
 #' @return
-#' The function returns the input model tibble mod_tbl with the following 4 columns added:
+#' The function returns the input model tibble 'mod_tbl' with the following 5 columns added:
 #' \describe{
 #'   \item{\code{interaction}}{logical; if TRUE, at least one thresh_gam
-#'              performs better than its corresponding gam based on the leave-one-out
-#'              cross-validation.}
+#'              performs better than its corresponding gam based on LOOCV value.}
 #'   \item{\code{thresh_var}}{A list-column with the threshold variables of the
 #'              better performing thresh_models.}
 #'   \item{\code{thresh_models}}{A list-column with nested lists containing the
 #'              better performing thresh_models.}
+#'   \item{\code{thresh_error}}{A list-column capturing potential error messages that
+#'              occurred as side effects when fitting the threshold GAMs and performing the
+#'              LOOCV.}
 #'   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
 #'              thresh_model whether temporal autocorrelation (TAC) was
 #'              detected in the residuals. TRUE if model residuals show TAC.}
@@ -245,10 +247,11 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     by = "id")
 
   # Add training data of t_var to interaction tibble
-  interactions <- interactions %>% dplyr::left_join(.,
-    init_tbl[, c("press", "press_train")],
-    by = c(t_var = "press"))
-   names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
+  # (remove duplicated press entries in init_tbl before merging)
+		interactions <- interactions %>%
+			dplyr::left_join(init_tbl[!duplicated(init_tbl[,c("press", "press_train")]),
+			c("press", "press_train")])
+		names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
 
   # Combine press values with press & t_var
   # combinations.
@@ -381,13 +384,14 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # corresponding gam
   out <- final_tab %>% dplyr::group_by_(.dots = c("ind", "press")) %>%
     dplyr::select_(.dots = c("ind",
-    "press", "interaction", "thresh_var", "tac_in_thresh",
+    "press", "interaction", "thresh_var", "tac_in_thresh", "thresh_error",
     "thresh_models")) %>%
-  	dplyr::summarise_(thresh_var = lazyeval::interp(~list(var),
-    var = as.name("thresh_var")), tac_in_thresh = lazyeval::interp(~list(var),
-    var = as.name("tac_in_thresh")), thresh_models = lazyeval::interp(~list(var),
-    var = as.name("thresh_models"))) %>% dplyr::left_join(temp,
-    ., by = c("ind", "press"))
+  	dplyr::summarise_(
+  		thresh_var = lazyeval::interp(~list(var), var = as.name("thresh_var")),
+    tac_in_thresh = lazyeval::interp(~list(var), var = as.name("tac_in_thresh")),
+  		thresh_error = lazyeval::interp(~list(var), var = as.name("thresh_error")),
+    thresh_models = lazyeval::interp(~list(var), var = as.name("thresh_models"))) %>%
+  	dplyr::left_join(temp,., by = c("ind", "press"))
 
   # Remove all infos on thresh_gams that are NULL
   # (not as good as a gam)
@@ -396,6 +400,9 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       !is.na(.y)), NA))
   out$tac_in_thresh <- purrr::map2(.x = out$interaction,
     .y = out$tac_in_thresh, ~ifelse(.x, purrr::keep(.y,
+      !is.na(.y)), NA))
+  out$thresh_error <- purrr::map2(.x = out$interaction,
+    .y = out$thresh_error, ~ifelse(.x, purrr::keep(.y,
       !is.na(.y)), NA))
   out$thresh_models <- purrr::map2(.x = out$interaction,
     .y = out$thresh_models, ~ifelse(.x, purrr::compact(.y),
