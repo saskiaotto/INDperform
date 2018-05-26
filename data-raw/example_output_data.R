@@ -32,7 +32,6 @@ boot_deriv_ex <- calc_deriv(init_tbl = ind_init_ex,
 all_results_ex <- test_interaction(init_tbl = ind_init_ex, mod_tbl = boot_deriv_ex,
 	interactions = select_interaction(boot_deriv_ex), excl_outlier = TRUE)
 
-
 devtools::use_data(model_trend_ex,
 																			ind_init_ex,
 																			model_gam_ex,
