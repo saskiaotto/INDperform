@@ -8,8 +8,8 @@ select_interaction(mod_tbl)
 }
 \arguments{
 \item{mod_tbl}{A model output tibble from \code{\link{model_gam}},
-\code{\link{select_model}} or \code{\link{merge_models}} representing the
-best model for each IND~pressure pair.}
+\code{\link{select_model}}, \code{\link{merge_models}} or \code{\link{calc_deriv}}
+representing the best model for each IND~pressure pair.}
 }
 \value{
 The functions returns a tibble with three columns:
