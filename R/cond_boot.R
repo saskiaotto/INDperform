@@ -287,7 +287,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       dfF = x$dfF[[1]], v = x$values[[1]]) %>%
     	 purrr::transpose()
     boot_tbl$boot_fit <- boot_fit_l %>% .$result
-    boot_tbl$boot_each_error <- purrr::map(boot_each_error$error, ~ .$message)
+    boot_tbl$boot_each_error <- purrr::map(boot_fit_l$error, ~ .$message)
 
 
     # Here comes a loop to repeat the bootstrapping for
