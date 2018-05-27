@@ -148,7 +148,7 @@ test_plot_deriv <- plot_deriv(press_seq = all_results_ex$press_seq[[1]],
   xlab = "x", ylab = "y", pos_text = pos_text, label = "Test!")
 
 # Test plot_thresh_model()
-test_plot_thresh <- plot_thresh(all_results_ex$thresh_models[[6]],
+test_plot_thresh <- plot_thresh(all_results_ex$thresh_models[[5]],
   choose_thresh_gam = NULL)
 
 test_that("plot_model", {
