@@ -250,8 +250,12 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # (remove duplicated press entries in init_tbl before merging)
 		interactions <- interactions %>%
 			dplyr::left_join(init_tbl[!duplicated(init_tbl[,c("press", "press_train")]),
-			c("press", "press_train")])
+			c("press", "press_train")], by = c("t_var" = "press"))
 		names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
+
+		# press_ex$Tsum
+		# init_tbl$time_train[[1]]
+		# interactions$t_var_train[[4]]
 
   # Combine press values with press & t_var
   # combinations.
