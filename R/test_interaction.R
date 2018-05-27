@@ -216,7 +216,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 		ind_press_mod <- paste(mod_tbl$ind, mod_tbl$press, sep = "~")
 
 	 if (any(!ind_press_it %in% ind_press_mod)) {
-				missing_it <- which(!ind_press_it %in% ind_press_mod)
+				missing_it <-ind_press_it[which(!ind_press_it %in% ind_press_mod)]
 				stop(paste0("The following 'ind~press' combinations provided in the 'interactions' tibble are missing in 'mod_tbl': ",
 						paste(missing_it, collapse = ", ")))
 	 }
