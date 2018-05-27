@@ -303,11 +303,11 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
           arma_list = x$arma_list[[1]])
 
           temp_boot_fit <- boot_fit_safe(y_boot = temp_y_boot,
-          x = x$press_train[[1]], t = x$time_train[[1]],
+          pr = x$press_train[[1]], t = x$time_train[[1]],
           model = x$model[[1]], dfF = x$dfF[[1]],
           v = x$values[[1]])
           m = m + 1
-          if (!is.na(temp_boot_fit$result) | m == 401) {
+          if (!is.na(temp_boot_fit[1]) | m == 401) {
           break
           }
         }
