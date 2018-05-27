@@ -84,7 +84,8 @@
 #'               if any of the acf \strong{and} pacf values of lag 1 - 5 are greater than 0.4
 #'               or lower than -0.4, a TRUE is returned.}
 #'   \item{\code{pres_outlier}}{A list-column with all indices of values identified as outliers
-#'               in each model (i.e.cook's distance > 1).}
+#'               in each model (i.e.cook's distance > 1). The indices present the position in
+#'               the training data, including NAs.}
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects that contain additionally
