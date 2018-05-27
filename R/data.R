@@ -171,7 +171,8 @@
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
 #'               in the residuals. TRUE if model residuals show TAC.}
 #'   \item{\code{pres_outlier}}{A list-column with outliers identified for each model (i.e.
-#'               cook's distance > 1).}
+#'               cook's distance > 1). The indices present the position in
+#'               the training data, including NAs.}
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
@@ -209,7 +210,8 @@
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
 #'               in the residuals. TRUE if model residuals show TAC.}
 #'   \item{\code{pres_outlier}}{A list-column with outliers identified for each model (i.e.
-#'               cook's distance > 1).}
+#'               cook's distance > 1). The indices present the position in
+#'               the training data, including NAs.}
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
@@ -252,7 +254,8 @@
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
 #'               in the residuals. TRUE if model residuals show TAC.}
 #'   \item{\code{pres_outlier}}{A list-column with outliers identified for each model (i.e.
-#'               cook's distance > 1).}
+#'               cook's distance > 1). The indices present the position in
+#'               the training data, including NAs.}
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
@@ -293,7 +296,8 @@
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
 #'               in the residuals. TRUE if model residuals show TAC.}
 #'   \item{\code{pres_outlier}}{A list-column with outliers identified for each model (i.e.
-#'               cook's distance > 1).}
+#'               cook's distance > 1). The indices present the position in
+#'               the training data, including NAs.}
 #'   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
 #'               excluded in the GAM fitting}
 #'   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
