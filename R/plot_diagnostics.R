@@ -74,7 +74,7 @@
 #' @examples
 #' # Using some models of the Baltic Sea demo data:
 #' # Apply function to a list of various model types
-#' model_list <- c(all_results_ex$thresh_models[[6]],
+#' model_list <- c(all_results_ex$thresh_models[[5]],
 #'   model_gam_ex$model[39], all_results_ex$model[76])
 #' plots <- plot_diagnostics(model_list)
 #' plots$cooks_dist[[1]]
