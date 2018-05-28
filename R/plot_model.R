@@ -267,12 +267,12 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # Plot 2 - Predictive performance
   # ---------------------
 
-  ind <- purrr::map(1:length(ind_train),
-  	~ c(init_tbl$ind_train[[1]],
-  		init_tbl$ind_test[[1]])[ order(c(id_train[[1]], id_test[[1]])) ])
-  press <- purrr::map(1:length(press_train),
-  	~ c(init_tbl$press_train[[1]],
-  		init_tbl$press_test[[1]])[ order(c(id_train[[1]], id_test[[1]])) ])
+  ind <- purrr::map(1:length(init_tbl$ind_train),
+  	~ c(init_tbl$ind_train[[.]],
+  		init_tbl$ind_test[[.]])[ order(c(id_train[[.]], id_test[[.]])) ])
+  press <- purrr::map(1:length(init_tbl$press_train),
+  	~ c(init_tbl$press_train[[.]],
+  		init_tbl$press_test[[.]])[ order(c(id_train[[.]], id_test[[.]])) ])
   pred <- calc_pred(model_list = mod_tbl$model, obs_press = press)$pred
   ci_low <- calc_pred(model_list = mod_tbl$model,
     obs_press = press)$ci_low
