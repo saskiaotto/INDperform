@@ -210,7 +210,7 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
 			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
 			 	 purrr::flatten_chr()
 			 message("For the following indicators fitting procedure failed:")
-  	 print(miss_mod)
+  	 print(miss_mod, n = Inf)
   }
 
   ### END OF FUNCTION
