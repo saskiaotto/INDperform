@@ -237,7 +237,7 @@ plot_diagnostics <- function(model_list) {
 
 
   # Apply helper plot functions to each model
-	 # (if input ihas values)
+	 # (if input has values)
   cook_plots <- purrr::map(1:length(cooks_dist),
   		~ if ( all(is_value(cooks_dist[[.]])) ) {
   					plot_cook(values = cooks_dist[[.]])
