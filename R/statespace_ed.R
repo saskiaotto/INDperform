@@ -56,7 +56,7 @@ statespace_ed <- function(x, time, ref_time = NULL) {
 	 }
 
 	 # Check for correct input format
-	 if (class(x) == "list") {
+	 if (any(class(x) == "list")) {
 	 	 stop("'x' cannot be a list.")
 	 }
 	 time <- check_input_vec(time, "time")
