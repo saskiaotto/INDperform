@@ -381,7 +381,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # thresh_gam was better than gam
   temp <- suppressWarnings(final_tab %>% dplyr::group_by_(.dots = c("ind",
     "press")) %>% dplyr::summarise_(
-    	.dots = stats::setNames(list(~as.logical(max(interaction, na.rm = TRUE))),
+    	.dots = stats::setNames(list(~any(interaction)),
     "interaction")))
 
   # Get every thresh_gam better than the
@@ -424,7 +424,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   	 miss_mod <- final_tab[is.na(final_tab$interaction), c(1:3, 13)]
 			 message(paste0("For the following indicators fitting procedure failed ",
 				"(see also column 'thresh_error' in output tibble):"))
-  	 print(miss_mod)
+  	 print(miss_mod, n = Inf)
   }
 
 
