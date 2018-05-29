@@ -73,7 +73,7 @@
   \item{\code{thresh_models}}{A list-column with nested lists containing the
              better performing thresh_models.}
   \item{\code{thresh_error}}{A list-column capturing potential error messages that
-             occurred as side effects when fitting the threshold GAMs and performing the
+             occurred as side effects when fitting each threshold GAMs and performing the
              LOOCV.}
   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
              thresh_model whether temporal autocorrelation (TAC) was
