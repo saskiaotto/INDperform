@@ -51,10 +51,10 @@ plot_statespace_ch <- function(x, col_ch_ref = "red",
   xy_full <- x$xy
   xy_ref <- xy_full %>% dplyr::slice(index_ref)
   xy_cur <- xy_full %>% dplyr::slice(index_current)
-  xrange <- c((min(x$xy$x) - abs(min(x$xy$x) * 0.025)),
-    (max(x$xy$x) + abs(max(x$xy$x)) * 0.025))
-  yrange <- c((min(x$xy$y) - abs(min(x$xy$y) * 0.025)),
-    (max(x$xy$y) + abs(max(x$xy$y)) * 0.025))
+  xrange <- c((min(x$xy$x, na.rm = TRUE) - abs(min(x$xy$x, na.rm = TRUE) * 0.025)),
+    (max(x$xy$x, na.rm = TRUE) + abs(max(x$xy$x, na.rm = TRUE)) * 0.025))
+  yrange <- c((min(x$xy$y, na.rm = TRUE) - abs(min(x$xy$y, na.rm = TRUE) * 0.025)),
+    (max(x$xy$y, na.rm = TRUE) + abs(max(x$xy$y, na.rm = TRUE)) * 0.025))
   xnudge <- diff(xrange)/50
   ynudge <- diff(yrange)/50
 
