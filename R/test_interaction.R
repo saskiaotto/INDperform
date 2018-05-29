@@ -115,7 +115,7 @@
 #'   \item{\code{thresh_models}}{A list-column with nested lists containing the
 #'              better performing thresh_models.}
 #'   \item{\code{thresh_error}}{A list-column capturing potential error messages that
-#'              occurred as side effects when fitting the threshold GAMs and performing the
+#'              occurred as side effects when fitting each threshold GAMs and performing the
 #'              LOOCV.}
 #'   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
 #'              thresh_model whether temporal autocorrelation (TAC) was
@@ -398,15 +398,12 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   	dplyr::left_join(temp,., by = c("ind", "press"))
 
   # Remove all infos on thresh_gams that are NULL
-  # (not as good as a gam)
+  # (not as good as a gam) - except for error messages!!
   out$thresh_var <- purrr::map2(.x = out$interaction,
     .y = out$thresh_var, ~ifelse(.x, purrr::keep(.y,
       !is.na(.y)), NA))
   out$tac_in_thresh <- purrr::map2(.x = out$interaction,
     .y = out$tac_in_thresh, ~ifelse(.x, purrr::keep(.y,
-      !is.na(.y)), NA))
-  out$thresh_error <- purrr::map2(.x = out$interaction,
-    .y = out$thresh_error, ~ifelse(.x, purrr::keep(.y,
       !is.na(.y)), NA))
   out$thresh_models <- purrr::map2(.x = out$interaction,
     .y = out$thresh_models, ~ifelse(.x, purrr::compact(.y),
