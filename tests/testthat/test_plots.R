@@ -51,8 +51,8 @@ theo_quan <- seq(from = -2.0533143,   #0% quantile
 test_plot_qq <- plot_qq(resid, theo_quan)
 
 # Test ggcv_plot()
-t_val <- all_results_ex$thresh_models[[7]][[1]]$t_val
-gcvv <- all_results_ex$thresh_models[[7]][[1]]$gcvv
+t_val <- all_results_ex$thresh_models[[6]][[1]]$t_val
+gcvv <- all_results_ex$thresh_models[[6]][[1]]$gcvv
 test_plot_gcvv <- plot_gcvv(t_val, gcvv, all_results_ex$thresh_models[[2]])
 
 
@@ -132,19 +132,19 @@ test_plot_predict <- plot_predict(x = x, y_obs = y, y_pred = pred,
 	 xlab = "x", ylab = "y", pos_text = pos_text, label = "Test!")
 
 # Test plot_deriv()
-x_range <- suppressWarnings(range(all_results_ex$press_seq[[1]]))
+x_range <- suppressWarnings(range(all_results_ex$press_seq[[5]]))
 # (suppressWarnings needed because some lists are empty)
-y_range <- suppressWarnings(range(all_results_ex$deriv1[[1]],
-	 all_results_ex$deriv1_ci_up[[1]],
-  all_results_ex$deriv1_ci_low[[1]]))
+y_range <- suppressWarnings(range(all_results_ex$deriv1[[5]],
+	 all_results_ex$deriv1_ci_up[[5]],
+  all_results_ex$deriv1_ci_low[[5]]))
 pos_text <- place_text(x = x_range, y = y_range, x_prop = 0,
   y_prop = 0.1, pos = "topleft")
 
-test_plot_deriv <- plot_deriv(press_seq = all_results_ex$press_seq[[1]],
-  deriv1 = all_results_ex$deriv1[[1]], deriv1_ci_low = all_results_ex$deriv1_ci_low[[1]],
-  deriv1_ci_up = all_results_ex$deriv1_ci_up[[1]],
-  zic_start_end = all_results_ex$zic_start_end[[1]],
-  zero_in_conf = all_results_ex$zero_in_conf[[1]],
+test_plot_deriv <- plot_deriv(press_seq = all_results_ex$press_seq[[5]],
+  deriv1 = all_results_ex$deriv1[[5]], deriv1_ci_low = all_results_ex$deriv1_ci_low[[5]],
+  deriv1_ci_up = all_results_ex$deriv1_ci_up[[5]],
+  zic_start_end = all_results_ex$zic_start_end[[5]],
+  zero_in_conf = all_results_ex$zero_in_conf[[5]],
   xlab = "x", ylab = "y", pos_text = pos_text, label = "Test!")
 
 # Test plot_thresh_model()
