@@ -140,6 +140,19 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
     stop("At least one of the defined periods has not a minimum of 3 time units.")
   }
 
+	 # Check if periods contain any NA
+	 if (any(is.na(x[match(period_ref, time)])) | any(is.na(y[match(period_ref, time)]))) {
+	 	stop(paste0("One of your indicators (x and/or y) has missing values in the reference ",
+    "period. Please select another period or fill the missing values (e.g. with the mean, ",
+				"median or interpolate)."))
+	 }
+	 if (any(is.na(x[match(period_current, time)])) | any(is.na(y[match(period_current, time)]))) {
+	 	stop(paste0("One of your indicators (x and/or y) has missing values in the current ",
+    "period. Please select another period or fill the missing values (e.g. with the mean, ",
+				"median or interpolate)."))
+	 }
+
+
   # --------------------------------------------
 
   index_ref <- match(period_ref, time)
