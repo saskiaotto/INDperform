@@ -99,9 +99,9 @@
 #'  init_tbl <- ind_init_ex[id, ]
 #'  mod_tbl <- all_results_ex[id, ]
 #'  dat <- plot_model(init_tbl, mod_tbl, pos_label = "bottomright")
-#'  #pdf("Plot.pdf", height=10, width=10)
-#'  #dat$all_plots
-#'  #dev.off()
+#'  pdf("Plot.pdf", height=10, width=10)
+#'  dat$all_plots
+#'  dev.off()
 #' }
 plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   pos_label = "topleft", header = TRUE) {
@@ -263,7 +263,7 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   		~ if ( all(is_value(pred_train[[.]])) ) {
   					plot_response(x = press_train[[.]], y = ind_train[[.]], x_seq = press_train_seq[[.]],
   						pred = pred_train[[.]], ci_up = ci_up_train[[.]], ci_low = ci_low_train[[.]],
-  					xlab = xlab, ylab = ylab, pos_text = pos_text, label = label[[1]]
+  					xlab = xlab[[.]], ylab = ylab[[.]], pos_text = pos_text[[.]], label = label[[.]]
   					)
   			} else {plot_empty()})
 
