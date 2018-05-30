@@ -107,9 +107,9 @@ dat$all_plots[[2]]
  init_tbl <- ind_init_ex[id, ]
  mod_tbl <- all_results_ex[id, ]
  dat <- plot_model(init_tbl, mod_tbl, pos_label = "bottomright")
- #pdf("Plot.pdf", height=10, width=10)
- #dat$all_plots
- #dev.off()
+ pdf("Plot.pdf", height=10, width=10)
+ dat$all_plots
+ dev.off()
 }
 }
 \seealso{
