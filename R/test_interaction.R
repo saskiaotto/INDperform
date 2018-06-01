@@ -421,7 +421,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   	 miss_mod <- final_tab[is.na(final_tab$interaction), c(1:3, 13)]
 			 message(paste0("For the following indicators fitting procedure failed ",
 				"(see also column 'thresh_error' in output tibble):"))
-  	 print(miss_mod, n = Inf)
+  	 print(miss_mod, n = Inf, tibble.width = Inf)
   }
 
 

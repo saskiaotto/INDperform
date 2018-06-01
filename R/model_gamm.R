@@ -350,7 +350,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
 			 	 purrr::flatten_chr()
 			 message("NOTE: For the following IND~pressure GAMMs fitting procedure failed:")
-  	 print(miss_mod, n = Inf)
+  	 print(miss_mod, n = Inf, tibble.width = Inf)
   }
 
   ### END OF FUNCTION

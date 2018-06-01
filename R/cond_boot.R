@@ -446,7 +446,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 						"had to be reduced. See 'boot_error' in the output tibble for the error message of ",
 						"each iteration. If 'adj_n_boot' = NA, try for these models the alternative ",
 						"'approx_deriv' method:"))
-	  	 print(miss_mod, n = Inf)
+	  	 print(miss_mod, n = Inf, tibble.width = Inf)
 	  }
 
   ### END OF FUNCTION
