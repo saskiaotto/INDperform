@@ -57,7 +57,7 @@ crit_scores_tmpl
 
 # Trend modelling -------------
 
-m_trend <- model_trend(ind_tbl = ind_ex[ ,1],
+m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
   time = ind_ex$Year)
 # Model diagnostics
 pd <- plot_diagnostics(model_list = m_trend$model)
