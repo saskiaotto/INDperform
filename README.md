@@ -44,7 +44,7 @@ crit_scores_tmpl
 
 # Trend modelling -------------
 
-m_trend <- model_trend(ind_tbl = ind_ex[ ,1],
+m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
   time = ind_ex$Year)
 # Model diagnostics
 pd <- plot_diagnostics(model_list = m_trend$model)
@@ -76,6 +76,12 @@ m_gam %>%
     tidyr::unnest(pres_outlier)
 # Exclude outlier in models
 m_gam <- model_gam(init_tbl = dat_init, excl_outlier = m_gam$pres_outlier)
+# Any temporal autocorrelation
+sum(m_gam$tac)
+# - which models 
+m_gam %>%
+    dplyr::select(id, ind, press, tac) %>%
+    dplyr::filter(tac)
 
 # If temporal autocorrelation present
 m_gamm <- model_gamm(init_tbl = dat_init,
@@ -105,7 +111,7 @@ m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
 # Scoring based on model output ------------
 scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, press_type = press_type_ex)
 # Runs a shiny app to modify the score for the subcriterion 10.1:
-scores <- expect_resp(mod_tbl = m_all, scores_tbl = scores)
+#scores <- expect_resp(mod_tbl = m_all, scores_tbl = scores)
 sum_sc <- summary_sc(scores)
 spie <- plot_spiechart(sum_sc)
 spie$TZA # shows the spiechart of the indicator TZA
