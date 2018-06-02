@@ -27,9 +27,6 @@
 \item{func_name}{The names of the function that generate output tibbles
           containing the required variables.}
 }}
-\source{
-see crit_scores_tmpl.R for details
-}
 \usage{
 crit_scores_tmpl
 }

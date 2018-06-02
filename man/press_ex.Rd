@@ -18,9 +18,6 @@ Otto et al. (2018)
 \item{Fher}{fishing mortality of herring}
 \item{Fcod}{fishing mortality of cod}
 }}
-\source{
-see dummy.R for details
-}
 \usage{
 press_ex
 }

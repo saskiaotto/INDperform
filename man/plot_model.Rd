@@ -45,7 +45,7 @@ following elements:
               (the NRMSE) on a test dataset, e.g the last years of the time series.
               The solid green line represents the predicted IND value given the
               observed pressure value for that particular year (both in the training and
-              test data, the latter indicated in with green triangles). The transparent
+              test data, the latter displayed as green triangles). The transparent
               polygon represents the 95\% confidence interval. Observed IND values
               of the test data are shown as black triangle, the trainings observations
               are presented as black circles. The input needed for this plot is

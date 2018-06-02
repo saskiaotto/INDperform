@@ -9,9 +9,6 @@
 \item{press}{pressure name}
 \item{press_type}{corresponding pressure type}
 }}
-\source{
-see dummy.R for details
-}
 \usage{
 press_type_ex
 }
