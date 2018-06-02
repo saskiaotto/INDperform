@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-INDperform <img src="man/figures/logo.png" align="right"/>
-==========================================================
+INDperform <img src="man/figures/logo2.png" align="right"/>
+===========================================================
 
 Overview
 --------
