@@ -29,7 +29,6 @@
 #' \item{func_name}{The names of the function that generate output tibbles
 #'           containing the required variables.}
 #' }
-#' @source see crit_scores_tmpl.R for details
 "crit_scores_tmpl"
 
 
@@ -42,18 +41,18 @@
 #' Otto et al. (2018).
 #' \describe{
 #' \item{Year}{year given as integer}
-#' \item{TZA}{ln-transformed Total Zooplankton Abundance}
-#' \item{MS}{Mean Size of zooplankton}
+#' \item{TZA}{ln-transformed Total Zooplankton Abundance (in N/m^2)}
+#' \item{MS}{Mean Size of zooplankton (in wet weight $\mu$g)}
 #' \item{rCC}{ln-transformed ratio of Cladoceran to Copepod Abundance}
-#' \item{Cops}{ln-transformed Copepod biomass}
-#' \item{Micro}{ln-transformed Biomass of Microphageous zooplankton}
+#' \item{Cops}{ln-transformed Copepod biomass (in mg)}
+#' \item{Micro}{ln-transformed biomass of Microphageous zooplankton (in mg)}
 #' \item{rZPPP}{ratio of Zooplankton to Phytoplankton biomass}
-#' \item{Sprat}{ln-transformed Sprat abundance}
-#' \item{Herring}{ln-transformed Herring abundance}
-#' \item{Stickle}{ln-transformed Stickleback CPUE in numbers}
-#' \item{Cod}{ln-transformed Cod CPUE in numbers}
-#' \item{SPF}{ln-transformed Small Predatory Fish (i.e. sprat and herring <10cm)}
-#' \item{LPF}{ln-transformed Large Predatory Fish (i.e. Cod >38cm)}
+#' \item{Sprat}{ln-transformed Sprat abundance (in million N)}
+#' \item{Herring}{ln-transformed Herring abundance (in millions N)}
+#' \item{Stickle}{ln-transformed Stickleback CPUE (in kg h^-1^)}
+#' \item{Cod}{ln-transformed Cod CPUE (in kg h^-1^)}
+#' \item{SPF}{ln-transformed Small Predatory Fish (i.e. sprat and herring <10cm) (in million g)}
+#' \item{LPF}{ln-transformed Large Predatory Fish (i.e. Cod >38cm) (in kg h^-1^)}
 #' }
 "ind_ex"
 
@@ -74,7 +73,6 @@
 #' \item{Fher}{fishing mortality of herring}
 #' \item{Fcod}{fishing mortality of cod}
 #' }
-#' @source see dummy.R for details
 "press_ex"
 
 
@@ -85,7 +83,6 @@
 #' \item{press}{pressure name}
 #' \item{press_type}{corresponding pressure type}
 #' }
-#' @source see dummy.R for details
 "press_type_ex"
 
 
@@ -115,7 +112,6 @@
 #'              predicted indicator values.}
 #' }
 "model_trend_ex"
-
 
 #' Output tibble from the \code{\link{ind_init}} function
 #'
