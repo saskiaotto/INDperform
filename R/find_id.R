@@ -21,14 +21,12 @@
 #' # Using the Baltic Sea demo data:
 #' # Look for specific INDs in combination with every pressure
 #' ind_name <- c("TZA","MS")
-#' press_name <- c("Tsum", "Swin")
-#' mod_tbl <- model_gam_ex
-#' find_id(mod_tbl, ind_name)$id
+#' find_id(model_gam_ex, ind_name)$id
 #' # Look for specific IND~pressure combinations
 #' press_name <- c("Tsum", "Swin")
-#' find_id(mod_tbl, ind_name, press_name)
+#' find_id(model_gam_ex, ind_name, press_name)
 #' # Look for specific pressures in combination with every IND
-#' find_id(mod_tbl, press_name = press_name)
+#' find_id(model_gam_ex, press_name = press_name)
 find_id <- function(mod_tbl, ind_name = NULL, press_name = NULL) {
 
 	 # Data input validation -------
