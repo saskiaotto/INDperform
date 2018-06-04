@@ -21,8 +21,8 @@ or \code{\link[mgcv]{nb}}).}
 \item{excl_outlier}{A list of values identified as outliers in specific
 IND~pressure GAMs, which should be excluded in this modelling step
 (the output tibble of this function includes the variable
-'pres_outlier', which is a column-list containing
-all indices of values with cook's distance > 1 (see below). The function
+`pres_outlier`, which is a column-list containing
+all indices of values with cook`s distance > 1 (see below). The function
 can be re-run again, then excluding all these outliers provided in
 \code{$pres_outlier} from the the first run (see example)).}
 }
@@ -58,7 +58,7 @@ the data.frame(), including the following elements:
               if any of the acf \strong{and} pacf values of lag 1 - 5 are greater than 0.4
               or lower than -0.4, a TRUE is returned.}
   \item{\code{pres_outlier}}{A list-column with all indices of values identified as outliers
-              in each model (i.e.cook's distance > 1). The indices present the position in
+              in each model (i.e.cook`s distance > 1). The indices present the position in
               the training data, including NAs.}
   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
               excluded in the GAM fitting}
@@ -72,7 +72,7 @@ combination created in \code{\link{ind_init}} and returns a tibble with
 IND~pressure-specific GAM outputs.
 }
 \details{
-To evaluate the IND's sensitivity and robustness time series of the IND are
+To evaluate the IND`s sensitivity and robustness time series of the IND are
 modelled as a smoothing function of one single pressure variable (using a subset
 of the data as training dataset, e.g. excluding the years of the annual time series).
 The GAMs are build using the default settings in the \code{gam} function and

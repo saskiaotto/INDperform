@@ -13,7 +13,7 @@ plot_model(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 \item{mod_tbl}{Any output tibble from the IND~pressure modelling functions.}
 
 \item{choose_thresh_gam}{Selects the threshold_GAM for the thresh_plot,
- which is relevant if several models are listed in 'thresh_models'.
+ which is relevant if several models are listed in `thresh_models`.
 
  The default is NULL, which shows the best performing threshold_GAM
  (based on the GCV as selection criterion).}
@@ -55,7 +55,7 @@ following elements:
               derivatives (S') of non-linear IND~pressure response curves (edf > 1.5)
               and the proportion of the pressure range where the IND shows no further
               significant change (i.e., slope approximates zero). Black triangles
-              represent values at the pressure's boundary where the zero line falls
+              represent values at the pressure`s boundary where the zero line falls
               into the confidence interval, which indicates no further significant
               IND change. Circle represent values that were considered positive
               for the calculation of the pressure range (see for more details

@@ -6,10 +6,10 @@
 #'
 #' @param ind_tbl A data frame, matrix or tibble containing only the (numeric) IND
 #'  variables. Single indicators should be coerced into a data frame to keep the
-#'  indicator name. If kept as vector, default name will be 'ind'.
+#'  indicator name. If kept as vector, default name will be  `ind`.
 #' @param press_tbl A data frame, matrix or tibble containing only the (numeric)
 #'  pressure variables. Single pressures should be coerced into a data frame to keep
-#'  the pressure name. If kept as vector, default name will be 'press'.
+#'  the pressure name. If kept as vector, default name will be `press`.
 #' @param time A vector containing the actual time steps (e.g. years; should be the same
 #'  as in the IND and pressure data).
 #' @param train The proportion of observations that should go into the training data

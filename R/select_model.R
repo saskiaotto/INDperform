@@ -9,7 +9,7 @@
 #' @param gamm_tbl Output tibble from the \code{\link{model_gamm}} function.
 #'
 #' @details
-#' The best error structure is chosen here based on the Akaike’s Information
+#' The best error structure is chosen here based on the Akaike`s Information
 #' Criterion (AIC). The GAMM with the lowest AIC value is selected, but only if the
 #' AIC difference to the GAMMs with a less complex error structure is greater than 2
 #' (or respectively 4 or 6 depending on the level of nested complexity)

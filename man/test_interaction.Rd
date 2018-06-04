@@ -34,7 +34,7 @@ estimated threshold is not allowed to exceed; the default is 0.8.}
 models will be also excluded in the interaction models.}
 }
 \value{
-The function returns the input model tibble 'mod_tbl' with the following 5 columns added:
+The function returns the input model tibble `mod_tbl` with the following 5 columns added:
 \describe{
   \item{\code{interaction}}{logical; if TRUE, at least one thresh_gam
              performs better than its corresponding gam based on LOOCV value.}
@@ -81,7 +81,7 @@ each observation in the training data. The threshold formulation can be
 implemented in the GAM by including two smoothing functions for the same pressure
 and using the \code{by} argument in the smoothing function \code{\link[mgcv]{s}}
 to select specific observations. The threshold itself is estimated from the data and
-chosen by minimizing the GCV score (termed 'gcvv' in the threshold-GAM object)
+chosen by minimizing the GCV score (termed "gcvv" in the threshold-GAM object)
 over an interval defined by the lower and upper quantiles (see the
 \code{a} and \code{b} arguments respectively) of Pressure 2.
 
@@ -105,8 +105,8 @@ freedom of all model terms.
 \strong{Implementation of threshold modelling}
 
 For each IND~pressure pair, specific pressures to test for interactions can be selected
-by creating a tibble containing the IND (termed 'ind'), the pressure 1 (termed 'press')
-and the pressure 2 (termed 't_var'). The easiest is to use the helper function
+by creating a tibble containing the IND (termed `ind`), the pressure 1 (termed `press`)
+and the pressure 2 (termed `t_var`). The easiest is to use the helper function
 \code{\link{select_interaction}}: it creates all combinations of IND~press pairs and
 the threshold variables based on the input model tibble. If specific combinations should
 not be modelled simply delete them from this dataframe.

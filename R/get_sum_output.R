@@ -2,15 +2,15 @@
 #'
 #' \code{get_sum_output} is a helper function for \code{\link{model_trend}},
 #' \code{\link{model_gam}}, and \code{\link{model_gamm}} and extracts from a list
-#' of \code{summary.gam} objects specific values defined in 'varname'.
+#' of \code{summary.gam} objects specific values defined in `varname`.
 #'
 #' @param sum_list A list of summary objects created with \link{summary.gam}.
-#' @param varname A character naming the element to extract from the 'sum_list'.
-#' @param cell If more than one value is stored under 'varname' you need to specify
-#'  which one you want to pull with 'cell'.
+#' @param varname A character naming the element to extract from the `sum_list`.
+#' @param cell If more than one value is stored under `varname` you need to specify
+#'  which one you want to pull with `cell`.
 #'
 #' @return
-#' The function returns a vector with the length of 'sum_list' containing the
+#' The function returns a vector with the length of `sum_list` containing the
 #' extracted values.
 #'
 #' @seealso\code{\link{model_trend}}, \code{\link{model_gam}},

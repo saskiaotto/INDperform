@@ -7,7 +7,7 @@
 #' 95\% confidence intervals based on a list of corresponding
 #' pressure values (observed or a regular spaced sequence).
 #'
-#' @param model_list A list of model objects of class 'gam' or 'gamm'.
+#' @param model_list A list of model objects of class `gam` or `gamm`.
 #' @param obs_press A list of vectors with pressure values (observed or an
 #'  artifical sequence).
 #'

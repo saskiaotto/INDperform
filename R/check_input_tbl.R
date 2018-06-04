@@ -1,16 +1,16 @@
 #' Check class, existing variables and data types of input objects
 #'
 #' \code{check_input_tbl} is a helper function for various modelling and
-#' scoring functions in 'INDperform'. It checks whether the input object
+#' scoring functions in `INDperform`. It checks whether the input object
 #' is of class tibble (should be if an output of one of the required functions)
 #' and if all required variables are included in the tibble with the correct
 #' data type. If not, an error message will be returned.
 #'
 #' @param x An output tibble from one of the INDperform modelling or scoring
 #'  functions.
-#' @param tbl_name The name of 'x' for the error message.
-#' @param parent_func The name of the function that generates the output tibble 'x'.
-#' @param var_to_check A character vector listing the variables to check for in 'x'.
+#' @param tbl_name The name of `x` for the error message.
+#' @param parent_func The name of the function that generates the output tibble `x`.
+#' @param var_to_check A character vector listing the variables to check for in `x`.
 #' @param dt_to_check A character vector listing the data types of each variable
 #'  listed in var_to_check (has to be the same order!) to check for.
 #'

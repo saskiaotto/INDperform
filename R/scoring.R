@@ -5,13 +5,13 @@
 #'
 #' @param trend_tbl Output tibble from the \code{\link{model_trend}} function.
 #' @param mod_tbl Output tibble from the IND~pressure modelling functions.
-#' @param press_type Dataframe or tibble with pressure names (named 'press') in
-#'  first column and corresponding pressure types in second column (named 'press_type').
+#' @param press_type Dataframe or tibble with pressure names (named `press`) in
+#'  first column and corresponding pressure types in second column (named `press_type`).
 #'  Needed for spiechart! (see for an example \code{\link{press_type_ex}})
 #' @param crit_scores Internal tibble of (sub)criteria and respective scores
 #'  named \code{crit_scores_tmpl}; can be modified by saving this dataframe as
 #'  new object and removing single (sub)criteria or assigning weights (default
-#'  is 1). The variable 'condition' represents a list of single elements or
+#'  is 1). The variable `condition` represents a list of single elements or
 #'  vectors with various elements to base the scoring on. This can be modified
 #'  but needs to follow the same syntax.
 #' @param sign_level Significance level on which scoring is built; default is
@@ -19,7 +19,7 @@
 #'
 #' @details
 #' Among the 16 common indicator selection criteria summarised in Otto \emph{et al.} (2018)
-#' five criteria relate to the indicator's performances and require time series for
+#' five criteria relate to the indicator`s performances and require time series for
 #' their evaluation, i.e.
 #' \itemize{
 #'   \item Crit. 8: Development reflects ecosystem change caused by variation in manageable pressure(s)

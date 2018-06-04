@@ -6,7 +6,7 @@
 #' @param scores_tbl The output tibble from the scoring.
 #' @param method_dist Dissimilarity index used in the vegdist function to
 #'  to calculate the dissimilarity matrix based on the scores.
-#'  Default is "Euclidean", for alternatives see \code{\link[vegan]{vegdist}}.
+#'  Default is `euclidean`, for alternatives see \code{\link[vegan]{vegdist}}.
 #' @param ... Further arguments to be passed to the method \code{vegdist}.
 #'
 #' @return

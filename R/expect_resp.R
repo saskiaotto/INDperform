@@ -1,7 +1,7 @@
 #' Score adjustments for subcriterion 10.1
 #'
 #' \code{expect_resp} runs a shiny app in which the expectation of the IND response to
-#' a pressure (subcriterion 10.1) can be manually changed to 'yes' or 'no' based on
+#' a pressure (subcriterion 10.1) can be manually changed to `yes` or `no` based on
 #' visual inspection of the IND response curve.
 #'
 #' @param mod_tbl Output tibble from the IND~pressure modelling functions.

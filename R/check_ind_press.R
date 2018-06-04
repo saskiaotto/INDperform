@@ -8,7 +8,7 @@
 #' @param x A data object containing only the indicator or pressure
 #' variables (vector, matrix, dataframe or tibble).
 #' @param input Indication whether x represents the indicator (default) or
-#'  pressure variable(s). If x is a vector, 'input' determines the variable
+#'  pressure variable(s). If x is a vector, `input` determines the variable
 #'  name when coerced to a data frame.
 #'
 #' @return

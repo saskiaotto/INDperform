@@ -1,22 +1,22 @@
 #' Diagnostic plots for a fitted GAM, GAMM or threshold-GAM(M)
 #'
-#' \code{plot_diagnostics} takes a list of models of class 'gam', 'gamm',
-#' 'thresh_gam' or 'thresh_gamm' or a mix of those and produces some diagnostic
+#' \code{plot_diagnostics} takes a list of models of class `gam`, `gamm`
+#' or `thresh_gam` or a mix of those and produces some diagnostic
 #' information of the fitting procedure and results. The function returns a
 #' tibble with 6 list-columns containing individual plots (ggplot2 objects)
 #' and one list-column containing a plot that shows all diagnostic plots
 #' together.
 #'
-#' @param model_list A list with models of class gam(m) and/or thresh_gam(m),
+#' @param model_list A list with models of class gam(m) and/or thresh_gam,
 #'  e.g. the list-column \code{model} from the \code{\link{model_gam}} output
 #'  tibble.
 #'
 #' @details
-#' The function can deal with any model of the classes 'gam', 'gamm',
-#' 'thresh_gam' or 'thresh_gamm as long as the input is a flat list. That means:
+#' The function can deal with any model of the classes `gam`, `gamm` or
+#' `thresh_gam` as long as the input is a flat list. That means:
 #' \itemize{
 #'   \item If only one model is provided as input coerce the model explicitely
-#'         to class 'list'. An input such as model_gam_ex[1, "model"] will not work
+#'         to class `list`. An input such as model_gam_ex[1, "model"] will not work
 #'         as the class is a tibble. Use instead model_gam_ex$model[1].
 #'   \item If the input are one or more treshold-GAMs selected from
 #'         the \code{\link{test_interaction}} output (variable \code{thresh_models}
@@ -49,13 +49,13 @@
 #'   \item{\code{qq_plot}}{A list-column of ggplot2 objects that show  the
 #'              quantile-quantile plot for normality.}
 #'   \item{\code{gcvv_plot}}{A list-column of ggplot2 objects that show  for a
-#'              threshold-GAM(M) the development of the generalized cross-validation
+#'              threshold-GAM the development of the generalized cross-validation
 #'              value at different thresholds level of the modifying pressure
 #'              variable. The GCV value of the final chosen threshold should be
 #'              distinctly lower than for all other potential thresholds, i.e.,
 #'              the line should show a pointy negative peak at this threshold.
 #'              If this is not the case, e.g. the trough is very wide with similar
-#'              GCV values for nearby thresholds, the threshold-GAM(M) is not
+#'              GCV values for nearby thresholds, the threshold-GAM is not
 #'              optimal and should not be favoured over a GAM despite the better
 #'              LOOCV (leave-one-out cross-validation value).}
 #'   \item{\code{all_plots}}{A list-column of ggplot2 objects that show all

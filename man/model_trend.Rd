@@ -10,7 +10,7 @@ model_trend(ind_tbl, time, train = 1, random = FALSE, k = 4,
 \arguments{
 \item{ind_tbl}{A data frame, matrix or tibble containing only the (numeric) IND
 variables. Single indicators should be coerced into a data frame to keep the
-indicator name. If kept as vector, default name will be 'ind'.}
+indicator name. If kept as vector, default name will be `ind`.}
 
 \item{time}{A vector containing the actual time steps (e.g. years; should be the same
 for the IND data).}

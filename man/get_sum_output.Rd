@@ -9,19 +9,19 @@ get_sum_output(sum_list, varname, cell = NULL)
 \arguments{
 \item{sum_list}{A list of summary objects created with \link{summary.gam}.}
 
-\item{varname}{A character naming the element to extract from the 'sum_list'.}
+\item{varname}{A character naming the element to extract from the `sum_list`.}
 
-\item{cell}{If more than one value is stored under 'varname' you need to specify
-which one you want to pull with 'cell'.}
+\item{cell}{If more than one value is stored under `varname` you need to specify
+which one you want to pull with `cell`.}
 }
 \value{
-The function returns a vector with the length of 'sum_list' containing the
+The function returns a vector with the length of `sum_list` containing the
 extracted values.
 }
 \description{
 \code{get_sum_output} is a helper function for \code{\link{model_trend}},
 \code{\link{model_gam}}, and \code{\link{model_gamm}} and extracts from a list
-of \code{summary.gam} objects specific values defined in 'varname'.
+of \code{summary.gam} objects specific values defined in `varname`.
 }
 \examples{
 # Using some models of the Baltic Sea demo data:

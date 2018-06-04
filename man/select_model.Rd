@@ -22,7 +22,7 @@ structure performs best, the output tibble contains the information from
 the original \code{\link{model_gam}} output tibble (therefore needed as input).
 }
 \details{
-The best error structure is chosen here based on the Akaike’s Information
+The best error structure is chosen here based on the Akaike`s Information
 Criterion (AIC). The GAMM with the lowest AIC value is selected, but only if the
 AIC difference to the GAMMs with a less complex error structure is greater than 2
 (or respectively 4 or 6 depending on the level of nested complexity)

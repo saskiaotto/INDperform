@@ -9,11 +9,11 @@ ind_init(ind_tbl, press_tbl, time, train = 0.9, random = FALSE)
 \arguments{
 \item{ind_tbl}{A data frame, matrix or tibble containing only the (numeric) IND
 variables. Single indicators should be coerced into a data frame to keep the
-indicator name. If kept as vector, default name will be 'ind'.}
+indicator name. If kept as vector, default name will be  `ind`.}
 
 \item{press_tbl}{A data frame, matrix or tibble containing only the (numeric)
 pressure variables. Single pressures should be coerced into a data frame to keep
-the pressure name. If kept as vector, default name will be 'press'.}
+the pressure name. If kept as vector, default name will be `press`.}
 
 \item{time}{A vector containing the actual time steps (e.g. years; should be the same
 as in the IND and pressure data).}

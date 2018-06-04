@@ -7,7 +7,7 @@
 calc_pred(model_list, obs_press)
 }
 \arguments{
-\item{model_list}{A list of model objects of class 'gam' or 'gamm'.}
+\item{model_list}{A list of model objects of class `gam` or `gamm`.}
 
 \item{obs_press}{A list of vectors with pressure values (observed or an
 artifical sequence).}

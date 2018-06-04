@@ -1,7 +1,7 @@
 #' Extracts the IND~pressure IDs in the tibble.
 #'
 #' \code{find_id} is a helper function for the user to extract the ID for a
-#' specific indicator(IND), pressure or IND~pressure combination. The 'id' in
+#' specific indicator(IND), pressure or IND~pressure combination. The `id` in
 #' the returned tibble can then be used for filtering tibbles when using the
 #' other IND~pressure modelling functions.
 #'
@@ -10,8 +10,8 @@
 #' @param press_name One or more character string naming the pressures of interest.
 #'
 #' @return
-#' The function returns a tibble with the 'id' to the respective 'ind'
-#' and/or 'press'.
+#' The function returns a tibble with the `id` to the respective `ind`
+#' and/or `press`.
 #'
 #' @family IND~pressure modelling functions
 #'

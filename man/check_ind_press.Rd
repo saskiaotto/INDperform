@@ -11,7 +11,7 @@ check_ind_press(x, input = "ind")
 variables (vector, matrix, dataframe or tibble).}
 
 \item{input}{Indication whether x represents the indicator (default) or
-pressure variable(s). If x is a vector, 'input' determines the variable
+pressure variable(s). If x is a vector, `input` determines the variable
 name when coerced to a data frame.}
 }
 \value{

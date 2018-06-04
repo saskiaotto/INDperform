@@ -23,7 +23,7 @@ for \code{\link[mgcv]{gamm}}.}
 \item{excl_outlier}{A list of values identified as outliers in specific
 IND~pressure GAMMs, which should be excluded in this modelling step
 (the output tibble of this function includes the variable
-'pres_outlier', which is a column-list containing
+`pres_outlier`, which is a column-list containing
 all indices of values with cook's distance > 1 (see below). The function
 can be re-run again, then excluding all these outliers provided in
 \code{$pres_outlier} from the the first run (see example)).}

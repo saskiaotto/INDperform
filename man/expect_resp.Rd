@@ -21,7 +21,7 @@ in the variable \code{C10_1}, once the "Press Me!" button is activated.
 }
 \description{
 \code{expect_resp} runs a shiny app in which the expectation of the IND response to
-a pressure (subcriterion 10.1) can be manually changed to 'yes' or 'no' based on
+a pressure (subcriterion 10.1) can be manually changed to `yes` or `no` based on
 visual inspection of the IND response curve.
 }
 \details{

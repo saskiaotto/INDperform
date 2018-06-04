@@ -27,8 +27,8 @@ selected; the default is 0.05.}
 \item{excl_outlier}{logical; if TRUE, the outliers excluded in the original
 models will be also excluded in the bootstrapped models.}
 
-\item{method}{Method for calculating derivatives and CI; can be either 'conditional
-bootstrap' (default) or 'approx_deriv'.}
+\item{method}{Method for calculating derivatives and CI; can be either `conditional
+bootstrap` (default) or `approx_deriv`.}
 
 \item{n_boot}{Number of bootstraps. Select n_boot so that (n_boot - (n_boot *ci)) / 2
 will be an integer. Otherwise, the function will increase n_boot automatically.
@@ -104,14 +104,14 @@ In the case of non-linear IND responses to pressures first derivatives
 of the response curve are calculated to identify whether the IND ceases
 to respond at the lower or upper end of the pressure range (relevant for
 sub-crit. 9.2). \code{calc_deriv} serves as a wrapper function that filters
-first the model input tibble and applies as default method the 'conditional
-bootstrap' (see the function \code{\link{cond_boot}}). It calculates from
+first the model input tibble and applies as default method the `conditional
+bootstrap` (see the function \code{\link{cond_boot}}). It calculates from
 the computed bootstrapped derivatives and confidence intervals the
 proportion of pressure range in which the IND shows a significant change.
-The implementation of the 'conditional bootstrap' for Generalized Additive
+The implementation of the `conditional bootstrap` for Generalized Additive
 Mixed Models (GAMMs) has some caveats (see \emph{Details}), which is why
 we implemented additionally a rather quick-and-dirty approach (through the
-\code{\link{approx_deriv}} function). In the 'approx_deriv' method derivatives
+\code{\link{approx_deriv}} function). In the `approx_deriv` method derivatives
 are calculated directly from the smoothing curve of the original method. The
 confidence intervals are then just approximated from the standard errors of the
 smoothing curve. For more informations on this method see
@@ -199,11 +199,13 @@ variable in the output tibble) reflects the proportion of FALSE values
 in \code{zero_in_conf}.
 }
 \examples{
+\dontrun{
 # Using some models of the Baltic Sea demo data
 init_tbl <- ind_init_ex[ind_init_ex$id \%in\% c(5,9,48,75), ]
 mod_tbl <- merge_models_ex[merge_models_ex$id  \%in\% c(5,9,48,75), ]
 deriv_tbl <- calc_deriv(init_tbl=init_tbl, mod_tbl=mod_tbl,
   n_boot = 40, par_comp = FALSE, seed=1)
+}
 }
 \references{
 Fewster, R.M., Buckland, S.T., Siriwardena, G.M., Baillie, S.R., Wilson, J.D. (2000)
