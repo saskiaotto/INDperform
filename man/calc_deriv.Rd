@@ -38,7 +38,7 @@ The default is set to 200.}
 derivatives. Must be between 0 and 1, default is 0.95.}
 
 \item{ci_prop_se}{A conversion factor for approximating derivative CIs in the
-'approx_method'; it is multiplied with the ratio between s.e. and mean fitted
+`approx_method`; it is multiplied with the ratio between s.e. and mean fitted
 values of the smoothing curve to represent some level of uncertainty around the
 slope proportional to the uncertainty in the smoothing curve. Default is 25,
 which is a compromise representing fairly well the results obtained for the GAMs
@@ -96,7 +96,7 @@ The function returns the input model tibble with the following 12 columns added
              sample.}
 }
 If none of the significant models has edf > edf_filter, only the variable \code{prop}
-will be added. If the 'approx_deriv' method was used, the output tibble will
+will be added. If the `approx_deriv` method was used, the output tibble will
 not contain the \code{pred}, \code{pred_ci_up}, and \code{pred_ci_low} variables.
 }
 \description{
@@ -175,7 +175,7 @@ smoothers, which increases the confidence intervals of both fitted
 smoothers as well as derivative. When the IND response is weak and/or
 the error around the smoother high, the implemented routine to estimate
 the proportion of pressure range with significant slope can lead to 0\%.
-For those models, the method 'approx_deriv' can be applied for comparison.
+For those models, the method `approx_deriv` can be applied for comparison.
 
 \strong{Calculating the proportion of pressure range:}
 

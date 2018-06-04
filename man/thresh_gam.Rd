@@ -52,7 +52,7 @@ formulation using the \code{by} argument in the smoothing function
 gam(IND ~ s(pressure1, by = threshold_variable_low) +
  s(pressure 1, by = threshold threshold_variable_high)).
 The threshold value is estimated from the data and chosen by minimizing
-the GCV score (termed 'gcvv' in the threshold-GAM object) over an interval
+the GCV score (termed "gcvv" in the threshold-GAM object) over an interval
 defined by the lower and upper quantiles (see the \code{a} and \code{b}
 arguments respectively) of the threshold variable.
 }
