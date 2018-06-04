@@ -6,6 +6,7 @@ This is my first submission.
 * local OS X install, R 3.1.1
 * Windows 7, R 3.1.1, 64 bit
 * local OS X install, R-devel
+* win-builder (devel and release)
 
 
 ## R CMD check results
