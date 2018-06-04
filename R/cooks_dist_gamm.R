@@ -22,7 +22,8 @@
 #' cooks_dist_gamm(gamm_model = model_gamm_ex$model[[49]]$gam)
 cooks_dist_gamm <- function(gamm_model) {
 
-  suppressWarnings(if (is.na(gamm_model)) {
+  suppressWarnings(
+  	if ( all(is.na(gamm_model)) | is.null(gamm_model) ) {
     # Set cook for missing models to NA
     D <- NA
   } else {
