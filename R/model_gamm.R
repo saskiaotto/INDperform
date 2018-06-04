@@ -1,4 +1,4 @@
-#' Modelling of indicator responses to single pressures with GAMMs
+#' Modeling of indicator responses to single pressures with GAMMs
 #'
 #' \code{model_gamm} accounts for temporal autocorrelation (TAC) in the time series
 #' by fitting Generalized Additive Mixed Models (GAMMs) that include AR or ARMA
@@ -16,10 +16,10 @@
 #'  Note that \code{\link[mgcv]{nb}}, which estimates \code{theta} parameter, cannot be used
 #'  for \code{\link[mgcv]{gamm}}.
 #' @param excl_outlier A list of values identified as outliers in specific
-#'  IND~pressure GAMMs, which should be excluded in this modelling step
+#'  IND~pressure GAMMs, which should be excluded in this modeling step
 #'  (the output tibble of this function includes the variable
 #'  `pres_outlier`, which is a column-list containing
-#'  all indices of values with cook's distance > 1 (see below). The function
+#'  all indices of values with cook`s distance > 1 (see below). The function
 #'  can be re-run again, then excluding all these outliers provided in
 #'  \code{$pres_outlier} from the the first run (see example)).
 #' @param filter logical; a filter used to select specific rows in init_tbl
@@ -28,7 +28,7 @@
 #'  residuals show TAC.
 #'
 #' @details
-#' Modelling first-differenced indicator time series can be an alternative solution
+#' Modeling first-differenced indicator time series can be an alternative solution
 #' to avoid temporal dependence between observations. However, this approach does
 #' often not help reducing the significant auto-correlation while GAMMs do as found in
 #' Otto \emph{et al.} (2018). Such an extension implies that the single
@@ -66,7 +66,7 @@
 #'
 #' @seealso \code{\link[mgcv]{gamm}} for more information on GAMMs and
 #' \code{\link{plot_diagnostics}} for assessing the model diagnostics
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -87,7 +87,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   # Data input validation ---------------------
 		if (missing(init_tbl)) {
-	 	stop("Argument 'init_tbl' is missing.")
+	 	stop("Argument init_tbl is missing.")
 	 }
 		# Check input tibble
 		init_tbl <- check_input_tbl(
@@ -122,7 +122,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 		# Filter for models with tac only
   if (!is.null(filter)) {
   		if (length(filter) != nrow(init_tbl)) {
-  			 stop("The length of the logical 'filter' vector deviates from the number of rows in 'ind_init'!")
+  			 stop("The length of the logical filter vector deviates from the number of rows in ind_init!")
   		} else {
   			  if (!any(filter, na.rm = TRUE)) {
   			  	 stop("Your filter contains no TRUE element, hence no row in init_tbl will be selected for applying GAMMs!")
@@ -249,7 +249,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   temp_mod <- gamms %>%	purrr::transpose()
 
   if (all(is.na(temp_mod$result))) {
-  	stop("No IND~pressure GAMM could be fitted! Check if you chose the correct error distribution (default is 'gaussian()').")
+  	stop("No IND~pressure GAMM could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
   } else {
 
   	# Convert to dataframe with list columns and add
@@ -322,7 +322,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   	}
   	gamm_tab$tac <- test_tac(res_new)$tac
 
-  	# Check for outlier (cook's distance > 1) in residuals
+  	# Check for outlier (cook`s distance > 1) in residuals
   	#  (cannot handle NAs, hence use of possibly())
   	cooks_dist_gamm_safe <- purrr::possibly(cooks_dist_gamm, NA)
   	cooks_dist <- purrr::map(gamm_tab$model,

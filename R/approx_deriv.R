@@ -2,7 +2,7 @@
 #'
 #' \code{approx_deriv} implements a crude approximation for the uncertainty
 #' around the first derivatives. It should be used complementarily to the
-#' conditional boostrap, if problems with GAMM fittings occurr
+#' conditional boostrap, if problems with GAMM fittings occur
 #' (see \code{\link{calc_deriv}}).
 #'
 #' @inheritParams calc_deriv
@@ -110,4 +110,3 @@ approx_deriv <- function(init_tbl, mod_tbl, ci_prop_se) {
   ### END OF FUNCTION
   return(out)
 }
-

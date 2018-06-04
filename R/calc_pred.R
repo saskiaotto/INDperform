@@ -9,7 +9,7 @@
 #'
 #' @param model_list A list of model objects of class `gam` or `gamm`.
 #' @param obs_press A list of vectors with pressure values (observed or an
-#'  artifical sequence).
+#'  artificial sequence).
 #'
 #' @return
 #' The function returns a tibble with one row for each model and three columns:
@@ -92,5 +92,3 @@ calc_pred <- function(model_list, obs_press) {
 
   return(tib)
 }
-
-

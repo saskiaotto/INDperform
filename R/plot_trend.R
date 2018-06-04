@@ -27,7 +27,7 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
 
 	 # Data input validation ---------------------
   if (missing(trend_tbl)) {
-	 	stop("Argument 'trend_tbl' is missing.")
+	 	stop("Argument trend_tbl is missing.")
 	 }
   # Check input tibble
 		trend_tbl <- check_input_tbl(
@@ -75,7 +75,7 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
         y_prop = props_p[[pos_label]]$y_prop, pos = pos_label))
   }
 
-  # Create labels wiith p_val
+  # Create labels with p_val
   label <- purrr::map(trend_tbl$p_val,
   	~paste0("p = ", round(., 3)))
 

@@ -15,7 +15,7 @@
 #' The function can deal with any model of the classes `gam`, `gamm` or
 #' `thresh_gam` as long as the input is a flat list. That means:
 #' \itemize{
-#'   \item If only one model is provided as input coerce the model explicitely
+#'   \item If only one model is provided as input coerce the model explicitly
 #'         to class `list`. An input such as model_gam_ex[1, "model"] will not work
 #'         as the class is a tibble. Use instead model_gam_ex$model[1].
 #'   \item If the input are one or more treshold-GAMs selected from
@@ -33,17 +33,17 @@
 #'   \item{\code{ind}}{Indicator names.}
 #'   \item{\code{press}}{Pressure names.}
 #'   \item{\code{cooks_dist}}{A list-column of ggplot2 objects that show the
-#'               cooks distance of all observations, which is a leave-one-out
+#'               Cook`s distance of all observations, which is a leave-one-out
 #'               deletion diagnostics to measure the influence of each
-#'               observation. Data points with a large Cook's distance (> 1)
+#'               observation. Data points with a large Cook`s distance (> 1)
 #'               are considered to merit closer examination in the analysis.}
 #'   \item{\code{acf_plot}}{A list-column of ggplot2 objects that show  the
 #'               autocorrelation function for the residuals. NAs in the time
 #'               series due to real missing values, test data extraction or
-#'               exlusion of outliers are explicitely considered.}
+#'               exlusion of outliers are explicitly considered.}
 #'   \item{\code{pacf_plot}}{A list-column of ggplot2 objects that show the
 #'               partial autocorrelation function for the residuals. NAs are
-#'               explicitely considered.}
+#'               explicitly considered.}
 #'   \item{\code{resid_plot}}{A list-column of ggplot2 objects that show residuals
 #'               vs. fitted values.}
 #'   \item{\code{qq_plot}}{A list-column of ggplot2 objects that show  the
@@ -56,7 +56,7 @@
 #'              the line should show a pointy negative peak at this threshold.
 #'              If this is not the case, e.g. the trough is very wide with similar
 #'              GCV values for nearby thresholds, the threshold-GAM is not
-#'              optimal and should not be favoured over a GAM despite the better
+#'              optimal and should not be favored over a GAM despite the better
 #'              LOOCV (leave-one-out cross-validation value).}
 #'   \item{\code{all_plots}}{A list-column of ggplot2 objects that show all
 #'              five (six if threshold-GAM) plots together. For this plot,
@@ -67,7 +67,7 @@
 #' @seealso \code{\link[stats]{cooks.distance}}, \code{\link[stats]{acf}},
 #' \code{\link[stats]{pacf}}, \code{\link[stats]{qqnorm}}, and
 #' \code{\link[purrr]{flatten}} for removing a level hierarchy from a list
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -92,7 +92,7 @@ plot_diagnostics <- function(model_list) {
 
   # Data input validation --------------------
   if (missing(model_list)) {
-	 	stop("Argument 'model_list' is missing.")
+	 	stop("Argument model_list is missing.")
   }
   # Check input and return warning if not a model
   if ("data.frame" %in% class(model_list)) {
@@ -136,14 +136,14 @@ plot_diagnostics <- function(model_list) {
         model_resid_na[[i]][!pass_model$train_na] <- model_resid[[i]]
       }
       # Not yet implemented
-      if(class(pass_model)[1] == 'thresh_gamm') {
+      if(class(pass_model)[1] == "thresh_gamm") {
       	 pass_model <- pass_model$gam
         cooks_dist[[i]] <- stats::cooks.distance(pass_model)
         gcvv[[i]] <- pass_model$gcvv
         t_val[[i]] <- pass_model$t_val
         best_t_val[[i]] <- pass_model$mr
         model_resid[[i]] <- stats::residuals(model_list[[i]]$lme,
-        		type = 'normalized')
+        		type = "normalized")
         # for testing autocorrelation incl. NAs
         model_resid_na[[i]] <- rep(NA, length(model_list[[i]]$train_na))
           # (or should it be length(pass_model$train_na))???)
@@ -176,7 +176,7 @@ plot_diagnostics <- function(model_list) {
   # Get quantiles for the q-q-plot
   quan_normal <- purrr::map(model_resid, ~quantile(x = rnorm(length(.))))
   # (throws an error if 0% and 100% quantile are
-  # equal (in case of a missing model) - it's not
+  # equal (in case of a missing model) - it`s not
   # elegant but working..)
   theo_quan <- purrr::map2(.x = quan_normal, .y = model_resid,
     ~seq(from = .x[1], to = .x[5], by = (.x[5] -
@@ -309,4 +309,3 @@ plot_diagnostics <- function(model_list) {
   ### END OF FUNCTION
   return(out)
 }
-

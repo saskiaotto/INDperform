@@ -11,7 +11,7 @@
 #' @details
 #' NOTE: if the time series on which the GAM(M) is fitted contains missing values,
 #' they need to be accounted for in the residual vector. Observations with
-#' one or more NAs inbetween will be otherwise considered as having a lag of 1.
+#' one or more NAs in-between will be otherwise considered as having a lag of 1.
 #'
 #' The test for temporal autocorrelation is based on the following condition: If
 #' any of the acf \strong{and} any of the pacf values of lag 1 - 5 is greater or
@@ -98,4 +98,3 @@ test_tac <- function(model_resid) {
     tac = tac)
   return(res)
 }
-

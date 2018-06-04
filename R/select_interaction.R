@@ -4,16 +4,16 @@
 #' all indicator-specific combinations of pressures pairs as input for the
 #' \code{\link{test_interaction}} function. The pressures in the IND~pressure
 #' GAM(M)s are combined with all other pressures in the model tibble. If
-#' specific combinations should not be modelled simply delete them from
-#' this dataframe.
+#' specific combinations should not be modeled simply delete them from
+#' this data frame.
 #'
 #' For each IND~pressure pair specific pressures to test for interactions can
 #' be selected by creating a tibble containing the IND (termed `ind`), the
 #' pressure 1 (termed `press``) and the pressure 2 (termed `t_var``). The easiest
 #' is to use the helper function \code{\link{select_interaction}}: it creates
 #' all combinations of IND~press pairs and the threshold variables based on
-#' the input model tibble. If specific combinations should not be modelled
-#' simply delete them from this dataframe.
+#' the input model tibble. If specific combinations should not be modeled
+#' simply delete them from this data frame.
 #'
 #' @inheritParams test_interaction
 #'
@@ -35,7 +35,7 @@ select_interaction <- function(mod_tbl) {
 
 	 # Data input validation --------
 	 if (missing(mod_tbl)) {
-	 	 stop("Argument 'mod_tbl' is missing.")
+	 	 stop("Argument mod_tbl is missing.")
 	 }
 
 	 mod_tbl <- check_input_tbl(
@@ -47,7 +47,7 @@ select_interaction <- function(mod_tbl) {
 
 	 # Check whether there are more than 1 pressure to test for interactions
 	 if (length(unique(mod_tbl$press)) == 1) {
-	 	 stop("'mod_tbl' contains only 1 pressure!")
+	 	 stop("mod_tbl contains only 1 pressure!")
 	 }
 
 	 # --------------
@@ -69,8 +69,6 @@ select_interaction <- function(mod_tbl) {
   # Sort columns
   pressures <- dplyr::select_(pressures, "ind", "press",
     "t_var")
-
-
 
 
   return(pressures)

@@ -70,16 +70,16 @@
 #' for the estimation of the threshold value as well as the effective degrees of
 #' freedom of all model terms.
 #'
-#'\strong{Implementation of threshold modelling}
+#'\strong{Implementation of threshold modeling}
 #'
 #' For each IND~pressure pair, specific pressures to test for interactions can be selected
 #' by creating a tibble containing the IND (termed `ind`), the pressure 1 (termed `press`)
 #' and the pressure 2 (termed `t_var`). The easiest is to use the helper function
 #' \code{\link{select_interaction}}: it creates all combinations of IND~press pairs and
 #' the threshold variables based on the input model tibble. If specific combinations should
-#' not be modelled simply delete them from this dataframe.
+#' not be modeled simply delete them from this data frame.
 #'
-#' \code{test_interaction} takes this dataframe and the ind_init and model tibble as input
+#' \code{test_interaction} takes this data frame and the ind_init and model tibble as input
 #' and applies the following procedure:
 #'
 #' \itemize{
@@ -123,7 +123,7 @@
 #' }
 #'
 #' @seealso \code{\link{plot_diagnostics}} for assessing the model diagnostics
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @references
 #' Ciannelli, L., Chan, K.-S., Bailey, K.M., Stenseth, N.C. (2004) Nonadditive
@@ -167,13 +167,13 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   # Data input validation ----------------
 	 if (missing(init_tbl)) {
-	 	stop("Argument 'init_tbl' is missing.")
+	 	stop("Argument init_tbl is missing.")
 	 }
 		 if (missing(mod_tbl)) {
-	 	stop("Argument 'mod_tbl' is missing.")
+	 	stop("Argument mod_tbl is missing.")
 		 }
 		 if (missing(interactions)) {
-	 	stop("Argument 'interactions' is missing.")
+	 	stop("Argument interactions is missing.")
 	 }
 
 	 # Check input tibbles
@@ -192,9 +192,9 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   if ((!"excl_outlier" %in% names(mod_tbl)) &
     isTRUE(excl_outlier)) {
-    stop("There is no column 'excl_outlier'. Please set excl_outlier to FALSE!")
+    stop("There is no column excl_outlier. Please set excl_outlier to FALSE!")
   }
-	 # As the column 'excl_outlier' is later needed, add here
+	 # As the column excl_outlier is later needed, add here
 	 #  list of NULLs
 	 if ((!"excl_outlier" %in% names(mod_tbl)) &
     excl_outlier == FALSE)  {
@@ -217,7 +217,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
 	 if (any(!ind_press_it %in% ind_press_mod)) {
 				missing_it <-ind_press_it[which(!ind_press_it %in% ind_press_mod)]
-				stop(paste0("The following 'ind~press' combinations provided in the 'interactions' tibble are missing in 'mod_tbl': ",
+				stop(paste0("The following ind~press combinations provided in the interaction tibble are missing in mod_tbl: ",
 						paste(missing_it, collapse = ", ")))
 	 }
 
@@ -420,7 +420,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   if (any(is.na(final_tab$interaction))) {
   	 miss_mod <- final_tab[is.na(final_tab$interaction), c(1:3, 13)]
 			 message(paste0("For the following indicators fitting procedure failed ",
-				"(see also column 'thresh_error' in output tibble):"))
+				"(see also column thresh_error in output tibble):"))
   	 print(miss_mod, n = Inf, tibble.width = Inf)
   }
 
@@ -428,4 +428,3 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   ### END OF FUNCTION ####
   return(out)
 }
-

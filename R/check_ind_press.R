@@ -6,7 +6,7 @@
 #' number (double or integer) it will return an error message.
 #'
 #' @param x A data object containing only the indicator or pressure
-#' variables (vector, matrix, dataframe or tibble).
+#' variables (vector, matrix, data frame or tibble).
 #' @param input Indication whether x represents the indicator (default) or
 #'  pressure variable(s). If x is a vector, `input` determines the variable
 #'  name when coerced to a data frame.
@@ -19,7 +19,7 @@
 #' @keywords internal
 #' @export
 check_ind_press <- function(x, input = "ind") {
-		# Coerce vector or table class to dataframe
+		# Coerce vector or table class to data frame
 		if (is.vector(x)) {
 				x <- data.frame(x)
 				if (input == "ind") {

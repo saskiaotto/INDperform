@@ -4,7 +4,7 @@
 #' conditional bootstrap for calculating the derivatives of the resulting
 #' smoothing curves.
 #'
-#' @param ci Confidence interval of the boostrapped smoothing functions and their
+#' @param ci Confidence interval of the bootstrapped smoothing functions and their
 #'   derivatives. Must be between 0 and 1, default is 0.95.
 #' @inheritParams calc_deriv
 #'
@@ -13,12 +13,12 @@
 #' \code{cond_boot} produces first n_boot new IND time series by
 #' resampling from the residuals of the original IND-Pressure GAM(M) and
 #' adding these to the original IND time series repeatedly. For GAMMs the
-#' correlation structure in the bootstrapped residuals is kept contant
+#' correlation structure in the bootstrapped residuals is kept constant
 #' by using the \code{\link{arima.sim}} function with the bootstrapped
 #' residuals as times series of innovations and the correlation parameters
-#' from the orginal model.
+#' from the original model.
 #' A separate GAM(M) is then fitted to each bootstrapped IND time series. If
-#' errors occurr during the n_boot iterations of resampling and model fitting
+#' errors occur during the n_boot iterations of resampling and model fitting
 #' (e.g., convergence errors for GAMMs), the process is repeated until n_boot
 #' models have been fitted successfully.
 #'
@@ -34,7 +34,7 @@
 #' The parallel computation in this function builds on the packages
 #' \code{parallel} and \code{pbapply} with its function
 #' \code{\link[pbapply]{pblapply}}. This allows the vectorized computations
-#'  similar to lapply and adds further a progress bar.
+#'  similar to \code{lapply} and adds further a progress bar.
 #'
 #' @return
 #' The function returns the input model tibble with the following 9 columns added
@@ -172,7 +172,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       cor_param <- names(cor_coef)
       if (any(
       	identical(cor_param, cor_params[[1]][1]) | identical(cor_param, cor_params[[1]][2]) )) {
-       # corARMA(1,0) writes it 'Phi1' (our setting), corAR1 writes it just 'Phi'
+       # corARMA(1,0) writes it Phi1 (our setting), corAR1 writes it just Phi
       	# so in casew user applies manual GAM both versions included
       	arma_list <- list(ar = cor_coef)
       }
@@ -395,7 +395,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   dat$boot_tbl <- boot_per_id_t$result
   dat$boot_error <- purrr::map(boot_per_id_t$result,	~.x$boot_each_error)
 
-  # Check if number of successfull boots is acceptable
+  # Check if number of successful boots is acceptable
   n_succ <- purrr::map_dbl(dat$boot_tbl, ~ sum(!is.na(.x$boot_fit)))
   dat$adj_n_boot <- purrr::map_dbl(n_succ, .f = adj_n_boot)
   dat$boot_tbl <- purrr::map2(.x = dat$boot_tbl, .y = dat$adj_n_boot,
@@ -440,12 +440,12 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
    # Warning if some models were not fitted
 	  if (any(is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot)) {
 					sel <- is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot
-					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but 'prop' included in calc_deriv before
+					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but "prop" included in calc_deriv before
 				 message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
-				 	"failed completely ('adj_n_boot' = NA) or partly so that the number of bootstraps ",
-						"had to be reduced. See 'boot_error' in the output tibble for the error message of ",
-						"each iteration. If 'adj_n_boot' = NA, try for these models the alternative ",
-						"'approx_deriv' method:"))
+				 	"failed completely (adj_n_boot = NA) or partly so that the number of bootstraps ",
+						"had to be reduced. See the boot_error column in the output tibble for the error message of ",
+						"each iteration. If adj_n_boot = NA, try for these models the alternative ",
+						"approx_deriv method:"))
 	  	 print(miss_mod, n = Inf, tibble.width = Inf)
 	  }
 

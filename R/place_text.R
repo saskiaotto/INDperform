@@ -7,9 +7,9 @@
 #'
 #' @param x The complete vector of x values in the ggplot.
 #' @param y The complete vector of y values in the ggplot.
-#' @param x_range The required width of the textbox. Numeric value
+#' @param x_range The required width of the text box. Numeric value
 #'  between 0 and 1; default is 0.1.
-#' @param y_range The required height of the textbox. Numeric value
+#' @param y_range The required height of the text box. Numeric value
 #'  between 0 and 1; default is 0.2.
 #' @param pos Specifies the corner in which to place the annotation.
 #'  This must be one of "topleft", "topright", "bottomleft" and

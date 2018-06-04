@@ -29,10 +29,10 @@ clust_sc <- function(dist_mat, method_clust = "average",
 
 	 # Data input validation --------
 	 if (missing(dist_mat)) {
-	 	stop("Argument 'dist_mat' is missing.")
+	 	stop("Argument dist_mat is missing.")
 	 }
 	 if (class(dist_mat) != "dist") {
-	 	 stop("'dist_mat' is not an object of class 'dist'! Is this the correct output from the dist_sc() function?")
+	 	 stop("dist_mat is not an object of class "dist"! Is this the correct output from the dist_sc() function?")
 	 }
 	 # --------------------
 

@@ -21,10 +21,10 @@
 #' @details
 #' \code{ind_init} will combine every column in ind_tbl with every column in press_tbl
 #' so that each row will represent one IND~press combination. The input data will be
-#' splitted into a training and a test data set. The returned tibble is the basis for all
-#' IND~pressure modelling functions.
+#' split into a training and a test data set. The returned tibble is the basis for all
+#' IND~pressure modeling functions.
 #'
-#' If not all IND~pressure combinations should be modelled,
+#' If not all IND~pressure combinations should be modeled,
 #' the respective rows can simply be removed from the output tibble or \code{ind_init} is
 #' applied multiple times on data subsets and their output tibbles merged later using
 #' e.g. \code{\link[dplyr]{bind_rows}}.
@@ -50,7 +50,7 @@
 #'
 #' @seealso \code{\link[tibble]{tibble}} and the \code{vignette("tibble")} for more
 #'  informations on tibbles
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -71,13 +71,13 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
 
 		# Data input validation -----------------------
 	 if (missing(ind_tbl)) {
-	 	stop("Argument 'ind_tbl' is missing.")
+	 	stop("Argument ind_tbl is missing.")
 	 }
 	 if (missing(press_tbl)) {
-	 	stop("Argument 'press_tbl' is missing.")
+	 	stop("Argument press_tbl is missing.")
 	 }
 	 if (missing(time)) {
-	 	stop("Argument 'time' is missing.")
+	 	stop("Argument time is missing.")
 	 }
 		# Check parameters
 		x_ <- check_ind_press(press_tbl, input = "press")
@@ -85,7 +85,7 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
 		time_ <- check_input_vec(time, "time")
 		# equal length?
 		if ( nrow(y_) != length(time_) || nrow(y_) != nrow(x_) ) {
-			 stop("The time steps in 'time', 'ind_tbl' and 'press_tbl' have to be the same!")
+			 stop("The time steps in time, ind_tbl and press_tbl have to be the same!")
 		}
 
   if (train < 0 | train > 1) {
@@ -203,4 +203,3 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
   ### END OF FUNCTION
   return(init_tab)
 }
-

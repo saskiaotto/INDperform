@@ -35,7 +35,7 @@
 #' @param n_boot Number of bootstraps. Select n_boot so that (n_boot - (n_boot *ci)) / 2
 #'  will be an integer. Otherwise, the function will increase n_boot automatically.
 #'  The default is set to 200.
-#' @param ci_boot Confidence interval of the boostrapped smoothing functions and their
+#' @param ci_boot Confidence interval of the bootstrapped smoothing functions and their
 #'  derivatives. Must be between 0 and 1, default is 0.95.
 #' @param ci_prop_se A conversion factor for approximating derivative CIs in the
 #'  `approx_method`; it is multiplied with the ratio between s.e. and mean fitted
@@ -53,7 +53,7 @@
 #'   of the random number generator (RNG) state for reproducibility. Due to the work
 #'   splitting in the parallel computation, RNG streams are not comparable with the
 #'   stream under serial computation. To reproduce results use the same type of
-#'   computation with the same seed and no_clust.
+#'   computation with the same seed and number of clusters.
 #'
 #' @details
 #' In the case of non-linear IND responses to pressures first derivatives
@@ -168,7 +168,7 @@
 #'              bootstrapped first derivatives.}
 #'   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
 #'              actually used for calculating the mean and confidence intervals of
-#'              the predicted indicator reponse and the derivative.}
+#'              the predicted indicator response and the derivative.}
 #'   \item{\code{boot_error}}{A list-column capturing potential error messages that
 #'              occurred as side effects when refitting the GAM(M)s on each bootstrap
 #'              sample.}
@@ -190,7 +190,7 @@
 #' changes in smoothed indicator time series. \emph{Ecological Indicators} 9, 732-739.
 #'
 #' @seealso \code{\link{cond_boot}} and \code{\link{approx_deriv}}
-#' @family IND~pressure modelling functions
+#' @family IND~pressure  modeling functions
 #'
 #' @export
 #'
@@ -220,10 +220,10 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   }
 
   if (missing(init_tbl)) {
-	 	stop("Argument 'init_tbl' is missing.")
+	 	stop("Argument init_tbl is missing.")
   }
   if (missing(mod_tbl)) {
-	 	stop("Argument 'mod_tbl' is missing.")
+	 	stop("Argument mod_tbl is missing.")
 	 }
 
   # Check input tibbles
@@ -300,11 +300,11 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 
   # Correct method (2 options)?
   if (is.null(method)) {
-    stop("The method must be either 'conditional bootstrap' or 'approx_deriv'.")
+    stop("The method must be either "conditional bootstrap" or "approx_deriv".")
   } else {
     if (!method %in% c("cond_boot",
       "approx_deriv")) {
-      stop("The method must be either 'cond_boot' or 'approx_deriv'.")
+      stop("The method must be either "cond_boot" or "approx_deriv".")
     }
   }
 
@@ -333,9 +333,9 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
 
   if ((!"excl_outlier" %in% names(mod_tbl)) &
     isTRUE(excl_outlier)) {
-    stop("There is no column 'excl_outlier'. Please set excl_outlier to FALSE!")
+    stop("There is no column "excl_outlier" in mod_tbl. Please set excl_outlier to FALSE!")
   }
-	 # As the column 'excl_outlier' is later needed, add here
+	 # As the column "excl_outlier" is later needed, add here
 	 #  list of NULLs
 	 if ((!"excl_outlier" %in% names(mod_tbl)) &
     excl_outlier == FALSE)  {
@@ -357,7 +357,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     alter_output <- mod_tbl
     alter_output$prop <- 1
     alter_output <- sort_output_tbl(alter_output)
-    message(paste0("'mod_tbl' contains no significant model (p_val <= sign_level) ",
+    message(paste0("mod_tbl contains no significant model (p_val <= sign_level) ",
     	" or NONE of the significant models is non-linear (edf > edf_filter)! ",
 					"Significant linear models will get automatically a proportion (prop) value of 1."))
     return(alter_output)
@@ -457,4 +457,3 @@ x_range <- function(vec) {
 	 }
   return(temp_for_if_break)
 }
-

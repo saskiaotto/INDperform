@@ -10,8 +10,8 @@
 #' \describe{
 #' \item{crit_id}{ID of main criteria.}
 #' \item{crit}{A vector of the main criteria.}
-#' \item{subcrit_id}{ID of subcriteria.}
-#' \item{subcrit}{A vector of the subcriteria.}
+#' \item{subcrit_id}{ID of sub-criteria.}
+#' \item{subcrit}{A vector of the sub-criteria.}
 #' \item{definition}{A short description of the (sub)criteria.}
 #' \item{score_explanation}{A short explanation on the required condition
 #'           for a specific score.}
@@ -41,7 +41,7 @@
 #' Otto et al. (2018).
 #' \describe{
 #' \item{Year}{year given as integer}
-#' \item{TZA}{ln-transformed Total Zooplankton Abundance (in N/m^2)}
+#' \item{TZA}{ln-transformed Total Zooplankton Abundance (in N m^-3^)}
 #' \item{MS}{Mean Size of zooplankton (in wet weight micro grams)}
 #' \item{rCC}{ln-transformed ratio of Cladoceran to Copepod Abundance}
 #' \item{Cops}{ln-transformed Copepod biomass (in mg)}
@@ -65,10 +65,10 @@
 #' Otto et al. (2018)
 #' \describe{
 #' \item{Year}{year given as integer}
-#' \item{Tsum}{temperature summer (in °C)}
+#' \item{Tsum}{temperature summer (in degree C)}
 #' \item{Swin}{salinity winter}
-#' \item{Pwin}{phosphate in winter (in mg/m3)}
-#' \item{Nwin}{nitrogen winter (in mg/m3)}
+#' \item{Pwin}{phosphate in winter (in mg m^-3^)}
+#' \item{Nwin}{nitrogen winter (in mg m^-3^)}
 #' \item{Fsprat}{fishing mortality of sprat}
 #' \item{Fher}{fishing mortality of herring}
 #' \item{Fcod}{fishing mortality of cod}
@@ -146,7 +146,7 @@
 #'   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
 #'   \item{\code{ind}}{Indicator names.}
 #'   \item{\code{press}}{Pressure names.}
-#'   \item{\code{model_type}}{Specification of the modeltype; at this stage containing only
+#'   \item{\code{model_type}}{Specification of the model type; at this stage containing only
 #'              "gam" (Generalized Additive Model).}
 #'   \item{\code{corrstruc}}{Specification of the correlation structure; at this stage
 #'              containing only "none".}
@@ -259,7 +259,7 @@
 "merge_models_ex"
 
 
-#' Output tibble after applying all IND~pressure modelling functions
+#' Output tibble after applying all IND~pressure modeling functions
 #'
 #' This is an example output tibble based on the Central Baltic Sea
 #' food web indicator demonstration data after applying the \code{\link{calc_deriv}}
@@ -342,4 +342,3 @@
 #'              detected in the residuals. TRUE if model residuals show TAC.}
 #' }
 "all_results_ex"
-

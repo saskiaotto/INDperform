@@ -4,7 +4,7 @@
 #' tibble (or the output tibble from the \code{\link{expect_resp}} function).
 #'
 #' @param scores_tbl The output tibble from the scoring.
-#' @param method_dist Dissimilarity index used in the vegdist function to
+#' @param method_dist Dissimilarity index used in the \code{vegdist} function to
 #'  to calculate the dissimilarity matrix based on the scores.
 #'  Default is `euclidean`, for alternatives see \code{\link[vegan]{vegdist}}.
 #' @param ... Further arguments to be passed to the method \code{vegdist}.
@@ -28,7 +28,7 @@ dist_sc <- function(scores_tbl, method_dist = "euclidean",
 
 	 # Data input validation -----------------------
 	 if (missing(scores_tbl)) {
-	 	stop("Argument 'scores_tbl' is missing.")
+	 	stop("Argument scores_tbl is missing.")
 	 }
 	 # Check input tibble
   scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
@@ -37,7 +37,7 @@ dist_sc <- function(scores_tbl, method_dist = "euclidean",
 
   # Data preparation for calculating distance matrix ------
 
-  # Seperate data into general and pressure-specific
+  # Separate data into general and pressure-specific
   # scores but check first if criteria are present in
   # scoring tibble
   if (sum(c("C8", "C11") %in% names(scores_tbl)) >
@@ -63,7 +63,7 @@ dist_sc <- function(scores_tbl, method_dist = "euclidean",
 	  	scores_c910_l$crit <- sub("\\_.*", "",
 	  		scores_c910_l$subcrit)
 
-	  	# Calculate sum across subcriteria in C9 and C10
+	  	# Calculate sum across sub-criteria in C9 and C10
 	  	scores_c910_sum <- scores_c910_l %>%
 	  		dplyr::group_by_(.dots = c("ind", "press", "crit")) %>%
 	  		dplyr::summarise_(.dots = stats::setNames(list(~sum(score)),

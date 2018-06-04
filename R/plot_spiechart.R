@@ -6,22 +6,22 @@
 #'
 #' @param summary_tbl The output tibble from the
 #'  \code{\link{summary_sc}} function.
-#' @param col_press_type Colours for the spiechart slices representing
+#' @param col_press_type Colors for the spiechart slices representing
 #'  criteria 9 (sensitivity; opaque) and 9 (robustness; transparent).
 #'
-#'  The colours distinguish the different pressure types. The default
+#'  The colors distinguish the different pressure types. The default
 #'  is set to the RColourBrewer palette "Set1".
-#' @param col_crit8_11 Colours for the spiechart slices representing
+#' @param col_crit8_11 Colors for the spiechart slices representing
 #'  criteria 8 (trend) and 11 (management application). The default is
 #'  set to cyan1 and yellow2.
 #' @param lab_size Size for the labels naming the significant pressures. The default is 6.
 #' @param title_size Size for the title naming the indicator. The default is 8.
 #'
 #' @details
-#' The overall performance of each tested IND is illustrated using a spie chart,
+#' The overall performance of each tested IND is illustrated using a spiechart,
 #' which has been shown to be a well-suited graphical tool for
 #' displaying multivariate data in comparative indicator evaluations
-#' (Stafoggia \emph{et al.}, 2011). A spie chart superimposes a normal pie chart with
+#' (Stafoggia \emph{et al.}, 2011). A spiechart superimposes a normal pie chart with
 #' a modified polar area chart to permit the comparison of two sets of related
 #' data, e.g. the maximum achievable scores and each IND’s realized scores. In this
 #' function, the slice width is kept constant, while the length of the slices
@@ -32,8 +32,8 @@
 #' (left) criteria. The sensitivity and robustness scores are shown individually for
 #' each pressure where a significant relationship was found. These are the labeled
 #' slices grouped by their pressure type represented by dotted devision lines and the
-#' segmented outer grey circle as well as pressure type-specific colours (sensitivey
-#' scores are displayed in opaque colour, robustness scores in transparent colour).
+#' segmented outer grey circle as well as pressure type-specific colors (sensitivity
+#' scores are displayed in opaque color, robustness scores in transparent color).
 #'
 #' The plot slices adjust to the number of criteria used for the scoring function
 #' (that are present in crit_scores_tmpl).
@@ -89,7 +89,7 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
 
   # Data input validation -----------------------
 	 if (missing(summary_tbl)) {
-	 	stop("Argument 'summary_tbl' is missing.")
+	 	stop("Argument summary_tbl is missing.")
 	 }
   # Check input list
 	 if (class(summary_tbl) != "list") {

@@ -39,10 +39,10 @@ merge_models <- function(mod_tbl1, mod_tbl2) {
 
 	 # Data input validation --------------------------
 	 if (missing(mod_tbl1)) {
-	 	stop("Argument 'mod_tbl1' is missing.")
+	 	stop("Argument mod_tbl1 is missing.")
 	 }
 		if (missing(mod_tbl2)) {
-	 	stop("Argument 'mod_tbl2' is missing.")
+	 	stop("Argument mod_tbl2 is missing.")
 	 }
 		# Check input tibbles
 		mod_tbl1 <- check_input_tbl(mod_tbl1, tbl_name = "mod_tbl1")

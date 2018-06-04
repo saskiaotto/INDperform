@@ -21,6 +21,3 @@ is_value<- function(x) {
               is.null(x) | is.infinite(x))
 	return(out)
 }
-
-
-

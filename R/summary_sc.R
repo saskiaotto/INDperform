@@ -1,7 +1,7 @@
 #' Summary of indicator performance scores
 #'
 #' Summarizes the scoring output tibble so that IND-specific scores for each
-#' criterion as well as the pressure-specific subcriteria scores (in crit.
+#' criterion as well as the pressure-specific sub-criteria scores (in crit.
 #' 9 and 10) can be easily compared.
 #'
 #' @param scores_tbl The output tibble from the \code{\link{scoring}}
@@ -12,13 +12,13 @@
 #'  is the unmodified template \code{crit_scores_tmpl}.
 #'
 #' @return
-#' The function returns a list of 2 dataframes
+#' The function returns a list of 2 data frames
 #' \describe{
 #'   \item{\code{overview}}{IND-specific scores and percentages from
 #'         max. score for all criteria (crit 9 and 10 averaged across
 #'         all sign. pressures and the number of significant pressures).}
 #'   \item{\code{subcriteria_per_press}}{IND- and pressure-specific scores for
-#'          all (sub)criteria and the percentages from max.criterion score.}
+#'          all (sub-)criteria and the percentages from max. criterion score.}
 #' }
 #'
 #' @family score-based IND performance functions
@@ -34,7 +34,7 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   # Data input validation -----------------------
 	if (missing(scores_tbl)) {
-	 	stop("Argument 'scores_tbl' is missing.")
+	 	stop("Argument scores_tbl is missing.")
 	 }
   # Check input tibble
   scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
@@ -107,7 +107,7 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   } else {
 
-    # Calculate sum across subcriteria in C9 and C10
+    # Calculate sum across sub-criteria in C9 and C10
     # and return to wide format (long format simply to
     # avoid if statements for checking for crit
     # presence)
@@ -177,7 +177,7 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
     out2 <- dplyr::select_(scores_c910, "-id")
 
-    ### Merge the total scores across subcriteria from
+    ### Merge the total scores across sub-criteria from
     ### calculation in output1, including the proportion
 
     # Add proportions of total scores
@@ -210,12 +210,3 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   return(print_list)
 }
-
-
-
-
-
-
-
-
-

@@ -5,8 +5,8 @@
 #' reference conditions and the current period.
 #'
 #' @param x An object from the \code{\link{statespace_ch}} function.
-#' @param col_ch_ref Colour of reference period (for points, path, and labels).
-#' @param col_ch_cur Colour of current period (for points, path, and labels).
+#' @param col_ch_ref Color of reference period (for points, path, and labels).
+#' @param col_ch_cur Color of current period (for points, path, and labels).
 #' @param size_time Text size of the time labels (both periods).
 #'
 #' @return The function returns a \code{\link[ggplot2]{ggplot}} object.
@@ -35,10 +35,10 @@ plot_statespace_ch <- function(x, col_ch_ref = "red",
 
 	 # Data input validation --------
 		if (missing(x)) {
-	 	 stop("Argument 'x' is missing.")
+	 	 stop("Argument x is missing.")
 	 }
 		if (!is.list(x)) {
-	 	 stop("'x' has to be a list (output of statespace_ch() function)!")
+	 	 stop("x has to be a list (output of statespace_ch() function)!")
 	 }
   # -------------------------
 

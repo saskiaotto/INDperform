@@ -1,4 +1,4 @@
-#' Modelling of indicator trends
+#' Modeling of indicator trends
 #'
 #' The function models the long-term trend of each indicator (IND) based on
 #' Generalized Additive Models (GAM) and returns a tibble with
@@ -25,7 +25,7 @@
 #'
 #' @details
 #' To test for linear or non-linear long-term changes, each indicator (IND)
-#' in the ind_tbl is modelled as a smoothing function of the time vector
+#' in the ind_tbl is modeled as a smoothing function of the time vector
 #' (usually years) using the \code{\link[mgcv]{gam}} function. The trend can
 #' be tested for the full time series (i.e. all observations are used as
 #' training data) or for a random or selected subset.
@@ -79,17 +79,17 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
 
   # Data input validation -----------------------
 	 if (missing(ind_tbl)) {
-	 	stop("Argument 'ind_tbl' is missing.")
+	 	stop("Argument ind_tbl is missing.")
 	 }
 	 if (missing(time)) {
-	 	stop("Argument 'time' is missing.")
+	 	stop("Argument time is missing.")
 	 }
   # Check parameters
   y_ <- check_ind_press(ind_tbl)
   time_ <- check_input_vec(time, "time")
   # equal length?
   if (nrow(y_) != length(time_)) {
-  		stop("The number of time steps in 'time' and 'ind_tbl' have to be the same (i.e. the	length of the time vector and length or row number in 'ind_tbl' differ)")
+  		stop("The number of time steps in time and ind_tbl have to be the same (i.e. the	length of the time vector and length or row number in ind_tbl differ)")
   }
 
   if (train < 0 | train > 1) {
@@ -188,7 +188,7 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   trend_tab$model <-	temp_mod$result
 
   if (all(is.na(temp_mod$result))) {
-  	 stop("No indicator trend model could be fitted! Check if you chose the correct error distribution (default is 'gaussian()').")
+  	 stop("No indicator trend model could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
   } else {
   	 # Get p-values
   	 gam_smy <- suppressWarnings(trend_tab$model %>%

@@ -15,7 +15,7 @@
 #' @param ind_vec A vector with the IND training observations (including or excluding
 #'  defined outliers).
 #' @param press_vec A vector with the training observations (including or excluding
-#'  defined outliers) of pressure 1 (i.e. the orginal significant pressure in the
+#'  defined outliers) of pressure 1 (i.e. the original significant pressure in the
 #'  GAM(M)).
 #' @param t_var A vector with the training observations (including or excluding
 #'  defined outliers) of the threshold variable (i.e. a second pressure variable).
@@ -30,7 +30,7 @@
 #'
 #' @details
 #' \code{thresh_gam} creates first a sequence of evenly spaced threshold values
-#' within theboundaries set by the lower and upper quantiles (defined by a and b).
+#' within the boundaries set by the lower and upper quantiles (defined by a and b).
 #' For each threshold value that leads to a new splitting of the threshold
 #' variables a threshold-GAM is applied: one smoothing function is applied
 #' to only those observations where the threshold variable has been below the threshold
@@ -38,10 +38,10 @@
 #' observations where the threshold variable is above the prior defined threshold.
 #' From the list of computed models the threshold-GAM with the lowest Generalized
 #' Cross Validation (GCV) and its threshold value are selected and returned. For more
-#' infos on thershold-GAMs see also the details section in \code{\link{test_interaction}}.
+#' infos on threshold-GAMs see also the details section in \code{\link{test_interaction}}.
 #'
 #' @return
-#' The function returns a \code{gam} object with the additional class "\code{tgam}".
+#' The function returns a \code{gam} object with the additional class \code{tgam}.
 #' All method functions for \code{gam} can be applied to this function. The object
 #' has four additional elements:
 #' \describe{

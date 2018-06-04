@@ -4,7 +4,7 @@
 #'  defined reference conditions to assess the development of a suite of
 #'  ecological state indicators.
 #'
-#' @param x A dataframe, tibble, matrix or vector of selected indicator(s).
+#' @param x A data frame, tibble, matrix or vector of selected indicator(s).
 #' @param time A vector containing the actual time series.
 #' @param ref_time The reference time (single point in time, e.g. specific
 #'  year) on which to base the Euclidean distance. Default is set to the
@@ -49,10 +49,10 @@ statespace_ed <- function(x, time, ref_time = NULL) {
 
   # Data input validation --------------------
 	 if (missing(x)) {
-	 	stop("Argument 'x' is missing.")
+	 	stop("Argument x is missing.")
 	 }
 	if (missing(time)) {
-	 	stop("Argument 'time' is missing.")
+	 	stop("Argument time is missing.")
 	 }
 
 	 # Check for correct input format

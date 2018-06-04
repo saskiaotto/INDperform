@@ -96,13 +96,13 @@ plot_spie <- function(split_input, scale, parting,
   # Get labels for the pressure slices
   lab <- c(split_input$press)
 
-  # Assign colours
+  # Assign colors
   if (all(n_c9_c10)) {
-    # Colours for the slices if c9 and 10 are present
+    # Colors for the slices if c9 and 10 are present
     col_slice <- c(rep(split_input$col, each = 2))
     alpha <- c(rep(c(1, 0.5), times = nrow(split_input)))
   } else {
-    # Colours for the slices if only c9 or c10 is
+    # Colors for the slices if only c9 or c10 is
     # present
     col_slice <- split_input$col
     alpha <- rep(c(1, 0.5)[n_c9_c10], times = nrow(split_input))

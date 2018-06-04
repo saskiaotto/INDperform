@@ -29,7 +29,7 @@ plot_statespace_ed <- function(x) {
 
 	# Data input validation ---------
 	if (missing(x)) {
-	 	stop("Argument 'x' is missing.")
+	 	stop("Argument x is missing.")
 	 }
 	x <- check_input_tbl(x, tbl_name = "x", parent_func = "statespace_ed()")
  # -------------------------------

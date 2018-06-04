@@ -41,7 +41,7 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   data <- tibble::tibble(ind = ind_vec, press = press_vec,
     t_var = t_var_vec, time = time)
 
-  # Create as many sub-tibbles as there are observations
+  # Create as many subtibbles as there are observations
   # with one observation left out in each (used for
   # the prediction and the MSE calculation	)
   data_train <- purrr::map(1:nrow(data),

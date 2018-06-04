@@ -27,7 +27,7 @@
 #' Burnham, K.P., Anderson, D.R. (2002) Model Selection and Multimodel Inference - A
 #' Practical Information-Theoretic Approach. Springer-Verlag New York.
 #'
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -41,10 +41,10 @@ select_model <- function(gam_tbl, gamm_tbl){
 
 		# Data input validation -----------------------
 		if (missing(gam_tbl)) {
-	 	stop("Argument 'gam_tbl' is missing.")
+	 	stop("Argument gam_tbl is missing.")
 		}
 		if (missing(gamm_tbl)) {
-	 	stop("Argument 'gamm_tbl' is missing.")
+	 	stop("Argument gamm_tbl is missing.")
 	 }
 		# Check input tibbles
 		gam_tbl <- check_input_tbl(
@@ -58,7 +58,7 @@ select_model <- function(gam_tbl, gamm_tbl){
 				dt_to_check = c("integer", "character", "character", "numeric")
 		)
 
-		# Test if all gamm_ids occurr in the gam_tbl
+		# Test if all gamm_ids occur in the gam_tbl
 		if (!all(gamm_tbl$id %in% gam_tbl$id)) {
 				id <- which(!unique(gamm_tbl$id) %in% gam_tbl$id)
 				stop(paste0("The following ids are missing in gam_tbl but exist in gamm_tbl: ",

@@ -30,12 +30,12 @@ plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
 
 	 # Data input validation --------
 	 if (missing(x)) {
-	 	stop("Argument 'x' is missing.")
+	 	stop("Argument x is missing.")
 	 }
-	 # 'dendro_data' works only with specific objects:
+	 # dendro_data works only with specific objects:
 	 if (!class(x) %in% c("hclust", "dendrogram",
 	 	"tree", "rpart", "agnes", "diana", "twins")) {
-	 	 stop("'x' is not an object than contains dendrogram information (should be of class hclust, dendrogram. tree, rpwart, agnes, diana, twins). Use the output of clust_sc() function here!")
+	 	 stop("x is not an object that contains dendrogram information (should be of class hclust, dendrogram. tree, rpwart, agnes, diana, twins). Use the output of clust_sc() function here!")
 	 }
 	 # ------------------------------
 
@@ -97,7 +97,3 @@ plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
   ### END OF FUNCTION
   return(p)
 }
-
-
-
-

@@ -3,12 +3,12 @@
 #' \code{plot_model} creates a tibble with up to 4 individual plots and one
 #' combined plot (all ggplot2 objects) for each IND~pressure pair in the
 #' input tibble. The number of plots generated depends on the information
-#' provided in the input tibble. If all model IND~pressure modelling functions
+#' provided in the input tibble. If all model IND~pressure modeling functions
 #' have been applied to create the final input tibble all five plots will be
 #' produced.
 #'
 #' @param init_tbl The output tibble of the \code{\link{ind_init}} function.
-#' @param mod_tbl Any output tibble from the IND~pressure modelling functions.
+#' @param mod_tbl Any output tibble from the IND~pressure modeling functions.
 #' @param choose_thresh_gam Selects the threshold_GAM for the thresh_plot,
 #'  which is relevant if several models are listed in `thresh_models`.
 #'
@@ -32,11 +32,11 @@
 #'               pressure (based on the training data). The solid blue line represents
 #'               the predicted mean and the transparent polygon the 95\% confidence interval.
 #'               The effective degrees of freedom (edf), R_sq, and p-value from the
-#'               fittel model fitted are additionally provided. The input needed for this
+#'               fitted model are additionally provided. The input needed for this
 #'               plot is generated from the \code{\link{model_gam}} or
 #'               \code{\link{model_gamm}} functions.}
 #'   \item{\code{predict_plot}}{A list-column of ggplot2 objects that show the robustness
-#'               of the modelled relationship expressed as the predictive performance
+#'               of the modeled relationship expressed as the predictive performance
 #'               (the NRMSE) on a test dataset, e.g the last years of the time series.
 #'               The solid green line represents the predicted IND value given the
 #'               observed pressure value for that particular year (both in the training and
@@ -78,7 +78,7 @@
 #' }
 #'
 #'
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -108,10 +108,10 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Data input validation ---------------------
   if (missing(init_tbl)) {
-	 	stop("Argument 'init_tbl' is missing.")
+	 	stop("Argument init_tbl is missing.")
   }
 	if (missing(mod_tbl)) {
-	 	stop("Argument 'mod_tbl' is missing.")
+	 	stop("Argument mod_tbl is missing.")
 	 }
   # Check input tibbles
   init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
@@ -146,7 +146,7 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Check if the chosen value for choose_thresh_gam
   # exceeds the minimum number of threshold-GAMs
-  # listed in 'thresh_models':
+  # listed in thresh_models:
   if (any(grepl("interaction", names(mod_tbl)) ==
     TRUE)) {
     if (!is.null(choose_thresh_gam)) {

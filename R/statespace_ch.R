@@ -31,7 +31,7 @@
 #' containing all the points in Euclidean plane or in Euclidean space
 #' (de Berg \emph{et al.}, 2008). While the convex hull can be calculated for
 #' high-dimensional data, reducing the space to two dimensions allows for an easier
-#' visualization and interpretation. Therefore, the `statespace_ch` function only
+#' visualization and interpretation. Therefore, the \code{statespace_ch} function only
 #' calculates the convex hull for two dimensions, i.e. for two indicators or principal
 #' axes obtained by multivariate analysis such as a Principal Component Analysis
 #' (PCA).
@@ -46,7 +46,7 @@
 #'   \item{\code{inside_ch_ref}}{A logical vector indicating whether each
 #'   year (time step) of the current period lies inside (TRUE) or outside
 #'   (FALSE) the state space domain of the reference period.}
-#'   \item{\code{xy}}{A dataframe of the x and y coordinates.}
+#'   \item{\code{xy}}{A data frame of the x and y coordinates.}
 #'   \item{\code{time}}{A vector of the full time series.}
 #'   \item{\code{period_ref}}{A vector of years (time steps) defined as
 #'   the reference period.}
@@ -100,24 +100,24 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
 
 	 # Testing for required package installation
   if (!requireNamespace("tripack", quietly = TRUE)) {
-    stop("The package 'tripack' is needed for this function to work. Please install it.",
+    stop("The package  `tripack` is needed for this function to work. Please install it.",
       call. = FALSE)
   }
 
 		if (missing(x)) {
-	 	stop("Argument 'x' is missing.")
+	 	stop("Argument x is missing.")
 		}
 		if (missing(y)) {
-	 	stop("Argument 'y' is missing.")
+	 	stop("Argument y is missing.")
 		}
 	 if (missing(time)) {
-	 	stop("Argument 'time' is missing.")
+	 	stop("Argument time is missing.")
 		}
 	 if (missing(period_ref)) {
-	 	stop("Argument 'period_ref' is missing.")
+	 	stop("Argument period_ref is missing.")
 	 }
 	 if (missing(period_current)) {
-	 	stop("Argument 'period_current' is missing.")
+	 	stop("Argument period_current is missing.")
 	 }
 
   # Check input vectors
@@ -163,7 +163,7 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
   inside_ch_ref <- tripack::in.convex.hull(tr, x = x[index_current],
     y = y[index_current])
 
-  # Helper function 'convexhull' (returns convex hull
+  # Helper function convexhull (returns convex hull
   # around data points)
   convexhull <- function(xcoord, ycoord) {
     # xcoords = x ycoord = y
@@ -185,4 +185,3 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
   ### end of function ###
   return(out)
 }
-

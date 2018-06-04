@@ -32,7 +32,7 @@ plot_cook <- function(values) {
   p <- ggplot2::ggplot(data = NULL, ggplot2::aes(y = values)) +
     ggplot2::geom_bar(data = NULL, ggplot2::aes(x = 1:length(values)),
       stat = "identity", width = 0.1) +
-  	 ggplot2::labs(x = "", y = "Cook's distance") +
+  	 ggplot2::labs(x = "", y = "Cook`s distance") +
     ggplot2::geom_hline(yintercept = 1, colour = "red") +
     ggplot2::geom_abline(intercept = 0, slope = 0) +
     plot_outline()
@@ -157,4 +157,3 @@ plot_empty <- function() {
 	 		 axis.line = ggplot2::element_blank())
 	 return(p)
 }
-

@@ -14,7 +14,7 @@
 #'   "."  \tab = close to significant (.05 < .1)\cr
 #'   "*"  \tab  = significant (.01 < .05)\cr
 #'   "**"  \tab = highly significant (.001 < 0.01)\cr
-#'   "***"  \tab = absolut significant (<= .001)
+#'   "***"  \tab = absolute significant (<= .001)
 #' }
 #'
 #' @return

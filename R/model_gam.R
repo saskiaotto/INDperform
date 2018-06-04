@@ -1,4 +1,4 @@
-#' Modelling of indicator responses to single pressures with GAMs
+#' Modeling of indicator responses to single pressures with GAMs
 #'
 #' \code{model_gam} applies Generalized Additive Models (GAMs) to each IND~pressure
 #' combination created in \code{\link{ind_init}} and returns a tibble with
@@ -12,7 +12,7 @@
 #'  the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{negbin}}
 #'  or \code{\link[mgcv]{nb}}).
 #' @param excl_outlier A list of values identified as outliers in specific
-#'  IND~pressure GAMs, which should be excluded in this modelling step
+#'  IND~pressure GAMs, which should be excluded in this modeling step
 #'  (the output tibble of this function includes the variable
 #'  `pres_outlier`, which is a column-list containing
 #'  all indices of values with cook`s distance > 1 (see below). The function
@@ -21,7 +21,7 @@
 #'
 #' @details
 #' To evaluate the IND`s sensitivity and robustness time series of the IND are
-#' modelled as a smoothing function of one single pressure variable (using a subset
+#' modeled as a smoothing function of one single pressure variable (using a subset
 #' of the data as training dataset, e.g. excluding the years of the annual time series).
 #' The GAMs are build using the default settings in the \code{gam} function and
 #' the smooth term function \code{\link[mgcv]{s}}).  However, the user can adjust
@@ -79,8 +79,8 @@
 #'               normally distributed residuals.}
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
 #'               in the residuals. TRUE if model residuals show TAC. NAs in the time series
-#'               due to real missing values, test data extraction or exlusion of outliers
-#'               are explicitely considered. The test is based on the following condition:
+#'               due to real missing values, test data extraction or exclusion of outliers
+#'               are explicitly considered. The test is based on the following condition:
 #'               if any of the acf \strong{and} pacf values of lag 1 - 5 are greater than 0.4
 #'               or lower than -0.4, a TRUE is returned.}
 #'   \item{\code{pres_outlier}}{A list-column with all indices of values identified as outliers
@@ -100,7 +100,7 @@
 #'  informations on tibbles,
 #'  \code{\link[mgcv]{gam}} for more information on GAMs, and
 #'  \code{\link{plot_diagnostics}} for assessing the model diagnostics
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @export
 #'
@@ -127,7 +127,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 
 		# Data input validation -----------------------
 	 if (missing(init_tbl)) {
-	 	stop("Argument 'init_tbl' is missing.")
+	 	stop("Argument init_tbl is missing.")
 	 }
 		# Check input tibble
 	 init_tbl <- check_input_tbl(
@@ -195,7 +195,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   gam_tab$model <-	temp_mod$result
 
   if (all(is.na(temp_mod$result))) {
-  	 stop("No IND~pressure GAM could be fitted! Check if you chose the correct error distribution (default is 'gaussian()').")
+  	 stop("No IND~pressure GAM could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
   } else {
 
   # Save summary for each gam (cannot handle NAs, hence use of possibly())
@@ -240,7 +240,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   		purrr::map(.f = norm_test_safe) %>%
   	 purrr::transpose() %>% .$result %>% unlist() %>% round(., 4))
 
-  # Test for TAC - needs NA's in residuals!
+  # Test for TAC - needs NA`s in residuals!
   res_new <- vector(mode = "list", length = nrow(init_tbl))
   for (i in seq_along(res_new)) {
     res_new[[i]] <- rep(NA, length(train_na[[i]]))
@@ -248,7 +248,7 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   }
   gam_tab$tac <- test_tac(res_new)$tac
 
-  # Check for outlier (cook's distance > 1) in residuals
+  # Check for outlier (cook`s distance > 1) in residuals
   #  (cannot handle NAs, hence use of possibly())
   cooks_dist <- purrr::map(gam_tab$model,
   	 .f = purrr::possibly(stats::cooks.distance, NA))

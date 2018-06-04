@@ -1,9 +1,9 @@
 #' Compare changes in t_var based on different threshold levels.
 #'
 #' \code{compare_thresholds} is a helper function for \code{\link{thresh_gam}}.
-#' It test whether a specific treshold value
+#' It test whether a specific threshold value
 #' leads to a new splitting of trainings observations in the threshold
-#' variable in comparison to the previous treshold value. Returns FALSE if
+#' variable in comparison to the previous threshold value. Returns FALSE if
 #' the change in the t-t_val does not result in a new grouping of threshold
 #' values (above and below the t_val).
 #'

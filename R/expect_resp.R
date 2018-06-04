@@ -1,20 +1,20 @@
-#' Score adjustments for subcriterion 10.1
+#' Score adjustments for sub-criterion 10.1
 #'
 #' \code{expect_resp} runs a shiny app in which the expectation of the IND response to
-#' a pressure (subcriterion 10.1) can be manually changed to `yes` or `no` based on
+#' a pressure (sub-criterion 10.1) can be manually changed to `yes` or `no` based on
 #' visual inspection of the IND response curve.
 #'
-#' @param mod_tbl Output tibble from the IND~pressure modelling functions.
+#' @param mod_tbl Output tibble from the IND~pressure modeling functions.
 #' @param scores_tbl The output tibble from the \code{\link{scoring}} function.
 #' @param crit_scores The(un)modified criterion-scoring template \code{crit_scores_tmpl};
 #'  has to be the same than used in \code{scoring}. Default is the unmodified
 #'  template \code{crit_scores_tmpl}.
 #'
 #' @details
-#' The subcriterion 10.1 (i.e. the IND response to a pressure, which has been found significant,
+#' The sub-criterion 10.1 (i.e. the IND response to a pressure, which has been found significant,
 #' is in line with expectations based on ecological knowledge) has been set
 #' to a default score of 1 (no expectation / unclear as response is highly non-linear)
-#' in the \code{\link{scoring}} function. Determining whether the IND response modelled in
+#' in the \code{\link{scoring}} function. Determining whether the IND response modeled in
 #' the GAM/GAMM meets specific expectations can only be done
 #' based on visual model inspections. \code{expect_resp} provides only a very simple
 #' graphical representation of this smoothing function.
@@ -49,10 +49,10 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
 		# Data input validation ----------------------
 		 if (missing(mod_tbl)) {
-	 	stop("Argument 'mod_tbl' is missing.")
+	 	stop("Argument mod_tbl is missing.")
 		 }
 		 if (missing(scores_tbl)) {
-	 	stop("Argument 'scores_tbl' is missing.")
+	 	stop("Argument scores_tbl' is missing.")
 	 }
 
 	 # Check input tibbles
@@ -102,7 +102,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 dat <- as.data.frame(dat)
 	 dat <- dplyr::arrange_(dat, .dots="id")
 
-	 # Generate 'rhandsontable' including the figures ------------
+	 # Generate rhandsontable including the figures ------------
 
 	 # Split first the model data based on whether the pressure effect
 	 # was considered in the scoring (i.e. same rows as in dats)
@@ -115,7 +115,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 }
 
 
-		# Helper function to create 'sparkline.js' charts
+		# Helper function to create sparkline.js charts
 		chart_func <- function(model) {
 			if(class(model)[1] == "gam") {
 				df <- data.frame(press = seq(min(model$model[,2]), max(model$model[,2]),
@@ -145,16 +145,16 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
 			ui = shiny::fluidPage(
 
-				shiny::titlePanel("Score subcriterion 10.1: Indicator response to pressure as expected?"),
+				shiny::titlePanel("Score sub-criterion 10.1: Indicator response to pressure as expected?"),
 
 				shiny::sidebarLayout(
 					shiny::sidebarPanel(
-						shiny::helpText("The current scoring of subcriterion 10.1 is displayed.",
+						shiny::helpText("The current scoring of sub-criterion 10.1 is displayed.",
 							"Check whether you want to change it. If so, choose another",
-							"level in the column 'response_as_expected'. Once you are done,",
-							"press the 'Press Me!' button, which saves the table and closes the window",
+							"level in the column response_as_expected. Once you are done,",
+							"press the `Press Me!` button, which saves the table and closes the window",
 							" (if you opened this shiny app in a browser, close manually the window",
-							"after you pressed the 'Press Me' button)."),
+							"after you pressed the `Press Me!`` button)."),
 
 						shiny::wellPanel(
 							shiny::h3("Save table and close window"),

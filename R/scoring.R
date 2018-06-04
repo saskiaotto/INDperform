@@ -4,12 +4,12 @@
 #' applied on the output of the trend and pressure model functions.
 #'
 #' @param trend_tbl Output tibble from the \code{\link{model_trend}} function.
-#' @param mod_tbl Output tibble from the IND~pressure modelling functions.
-#' @param press_type Dataframe or tibble with pressure names (named `press`) in
+#' @param mod_tbl Output tibble from the IND~pressure modeling functions.
+#' @param press_type Data frame or tibble with pressure names (named `press`) in
 #'  first column and corresponding pressure types in second column (named `press_type`).
 #'  Needed for spiechart! (see for an example \code{\link{press_type_ex}})
 #' @param crit_scores Internal tibble of (sub)criteria and respective scores
-#'  named \code{crit_scores_tmpl}; can be modified by saving this dataframe as
+#'  named \code{crit_scores_tmpl}; can be modified by saving this data frame as
 #'  new object and removing single (sub)criteria or assigning weights (default
 #'  is 1). The variable `condition` represents a list of single elements or
 #'  vectors with various elements to base the scoring on. This can be modified
@@ -18,8 +18,8 @@
 #'  0.05.
 #'
 #' @details
-#' Among the 16 common indicator selection criteria summarised in Otto \emph{et al.} (2018)
-#' five criteria relate to the indicator`s performances and require time series for
+#' Among the 16 common indicator selection criteria summarized in Otto \emph{et al.} (2018)
+#' five criteria relate to the indicators` performances and require time series for
 #' their evaluation, i.e.
 #' \itemize{
 #'   \item Crit. 8: Development reflects ecosystem change caused by variation in manageable pressure(s)
@@ -54,18 +54,18 @@
 #'   \item{\code{ind}}{A vector of the indicator names.}
 #'   \item{\code{C8} and/or \code{C11}}{A vector of IND-specific scores for criterion 8 (trend
 #'          indication) and/or C11 (management application).}
-#'  \item{\code{press_spec_sc}}{A list-column of IND-specific dataframes
-#'  containing pressure-specific scores for the subcriteria 9.1-9.2, 10.1-10.4.}
+#'  \item{\code{press_spec_sc}}{A list-column of IND-specific data frames
+#'  containing pressure-specific scores for the sub-criteria 9.1-9.2, 10.1-10.4.}
 #' }
 #' The tibble can easily be unnested by using the \code{\link[tidyr]{unnest}} function.
-#' That is, each element of the dataframe in the list-column \code{press_spec_sc} becomes
+#' That is, each element of the data frame in the list-column \code{press_spec_sc} becomes
 #' its own row in the tibble.
 #'
-#' @seealso \code{\link[tidyr]{unnest}} to make each element of the dataframe in the
+#' @seealso \code{\link[tidyr]{unnest}} to make each element of the data frame in the
 #' list-column \code{press_spec_sc} its own row and \code{\link[tidyr]{nest}} for the
 #' inverse operation
 #' @family score-based IND performance functions
-#' @family IND~pressure modelling functions
+#' @family IND~pressure modeling functions
 #'
 #' @references
 #' Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018)
@@ -104,7 +104,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 	 }
 
 	 if (missing(mod_tbl)) {
-	 	stop("Argument 'mod_tbl' is missing.")
+	 	stop("Argument mod_tbl is missing.")
 	 }
 
 	 # Check input tibbles
@@ -127,7 +127,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 	 	 if (any(!c("press", "press_type") %in% names(press_type))) {
 	 		  press_var <- c("press", "press_type")
 	 		  missing_var <- press_var[!press_var %in% names(press_type)]
-			 		  stop(paste0("The following variables required for this function are missing in 'press_type' (or simply re-name if you used a different column name) : ",
+			 		  stop(paste0("The following variables required for this function are missing in press_type (or simply re-name if you used a different column name) : ",
 			 				  paste0(missing_var, collapse = ", ")))
 	 	 } else {
 	 	 	 press_type <- dplyr::mutate_all(press_type, .funs = as.character)
@@ -163,7 +163,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     if (any(provided_var_dt[req_var$cv] != req_var$cv_dt)) {
 				  wrong_dt <- req_var$cv_dt[req_var$cv_dt != provided_var_dt[req_var$cv]]
 						var_wrong_dt <- req_var$cv[req_var$cv_dt != provided_var_dt[req_var$cv]]
-						message(paste0("The following variables required for the scoring (see your crit_scores table) have not the required data types in 'mod_tbl':"))
+						message(paste0("The following variables required for the scoring (see your crit_scores table) have not the required data types in mod_tbl:"))
 					 	 print(data.frame(variable = var_wrong_dt, required_data_type = wrong_dt))
 						stop()
     }
@@ -180,19 +180,19 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # Criterion 8 (Trend)
   if ("C8" %in% crit_scores$crit == TRUE)  {
   	if (is.null(trend_tbl)) {
-    stop("You must provide data for the 'trend_tbl' argument (output of the 'model_trend' function) if you include the trend criterion (C8)!")
+    stop("You must provide data for the trend_tbl argument (output of the model_trend function) if you include the trend criterion (C8)!")
    } else {
    	c8_var <- unique(crit_scores$condition_var[crit_scores$crit == "C8"])
   	 if (any(!c8_var %in% names(trend_tbl))) {
   	 	missing_c8_var <- c8_var[!c8_var %in% names(trend_tbl)]
-  	 	 stop(paste0("The following variables required for scoring crit. 8 (see your crit_scores table) are not provided in 'trend_tbl': ",
+  	 	 stop(paste0("The following variables required for scoring crit. 8 (see your crit_scores table) are not provided in trend_tbl: ",
     	paste0(missing_c8_var, collapse = ", ")))
   	 }
    }
   }
 
 
-	 # Subcriteria in 9 (Sensitivity) and 10 (Robustness)
+	 # Sub-criteria in 9 (Sensitivity) and 10 (Robustness)
   d <- as.data.frame(unique(crit_scores[crit_scores$crit %in%
     c("C9", "C10") & crit_scores$subcrit != "C10_1",
     c("condition_var", "func_name")]))
@@ -206,13 +206,13 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Criterion 11 (Management)
   if ("C11" %in% crit_scores$crit == TRUE & is.null(press_type)) {
-    message("You must provide for crit.11 a data frame or tibble with pressure types (named 'press_type') assigned to each pressure (named 'press') as follows:")
+    message("You must provide for crit. 11 a data frame or tibble with pressure types (named `press_type`) assigned to each pressure (named `press`) as follows:")
     print(data.frame(press = unique(mod_tbl$press),
     	press_type = rep("add here", length(unique(mod_tbl$press)))))
     stop()
   }
 
-  # If press_type is not provided give note that error will occurr in spiechart function,
+  # If press_type is not provided give note that error will occur in spiechart function,
   # else check if all pressures in mod_tbl are also in press_type
   if (is.null(press_type)) {
   	 message("NOTE: You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the spiechart function!")
@@ -220,7 +220,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   	press_v <- unique(mod_tbl$press)
   	if (any(!press_v %in% press_type$press)) {
     missing_press <- press_v[!press_v %in% press_type$press]
-    stop(paste0("The following pressure variables in 'mod_tbl' are not listed in the 'press_type' tibble: ",
+    stop(paste0("The following pressure variables in mod_tbl are not listed in the press_type tibble: ",
     	paste0(missing_press, collapse = ", ")))
   	}
   }
@@ -233,7 +233,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   crit_scores$weighted_score <- crit_scores$score *
     crit_scores$weight
 
-  # Add logical variable 'expect' with TRUE as
+  # Add logical variable expect with TRUE as
   # default
   mod_tbl$expect <- TRUE
 
@@ -282,14 +282,14 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # Create pressure-specific score table for criteria  ---------------
   # C9 and C10 --------
 
-  # Get subcriteria selected by user (or default)
+  # Get sub-criteria selected by user (or default)
   subcrit_v <- unique(crit_scores$subcrit[crit_scores$crit %in%
     c("C9", "C10")])
 
   if (!is.null(subcrit_v)) {
 
       # Create empty scoring table with metadata and all
-      # selected subcriteria
+      # selected sub-criteria
       if (!is.null(press_type)) {
         score_c910 <- mod_tbl[, c(1:3, ncol(mod_tbl))]  # adding press_type column
       } else {
@@ -315,7 +315,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
 
       # Score significant models (`TRUE` list) per
-      # subcriterion --------
+      # sub-criterion --------
       if (!is.null(mod_tbl_split$`TRUE`)) {
 
 		      # To get the correct variable for the respective

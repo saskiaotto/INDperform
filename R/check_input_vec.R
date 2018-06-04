@@ -42,10 +42,10 @@ check_input_vec <- function(x, vec_name) {
 					# Check if any time step is missing in vector
 					time_seq <- x[-1] - x[-length(x)]
 					if (length(unique(time_seq)) !=1) {
-						message(paste0("The 'time' vector is not evenly spaced. This will cause ",
-							"erroneous results when testing and modelling temporal autocorrelation! ",
+						message(paste0("The time vector is not evenly spaced. This will cause ",
+							"erroneous results when testing and  modeling temporal autocorrelation! ",
 							"To fix this a) add in your time vector the missing time step and b) in ",
-							"'ind_tbl' or 'press_tbl' corresponding rows with NAs. ",
+							"ind_tbl or press_tbl corresponding rows with NAs. ",
 							"Your time step intervals are: "))
 						print(time_seq)
 						stop()
@@ -54,5 +54,3 @@ check_input_vec <- function(x, vec_name) {
 		}
 	 return(x)
 }
-
-
