@@ -10,9 +10,9 @@ plot_statespace_ch(x, col_ch_ref = "red", col_ch_cur = "blue",
 \arguments{
 \item{x}{An object from the \code{\link{statespace_ch}} function.}
 
-\item{col_ch_ref}{Colour of reference period (for points, path, and labels).}
+\item{col_ch_ref}{Color of reference period (for points, path, and labels).}
 
-\item{col_ch_cur}{Colour of current period (for points, path, and labels).}
+\item{col_ch_cur}{Color of current period (for points, path, and labels).}
 
 \item{size_time}{Text size of the time labels (both periods).}
 }

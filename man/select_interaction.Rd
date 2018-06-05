@@ -24,8 +24,8 @@ The functions returns a tibble with three columns:
 all indicator-specific combinations of pressures pairs as input for the
 \code{\link{test_interaction}} function. The pressures in the IND~pressure
 GAM(M)s are combined with all other pressures in the model tibble. If
-specific combinations should not be modelled simply delete them from
-this dataframe.
+specific combinations should not be modeled simply delete them from
+this data frame.
 }
 \details{
 For each IND~pressure pair specific pressures to test for interactions can
@@ -33,8 +33,8 @@ be selected by creating a tibble containing the IND (termed `ind`), the
 pressure 1 (termed `press``) and the pressure 2 (termed `t_var``). The easiest
 is to use the helper function \code{\link{select_interaction}}: it creates
 all combinations of IND~press pairs and the threshold variables based on
-the input model tibble. If specific combinations should not be modelled
-simply delete them from this dataframe.
+the input model tibble. If specific combinations should not be modeled
+simply delete them from this data frame.
 }
 \examples{
 # Using some models of the Baltic Sea demo data

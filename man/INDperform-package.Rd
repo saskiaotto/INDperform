@@ -67,7 +67,7 @@ To show the model diagnostics or complete model results use the functions:
 \section{2. Scoring IND performance based on model output}{
 
 Among the 16 common indicator selection criteria, five criteria relate
-to the indicator's performances and require time series for their
+to the indicators` performances and require time series for their
 evaluation, i.e.
 
 8. Development reflects ecosystem change caused by variation in

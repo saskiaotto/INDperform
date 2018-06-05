@@ -9,7 +9,7 @@ calc_nrmse(pred, obs_ind)
 \arguments{
 \item{pred}{A list of vectors with predicted values.}
 
-\item{obs_ind}{A list of vectors with obeserved values.}
+\item{obs_ind}{A list of vectors with observed values.}
 }
 \value{
 The function returns a numerical vector of the same length then the
@@ -19,7 +19,7 @@ input lists, with one NRMSE value for each GAM(M).
 \code{calc_nrmse} is a helper function for \code{\link{model_gam}} and
 \code{\link{model_gamm}} and calculates the NRMSE from the test data.
 The test MSE and test RMSE are commonly used tools for measuring the quality of
-the model fit on previously unseen data. The normalisation to the mean of
+the model fit on previously unseen data. The normalization to the mean of
 the observed test data allows for comparisons and a general scoring of the
 model robustness across INDs with different scales or units. The absolute
 values are needed for the \code{\link{scoring}} function.

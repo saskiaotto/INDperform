@@ -14,7 +14,7 @@ the family and the link function.}
 defined outliers).}
 
 \item{press_vec}{A vector with the training observations (including or excluding
-defined outliers) of pressure 1 (i.e. the orginal significant pressure in the
+defined outliers) of pressure 1 (i.e. the original significant pressure in the
 GAM(M)).}
 
 \item{t_var}{A vector with the training observations (including or excluding
@@ -33,7 +33,7 @@ the estimated threshold is not allowed to exceed; the default is 0.2.}
 the estimated threshold is not allowed to exceed; the default is 0.8.}
 }
 \value{
-The function returns a \code{gam} object with the additional class "\code{tgam}".
+The function returns a \code{gam} object with the additional class \code{tgam}.
 All method functions for \code{gam} can be applied to this function. The object
 has four additional elements:
 \describe{
@@ -58,7 +58,7 @@ arguments respectively) of the threshold variable.
 }
 \details{
 \code{thresh_gam} creates first a sequence of evenly spaced threshold values
-within theboundaries set by the lower and upper quantiles (defined by a and b).
+within the boundaries set by the lower and upper quantiles (defined by a and b).
 For each threshold value that leads to a new splitting of the threshold
 variables a threshold-GAM is applied: one smoothing function is applied
 to only those observations where the threshold variable has been below the threshold
@@ -66,15 +66,15 @@ value for the given time step (year). A second smoothing function is applied to
 observations where the threshold variable is above the prior defined threshold.
 From the list of computed models the threshold-GAM with the lowest Generalized
 Cross Validation (GCV) and its threshold value are selected and returned. For more
-infos on thershold-GAMs see also the details section in \code{\link{test_interaction}}.
+infos on threshold-GAMs see also the details section in \code{\link{test_interaction}}.
 }
 \examples{
 # Using some models of the Baltic Sea demo data in this package
 test <- thresh_gam(model = model_gam_ex$model[[1]],
-                    ind_vec = ind_init_ex$ind_train[[1]],
-                    press_vec = ind_init_ex$press_train[[1]],
-                    t_var = ind_init_ex$press_train[[2]],
-                    name_t_var = "Ssum", k = 4, a = 0.2, b = 0.8)
+  ind_vec = ind_init_ex$ind_train[[1]],
+  press_vec = ind_init_ex$press_train[[1]],
+  t_var = ind_init_ex$press_train[[2]],
+  name_t_var = "Ssum", k = 4, a = 0.2, b = 0.8)
 }
 \seealso{
 \code{\link{test_interaction}} and \code{\link{loocv_thresh_gam}}

@@ -7,7 +7,7 @@
 statespace_ed(x, time, ref_time = NULL)
 }
 \arguments{
-\item{x}{A dataframe, tibble, matrix or vector of selected indicator(s).}
+\item{x}{A data frame, tibble, matrix or vector of selected indicator(s).}
 
 \item{time}{A vector containing the actual time series.}
 

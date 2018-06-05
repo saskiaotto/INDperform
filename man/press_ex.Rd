@@ -10,10 +10,10 @@ represent a slight modification of the original time series represented in
 Otto et al. (2018)
 \describe{
 \item{Year}{year given as integer}
-\item{Tsum}{temperature summer (in °C)}
+\item{Tsum}{temperature summer (in degree C)}
 \item{Swin}{salinity winter}
-\item{Pwin}{phosphate in winter (in mg/m3)}
-\item{Nwin}{nitrogen winter (in mg/m3)}
+\item{Pwin}{phosphate in winter (in mg m^-3^)}
+\item{Nwin}{nitrogen winter (in mg m^-3^)}
 \item{Fsprat}{fishing mortality of sprat}
 \item{Fher}{fishing mortality of herring}
 \item{Fcod}{fishing mortality of cod}

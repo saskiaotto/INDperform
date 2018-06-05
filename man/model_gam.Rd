@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_gam.R
 \name{model_gam}
 \alias{model_gam}
-\title{Modelling of indicator responses to single pressures with GAMs}
+\title{Modeling of indicator responses to single pressures with GAMs}
 \usage{
 model_gam(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL)
@@ -19,7 +19,7 @@ the mgcv package (see \code{\link[mgcv]{family.mgcv}}; e.g.\code{\link[mgcv]{neg
 or \code{\link[mgcv]{nb}}).}
 
 \item{excl_outlier}{A list of values identified as outliers in specific
-IND~pressure GAMs, which should be excluded in this modelling step
+IND~pressure GAMs, which should be excluded in this modeling step
 (the output tibble of this function includes the variable
 `pres_outlier`, which is a column-list containing
 all indices of values with cook`s distance > 1 (see below). The function
@@ -53,8 +53,8 @@ the data.frame(), including the following elements:
               normally distributed residuals.}
   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
               in the residuals. TRUE if model residuals show TAC. NAs in the time series
-              due to real missing values, test data extraction or exlusion of outliers
-              are explicitely considered. The test is based on the following condition:
+              due to real missing values, test data extraction or exclusion of outliers
+              are explicitly considered. The test is based on the following condition:
               if any of the acf \strong{and} pacf values of lag 1 - 5 are greater than 0.4
               or lower than -0.4, a TRUE is returned.}
   \item{\code{pres_outlier}}{A list-column with all indices of values identified as outliers
@@ -73,7 +73,7 @@ IND~pressure-specific GAM outputs.
 }
 \details{
 To evaluate the IND`s sensitivity and robustness time series of the IND are
-modelled as a smoothing function of one single pressure variable (using a subset
+modeled as a smoothing function of one single pressure variable (using a subset
 of the data as training dataset, e.g. excluding the years of the annual time series).
 The GAMs are build using the default settings in the \code{gam} function and
 the smooth term function \code{\link[mgcv]{s}}).  However, the user can adjust
@@ -132,10 +132,9 @@ Springer, New York, 548pp.
  \code{\link[mgcv]{gam}} for more information on GAMs, and
  \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{ind_init}},
-  \code{\link{model_gamm}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{ind_init}}, \code{\link{model_gamm}},
+  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
+  \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

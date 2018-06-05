@@ -15,10 +15,10 @@ place_text(x, y, x_prop = 0.1, y_prop = 0.1, pos)
 This must be one of "topleft", "topright", "bottomleft" and
 "bottomright"; default is "topleft".}
 
-\item{x_range}{The required width of the textbox. Numeric value
+\item{x_range}{The required width of the text box. Numeric value
 between 0 and 1; default is 0.1.}
 
-\item{y_range}{The required height of the textbox. Numeric value
+\item{y_range}{The required height of the text box. Numeric value
 between 0 and 1; default is 0.2.}
 }
 \value{

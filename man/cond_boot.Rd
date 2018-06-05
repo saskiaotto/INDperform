@@ -20,7 +20,7 @@ models will be also excluded in the bootstrapped models.}
 will be an integer. Otherwise, the function will increase n_boot automatically.
 The default is set to 200.}
 
-\item{ci}{Confidence interval of the boostrapped smoothing functions and their
+\item{ci}{Confidence interval of the bootstrapped smoothing functions and their
 derivatives. Must be between 0 and 1, default is 0.95.}
 
 \item{par_comp}{logical; if TRUE, the conditional bootstrap will be processed in
@@ -35,7 +35,7 @@ as the numbers of available cores – 1.}
 of the random number generator (RNG) state for reproducibility. Due to the work
 splitting in the parallel computation, RNG streams are not comparable with the
 stream under serial computation. To reproduce results use the same type of
-computation with the same seed and no_clust.}
+computation with the same seed and number of clusters.}
 }
 \value{
 The function returns the input model tibble with the following 9 columns added
@@ -71,12 +71,12 @@ smoothing curves.
 \code{cond_boot} produces first n_boot new IND time series by
 resampling from the residuals of the original IND-Pressure GAM(M) and
 adding these to the original IND time series repeatedly. For GAMMs the
-correlation structure in the bootstrapped residuals is kept contant
+correlation structure in the bootstrapped residuals is kept constant
 by using the \code{\link{arima.sim}} function with the bootstrapped
 residuals as times series of innovations and the correlation parameters
-from the orginal model.
+from the original model.
 A separate GAM(M) is then fitted to each bootstrapped IND time series. If
-errors occurr during the n_boot iterations of resampling and model fitting
+errors occur during the n_boot iterations of resampling and model fitting
 (e.g., convergence errors for GAMMs), the process is repeated until n_boot
 models have been fitted successfully.
 
@@ -92,7 +92,7 @@ is the 2.5\% and 97.5\% percentiles representing the 95\% CI).
 The parallel computation in this function builds on the packages
 \code{parallel} and \code{pbapply} with its function
 \code{\link[pbapply]{pblapply}}. This allows the vectorized computations
- similar to lapply and adds further a progress bar.
+ similar to \code{lapply} and adds further a progress bar.
 }
 \examples{
 \dontrun{

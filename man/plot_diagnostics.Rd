@@ -18,17 +18,17 @@ of the data.frame(), including the following elements:
   \item{\code{ind}}{Indicator names.}
   \item{\code{press}}{Pressure names.}
   \item{\code{cooks_dist}}{A list-column of ggplot2 objects that show the
-              cooks distance of all observations, which is a leave-one-out
+              Cook`s distance of all observations, which is a leave-one-out
               deletion diagnostics to measure the influence of each
-              observation. Data points with a large Cook's distance (> 1)
+              observation. Data points with a large Cook`s distance (> 1)
               are considered to merit closer examination in the analysis.}
   \item{\code{acf_plot}}{A list-column of ggplot2 objects that show  the
               autocorrelation function for the residuals. NAs in the time
               series due to real missing values, test data extraction or
-              exlusion of outliers are explicitely considered.}
+              exlusion of outliers are explicitly considered.}
   \item{\code{pacf_plot}}{A list-column of ggplot2 objects that show the
               partial autocorrelation function for the residuals. NAs are
-              explicitely considered.}
+              explicitly considered.}
   \item{\code{resid_plot}}{A list-column of ggplot2 objects that show residuals
               vs. fitted values.}
   \item{\code{qq_plot}}{A list-column of ggplot2 objects that show  the
@@ -41,7 +41,7 @@ of the data.frame(), including the following elements:
              the line should show a pointy negative peak at this threshold.
              If this is not the case, e.g. the trough is very wide with similar
              GCV values for nearby thresholds, the threshold-GAM is not
-             optimal and should not be favoured over a GAM despite the better
+             optimal and should not be favored over a GAM despite the better
              LOOCV (leave-one-out cross-validation value).}
   \item{\code{all_plots}}{A list-column of ggplot2 objects that show all
              five (six if threshold-GAM) plots together. For this plot,
@@ -61,7 +61,7 @@ together.
 The function can deal with any model of the classes `gam`, `gamm` or
 `thresh_gam` as long as the input is a flat list. That means:
 \itemize{
-  \item If only one model is provided as input coerce the model explicitely
+  \item If only one model is provided as input coerce the model explicitly
         to class `list`. An input such as model_gam_ex[1, "model"] will not work
         as the class is a tibble. Use instead model_gam_ex$model[1].
   \item If the input are one or more treshold-GAMs selected from
@@ -95,10 +95,9 @@ plots <- plot_diagnostics(model_list)
 \code{\link[stats]{pacf}}, \code{\link[stats]{qqnorm}}, and
 \code{\link[purrr]{flatten}} for removing a level hierarchy from a list
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{ind_init}},
-  \code{\link{model_gamm}}, \code{\link{model_gam}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{ind_init}}, \code{\link{model_gamm}},
+  \code{\link{model_gam}}, \code{\link{plot_model}},
+  \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

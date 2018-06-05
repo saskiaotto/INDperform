@@ -2,12 +2,12 @@
 % Please edit documentation in R/expect_resp.R
 \name{expect_resp}
 \alias{expect_resp}
-\title{Score adjustments for subcriterion 10.1}
+\title{Score adjustments for sub-criterion 10.1}
 \usage{
 expect_resp(mod_tbl, scores_tbl, crit_scores = INDperform::crit_scores_tmpl)
 }
 \arguments{
-\item{mod_tbl}{Output tibble from the IND~pressure modelling functions.}
+\item{mod_tbl}{Output tibble from the IND~pressure modeling functions.}
 
 \item{scores_tbl}{The output tibble from the \code{\link{scoring}} function.}
 
@@ -21,14 +21,14 @@ in the variable \code{C10_1}, once the "Press Me!" button is activated.
 }
 \description{
 \code{expect_resp} runs a shiny app in which the expectation of the IND response to
-a pressure (subcriterion 10.1) can be manually changed to `yes` or `no` based on
+a pressure (sub-criterion 10.1) can be manually changed to `yes` or `no` based on
 visual inspection of the IND response curve.
 }
 \details{
-The subcriterion 10.1 (i.e. the IND response to a pressure, which has been found significant,
+The sub-criterion 10.1 (i.e. the IND response to a pressure, which has been found significant,
 is in line with expectations based on ecological knowledge) has been set
 to a default score of 1 (no expectation / unclear as response is highly non-linear)
-in the \code{\link{scoring}} function. Determining whether the IND response modelled in
+in the \code{\link{scoring}} function. Determining whether the IND response modeled in
 the GAM/GAMM meets specific expectations can only be done
 based on visual model inspections. \code{expect_resp} provides only a very simple
 graphical representation of this smoothing function.

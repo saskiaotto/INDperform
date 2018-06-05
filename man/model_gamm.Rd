@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_gamm.R
 \name{model_gamm}
 \alias{model_gamm}
-\title{Modelling of indicator responses to single pressures with GAMMs}
+\title{Modeling of indicator responses to single pressures with GAMMs}
 \usage{
 model_gamm(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL, filter = NULL)
@@ -21,10 +21,10 @@ Note that \code{\link[mgcv]{nb}}, which estimates \code{theta} parameter, cannot
 for \code{\link[mgcv]{gamm}}.}
 
 \item{excl_outlier}{A list of values identified as outliers in specific
-IND~pressure GAMMs, which should be excluded in this modelling step
+IND~pressure GAMMs, which should be excluded in this modeling step
 (the output tibble of this function includes the variable
 `pres_outlier`, which is a column-list containing
-all indices of values with cook's distance > 1 (see below). The function
+all indices of values with cook`s distance > 1 (see below). The function
 can be re-run again, then excluding all these outliers provided in
 \code{$pres_outlier} from the the first run (see example)).}
 
@@ -50,7 +50,7 @@ are applied to all IND~pressure combinations provided as input or only those
 with significant TAC in the GAM residuals (using filter argument).
 }
 \details{
-Modelling first-differenced indicator time series can be an alternative solution
+Modeling first-differenced indicator time series can be an alternative solution
 to avoid temporal dependence between observations. However, this approach does
 often not help reducing the significant auto-correlation while GAMMs do as found in
 Otto \emph{et al.} (2018). Such an extension implies that the single
@@ -93,10 +93,9 @@ Chapman and Hall/CRC Press
 \code{\link[mgcv]{gamm}} for more information on GAMMs and
 \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{ind_init}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{ind_init}}, \code{\link{model_gam}},
+  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
+  \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

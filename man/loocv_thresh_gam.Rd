@@ -15,7 +15,7 @@ the family and the link function.}
 defined outliers).}
 
 \item{press_vec}{A vector with the training observations (including or excluding
-defined outliers) of pressure 1 (i.e. the orginal significant pressure in the
+defined outliers) of pressure 1 (i.e. the original significant pressure in the
 GAM(M)).}
 
 \item{name_t_var}{The name of the threshold variable (pressure 2). t_var will be

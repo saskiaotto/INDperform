@@ -8,8 +8,8 @@
 \describe{
 \item{crit_id}{ID of main criteria.}
 \item{crit}{A vector of the main criteria.}
-\item{subcrit_id}{ID of subcriteria.}
-\item{subcrit}{A vector of the subcriteria.}
+\item{subcrit_id}{ID of sub-criteria.}
+\item{subcrit}{A vector of the sub-criteria.}
 \item{definition}{A short description of the (sub)criteria.}
 \item{score_explanation}{A short explanation on the required condition
           for a specific score.}

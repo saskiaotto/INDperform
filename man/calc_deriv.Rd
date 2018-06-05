@@ -34,7 +34,7 @@ bootstrap` (default) or `approx_deriv`.}
 will be an integer. Otherwise, the function will increase n_boot automatically.
 The default is set to 200.}
 
-\item{ci_boot}{Confidence interval of the boostrapped smoothing functions and their
+\item{ci_boot}{Confidence interval of the bootstrapped smoothing functions and their
 derivatives. Must be between 0 and 1, default is 0.95.}
 
 \item{ci_prop_se}{A conversion factor for approximating derivative CIs in the
@@ -56,7 +56,7 @@ as the numbers of available cores – 1.}
 of the random number generator (RNG) state for reproducibility. Due to the work
 splitting in the parallel computation, RNG streams are not comparable with the
 stream under serial computation. To reproduce results use the same type of
-computation with the same seed and no_clust.}
+computation with the same seed and number of clusters.}
 }
 \value{
 The function returns the input model tibble with the following 12 columns added
@@ -90,7 +90,7 @@ The function returns the input model tibble with the following 12 columns added
              bootstrapped first derivatives.}
   \item{\code{adj_n_boot}}{The number of successful bootstrap samples that was
              actually used for calculating the mean and confidence intervals of
-             the predicted indicator reponse and the derivative.}
+             the predicted indicator response and the derivative.}
   \item{\code{boot_error}}{A list-column capturing potential error messages that
              occurred as side effects when refitting the GAM(M)s on each bootstrap
              sample.}
@@ -221,11 +221,4 @@ changes in smoothed indicator time series. \emph{Ecological Indicators} 9, 732-7
 }
 \seealso{
 \code{\link{cond_boot}} and \code{\link{approx_deriv}}
-
-Other IND~pressure modelling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
-  \code{\link{test_interaction}}
 }

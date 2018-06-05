@@ -10,7 +10,7 @@ calc_pred(model_list, obs_press)
 \item{model_list}{A list of model objects of class `gam` or `gamm`.}
 
 \item{obs_press}{A list of vectors with pressure values (observed or an
-artifical sequence).}
+artificial sequence).}
 }
 \value{
 The function returns a tibble with one row for each model and three columns:

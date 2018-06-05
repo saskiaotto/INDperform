@@ -8,7 +8,7 @@ check_ind_press(x, input = "ind")
 }
 \arguments{
 \item{x}{A data object containing only the indicator or pressure
-variables (vector, matrix, dataframe or tibble).}
+variables (vector, matrix, data frame or tibble).}
 
 \item{input}{Indication whether x represents the indicator (default) or
 pressure variable(s). If x is a vector, `input` determines the variable

@@ -9,7 +9,7 @@
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
   \item{\code{ind}}{Indicator names.}
   \item{\code{press}}{Pressure names.}
-  \item{\code{model_type}}{Specification of the modeltype; at this stage containing only
+  \item{\code{model_type}}{Specification of the model type; at this stage containing only
              "gam" (Generalized Additive Model).}
   \item{\code{corrstruc}}{Specification of the correlation structure; at this stage
              containing only "none".}

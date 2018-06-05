@@ -16,7 +16,7 @@ data used for the GAMM fitting, with one D value for each IND observation.
 \description{
 \code{cooks_dist_gamm} is a helper function for \code{\link{model_gamm}} and
 \code{\link{plot_diagnostics}} and calculates the Cook`s distance for objects
-of class `gamm`. The Cook's distance D is a leave-one-out deletion diagnostics
+of class `gamm`. The Cook`s distance D is a leave-one-out deletion diagnostics
 to measure the influence of each observation. The generic \code{cooks.distance}
 function does not work on the class `gamm`.
 }

@@ -32,7 +32,7 @@ The function returns a list with the following elements
   \item{\code{inside_ch_ref}}{A logical vector indicating whether each
   year (time step) of the current period lies inside (TRUE) or outside
   (FALSE) the state space domain of the reference period.}
-  \item{\code{xy}}{A dataframe of the x and y coordinates.}
+  \item{\code{xy}}{A data frame of the x and y coordinates.}
   \item{\code{time}}{A vector of the full time series.}
   \item{\code{period_ref}}{A vector of years (time steps) defined as
   the reference period.}
@@ -61,7 +61,7 @@ measure derived from computational geometry representing the smallest convex set
 containing all the points in Euclidean plane or in Euclidean space
 (de Berg \emph{et al.}, 2008). While the convex hull can be calculated for
 high-dimensional data, reducing the space to two dimensions allows for an easier
-visualization and interpretation. Therefore, the `statespace_ch` function only
+visualization and interpretation. Therefore, the \code{statespace_ch} function only
 calculates the convex hull for two dimensions, i.e. for two indicators or principal
 axes obtained by multivariate analysis such as a Principal Component Analysis
 (PCA).

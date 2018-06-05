@@ -9,7 +9,7 @@ represent a slight modification of the original time series represented in
 Otto et al. (2018).
 \describe{
 \item{Year}{year given as integer}
-\item{TZA}{ln-transformed Total Zooplankton Abundance (in N/m^2)}
+\item{TZA}{ln-transformed Total Zooplankton Abundance (in N m^-3^)}
 \item{MS}{Mean Size of zooplankton (in wet weight micro grams)}
 \item{rCC}{ln-transformed ratio of Cladoceran to Copepod Abundance}
 \item{Cops}{ln-transformed Copepod biomass (in mg)}

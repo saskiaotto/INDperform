@@ -102,16 +102,16 @@ root of the average of these n test error estimates. This approach properly acco
 for the estimation of the threshold value as well as the effective degrees of
 freedom of all model terms.
 
-\strong{Implementation of threshold modelling}
+\strong{Implementation of threshold modeling}
 
 For each IND~pressure pair, specific pressures to test for interactions can be selected
 by creating a tibble containing the IND (termed `ind`), the pressure 1 (termed `press`)
 and the pressure 2 (termed `t_var`). The easiest is to use the helper function
 \code{\link{select_interaction}}: it creates all combinations of IND~press pairs and
 the threshold variables based on the input model tibble. If specific combinations should
-not be modelled simply delete them from this dataframe.
+not be modeled simply delete them from this data frame.
 
-\code{test_interaction} takes this dataframe and the ind_init and model tibble as input
+\code{test_interaction} takes this data frame and the ind_init and model tibble as input
 and applies the following procedure:
 
 \itemize{
@@ -176,9 +176,9 @@ dynamics of a key copepod. \emph{Marine Ecology Progress Series} 498, 73-84.
 \seealso{
 \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{ind_init}},
-  \code{\link{model_gamm}}, \code{\link{model_gam}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}}
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{ind_init}}, \code{\link{model_gamm}},
+  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
+  \code{\link{plot_model}}, \code{\link{scoring}},
+  \code{\link{select_model}}
 }

@@ -52,10 +52,10 @@ with all pressures provided as input.
 \details{
 \code{ind_init} will combine every column in ind_tbl with every column in press_tbl
 so that each row will represent one IND~press combination. The input data will be
-splitted into a training and a test data set. The returned tibble is the basis for all
-IND~pressure modelling functions.
+split into a training and a test data set. The returned tibble is the basis for all
+IND~pressure modeling functions.
 
-If not all IND~pressure combinations should be modelled,
+If not all IND~pressure combinations should be modeled,
 the respective rows can simply be removed from the output tibble or \code{ind_init} is
 applied multiple times on data subsets and their output tibbles merged later using
 e.g. \code{\link[dplyr]{bind_rows}}.
@@ -77,10 +77,9 @@ ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = pr
 \code{\link[tibble]{tibble}} and the \code{vignette("tibble")} for more
  informations on tibbles
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{model_gamm}}, \code{\link{model_gam}},
+  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
+  \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

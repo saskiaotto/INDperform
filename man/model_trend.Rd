@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_trend.R
 \name{model_trend}
 \alias{model_trend}
-\title{Modelling of indicator trends}
+\title{Modeling of indicator trends}
 \usage{
 model_trend(ind_tbl, time, train = 1, random = FALSE, k = 4,
   family = stats::gaussian())
@@ -57,7 +57,7 @@ IND-specific GAM outputs.
 }
 \details{
 To test for linear or non-linear long-term changes, each indicator (IND)
-in the ind_tbl is modelled as a smoothing function of the time vector
+in the ind_tbl is modeled as a smoothing function of the time vector
 (usually years) using the \code{\link[mgcv]{gam}} function. The trend can
 be tested for the full time series (i.e. all observations are used as
 training data) or for a random or selected subset.

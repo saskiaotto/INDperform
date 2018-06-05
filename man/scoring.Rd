@@ -10,14 +10,14 @@ scoring(trend_tbl = NULL, mod_tbl, press_type = NULL,
 \arguments{
 \item{trend_tbl}{Output tibble from the \code{\link{model_trend}} function.}
 
-\item{mod_tbl}{Output tibble from the IND~pressure modelling functions.}
+\item{mod_tbl}{Output tibble from the IND~pressure modeling functions.}
 
-\item{press_type}{Dataframe or tibble with pressure names (named `press`) in
+\item{press_type}{Data frame or tibble with pressure names (named `press`) in
 first column and corresponding pressure types in second column (named `press_type`).
 Needed for spiechart! (see for an example \code{\link{press_type_ex}})}
 
 \item{crit_scores}{Internal tibble of (sub)criteria and respective scores
-named \code{crit_scores_tmpl}; can be modified by saving this dataframe as
+named \code{crit_scores_tmpl}; can be modified by saving this data frame as
 new object and removing single (sub)criteria or assigning weights (default
 is 1). The variable `condition` represents a list of single elements or
 vectors with various elements to base the scoring on. This can be modified
@@ -33,11 +33,11 @@ criteria rated
   \item{\code{ind}}{A vector of the indicator names.}
   \item{\code{C8} and/or \code{C11}}{A vector of IND-specific scores for criterion 8 (trend
          indication) and/or C11 (management application).}
- \item{\code{press_spec_sc}}{A list-column of IND-specific dataframes
- containing pressure-specific scores for the subcriteria 9.1-9.2, 10.1-10.4.}
+ \item{\code{press_spec_sc}}{A list-column of IND-specific data frames
+ containing pressure-specific scores for the sub-criteria 9.1-9.2, 10.1-10.4.}
 }
 The tibble can easily be unnested by using the \code{\link[tidyr]{unnest}} function.
-That is, each element of the dataframe in the list-column \code{press_spec_sc} becomes
+That is, each element of the data frame in the list-column \code{press_spec_sc} becomes
 its own row in the tibble.
 }
 \description{
@@ -45,8 +45,8 @@ Scoring of each indicator based on an internal criterion-scoring scheme
 applied on the output of the trend and pressure model functions.
 }
 \details{
-Among the 16 common indicator selection criteria summarised in Otto \emph{et al.} (2018)
-five criteria relate to the indicator`s performances and require time series for
+Among the 16 common indicator selection criteria summarized in Otto \emph{et al.} (2018)
+five criteria relate to the indicators` performances and require time series for
 their evaluation, i.e.
 \itemize{
   \item Crit. 8: Development reflects ecosystem change caused by variation in manageable pressure(s)
@@ -95,7 +95,7 @@ A quantitative framework for selecting and validating food web indicators.
 doi: https://doi.org/10.1016/j.ecolind.2017.05.045
 }
 \seealso{
-\code{\link[tidyr]{unnest}} to make each element of the dataframe in the
+\code{\link[tidyr]{unnest}} to make each element of the data frame in the
 list-column \code{press_spec_sc} its own row and \code{\link[tidyr]{nest}} for the
 inverse operation
 
@@ -104,10 +104,9 @@ Other score-based IND performance functions: \code{\link{clust_sc}},
   \code{\link{plot_clust_sc}},
   \code{\link{plot_spiechart}}, \code{\link{summary_sc}}
 
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{find_id}}, \code{\link{ind_init}},
-  \code{\link{model_gamm}}, \code{\link{model_gam}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{find_id}},
+  \code{\link{ind_init}}, \code{\link{model_gamm}},
+  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
+  \code{\link{plot_model}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

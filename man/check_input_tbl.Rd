@@ -8,7 +8,7 @@ check_input_tbl(x, tbl_name, parent_func = NULL, var_to_check = NULL,
   dt_to_check = NULL)
 }
 \arguments{
-\item{x}{An output tibble from one of the INDperform modelling or scoring
+\item{x}{An output tibble from one of the INDperform modeling or scoring
 functions.}
 
 \item{tbl_name}{The name of `x` for the error message.}
@@ -24,7 +24,7 @@ listed in var_to_check (has to be the same order!) to check for.}
 The function returns the checked input tibble unchanged.
 }
 \description{
-\code{check_input_tbl} is a helper function for various modelling and
+\code{check_input_tbl} is a helper function for various modeling and
 scoring functions in `INDperform`. It checks whether the input object
 is of class tibble (should be if an output of one of the required functions)
 and if all required variables are included in the tibble with the correct

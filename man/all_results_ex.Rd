@@ -3,7 +3,7 @@
 \docType{data}
 \name{all_results_ex}
 \alias{all_results_ex}
-\title{Output tibble after applying all IND~pressure modelling functions}
+\title{Output tibble after applying all IND~pressure modeling functions}
 \format{A data frame with 84 rows and 31 variables:
 \describe{
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}

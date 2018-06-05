@@ -14,14 +14,14 @@ find_id(mod_tbl, ind_name = NULL, press_name = NULL)
 \item{press_name}{One or more character string naming the pressures of interest.}
 }
 \value{
-The function returns a tibble with the `id` to the respective `ind`
+The function returns a tibble including the id for the respective `ind`
 and/or `press`.
 }
 \description{
 \code{find_id} is a helper function for the user to extract the ID for a
 specific indicator(IND), pressure or IND~pressure combination. The `id` in
 the returned tibble can then be used for filtering tibbles when using the
-other IND~pressure modelling functions.
+other IND~pressure modeling functions.
 }
 \examples{
 # Using the Baltic Sea demo data:
@@ -35,10 +35,9 @@ find_id(model_gam_ex, ind_name, press_name)
 find_id(model_gam_ex, press_name = press_name)
 }
 \seealso{
-Other IND~pressure modelling functions: \code{\link{calc_deriv}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}},
+Other IND~pressure modeling functions: \code{\link{ind_init}},
+  \code{\link{model_gamm}}, \code{\link{model_gam}},
+  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
+  \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }

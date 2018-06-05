@@ -16,18 +16,18 @@ percentage. Has to be the same than used in \code{scoring}. Default
 is the unmodified template \code{crit_scores_tmpl}.}
 }
 \value{
-The function returns a list of 2 dataframes
+The function returns a list of 2 data frames
 \describe{
   \item{\code{overview}}{IND-specific scores and percentages from
         max. score for all criteria (crit 9 and 10 averaged across
         all sign. pressures and the number of significant pressures).}
   \item{\code{subcriteria_per_press}}{IND- and pressure-specific scores for
-         all (sub)criteria and the percentages from max.criterion score.}
+         all (sub-)criteria and the percentages from max. criterion score.}
 }
 }
 \description{
 Summarizes the scoring output tibble so that IND-specific scores for each
-criterion as well as the pressure-specific subcriteria scores (in crit.
+criterion as well as the pressure-specific sub-criteria scores (in crit.
 9 and 10) can be easily compared.
 }
 \examples{
