@@ -1,13 +1,13 @@
 context("test plots")
 
-# Based:on vdiffr package: https://github.com/lionel-/vdiffr
+# Based:on vdiffr package:
+# https://github.com/lionel-/vdiffr
 
 # Add new reference with vdiffr::validate_cases()
-# --> svg-file is created in tests/ffigs/subfolder
-# Test tests with vdiffr::validate_cases()
-# N = New visual case
-# X = Failed doppelganger
-# o = Convincing doppelganger
+# --> svg-file is created in tests/figs/subfolder
+# Test tests with vdiffr::validate_cases() N = New
+# visual case X = Failed doppelganger o =
+# Convincing doppelganger
 
 # To test specific files only (otherwise testhat()
 # is performed on all tests):
@@ -41,13 +41,13 @@ pred <- calc_pred(all_results_ex$model[1], ind_init_ex$press_train[1])$pred[[1]]
 test_plot_resid <- plot_resid(model_resid = resid,
   model_fitted = pred)
 
-# Test plot_qq()
-# quan_normal <- quantile(x = rnorm(length(resid)))
- # -> if i run this I would get an error every time so
-# i only ran it once and hardcoded the test
-theo_quan <- seq(from = -2.0533143,   #0% quantile
-																	to = 2.0820291,      #100% quantile
-																	by = (2.0820291 + 2.0533143) / (length(resid) - 1))
+# Test plot_qq() quan_normal <- quantile(x =
+# rnorm(length(resid))) -> if i run this I would
+# get an error every time so i only ran it once and
+# hardcoded the test
+theo_quan <- seq(from = -2.0533143, to = 2.0820291,
+  by = (2.0820291 + 2.0533143)/(length(resid) - 1))
+# (seq from min to max)
 test_plot_qq <- plot_qq(resid, theo_quan)
 
 # Test ggcv_plot()
@@ -126,17 +126,17 @@ y_range <- range(c(y[zoom], pred[zoom], ci_up[zoom],
 pos_text <- place_text(x = x_range, y = y_range, x_prop = 0,
   y_prop = 0.05, pos = "topleft")
 
-test_plot_predict <- plot_predict(x = x, y_obs = y, y_pred = pred,
-	 ci_up = ci_up, ci_low = ci_low,
-	 x_train, x_test, zoom, x_range, y_range,
-	 xlab = "x", ylab = "y", pos_text = pos_text, label = "Test!")
+test_plot_predict <- plot_predict(x = x, y_obs = y,
+  y_pred = pred, ci_up = ci_up, ci_low = ci_low,
+  x_train, x_test, zoom, x_range, y_range, xlab = "x",
+  ylab = "y", pos_text = pos_text, label = "Test!")
 
 # Test plot_deriv()
 x_range <- suppressWarnings(range(all_results_ex$press_seq[[5]]))
-# (suppressWarnings needed because some lists are empty)
+# (suppressWarnings needed because some lists are
+# empty)
 y_range <- suppressWarnings(range(all_results_ex$deriv1[[5]],
-	 all_results_ex$deriv1_ci_up[[5]],
-  all_results_ex$deriv1_ci_low[[5]]))
+  all_results_ex$deriv1_ci_up[[5]], all_results_ex$deriv1_ci_low[[5]]))
 pos_text <- place_text(x = x_range, y = y_range, x_prop = 0,
   y_prop = 0.1, pos = "topleft")
 
@@ -178,7 +178,8 @@ test4 <- list(summary_tbl[[1]][, c(1:6, 8:10)], summary_tbl[[2]])  #without C8
 test5 <- list(summary_tbl[[1]][c(1:3, 5:7, 9:12), c(1:6,
   8:9)], summary_tbl[[2]])  #without C8/ C11
 test6 <- list(summary_tbl[[1]][, c(1:6, 8:9)], summary_tbl[[2]])
-# (without C8/ C11 but with ind that have no sig press)
+# (without C8/ C11 but with ind that have no sig
+# press)
 test_plot_spiechart2 <- plot_spiechart(test)[[5]]
 test_plot_spiechart3 <- plot_spiechart(test2)[[3]]
 test_plot_spiechart4 <- plot_spiechart(test3)[[5]]
@@ -201,8 +202,7 @@ test_that("plot_spiechart", {
 
 # Test plot_clust_sc() function: ---------
 
-scores_tbl <- scoring(trend_tbl = model_trend_ex,
-	 mod_tbl = all_results_ex,
+scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
   press_type = INDperform::press_type_ex)
 dist_matrix <- dist_sc(scores_tbl, method_dist = "euclidean")
 clust_obj <- suppressMessages(clust_sc(dist_matrix,
@@ -238,6 +238,6 @@ test_that("plot_statespace_ch", {
     test_plot_ch)
 })
 
-# Once changes have been made: -->
-# Running testthat to collect visual cases:
-# vdiffr::validate_cases(cases = vdiffr::collect_cases(filter = "_plot"))
+# Once changes have been made: --> Running testthat
+# to collect visual cases:
+# vdiffr::validate_cases(cases = vdiffr::collect_cases(filter = '_plot'))

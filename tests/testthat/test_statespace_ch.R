@@ -37,32 +37,37 @@ period_current <- 2004:2008
 period_current2 <- 2008:2011
 
 test_that("test error messages", {
-	 # missing arguments
-	 expect_error(statespace_ch(y = y, time = time, period_ref = period_ref,
-	 	period_current = period_current), "Argument 'x' is missing")
-	 expect_error(statespace_ch(x = x, time = time, period_ref = period_ref,
-	 	period_current = period_current), "Argument 'y' is missing")
-	 expect_error(statespace_ch(x = x, y = y, period_ref = period_ref,
-	 	period_current = period_current), "Argument 'time' is missing")
-	 expect_error(statespace_ch(x = x, y = y, time = time,
-	 	period_current = period_current), "Argument 'period_ref' is missing")
-	 expect_error(statespace_ch(x = x, y = y, time = time, period_ref = period_ref),
-	 	"Argument 'period_current' is missing")
+  # missing arguments
+  expect_error(statespace_ch(y = y, time = time,
+    period_ref = period_ref, period_current = period_current),
+    "Argument x is missing")
+  expect_error(statespace_ch(x = x, time = time,
+    period_ref = period_ref, period_current = period_current),
+    "Argument y is missing")
+  expect_error(statespace_ch(x = x, y = y, period_ref = period_ref,
+    period_current = period_current), "Argument time is missing")
+  expect_error(statespace_ch(x = x, y = y, time = time,
+    period_current = period_current), "Argument period_ref is missing")
+  expect_error(statespace_ch(x = x, y = y, time = time,
+    period_ref = period_ref), "Argument period_current is missing")
 
-	 # check of inputs
-	 expect_error(statespace_ch(as.data.frame(x), y, time,
-	 	period_ref, period_current), "'x' has to be a VECTOR!")
-  expect_error(statespace_ch(x, as.character(y), time,
-	 	period_ref, period_current), "'y' has to be an INTEGER vector!")
+  # check of inputs
+  expect_error(statespace_ch(as.data.frame(x), y,
+    time, period_ref, period_current), "x has to be a VECTOR!")
+  expect_error(statespace_ch(x, as.character(y),
+    time, period_ref, period_current), "y has to be an INTEGER vector!")
   expect_error(statespace_ch(x, y, as.character(time),
-	 	period_ref, period_current), "'time' has to be an INTEGER vector!")
+    period_ref, period_current), "time has to be an INTEGER vector!")
   expect_error(statespace_ch(x, y, time, period_current))
   expect_error(statespace_ch(x, y, period_ref, period_current))
 
   # check length difference error message
-  expect_error(statespace_ch(x[-1], y, time, period_ref, period_current))
-  expect_error(statespace_ch(x, y[-1], time, period_ref, period_current))
-  expect_error(statespace_ch(x, y, time[-1], period_ref, period_current))
+  expect_error(statespace_ch(x[-1], y, time, period_ref,
+    period_current))
+  expect_error(statespace_ch(x, y[-1], time, period_ref,
+    period_current))
+  expect_error(statespace_ch(x, y, time[-1], period_ref,
+    period_current))
 
   # periods are partly outside the time series
   # (1979:2008)
@@ -71,10 +76,10 @@ test_that("test error messages", {
   expect_error(statespace_ch(x, y, time, period_ref2,
     period_current))
   # periods do not contain minimum of 3 years
-  expect_error(statespace_ch(x, y, time, period_ref = 1980, period_current))
+  expect_error(statespace_ch(x, y, time, period_ref = 1980,
+    period_current))
   expect_error(statespace_ch(x, y, time, period_ref,
     period_current = 2007:2008))
   expect_error(statespace_ch(x, y, time, period_ref = 1980,
-  	 period_current = 2007:2008))
+    period_current = 2007:2008))
 })
-

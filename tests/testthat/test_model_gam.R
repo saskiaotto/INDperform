@@ -47,8 +47,7 @@ test_that("test the returned tibble", {
   expect_is(dat$model, "list")
   expect_equal(dat$aic[[71]], aic)
   expect_is(dat$summary, "list")
-  expect_equivalent(dat$model[[71]]$model$SPF,
-    model$model$ind)  #not equal duo to names!
+  expect_equivalent(dat$model[[71]]$model$SPF, model$model$ind)  #not equal duo to names!
 })
 
 
@@ -119,24 +118,28 @@ test_that("negative biomial distribution", {
 # Test error messages
 dat <- ind_init_ex[1:5, ]
 dat2 <- ind_init_ex[1:5, 1:3]
-dat3 <- dat; dat3[1] <- "list"
+dat3 <- dat
+dat3[1] <- "list"
 dat4 <- as.data.frame(dat)
-x <- ind_ex[ ,4:5]
+x <- ind_ex[, 4:5]
 x$test_ind <- NA_real_
-y <- press_ex[ ,2]
+y <- press_ex[, 2]
 dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
 
 
 test_that("error messages", {
-		expect_error(model_gam(k = 3),	"Argument 'init_tbl' is missing")
-	 expect_error(model_gam(dat, family = poisson), "The specified family is not")
-	 # not all variables needed are provided in input:
-	 expect_error(model_gam(dat2))
-	 # data type is not as required (indication of modification)
-	 expect_error(model_gam(dat3))
-	 # input not a tibble anymore
-	 expect_error(model_gam(dat4))
-	 # fitting procedure failed
-	 expect_error(model_gam(dat, family = binomial()), "No IND~pressure GAM could be fitted")
-	 expect_message(model_gam(dat5), "NOTE: For the following")
+  expect_error(model_gam(k = 3), "Argument init_tbl is missing")
+  expect_error(model_gam(dat, family = poisson),
+    "The specified family is not")
+  # not all variables needed are provided in input:
+  expect_error(model_gam(dat2))
+  # data type is not as required (indication of
+  # modification)
+  expect_error(model_gam(dat3))
+  # input not a tibble anymore
+  expect_error(model_gam(dat4))
+  # fitting procedure failed
+  expect_error(model_gam(dat, family = binomial()),
+    "No IND~pressure GAM could be fitted")
+  expect_message(model_gam(dat5), "NOTE: For the following")
 })

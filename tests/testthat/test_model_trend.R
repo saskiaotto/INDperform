@@ -35,38 +35,38 @@ dat2 <- ind_ex[, 4:7]
 dat2$ind_na <- NA_real_
 
 test_that("error messages", {
-		expect_error(model_trend(time = ind_ex[, -1]),
-				"Argument 'ind_tbl' is missing")
-	expect_error(model_trend(ind_tbl = ind_ex[, -1]),
-				"Argument 'time' is missing")
-		expect_error(model_trend(ind_ex[, -1]),
-				"Argument 'time' is missing")
-	 expect_error(model_trend(ind_ex[, -1], time = ind_ex[, -1]),
-				"'time' has to be a VECTOR!")
-		expect_error(model_trend(ind_ex[, -1], time = as.factor(ind_ex$Year)),
-				"not a factor!")
-		expect_error(model_trend(ind_ex[, -1], time = as.character(ind_ex$Year)),
-				"'time' has to be an INTEGER vector!")
-		expect_error(model_trend(dat, time = ind_ex$Year),
-				"have to be NUMERIC!")
-		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year[-1]),
-			 "The number of time steps")
-		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year, train = 1.5),
-			 "The train argument has to be")
-		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year, train = 1.5),
-			 "The train argument has to be")
-		expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year, family = poisson),
-			 "The specified family is not")
-		# Fitting procedure failed
-		expect_error(model_trend(ind_tbl = ind_ex[, 4:7], time = ind_ex$Year,
-		 	family = binomial()), "No indicator trend model could be fitted!")
-		expect_message(model_trend(ind_tbl = dat2, time = ind_ex$Year),
-			 "For the following indicators fitting procedure failed")
+  expect_error(model_trend(time = ind_ex[, -1]),
+    "Argument ind_tbl is missing")
+  expect_error(model_trend(ind_tbl = ind_ex[, -1]),
+    "Argument time is missing")
+  expect_error(model_trend(ind_ex[, -1]), "Argument time is missing")
+  expect_error(model_trend(ind_ex[, -1], time = ind_ex[,
+    -1]), "time has to be a VECTOR!")
+  expect_error(model_trend(ind_ex[, -1], time = as.factor(ind_ex$Year)),
+    "not a factor!")
+  expect_error(model_trend(ind_ex[, -1], time = as.character(ind_ex$Year)),
+    "time has to be an INTEGER vector!")
+  expect_error(model_trend(dat, time = ind_ex$Year),
+    "have to be NUMERIC!")
+  expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year[-1]),
+    "The number of time steps")
+  expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year,
+    train = 1.5), "The train argument has to be")
+  expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year,
+    train = 1.5), "The train argument has to be")
+  expect_error(model_trend(ind_ex[, -1], time = ind_ex$Year,
+    family = poisson), "The specified family is not")
+  # Fitting procedure failed
+  expect_error(model_trend(ind_tbl = ind_ex[, 4:7],
+    time = ind_ex$Year, family = binomial()), "No indicator trend model could be fitted!")
+  expect_message(model_trend(ind_tbl = dat2, time = ind_ex$Year),
+    "For the following indicators fitting procedure failed")
 })
 
 
 test_that("correct indicator name for vectors", {
-	 expect_true(model_trend(ind_ex$MS, time = ind_ex$Year)$ind[1] == "ind")
-	 expect_true(model_trend(data.frame(y = ind_ex$MS), time = ind_ex$Year)$ind[1] == "y")
+  expect_true(model_trend(ind_ex$MS, time = ind_ex$Year)$ind[1] ==
+    "ind")
+  expect_true(model_trend(data.frame(y = ind_ex$MS),
+    time = ind_ex$Year)$ind[1] == "y")
 })
-

@@ -46,11 +46,11 @@ test_that("test content of sublist 2", {
 })
 
 test_that("error messages", {
-		expect_error(summary_sc(), "Argument 'scores_tbl' is missing")
-		expect_error(summary_sc(scores_tbl = as.data.frame(scores_ex)),
-			 "The input object 'scores_tbl'")
-	 expect_error(summary_sc(scores_tbl = scores_ex[, -1]),
-			 "The following variables required")
+  expect_error(summary_sc(), "Argument scores_tbl is missing")
+  expect_error(summary_sc(scores_tbl = as.data.frame(scores_ex)),
+    "The input object scores_tbl")
+  expect_error(summary_sc(scores_tbl = scores_ex[,
+    -1]), "The following variables required")
 })
 
-	x <- as.data.frame(scores_ex)
+x <- as.data.frame(scores_ex)

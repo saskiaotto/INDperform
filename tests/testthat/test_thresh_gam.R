@@ -10,7 +10,8 @@ test <- thresh_gam(model, ind, press1, press2, "Ssum",
 test_that("test t_gam", {
   expect_equal(all.vars(test$formula), c("TZA", "Tsum",
     "Ssum"))
-  expect_equal(length(test$gcvv), length(press1) + 1)
+  expect_equal(length(test$gcvv), length(press1) +
+    1)
   expect_equal(test$mgcv, min(test$gcvv, na.rm = TRUE))
   expect_equal(sort(press1), sort(c(press1[press2 <=
     test$mr], press1[press2 > test$mr])))

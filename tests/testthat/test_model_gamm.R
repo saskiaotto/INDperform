@@ -13,8 +13,8 @@ press <- ind_init_ex$press_train[[test_id]]
 p_test <- ind_init_ex$press_test[[test_id]]
 time <- ind_init_ex$time_train[[test_id]]
 test_dat <- data.frame(ind = ind, press = press, time = time)
-test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5))#,
-  #control = lmc)
+test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5))  #,
+# control = lmc)
 
 test_ar1 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
   correlation = nlme::corARMA(value = 0.3, form = ~time,
@@ -78,14 +78,13 @@ test_that("compare manual results", {
   expect_equal(nrmse, dat$nrmse)
   expect_is(nrmse[1], "numeric")
   expect_equal(ks_test[1], dat$ks_test[1])
-  expect_is(ks_test[1], "numeric") # error
+  expect_is(ks_test[1], "numeric")  # error
   expect_equal(tac, dat$tac)
   expect_false(dat$tac[2])
   expect_true(all(dat$id == test_id))
   expect_true(all(dat$ind == "Cod"))
   expect_true(all(dat$press == "Tsum"))
-  expect_message(model_gamm(ind_init_ex[44, ]),
-    "NOTE: For the following IND~pressure GAMMs")
+  expect_message(model_gamm(ind_init_ex[44, ]), "NOTE: For the following IND~pressure GAMMs")
 })
 
 # Test outlier
@@ -185,36 +184,41 @@ test_that("negative biomial distribution", {
 # Test error messages and filter
 dat <- ind_init_ex[1:5, ]
 dat2 <- ind_init_ex[1:5, 1:3]
-dat3 <- dat; dat3[1] <- "list"
+dat3 <- dat
+dat3[1] <- "list"
 dat4 <- as.data.frame(dat)
 dat_filter <- c(TRUE, FALSE, TRUE, FALSE)
-x <- ind_ex[ ,4:5]
+x <- ind_ex[, 4:5]
 x$test_ind <- NA_real_
-y <- press_ex[ ,2]
+y <- press_ex[, 2]
 dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
 dat_filter2 <- c(FALSE, NA, NA, NA, FALSE)
 
 test_ids <- c(63:70)
-gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,]
+gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,
+  ]
 
 test_that("error messages and filter", {
-	 expect_error(model_gamm(k = 3),	"Argument 'init_tbl' is missing")
-		expect_error(model_gamm(dat, family = poisson), "The specified family is not")
-		# not all variables needed are provided in input:
-		expect_error(model_gamm(dat2))
-		# data type is not as required (indication of modification)
-		expect_error(model_gamm(dat3))
-		# input not a tibble anymore
-		expect_error(model_gamm(dat4))
-		expect_error(model_gamm(dat, filter = dat_filter),
-			 "The length of the logical 'filter'")
-		# should NOT provide an error message (filter length correct) and return a tibble
-	 expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,],
-	 	 filter = gam_test$tac)))
-	 # fitting procedure failed
-	 expect_error(model_gamm(dat, family = binomial()), "No IND~pressure GAMM could be fitted")
-	 expect_message(model_gamm(dat5), "For the following")
-	 expect_error(model_gamm(init_tbl = dat, filter = dat_filter2),
-	 	 "Your filter contains no TRUE element")
+  expect_error(model_gamm(k = 3), "Argument init_tbl is missing")
+  expect_error(model_gamm(dat, family = poisson),
+    "The specified family is not")
+  # not all variables needed are provided in input:
+  expect_error(model_gamm(dat2))
+  # data type is not as required (indication of
+  # modification)
+  expect_error(model_gamm(dat3))
+  # input not a tibble anymore
+  expect_error(model_gamm(dat4))
+  expect_error(model_gamm(dat, filter = dat_filter),
+    "The length of the logical filter")
+  # should NOT provide an error message (filter
+  # length correct) and return a tibble
+  expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,
+    ], filter = gam_test$tac)))
+  # fitting procedure failed
+  expect_error(model_gamm(dat, family = binomial()),
+    "No IND~pressure GAMM could be fitted")
+  expect_message(model_gamm(dat5), "For the following")
+  expect_error(model_gamm(init_tbl = dat, filter = dat_filter2),
+    "Your filter contains no TRUE element")
 })
-
