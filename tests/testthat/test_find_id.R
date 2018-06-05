@@ -17,5 +17,5 @@ test_that("test functions calls to find id ", {
 })
 
 test_that("error messages", {
-		expect_error(find_id(ind_name = iv),	"Argument 'mod_tbl' is missing")
+  expect_error(find_id(ind_name = iv), "Argument mod_tbl is missing")
 })

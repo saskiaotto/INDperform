@@ -14,7 +14,8 @@ test_that("correct coercion", {
   expect_equal(class(y), class(check_ind_press(y_tib)))
   expect_equal(class(y), class(check_ind_press(y_vec)))
   expect_true(names(check_ind_press(y_vec)) == "ind")
-  expect_true(names(check_ind_press(y_vec, input ="press")) == "press")
+  expect_true(names(check_ind_press(y_vec, input = "press")) ==
+    "press")
 })
 
 y2 <- data.frame(a = c(1, 2, 3), b = as.factor(c("a",
@@ -25,7 +26,7 @@ y_vec2 <- letters
 
 test_that("error message", {
   expect_error(check_ind_press(y2), "variables have to be NUMERIC!")
-		expect_error(check_ind_press(y_mat2), "variables have to be NUMERIC!")
-		expect_error(check_ind_press(y_tib2), "variables have to be NUMERIC!")
-		expect_error(check_ind_press(y_vec2), "variables have to be NUMERIC!")
+  expect_error(check_ind_press(y_mat2), "variables have to be NUMERIC!")
+  expect_error(check_ind_press(y_tib2), "variables have to be NUMERIC!")
+  expect_error(check_ind_press(y_vec2), "variables have to be NUMERIC!")
 })

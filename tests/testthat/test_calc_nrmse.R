@@ -40,18 +40,18 @@ test_that("test calc_nrmse", {
 })
 
 
-# Test that NAs are returned when in every test time step at least 1 NA
-# in IND or PRESS
+# Test that NAs are returned when in every test
+# time step at least 1 NA in IND or PRESS
 
-press_tbl <- press_ex[ ,2:3] # excl. Year
-ind_tbl <- ind_ex[ ,2:3] # excl. Year
-time <- ind_ex[ ,1]
+press_tbl <- press_ex[, 2:3]  # excl. Year
+ind_tbl <- ind_ex[, 2:3]  # excl. Year
+time <- ind_ex[, 1]
 press_tbl$Tsum[28:30] <- NA
-x <- ind_init(ind_tbl, press_tbl, time, train = 0.9, random = FALSE)
+x <- ind_init(ind_tbl, press_tbl, time, train = 0.9,
+  random = FALSE)
 y <- model_gam(x)
 
 test_that("test NA return", {
   expect_true(is.na(y$nrmse[1]))
-	 expect_true(is.na(y$nrmse[3]))
+  expect_true(is.na(y$nrmse[3]))
 })
-
