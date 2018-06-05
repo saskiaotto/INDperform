@@ -32,16 +32,15 @@
 #' compare_thresholds(t_val, t_var)
 #'
 compare_thresholds <- function(t_val, t_var) {
-  comp <- do.call(rbind, purrr::map(t_val,
-  	~t_var <=  .))
+  comp <- do.call(rbind, purrr::map(t_val, ~t_var <= .))
   # If there is no change in the positions of TRUE in
   # comp in comparison to the last threshold, than
   # change will be set to FALSE
   thresh_gams <- tibble::tibble(t_val = t_val)
   thresh_gams$change <- TRUE
   for (i in 2:nrow(thresh_gams)) {
-    if (sum(comp[i, ] - comp[i - 1, ],
-    	 na.rm = TRUE) == 0) {
+    if (sum(comp[i, ] - comp[i - 1, ], na.rm = TRUE) ==
+      0) {
       thresh_gams$change[i] <- FALSE
     }
   }

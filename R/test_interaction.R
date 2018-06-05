@@ -166,40 +166,39 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   sign_level = 0.05, k = 4, a = 0.2, b = 0.8, excl_outlier = FALSE) {
 
   # Data input validation ----------------
-	 if (missing(init_tbl)) {
-	 	stop("Argument init_tbl is missing.")
-	 }
-		 if (missing(mod_tbl)) {
-	 	stop("Argument mod_tbl is missing.")
-		 }
-		 if (missing(interactions)) {
-	 	stop("Argument interactions is missing.")
-	 }
+  if (missing(init_tbl)) {
+    stop("Argument init_tbl is missing.")
+  }
+  if (missing(mod_tbl)) {
+    stop("Argument mod_tbl is missing.")
+  }
+  if (missing(interactions)) {
+    stop("Argument interactions is missing.")
+  }
 
-	 # Check input tibbles
-	 init_tbl <- check_input_tbl(
-	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
-	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
-	 	 	 "ind_test", "press_test", "time_test", "train_na"),
-	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
-	 )
-	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "ind", "press", "model_type", "p_val", "model"),
-				dt_to_check = c("integer", "character", "character", "character", "numeric",
-					 "list")
-		)
+  # Check input tibbles
+  init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
+    parent_func = "ind_init()", var_to_check = c("id",
+      "ind", "press", "ind_train", "press_train",
+      "time_train", "ind_test", "press_test",
+      "time_test", "train_na"), dt_to_check = c("integer",
+      "character", "character", rep("list", 7)))
+  mod_tbl <- check_input_tbl(mod_tbl, tbl_name = "mod_tbl",
+    parent_func = "model_gam() or model_gamm()/select_model()",
+    var_to_check = c("id", "ind", "press", "model_type",
+      "p_val", "model"), dt_to_check = c("integer",
+      "character", "character", "character",
+      "numeric", "list"))
 
-  if ((!"excl_outlier" %in% names(mod_tbl)) &
-    isTRUE(excl_outlier)) {
+  if ((!"excl_outlier" %in% names(mod_tbl)) & isTRUE(excl_outlier)) {
     stop("There is no column excl_outlier. Please set excl_outlier to FALSE!")
   }
-	 # As the column excl_outlier is later needed, add here
-	 #  list of NULLs
-	 if ((!"excl_outlier" %in% names(mod_tbl)) &
-    excl_outlier == FALSE)  {
+  # As the column excl_outlier is later needed, add
+  # here list of NULLs
+  if ((!"excl_outlier" %in% names(mod_tbl)) & excl_outlier ==
+    FALSE) {
     mod_tbl$excl_outlier <- vector("list", length = length(mod_tbl$id))
-	 }
+  }
 
   if (!all(unique(interactions$t_var) %in% unique(init_tbl$press))) {
     stop("init_tbl has to have all the observed data needed for t_var!")
@@ -211,15 +210,19 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     }
   }
 
-	 # Test whether all ind~press combis in interactions are also in mod_tbl or
-	 ind_press_it <- paste(interactions$ind, interactions$press, sep = "~")
-		ind_press_mod <- paste(mod_tbl$ind, mod_tbl$press, sep = "~")
+  # Test whether all ind~press combis in interactions
+  # are also in mod_tbl or
+  ind_press_it <- paste(interactions$ind, interactions$press,
+    sep = "~")
+  ind_press_mod <- paste(mod_tbl$ind, mod_tbl$press,
+    sep = "~")
 
-	 if (any(!ind_press_it %in% ind_press_mod)) {
-				missing_it <-ind_press_it[which(!ind_press_it %in% ind_press_mod)]
-				stop(paste0("The following ind~press combinations provided in the interaction tibble are missing in mod_tbl: ",
-						paste(missing_it, collapse = ", ")))
-	 }
+  if (any(!ind_press_it %in% ind_press_mod)) {
+    missing_it <- ind_press_it[which(!ind_press_it %in%
+      ind_press_mod)]
+    stop(paste0("The following ind~press combinations provided in the interaction tibble are missing in mod_tbl: ",
+      paste(missing_it, collapse = ", ")))
+  }
 
   # Test if there are any ids with NAs in models (if
   # GAMMs manually selected and convergence errors
@@ -247,15 +250,15 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     by = "id")
 
   # Add training data of t_var to interaction tibble
-  # (remove duplicated press entries in init_tbl before merging)
-		interactions <- interactions %>%
-			dplyr::left_join(init_tbl[!duplicated(init_tbl[,c("press", "press_train")]),
-			c("press", "press_train")], by = c("t_var" = "press"))
-		names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
+  # (remove duplicated press entries in init_tbl
+  # before merging)
+  interactions <- interactions %>% dplyr::left_join(init_tbl[!duplicated(init_tbl[,
+    c("press", "press_train")]), c("press", "press_train")],
+    by = c(t_var = "press"))
+  names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
 
-		# press_ex$Tsum
-		# init_tbl$time_train[[1]]
-		# interactions$t_var_train[[4]]
+  # press_ex$Tsum init_tbl$time_train[[1]]
+  # interactions$t_var_train[[4]]
 
   # Combine press values with press & t_var
   # combinations.
@@ -266,7 +269,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     ., by = c("ind", "press")))
   # Filter data for significance
   final_tab <- final_tab[is_value(final_tab$p_val) &
-  		final_tab$p_val <= sign_level, ]
+    final_tab$p_val <= sign_level, ]
 
   # Stop if no models left
   if (nrow(final_tab) == 0) {
@@ -319,11 +322,11 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     return(res)
   }
   # Apply show_prog to every model (each interaction)
-  suppressWarnings(temp_gam <- purrr::pmap(.l = list(model, y,
-    x1, x2, name_x2, k_list, a_list, b_list, time,
-    prog_now, prog_max), show_prog) %>% purrr::transpose())
+  suppressWarnings(temp_gam <- purrr::pmap(.l = list(model,
+    y, x1, x2, name_x2, k_list, a_list, b_list,
+    time, prog_now, prog_max), show_prog) %>% purrr::transpose())
   final_tab$interaction <- temp_gam$result %>% purrr::flatten_lgl()
-  final_tab$thresh_error <- temp_gam$error %>%	purrr::flatten_chr()
+  final_tab$thresh_error <- temp_gam$error %>% purrr::flatten_chr()
 
   # Save every thresh_gam better than the
   # corresponding gam, NA vector
@@ -337,7 +340,8 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # thresh_gam to all models where thresh_gam was
   # better
   for (i in 1:nrow(final_tab)) {
-    if (!is.na(final_tab$interaction[i]) & final_tab$interaction[i] == TRUE) {
+    if (!is.na(final_tab$interaction[i]) & final_tab$interaction[i] ==
+      TRUE) {
       final_tab$thresh_models[[i]] <- thresh_gam(model = model[[i]],
         ind_vec = y[[i]], press_vec = x1[[i]],
         t_var = x2[[i]], name_t_var = name_x2[[i]],
@@ -380,25 +384,24 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # thresh_gam is better max becomes 1 = TRUE -->
   # thresh_gam was better than gam
   temp <- suppressWarnings(final_tab %>% dplyr::group_by_(.dots = c("ind",
-    "press")) %>% dplyr::summarise_(
-    	.dots = stats::setNames(list(~any(interaction)),
+    "press")) %>% dplyr::summarise_(.dots = stats::setNames(list(~any(interaction)),
     "interaction")))
 
   # Get every thresh_gam better than the
   # corresponding gam
-  out <- final_tab %>% dplyr::group_by_(.dots = c("ind", "press")) %>%
-    dplyr::select_(.dots = c("ind",
-    "press", "interaction", "thresh_var", "tac_in_thresh", "thresh_error",
-    "thresh_models")) %>%
-  	dplyr::summarise_(
-  		thresh_var = lazyeval::interp(~list(var), var = as.name("thresh_var")),
-    tac_in_thresh = lazyeval::interp(~list(var), var = as.name("tac_in_thresh")),
-  		thresh_error = lazyeval::interp(~list(var), var = as.name("thresh_error")),
-    thresh_models = lazyeval::interp(~list(var), var = as.name("thresh_models"))) %>%
-  	dplyr::left_join(temp,., by = c("ind", "press"))
+  out <- final_tab %>% dplyr::group_by_(.dots = c("ind",
+    "press")) %>% dplyr::select_(.dots = c("ind",
+    "press", "interaction", "thresh_var", "tac_in_thresh",
+    "thresh_error", "thresh_models")) %>% dplyr::summarise_(thresh_var = lazyeval::interp(~list(var),
+    var = as.name("thresh_var")), tac_in_thresh = lazyeval::interp(~list(var),
+    var = as.name("tac_in_thresh")), thresh_error = lazyeval::interp(~list(var),
+    var = as.name("thresh_error")), thresh_models = lazyeval::interp(~list(var),
+    var = as.name("thresh_models"))) %>% dplyr::left_join(temp,
+    ., by = c("ind", "press"))
 
   # Remove all infos on thresh_gams that are NULL
-  # (not as good as a gam) - except for error messages!!
+  # (not as good as a gam) - except for error
+  # messages!!
   out$thresh_var <- purrr::map2(.x = out$interaction,
     .y = out$thresh_var, ~ifelse(.x, purrr::keep(.y,
       !is.na(.y)), NA))
@@ -418,10 +421,11 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
 
   # Warning if some models were not fitted
   if (any(is.na(final_tab$interaction))) {
-  	 miss_mod <- final_tab[is.na(final_tab$interaction), c(1:3, 13)]
-			 message(paste0("For the following indicators fitting procedure failed ",
-				"(see also column thresh_error in output tibble):"))
-  	 print(miss_mod, n = Inf, tibble.width = Inf)
+    miss_mod <- final_tab[is.na(final_tab$interaction),
+      c(1:3, 13)]
+    message(paste0("For the following indicators fitting procedure failed ",
+      "(see also column thresh_error in output tibble):"))
+    print(miss_mod, n = Inf, tibble.width = Inf)
   }
 
 

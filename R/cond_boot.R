@@ -124,15 +124,15 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   dat <- dplyr::left_join(dat, value_tib, by = c("corrstruc"))
 
   # Get model residuals (GAMs need to be refitted
-  # with fixed k! With GAMMs it does not work and
-  # the original model is used)
+  # with fixed k! With GAMMs it does not work and the
+  # original model is used)
   calc_resid <- function(x, y, model, dfF) {
-  	dat <- data.frame(x = x, y = y)
+    dat <- data.frame(x = x, y = y)
     if (class(model)[1] == "gam") {
       k <- dfF + 1
       family <- mgcv::summary.gam(model)$family[[1]]
       if (stringr::str_detect(family, "Negative Binomial")) {
-      	 family <- "nb"
+        family <- "nb"
       }
       link <- mgcv::summary.gam(model)$family[[2]]
       fit <- mgcv::gam(stats::as.formula(paste0("y ~ s(x, k = ",
@@ -150,7 +150,8 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
     return(resid)
   }
-  calc_resid_safe <- purrr::possibly(calc_resid, otherwise = NA)
+  calc_resid_safe <- purrr::possibly(calc_resid,
+    otherwise = NA)
 
   dat$resid <- purrr::pmap(.l = list(x = dat$press_train,
     y = dat$ind_train, model = dat$model, dfF = dat$dfF),
@@ -170,11 +171,12 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       cor_coef <- stats::coef(model$lme$modelStruct$corStruct,
         unconstrained = F)
       cor_param <- names(cor_coef)
-      if (any(
-      	identical(cor_param, cor_params[[1]][1]) | identical(cor_param, cor_params[[1]][2]) )) {
-       # corARMA(1,0) writes it Phi1 (our setting), corAR1 writes it just Phi
-      	# so in casew user applies manual GAM both versions included
-      	arma_list <- list(ar = cor_coef)
+      if (any(identical(cor_param, cor_params[[1]][1]) |
+        identical(cor_param, cor_params[[1]][2]))) {
+        # corARMA(1,0) writes it Phi1 (our setting), corAR1
+        # writes it just Phi so in casew user applies
+        # manual GAM both versions included
+        arma_list <- list(ar = cor_coef)
       }
       if (identical(cor_param, cor_params[[2]])) {
         arma_list <- list(ar = cor_coef)
@@ -194,17 +196,18 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
     return(arma_list)
   }
-  get_arma_list_safe <- purrr::possibly(get_arma_list, otherwise = NA)
+  get_arma_list_safe <- purrr::possibly(get_arma_list,
+    otherwise = NA)
 
-  dat$arma_list <- purrr::map(.x = dat$model,
-    .f = get_arma_list_safe, cor_params = cor_params)
+  dat$arma_list <- purrr::map(.x = dat$model, .f = get_arma_list_safe,
+    cor_params = cor_params)
 
 
-  # Actual conditional bootstrap per id -----------------
+  # Actual conditional bootstrap per id -----------
 
-  # Helper functions that generate y_boot,
-  # refits models, calculates preds and derivs,
-  # averages across bootstraps, including ci's
+  # Helper functions that generate y_boot, refits
+  # models, calculates preds and derivs, averages
+  # across bootstraps, including ci's
 
   boot_y <- function(y, resid, model, arma_list) {
     if (class(model)[1] == "gam") {
@@ -225,17 +228,18 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
   boot_fit <- function(y_boot, pr, t, model, dfF,
     v) {
-    dat <- data.frame(pr = pr, y_boot = y_boot, t = t)
+    dat <- data.frame(pr = pr, y_boot = y_boot,
+      t = t)
     if (class(model)[1] == "gam") {
       k <- dfF + 1
       family <- mgcv::summary.gam(model)$family[[1]]
       if (stringr::str_detect(family, "Negative Binomial")) {
-      	 family <- "nb"
+        family <- "nb"
       }
       link <- mgcv::summary.gam(model)$family[[2]]
-      dat$y_boot <- mod_y_boot(x = dat$y_boot, family = family)
-      fit <- suppressWarnings(mgcv::gam(
-      	 stats::as.formula(paste0("y_boot ~ s(pr, k = ",
+      dat$y_boot <- mod_y_boot(x = dat$y_boot,
+        family = family)
+      fit <- suppressWarnings(mgcv::gam(stats::as.formula(paste0("y_boot ~ s(pr, k = ",
         k, ", fx = TRUE)")), family = paste0(family,
         "(link = ", link, ")"), data = dat))
     } else {
@@ -244,16 +248,16 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       k <- dfF + 1
       family <- mgcv::summary.gam(model$gam)$family[[1]]
       if (stringr::str_detect(family, "Negative Binomial")) {
-      	 family <- "nb"
+        family <- "nb"
       }
       link <- mgcv::summary.gam(model$gam)$family[[2]]
-      dat$y_boot <- mod_y_boot(x = dat$y_boot, family = family)
+      dat$y_boot <- mod_y_boot(x = dat$y_boot,
+        family = family)
       pass_p <- attr(model$lme$modelStruct$corStruct,
         "p")
       pass_q <- attr(model$lme$modelStruct$corStruct,
         "q")
-      fit <- suppressWarnings(mgcv::gamm(
-      	 formula = stats::as.formula(paste0("y_boot ~ s(pr, k = ",
+      fit <- suppressWarnings(mgcv::gamm(formula = stats::as.formula(paste0("y_boot ~ s(pr, k = ",
         k, ")")), family = paste0(family, "(link = ",
         link, ")"), correlation = nlme::corARMA(value = v,
         form = stats::as.formula("~t"), p = pass_p,
@@ -285,9 +289,10 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
       .f = boot_fit_safe, pr = x$press_train[[1]],
       t = x$time_train[[1]], model = x$model[[1]],
       dfF = x$dfF[[1]], v = x$values[[1]]) %>%
-    	 purrr::transpose()
+      purrr::transpose()
     boot_tbl$boot_fit <- boot_fit_l %>% .$result
-    boot_tbl$boot_each_error <- purrr::map(boot_fit_l$error, ~ .$message)
+    boot_tbl$boot_each_error <- purrr::map(boot_fit_l$error,
+      ~.$message)
 
 
     # Here comes a loop to repeat the bootstrapping for
@@ -296,7 +301,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     # 400 iterations
     for (i in seq_along(boot_tbl$boot_id)) {
       if (is.na(boot_tbl$boot_fit[i])) {
-      	 m = 1
+        m = 1
         repeat {
           temp_y_boot <- boot_y(y = x$ind_train[[1]],
           resid = x$resid[[1]], model = x$model[[1]],
@@ -307,7 +312,8 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
           model = x$model[[1]], dfF = x$dfF[[1]],
           v = x$values[[1]])
           m = m + 1
-          if (!is.na(temp_boot_fit[1]) | m == 401) {
+          if (!is.na(temp_boot_fit[1]) | m ==
+          401) {
           break
           }
         }
@@ -344,27 +350,28 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
   if (par_comp == FALSE) {
     if (!is.null(seed)) {
-    	 set.seed(seed)
+      set.seed(seed)
     }
     # Apply the function in a loop now with progress
     # bar (most time consuming step)
     pb <- dplyr::progress_estimated(length(dat$id))
     for (i in seq_along(dat$id)) {
-      boot_per_id[[i]] <- apply_boot_safe(x = dat[i, ],
-        n_bt = n_boot)
+      boot_per_id[[i]] <- apply_boot_safe(x = dat[i,
+        ], n_bt = n_boot)
       # Increment progress bar
       pb$tick()$print()
     }
     # Stop progress bar
     pb$stop()
 
-  } else {  # parallel computing
+  } else {
+    # parallel computing
 
     op <- pbapply::pboptions(type = "timer", char = "=")
     dat_list <- split(dat, dat$id)
     names(dat_list) <- NULL
     if (is.null(no_clust)) {
-    	no_clust <- parallel::detectCores() - 1
+      no_clust <- parallel::detectCores() - 1
     }
     cl <- parallel::makeCluster(no_clust, type = "PSOCK")
     parallel::clusterExport(cl, c("boot_y", "boot_fit",
@@ -388,21 +395,23 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     parallel::stopCluster(cl)
     pbapply::pboptions(op)
 
- }
+  }
 
   # Group result and error sublists together
   boot_per_id_t <- boot_per_id %>% purrr::transpose()
   dat$boot_tbl <- boot_per_id_t$result
-  dat$boot_error <- purrr::map(boot_per_id_t$result,	~.x$boot_each_error)
+  dat$boot_error <- purrr::map(boot_per_id_t$result,
+    ~.x$boot_each_error)
 
   # Check if number of successful boots is acceptable
-  n_succ <- purrr::map_dbl(dat$boot_tbl, ~ sum(!is.na(.x$boot_fit)))
+  n_succ <- purrr::map_dbl(dat$boot_tbl, ~sum(!is.na(.x$boot_fit)))
   dat$adj_n_boot <- purrr::map_dbl(n_succ, .f = adj_n_boot)
-  dat$boot_tbl <- purrr::map2(.x = dat$boot_tbl, .y = dat$adj_n_boot,
-  	.f = sample_boot)
+  dat$boot_tbl <- purrr::map2(.x = dat$boot_tbl,
+    .y = dat$adj_n_boot, .f = sample_boot)
 
 
-  # Calculate means and ci's for predicted and derivative values
+  # Calculate means and ci's for predicted and
+  # derivative values
   alp <- (1 - ci)/2
 
   dat$pred <- purrr::map(1:length(dat$boot_tbl),
@@ -428,26 +437,28 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
   # ------------------------------
 
-  # Remove columns originating from init_tbl and generated here
-  # which are not relevant, i.e.
+  # Remove columns originating from init_tbl and
+  # generated here which are not relevant, i.e.
   incl_var <- names(dat)[!names(dat) %in% c("ind_train",
-  	"press_train", "time_train", "ind_test", "press_test",
-  	 "time_test", "train_na", "delta", "xp", "xm", "dfF",
-  	 "values", "resid", "arma_list", "boot_tbl")]
+    "press_train", "time_train", "ind_test", "press_test",
+    "time_test", "train_na", "delta", "xp", "xm",
+    "dfF", "values", "resid", "arma_list", "boot_tbl")]
   out <- dat %>% dplyr::select_(.dots = incl_var)
 
 
-   # Warning if some models were not fitted
-	  if (any(is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot)) {
-					sel <- is.na(out$adj_n_boot) |  out$adj_n_boot < n_boot
-					miss_mod <- out[sel, c(1:4, 20)] # would be here 19 but "prop" included in calc_deriv before
-				 message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
-				 	"failed completely (adj_n_boot = NA) or partly so that the number of bootstraps ",
-						"had to be reduced. See the boot_error column in the output tibble for the error message of ",
-						"each iteration. If adj_n_boot = NA, try for these models the alternative ",
-						"approx_deriv method:"))
-	  	 print(miss_mod, n = Inf, tibble.width = Inf)
-	  }
+  # Warning if some models were not fitted
+  if (any(is.na(out$adj_n_boot) | out$adj_n_boot <
+    n_boot)) {
+    sel <- is.na(out$adj_n_boot) | out$adj_n_boot <
+      n_boot
+    miss_mod <- out[sel, c(1:4, 20)]  # would be here 19 but 'prop' included in calc_deriv before
+    message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
+      "failed completely (adj_n_boot = NA) or partly so that the number of bootstraps ",
+      "had to be reduced. See the boot_error column in the output tibble for the error message of ",
+      "each iteration. If adj_n_boot = NA, try for these models the alternative ",
+      "approx_deriv method:"))
+    print(miss_mod, n = Inf, tibble.width = Inf)
+  }
 
   ### END OF FUNCTION
   return(out)
@@ -458,7 +469,8 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 # Internal helper functions -----------------------
 
 # Function to check whether the selected bootstrap
-# number matches with the ci_boot and adjust otherwise
+# number matches with the ci_boot and adjust
+# otherwise
 check_n_boot <- function(n_boot, ci) {
   y <- (n_boot - (n_boot * ci))/2
   if (y != round(y)) {
@@ -470,71 +482,76 @@ check_n_boot <- function(n_boot, ci) {
 }
 
 # Function to modify y_boot according to the family
-# (predicted values and residuals always double format,
-# which causes y_boot to be not in required integer or binary format)
+# (predicted values and residuals always double
+# format, which causes y_boot to be not in required
+# integer or binary format)
 mod_y_boot <- function(x, family) {
-	if (family %in% c("poisson", "quasipoisson", "nb")) {
-		out <- ceiling(x)
-		out[out<0] <- 0
-		out <- as.integer(out)
-	} else {
-		if (family %in% c("binomial")) {
-			out <- rep(0, length(x))
-			out[x >= 0.5] <- 1
-		} else {
-			out <- x
-		}
-	}
-	return(out)
+  if (family %in% c("poisson", "quasipoisson", "nb")) {
+    out <- ceiling(x)
+    out[out < 0] <- 0
+    out <- as.integer(out)
+  } else {
+    if (family %in% c("binomial")) {
+      out <- rep(0, length(x))
+      out[x >= 0.5] <- 1
+    } else {
+      out <- x
+    }
+  }
+  return(out)
 }
 
 
-# Re-adjust the number of bootstrap iterations depending on
-# the number of successfull model fits
+# Re-adjust the number of bootstrap iterations
+# depending on the number of successfull model fits
 # (if x is less than the min. required NA returned)
 adj_n_boot <- function(x) {
-		n_boot_seq <- seq(40, 120000, 40)
-		y <- n_boot_seq[n_boot_seq <= x]
-		if (length(y) == 0) y <- NA
-		n_req <- max(y)
-		return(n_req)
+  n_boot_seq <- seq(40, 120000, 40)
+  y <- n_boot_seq[n_boot_seq <= x]
+  if (length(y) == 0)
+    y <- NA
+  n_req <- max(y)
+  return(n_req)
 }
 
-# Sample from the successfull bootstrap iterations based on
-# the adjusted n_boot for calculating mean/ci of pred/derivs
+# Sample from the successfull bootstrap iterations
+# based on the adjusted n_boot for calculating
+# mean/ci of pred/derivs
 sample_boot <- function(x, y) {
-	# x: the boot_tbl to sample from
-	# y: number of required iterations
-	x$considered <- rep(FALSE, length(x$boot_fit))
-	if (!is.na(y)) {
-		 fit_succ <- which(!purrr::map_lgl(1:length(x$boot_fit),
-		 ~ is.na(x$boot_fit[.])))
-		 fit_sample <- sample(fit_succ, y)
-	  x$considered[fit_sample] <- TRUE
-	}
-	return(x)
+  # x: the boot_tbl to sample from y: number of
+  # required iterations
+  x$considered <- rep(FALSE, length(x$boot_fit))
+  if (!is.na(y)) {
+    fit_succ <- which(!purrr::map_lgl(1:length(x$boot_fit),
+      ~is.na(x$boot_fit[.])))
+    fit_sample <- sample(fit_succ, y)
+    x$considered[fit_sample] <- TRUE
+  }
+  return(x)
 }
 
 # Calculate means and ci
 calc_ci <- function(x, z, n) {
-	result <- sort(x)[n * z]
-	return(result)
+  result <- sort(x)[n * z]
+  return(result)
 }
 
 # To apply function like mean to lists
 calc_value <- function(input_list, var, fun, ...) {
-	if (is.na(input_list)) {
-		result <- NA
-	} else {
-		sel <- input_list %>% purrr::flatten_dfr() %>% .$considered
-		if (sum(sel) == 0) {
-			result <- NA
-		} else {
-			x <- input_list %>% purrr::flatten_dfr() %>% .[[var]]
-			x <- x[sel]
-			result <- do.call(cbind, x) %>% apply(.,
-				MARGIN = 1, FUN = fun, ...)
-		}
-	}
-	return(result)
+  if (is.na(input_list)) {
+    result <- NA
+  } else {
+    sel <- input_list %>% purrr::flatten_dfr() %>%
+      .$considered
+    if (sum(sel) == 0) {
+      result <- NA
+    } else {
+      x <- input_list %>% purrr::flatten_dfr() %>%
+        .[[var]]
+      x <- x[sel]
+      result <- do.call(cbind, x) %>% apply(.,
+        MARGIN = 1, FUN = fun, ...)
+    }
+  }
+  return(result)
 }

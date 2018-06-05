@@ -78,28 +78,28 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   k = 4, family = stats::gaussian()) {
 
   # Data input validation -----------------------
-	 if (missing(ind_tbl)) {
-	 	stop("Argument ind_tbl is missing.")
-	 }
-	 if (missing(time)) {
-	 	stop("Argument time is missing.")
-	 }
+  if (missing(ind_tbl)) {
+    stop("Argument ind_tbl is missing.")
+  }
+  if (missing(time)) {
+    stop("Argument time is missing.")
+  }
   # Check parameters
   y_ <- check_ind_press(ind_tbl)
   time_ <- check_input_vec(time, "time")
   # equal length?
   if (nrow(y_) != length(time_)) {
-  		stop("The number of time steps in time and ind_tbl have to be the same (i.e. the	length of the time vector and length or row number in ind_tbl differ)")
+    stop("The number of time steps in time and ind_tbl have to be the same (i.e. the\tlength of the time vector and length or row number in ind_tbl differ)")
   }
 
   if (train < 0 | train > 1) {
-  	 stop("The train argument has to be between 0 and 1 (all observations in time)!")
+    stop("The train argument has to be between 0 and 1 (all observations in time)!")
   }
 
   # Check family class
-		if (!"family" %in% class(family)) {
-				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
-		}
+  if (!"family" %in% class(family)) {
+    stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
+  }
   # ----------------
 
   # Define time units to be included in the model
@@ -126,8 +126,8 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
 
   # Add train and test data to output and name it by
   # the time vector
-  ind_train <- purrr::map(trend_tab$ind,
-  	 ~y_[select_train, .])
+  ind_train <- purrr::map(trend_tab$ind, ~y_[select_train,
+    .])
   time_train <- purrr::map(trend_tab$ind, ~time_[select_train])
   time_test <- purrr::map(trend_tab$ind, ~time_[select_test])
   # Save only 2 in output tibble
@@ -139,19 +139,19 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
   # (incl. NAs in the original data AND of the test
   # data if random = TRUE)
   if (random == FALSE) {
-    train_na <- purrr::map(trend_tab$ind,
-    	 ~is.na(y_[select_train, .]))
+    train_na <- purrr::map(trend_tab$ind, ~is.na(y_[select_train,
+      .]))
     trend_tab$train_na <- purrr::map2(train_na,
       time_train, ~name_values(.x, .y))
   } else {
-    train_na <- purrr::map(trend_tab$ind,
-    	 ~is.na(y_[select_train, .]))
+    train_na <- purrr::map(trend_tab$ind, ~is.na(y_[select_train,
+      .]))
     train_na <- purrr::map2(train_na, time_train,
       ~name_values(.x, .y))
     # All test observations within the training period
     # will be considered as NAs (so TRUE):
-    ind_test_na <- purrr::map(trend_tab$ind,
-    	 ~rep(TRUE, length(select_test)))
+    ind_test_na <- purrr::map(trend_tab$ind, ~rep(TRUE,
+      length(select_test)))
     ind_test_na <- purrr::map2(ind_test_na, time_test,
       ~name_values(.x, .y))
     ind_test_na_sub <- seq_along(ind_test_na) %>%
@@ -166,9 +166,10 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
       ind_test_na_sub[[.]])[sorted_years])
   }
 
-  # Compute the trend GAMs using this helper function:
-  apply_gam <- function(ind_name, ind_ts, time_ts, train_na_ts,
-  	k, family) {
+  # Compute the trend GAMs using this helper
+  # function:
+  apply_gam <- function(ind_name, ind_ts, time_ts,
+    train_na_ts, k, family) {
     dat <- data.frame(ind_ts, time = time_ts)
     names(dat)[1] <- ind_name
     model <- mgcv::gam(stats::as.formula(paste0(ind_name,
@@ -182,35 +183,36 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
 
   temp_mod <- suppressWarnings(purrr::pmap(.l = list(ind_name = trend_tab$ind,
     ind_ts = trend_tab$ind_train, time_ts = trend_tab$time_train,
-  	 train_na_ts = train_na), .f = apply_gam_safe,
-    k = k, family = family)) %>%
-  	  purrr::transpose()
-  trend_tab$model <-	temp_mod$result
+    train_na_ts = train_na), .f = apply_gam_safe,
+    k = k, family = family)) %>% purrr::transpose()
+  trend_tab$model <- temp_mod$result
 
   if (all(is.na(temp_mod$result))) {
-  	 stop("No indicator trend model could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
+    stop("No indicator trend model could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
   } else {
-  	 # Get p-values
-  	 gam_smy <- suppressWarnings(trend_tab$model %>%
-  	 		purrr::map(.f = purrr::possibly(mgcv::summary.gam, NA_real_)))
-  	 trend_tab$p_val <- get_sum_output(gam_smy, "s.table", 4)
-		  # Calculate pred +/- CI using another help function
-		  temp_pred <- calc_pred(trend_tab$model, obs_press = trend_tab$time_train)
-		  trend_tab <- dplyr::bind_cols(trend_tab, temp_pred)
-				# Generate final output tibble
-		  trend_tab <- dplyr::select_(trend_tab, .dots = c("ind_id",
-    "ind", "p_val", "model", "ind_train", "time_train",
-    "pred", "ci_up", "ci_low"))
+    # Get p-values
+    gam_smy <- suppressWarnings(trend_tab$model %>%
+      purrr::map(.f = purrr::possibly(mgcv::summary.gam,
+        NA_real_)))
+    trend_tab$p_val <- get_sum_output(gam_smy,
+      "s.table", 4)
+    # Calculate pred +/- CI using another help function
+    temp_pred <- calc_pred(trend_tab$model, obs_press = trend_tab$time_train)
+    trend_tab <- dplyr::bind_cols(trend_tab, temp_pred)
+    # Generate final output tibble
+    trend_tab <- dplyr::select_(trend_tab, .dots = c("ind_id",
+      "ind", "p_val", "model", "ind_train", "time_train",
+      "pred", "ci_up", "ci_low"))
   }
 
   # Warning if some models were not fitted
   if (any(!purrr::map_lgl(temp_mod$error, .f = is.null))) {
-  	 sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
-			 miss_mod <- trend_tab[sel, 1:2]
-			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
-			 	 purrr::flatten_chr()
-			 message("For the following indicators fitting procedure failed:")
-  	 print(miss_mod, n = Inf)
+    sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
+    miss_mod <- trend_tab[sel, 1:2]
+    miss_mod$error_message <- purrr::map(temp_mod$error,
+      .f = as.character) %>% purrr::flatten_chr()
+    message("For the following indicators fitting procedure failed:")
+    print(miss_mod, n = Inf)
   }
 
   ### END OF FUNCTION

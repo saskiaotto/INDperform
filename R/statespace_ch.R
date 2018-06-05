@@ -98,36 +98,36 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
 
   # Data input validation -----------------------
 
-	 # Testing for required package installation
+  # Testing for required package installation
   if (!requireNamespace("tripack", quietly = TRUE)) {
     stop("The package  `tripack` is needed for this function to work. Please install it.",
       call. = FALSE)
   }
 
-		if (missing(x)) {
-	 	stop("Argument x is missing.")
-		}
-		if (missing(y)) {
-	 	stop("Argument y is missing.")
-		}
-	 if (missing(time)) {
-	 	stop("Argument time is missing.")
-		}
-	 if (missing(period_ref)) {
-	 	stop("Argument period_ref is missing.")
-	 }
-	 if (missing(period_current)) {
-	 	stop("Argument period_current is missing.")
-	 }
+  if (missing(x)) {
+    stop("Argument x is missing.")
+  }
+  if (missing(y)) {
+    stop("Argument y is missing.")
+  }
+  if (missing(time)) {
+    stop("Argument time is missing.")
+  }
+  if (missing(period_ref)) {
+    stop("Argument period_ref is missing.")
+  }
+  if (missing(period_current)) {
+    stop("Argument period_current is missing.")
+  }
 
   # Check input vectors
-	 x <- check_input_vec(x, "x")
-	 y <- check_input_vec(y, "y")
-	 time <- check_input_vec(time, "time")
+  x <- check_input_vec(x, "x")
+  y <- check_input_vec(y, "y")
+  time <- check_input_vec(time, "time")
 
-	 if (length(x) != length(y) | length(x) != length(time)) {
-	 	 stop("One of the x, y, or time vectors has a different length!")
-	 }
+  if (length(x) != length(y) | length(x) != length(time)) {
+    stop("One of the x, y, or time vectors has a different length!")
+  }
 
   # Testing input of both periods
   if (any(period_ref %in% time == FALSE) | any(period_current %in%
@@ -140,18 +140,19 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
     stop("At least one of the defined periods has not a minimum of 3 time units.")
   }
 
-	 # Check if periods contain any NA
-	 if (any(is.na(x[match(period_ref, time)])) | any(is.na(y[match(period_ref, time)]))) {
-	 	stop(paste0("One of your indicators (x and/or y) has missing values in the reference ",
-    "period. Please select another period or fill the missing values (e.g. with the mean, ",
-				"median or interpolate)."))
-	 }
-	 if (any(is.na(x[match(period_current, time)])) | any(is.na(y[match(period_current, time)]))) {
-	 	stop(paste0("One of your indicators (x and/or y) has missing values in the current ",
-    "period. Please select another period or fill the missing values (e.g. with the mean, ",
-				"median or interpolate)."))
-	 }
-
+  # Check if periods contain any NA
+  if (any(is.na(x[match(period_ref, time)])) | any(is.na(y[match(period_ref,
+    time)]))) {
+    stop(paste0("One of your indicators (x and/or y) has missing values in the reference ",
+      "period. Please select another period or fill the missing values (e.g. with the mean, ",
+      "median or interpolate)."))
+  }
+  if (any(is.na(x[match(period_current, time)])) |
+    any(is.na(y[match(period_current, time)]))) {
+    stop(paste0("One of your indicators (x and/or y) has missing values in the current ",
+      "period. Please select another period or fill the missing values (e.g. with the mean, ",
+      "median or interpolate)."))
+  }
 
   # --------------------------------------------
 

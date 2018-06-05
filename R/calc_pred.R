@@ -35,7 +35,8 @@
 #' x <- calc_pred(model_list, obs_press)
 calc_pred <- function(model_list, obs_press) {
 
-  # Data input validation ------------------------------------
+  # Data input validation --------------------
+
   # Test input length
   if (length(model_list) != length(obs_press)) {
     stop("obs_press has to be the same length as model_list!")
@@ -49,7 +50,7 @@ calc_pred <- function(model_list, obs_press) {
     dat <- tibble::tibble(ind = NA, press = obs_press[[i]])
     model <- model_list[i]
 
-    # Check if model is avaliable
+    # Check if model is available
     if (is.null(model[[1]])) {
       temp[[i]] <- NA
     } else {

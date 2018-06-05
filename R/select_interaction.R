@@ -30,42 +30,43 @@
 #' @examples
 #' # Using some models of the Baltic Sea demo data
 #' test <- select_interaction(mod_tbl = merge_models_ex[1:5,])
-
 select_interaction <- function(mod_tbl) {
 
-	 # Data input validation --------
-	 if (missing(mod_tbl)) {
-	 	 stop("Argument mod_tbl is missing.")
-	 }
+  # Data input validation --------
+  if (missing(mod_tbl)) {
+    stop("Argument mod_tbl is missing.")
+  }
 
-	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl",
-	 		parent_func = "model_gam() or model_gam()/select_gam() or calc_deriv()",
-				var_to_check = c("id", "ind", "press"),
-				dt_to_check = c("integer", "character", "character")
-		)
+  mod_tbl <- check_input_tbl(mod_tbl, tbl_name = "mod_tbl",
+    parent_func = "model_gam() or model_gam()/select_gam() or calc_deriv()",
+    var_to_check = c("id", "ind", "press"), dt_to_check = c("integer",
+      "character", "character"))
 
-	 # Check whether there are more than 1 pressure to test for interactions
-	 if (length(unique(mod_tbl$press)) == 1) {
-	 	 stop("mod_tbl contains only 1 pressure!")
-	 }
+  # Check whether there are more than 1 pressure to
+  # test for interactions
+  if (length(unique(mod_tbl$press)) == 1) {
+    stop("mod_tbl contains only 1 pressure!")
+  }
 
-	 # --------------
+  # --------------
 
   # Create each possible combination for all
   # pressures
-  pressures <- unique(mod_tbl$press) %>% merge(., .)
+  pressures <- unique(mod_tbl$press) %>% merge(.,
+    .)
   names(pressures) <- c("t_var", "press")
   # Remove combinations of where t_var = pressures
-  pressures <- pressures[pressures$t_var != pressures$press, ]
+  pressures <- pressures[pressures$t_var != pressures$press,
+    ]
   # Convert factors into character vectors
   for (i in 1:2) {
     if (is.factor(pressures[, i])) {
-      pressures[, i] <- as.character(pressures[, i])
+      pressures[, i] <- as.character(pressures[,
+        i])
     }
   }
-  pressures <- suppressMessages(dplyr::left_join(mod_tbl[, c("ind",
-    "press")], pressures))
+  pressures <- suppressMessages(dplyr::left_join(mod_tbl[,
+    c("ind", "press")], pressures))
   # Sort columns
   pressures <- dplyr::select_(pressures, "ind", "press",
     "t_var")

@@ -29,9 +29,9 @@
 #' find_id(model_gam_ex, press_name = press_name)
 find_id <- function(mod_tbl, ind_name = NULL, press_name = NULL) {
 
-	 # Data input validation -------
+  # Data input validation -------
   if (missing(mod_tbl)) {
-  	 stop("Argument mod_tbl is missing.")
+    stop("Argument mod_tbl is missing.")
   }
   # Check input
   if (is.null(press_name)) {
@@ -51,8 +51,8 @@ find_id <- function(mod_tbl, ind_name = NULL, press_name = NULL) {
     } else {
       # Check for matches with both ind_ and press_name
       res <- dplyr::filter_(mod_tbl, ~press %in%
-        press_name) %>%
-      	dplyr::filter_(~ind %in% ind_name)
+        press_name) %>% dplyr::filter_(~ind %in%
+        ind_name)
     }
   }
   return(res)

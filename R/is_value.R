@@ -16,8 +16,7 @@
 #'
 #' @keywords internal
 #' @export
-is_value<- function(x) {
-	out <- !(is.na(x) | is.nan(x) |
-              is.null(x) | is.infinite(x))
-	return(out)
+is_value <- function(x) {
+  out <- !(is.na(x) | is.nan(x) | is.null(x) | is.infinite(x))
+  return(out)
 }

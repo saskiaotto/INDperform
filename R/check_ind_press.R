@@ -19,22 +19,23 @@
 #' @keywords internal
 #' @export
 check_ind_press <- function(x, input = "ind") {
-		# Coerce vector or table class to data frame
-		if (is.vector(x)) {
-				x <- data.frame(x)
-				if (input == "ind") {
-					 names(x) <- "ind"
-				} else {
-					 names(x) <- "press"
-				}
-		} else {
-				if( is.matrix(x) || tibble::is.tibble(x) ) x <- as.data.frame(x)
-		}
+  # Coerce vector or table class to data frame
+  if (is.vector(x)) {
+    x <- data.frame(x)
+    if (input == "ind") {
+      names(x) <- "ind"
+    } else {
+      names(x) <- "press"
+    }
+  } else {
+    if (is.matrix(x) || tibble::is.tibble(x))
+      x <- as.data.frame(x)
+  }
 
-		# Check type of each variable
-		check_num <- purrr::map_lgl(x, is.numeric)
-		if (!all(check_num)) {
-			stop("All indicator or pressure variables have to be NUMERIC!")
-		}
-		return(x)
+  # Check type of each variable
+  check_num <- purrr::map_lgl(x, is.numeric)
+  if (!all(check_num)) {
+    stop("All indicator or pressure variables have to be NUMERIC!")
+  }
+  return(x)
 }

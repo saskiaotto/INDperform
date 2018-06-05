@@ -36,16 +36,17 @@ calc_nrmse <- function(pred, obs_ind) {
       nrmse[[i]] <- (obs_ind[[i]] - pred[[i]])^2
     }
   }
-  incl <- purrr::map_if(nrmse, choose, ~ !is.na(.) )
-  obs_ind_incl <- purrr::map2(obs_ind, incl, ~ .x[.y] )
+  incl <- purrr::map_if(nrmse, choose, ~!is.na(.))
+  obs_ind_incl <- purrr::map2(obs_ind, incl, ~.x[.y])
   # Column sums
   nrmse <- purrr::map_dbl(nrmse, ~sum(., na.rm = TRUE))
   # Divide by n (length(obs_ind_incl))
-  nrmse <- purrr::map2(nrmse, obs_ind_incl, ~.x / length(.y) )
+  nrmse <- purrr::map2(nrmse, obs_ind_incl, ~.x/length(.y))
   # Get square root
   nrmse <- purrr::map_dbl(nrmse, ~sqrt(.))
   # Get mean for each vector in obs_ind_incl
-  mean_obs_ind <- purrr::map_dbl(obs_ind_incl, .f = mean, na.rm = TRUE)
+  mean_obs_ind <- purrr::map_dbl(obs_ind_incl, .f = mean,
+    na.rm = TRUE)
   # Divide by mean of respective column of
   # observations
   nrmse <- purrr::map2_dbl(.x = nrmse, .y = mean_obs_ind,

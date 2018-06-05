@@ -125,25 +125,25 @@
 model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL) {
 
-		# Data input validation -----------------------
-	 if (missing(init_tbl)) {
-	 	stop("Argument init_tbl is missing.")
-	 }
-		# Check input tibble
-	 init_tbl <- check_input_tbl(
-	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
-	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
-	 	 	 "ind_test", "press_test", "time_test", "train_na"),
-	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
-	 	)
-	 # Check family class
-		if (!"family" %in% class(family)) {
-				stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
-		}
+  # Data input validation -----------------------
+  if (missing(init_tbl)) {
+    stop("Argument init_tbl is missing.")
+  }
+  # Check input tibble
+  init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
+    parent_func = "ind_init()", var_to_check = c("id",
+      "ind", "press", "ind_train", "press_train",
+      "time_train", "ind_test", "press_test",
+      "time_test", "train_na"), dt_to_check = c("integer",
+      "character", "character", rep("list", 7)))
+  # Check family class
+  if (!"family" %in% class(family)) {
+    stop("The specified family is not a family object. You need to provide the family function, e.g. family = poisson()")
+  }
 
-	 # ----------------
+  # ----------------
 
-	 # Exclude outliers given in excl_outliers
+  # Exclude outliers given in excl_outliers
   if (!is.null(excl_outlier)) {
     ind_train_sub <- purrr::map2(init_tbl$ind_train,
       excl_outlier, ~replace(.x, .y, NA))  # (NULLs will not be replaced)
@@ -173,14 +173,16 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   gam_tab$model <- vector(length = nrow(init_tbl),
     mode = "list")
 
-  # Compute the IND~Press GAMs using this helper function:
-  apply_gam <- function(ind_name, press_name,ind_ts,
-  	 press_ts, train_na_ts, k, family) {
+  # Compute the IND~Press GAMs using this helper
+  # function:
+  apply_gam <- function(ind_name, press_name, ind_ts,
+    press_ts, train_na_ts, k, family) {
     dat <- data.frame(ind = ind_ts, press = press_ts)
     names(dat) <- c(ind_name, press_name)
     model <- mgcv::gam(stats::as.formula(paste0(names(dat)[1],
       " ~ 1 + s(", names(dat)[2], ", k = ", k,
-      ")")), na.action = "na.omit", family = family, data = dat)
+      ")")), na.action = "na.omit", family = family,
+      data = dat)
     # Save train_na in model
     model$train_na <- train_na_ts
     return(model)
@@ -188,82 +190,91 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
   apply_gam_safe <- purrr::safely(apply_gam, otherwise = NA)
 
   temp_mod <- purrr::pmap(.l = list(ind_name = init_tbl$ind,
-	  	press_name = init_tbl$press, ind_ts = ind_train_sub,
-	    press_ts = press_train_sub, train_na_ts = train_na),
-	    .f = apply_gam_safe, k = k, family = family) %>%
-  	 purrr::transpose()
-  gam_tab$model <-	temp_mod$result
+    press_name = init_tbl$press, ind_ts = ind_train_sub,
+    press_ts = press_train_sub, train_na_ts = train_na),
+    .f = apply_gam_safe, k = k, family = family) %>%
+    purrr::transpose()
+  gam_tab$model <- temp_mod$result
 
   if (all(is.na(temp_mod$result))) {
-  	 stop("No IND~pressure GAM could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
+    stop("No IND~pressure GAM could be fitted! Check if you chose the correct error distribution (default is gaussian()).")
   } else {
 
-  # Save summary for each gam (cannot handle NAs, hence use of possibly())
-  gam_smy <- suppressWarnings(gam_tab$model %>%
-  		purrr::map(.f = purrr::possibly(mgcv::summary.gam, NA_real_)))
+    # Save summary for each gam (cannot handle NAs,
+    # hence use of possibly())
+    gam_smy <- suppressWarnings(gam_tab$model %>%
+      purrr::map(.f = purrr::possibly(mgcv::summary.gam,
+        NA_real_)))
 
-  # Get some output from the summary
-  gam_tab$edf <- get_sum_output(sum_list = gam_smy,
-    varname = "edf")
-  gam_tab$r_sq <- get_sum_output(sum_list = gam_smy,
-    varname = "r.sq")
-  gam_tab$expl_dev <- get_sum_output(sum_list = gam_smy,
-    varname = "dev.expl")
-  gam_tab$p_val <- get_sum_output(sum_list = gam_smy,
-    varname = "s.table", cell = 4)
+    # Get some output from the summary
+    gam_tab$edf <- get_sum_output(sum_list = gam_smy,
+      varname = "edf")
+    gam_tab$r_sq <- get_sum_output(sum_list = gam_smy,
+      varname = "r.sq")
+    gam_tab$expl_dev <- get_sum_output(sum_list = gam_smy,
+      varname = "dev.expl")
+    gam_tab$p_val <- get_sum_output(sum_list = gam_smy,
+      varname = "s.table", cell = 4)
 
-  # Apply the significant code using external helper function
-  gam_tab$signif_code <- get_signif_code(gam_tab$p_val)
+    # Apply the significant code using external helper
+    # function
+    gam_tab$signif_code <- get_signif_code(gam_tab$p_val)
 
-  # Save AIC value for each gam (cannot handle NAs, hence use of possibly())
-  gam_tab$aic <- gam_tab$model %>% purrr::map_dbl(.f = purrr::possibly(stats::AIC, NA_real_))
+    # Save AIC value for each gam (cannot handle NAs,
+    # hence use of possibly())
+    gam_tab$aic <- gam_tab$model %>% purrr::map_dbl(.f = purrr::possibly(stats::AIC,
+      NA_real_))
 
-  # Calculate nrmse using external helper function
-  gam_tab$nrmse <- calc_nrmse(
-  	 pred = calc_pred(model_list = gam_tab$model,
+    # Calculate nrmse using external helper function
+    gam_tab$nrmse <- calc_nrmse(pred = calc_pred(model_list = gam_tab$model,
       obs_press = init_tbl$press_test)$pred,
-  	 obs_ind = init_tbl$ind_test)
+      obs_ind = init_tbl$ind_test)
 
-  # Get residuals (cannot handle NAs, hence use of possibly())
-  res <- gam_tab$model %>% purrr::map(
-  	 .f = purrr::possibly(mgcv::residuals.gam, NA_real_), type = "deviance")
+    # Get residuals (cannot handle NAs, hence use of
+    # possibly())
+    res <- gam_tab$model %>% purrr::map(.f = purrr::possibly(mgcv::residuals.gam,
+      NA_real_), type = "deviance")
 
-  # Test for normality in residual distribution
-  # (requires self-made safely function if res = NA)
-  norm_test <- function(x, family) {
-  	 p <- stats::ks.test(x = x, "pnorm", mean(x, na.rm = TRUE),
-  	 	 stats::sd(x, na.rm = TRUE))$p.value
-  	 return(p)
+    # Test for normality in residual distribution
+    # (requires self-made safely function if res = NA)
+    norm_test <- function(x, family) {
+      p <- stats::ks.test(x = x, "pnorm", mean(x,
+        na.rm = TRUE), stats::sd(x, na.rm = TRUE))$p.value
+      return(p)
+    }
+    norm_test_safe <- purrr::safely(norm_test,
+      otherwise = NA_real_)
+    suppressWarnings(gam_tab$ks_test <- res %>%
+      purrr::map(.f = norm_test_safe) %>% purrr::transpose() %>%
+      .$result %>% unlist() %>% round(., 4))
+
+    # Test for TAC - needs NA`s in residuals!
+    res_new <- vector(mode = "list", length = nrow(init_tbl))
+    for (i in seq_along(res_new)) {
+      res_new[[i]] <- rep(NA, length(train_na[[i]]))
+      res_new[[i]][!train_na[[i]]] <- res[[i]]
+    }
+    gam_tab$tac <- test_tac(res_new)$tac
+
+    # Check for outlier (cook`s distance > 1) in
+    # residuals (cannot handle NAs, hence use of
+    # possibly())
+    cooks_dist <- purrr::map(gam_tab$model, .f = purrr::possibly(stats::cooks.distance,
+      NA))
+    warn <- purrr::map_lgl(cooks_dist, ~any(. >
+      1, na.rm = TRUE))
+    outlier <- purrr::map2(warn, cooks_dist, ~if (.x ==
+      TRUE)
+      which(.y > 1))
+    # Get correct position of outlier in ind_train
+    # (important if NAs present) and save in tibble
+    gam_tab$pres_outlier <- purrr::map(1:length(ind_train_sub),
+      ~if (warn[[.]] == TRUE)
+        which(!is.na(ind_train_sub[[.]]))[outlier[[.]]])
+    gam_tab$excl_outlier <- excl_outlier
+
+    # end of if-statement (temp_mod$result not NA)
   }
-  norm_test_safe <- purrr::safely(norm_test, otherwise = NA_real_)
-  suppressWarnings(gam_tab$ks_test <- res %>%
-  		purrr::map(.f = norm_test_safe) %>%
-  	 purrr::transpose() %>% .$result %>% unlist() %>% round(., 4))
-
-  # Test for TAC - needs NA`s in residuals!
-  res_new <- vector(mode = "list", length = nrow(init_tbl))
-  for (i in seq_along(res_new)) {
-    res_new[[i]] <- rep(NA, length(train_na[[i]]))
-    res_new[[i]][!train_na[[i]]] <- res[[i]]
-  }
-  gam_tab$tac <- test_tac(res_new)$tac
-
-  # Check for outlier (cook`s distance > 1) in residuals
-  #  (cannot handle NAs, hence use of possibly())
-  cooks_dist <- purrr::map(gam_tab$model,
-  	 .f = purrr::possibly(stats::cooks.distance, NA))
-  warn <- purrr::map_lgl(cooks_dist, ~any(. > 1,
-    na.rm = TRUE))
-  outlier <- purrr::map2(warn, cooks_dist,
-    ~if (.x == TRUE) which(.y > 1))
-  # Get correct position of outlier in ind_train (important
-  # if NAs present) and save in tibble
-  gam_tab$pres_outlier <- purrr::map(1: length(ind_train_sub),
-				~if (warn[[.]] == TRUE)  which(!is.na(ind_train_sub[[.]]))[outlier[[.]]])
-  gam_tab$excl_outlier <- excl_outlier
-
-  # end of if-statement (temp_mod$result not NA)
- 	}
 
   # Sort variables
   gam_tab <- sort_output_tbl(gam_tab)
@@ -272,12 +283,12 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   # Warning if some models were not fitted
   if (any(!purrr::map_lgl(temp_mod$error, .f = is.null))) {
-  	 sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
-			 miss_mod <- gam_tab[sel, 1:3]
-			 miss_mod$error_message <- purrr::map(temp_mod$error, .f = as.character) %>%
-			 	 purrr::flatten_chr()
-			 message("NOTE: For the following IND~pressure GAMs fitting procedure failed:")
-  	 print(miss_mod, n = Inf, tibble.width = Inf)
+    sel <- !purrr::map_lgl(temp_mod$error, .f = is.null)
+    miss_mod <- gam_tab[sel, 1:3]
+    miss_mod$error_message <- purrr::map(temp_mod$error,
+      .f = as.character) %>% purrr::flatten_chr()
+    message("NOTE: For the following IND~pressure GAMs fitting procedure failed:")
+    print(miss_mod, n = Inf, tibble.width = Inf)
   }
 
 

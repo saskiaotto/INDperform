@@ -29,9 +29,10 @@
 get_sum_output <- function(sum_list, varname, cell = NULL) {
 
   # Data input validation ----------
-	 # Check if requested element contains only one value
+
+  # Check if requested element contains only one value
   # and if cell is NULL
-		ok <- which(!is.na(sum_list))
+  ok <- which(!is.na(sum_list))
   if (is.null(cell) & length(sum_list[[ok[1]]][[varname]]) >
     1) {
     stop("The requested summary element contains more than one value. Select\n\t\t\tthe specific value using the cell argument")
@@ -39,9 +40,10 @@ get_sum_output <- function(sum_list, varname, cell = NULL) {
     if (is.null(cell))
       cell <- 1
   }
-	 # --------------------------------
+  # --------------------------------
 
-  # Some models may not be fitted and are passed as NA.
+  # Some models may not be fitted and are passed as
+  # NA.
   choose <- !is.na(sum_list)
   # capture output
   result <- purrr::map_if(sum_list, choose, ~.[[varname]][cell])

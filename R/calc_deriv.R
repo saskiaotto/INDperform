@@ -204,10 +204,10 @@
 #' }
 calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   sign_level = 0.05, excl_outlier = FALSE, method = "cond_boot",
-	 n_boot = 200, ci_boot = 0.95, ci_prop_se = 25,
+  n_boot = 200, ci_boot = 0.95, ci_prop_se = 25,
   par_comp = FALSE, no_clust = NULL, seed = NULL) {
 
-  # Data input validation ----------------------------
+  # Data input validation --------------------
 
   pos_int <- function(x) {
     if (is.numeric(x)) {
@@ -220,25 +220,25 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   }
 
   if (missing(init_tbl)) {
-	 	stop("Argument init_tbl is missing.")
+    stop("Argument init_tbl is missing.")
   }
   if (missing(mod_tbl)) {
-	 	stop("Argument mod_tbl is missing.")
-	 }
+    stop("Argument mod_tbl is missing.")
+  }
 
   # Check input tibbles
-	 init_tbl <- check_input_tbl(
-	 	 init_tbl, tbl_name = "init_tbl", parent_func = "ind_init()",
-	 	 var_to_check = c("id", "ind", "press", "ind_train", "press_train", "time_train",
-	 	 	 "ind_test", "press_test", "time_test", "train_na"),
-	 	 dt_to_check = c("integer", "character", "character", rep("list", 7))
-	 )
-	 mod_tbl <- check_input_tbl(
-				mod_tbl, tbl_name = "mod_tbl", parent_func = "model_gam() or model_gamm()/select_model()",
-				var_to_check = c("id", "ind", "press", "corrstruc","edf", "p_val", "model"),
-				dt_to_check = c("integer", "character", "character", "character", "numeric", "numeric",
-					 "list")
-		)
+  init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
+    parent_func = "ind_init()", var_to_check = c("id",
+      "ind", "press", "ind_train", "press_train",
+      "time_train", "ind_test", "press_test",
+      "time_test", "train_na"), dt_to_check = c("integer",
+      "character", "character", rep("list", 7)))
+  mod_tbl <- check_input_tbl(mod_tbl, tbl_name = "mod_tbl",
+    parent_func = "model_gam() or model_gamm()/select_model()",
+    var_to_check = c("id", "ind", "press", "corrstruc",
+      "edf", "p_val", "model"), dt_to_check = c("integer",
+      "character", "character", "character",
+      "numeric", "numeric", "list"))
 
   # Test if there are any ids with NAs in models (if,
   # e.g., GAMMs were manually selected and
@@ -256,25 +256,30 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   # and sort in the same order
   if (!identical(init_tbl$id, mod_tbl$id)) {
     if (all(mod_tbl$id %in% init_tbl$id)) {
-      init_tbl <- init_tbl[match(mod_tbl$id, init_tbl$id), ]
-    	  # (match() with mod_tbl as first argument makes
-       # sure only those in the same order are selected)
+      init_tbl <- init_tbl[match(mod_tbl$id,
+        init_tbl$id), ]
+      # (match() with mod_tbl as first argument makes
+      # sure only those in the same order are selected)
     } else {
       stop("Not all ids in mod_tbl are provided in init_tbl.")
     }
   }
 
-  # Test if there are any ids with NAs in models (if GAMMs manually selected and convergence errors occurred)
+  # Test if there are any ids with NAs in models (if
+  # GAMMs manually selected and convergence errors
+  # occurred)
   if (any(is.na(mod_tbl$model))) {
-  	warning(paste0("The following ids have missing models: ",
-  		paste0(mod_tbl$id[is.na(mod_tbl$model)], collapse = ", ")))
+    warning(paste0("The following ids have missing models: ",
+      paste0(mod_tbl$id[is.na(mod_tbl$model)],
+        collapse = ", ")))
   }
 
   # Correct edf_filter (>1)?
   if (is.null(edf_filter)) {
     stop("The edf_filter value must be a single numeric value greater than 1.")
   } else {
-    if (!is.numeric(edf_filter) | (edf_filter <= 1)) {
+    if (!is.numeric(edf_filter) | (edf_filter <=
+      1)) {
       stop("The edf_filter value must be a single numeric value greater than 1.")
     }
   }
@@ -293,18 +298,18 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   if (is.null(ci_boot)) {
     stop("The ci_boot value must be a single numeric value between 0 and 1.")
   } else {
-    if (any(!is.numeric(ci_boot) | (ci_boot) < 0 | (ci_boot > 1))) {
+    if (any(!is.numeric(ci_boot) | (ci_boot) <
+      0 | (ci_boot > 1))) {
       stop("The ci_boot value  value must be a numeric value between 0 and 1.")
     }
   }
 
   # Correct method (2 options)?
   if (is.null(method)) {
-    stop("The method must be either "conditional bootstrap" or "approx_deriv".")
+    stop("The method must be either `conditional bootstrap` or `approx_deriv`.")
   } else {
-    if (!method %in% c("cond_boot",
-      "approx_deriv")) {
-      stop("The method must be either "cond_boot" or "approx_deriv".")
+    if (!method %in% c("cond_boot", "approx_deriv")) {
+      stop("The method must be either 'cond_boot' or 'approx_deriv'.")
     }
   }
 
@@ -331,16 +336,15 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     }
   }
 
-  if ((!"excl_outlier" %in% names(mod_tbl)) &
-    isTRUE(excl_outlier)) {
-    stop("There is no column "excl_outlier" in mod_tbl. Please set excl_outlier to FALSE!")
+  if ((!"excl_outlier" %in% names(mod_tbl)) & isTRUE(excl_outlier)) {
+    stop("There is no column 'excl_outlier' in mod_tbl. Please set excl_outlier to FALSE!")
   }
-	 # As the column "excl_outlier" is later needed, add here
-	 #  list of NULLs
-	 if ((!"excl_outlier" %in% names(mod_tbl)) &
-    excl_outlier == FALSE)  {
+  # As the column 'excl_outlier' is later needed, add
+  # here list of NULLs
+  if ((!"excl_outlier" %in% names(mod_tbl)) & excl_outlier ==
+    FALSE) {
     mod_tbl$excl_outlier <- vector("list", length = length(mod_tbl$id))
-	 }
+  }
 
 
   # -------------------------------------------------------
@@ -348,35 +352,38 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   # Filter mod_tbl and apply the respective deriv
   # method to filtered ids
 
-  if (nrow(mod_tbl[
-  	 mod_tbl$edf > edf_filter & mod_tbl$p_val <= sign_level &
-  	 	 is_value(mod_tbl$edf) & is_value(mod_tbl$p_val),
-  	 ]) == 0) {
+  if (nrow(mod_tbl[mod_tbl$edf > edf_filter & mod_tbl$p_val <=
+    sign_level & is_value(mod_tbl$edf) & is_value(mod_tbl$p_val),
+    ]) == 0) {
     # Alternative output as no derivatives have to be
     # calculated --> just add prop = 1.00
     alter_output <- mod_tbl
     alter_output$prop <- 1
     alter_output <- sort_output_tbl(alter_output)
     message(paste0("mod_tbl contains no significant model (p_val <= sign_level) ",
-    	" or NONE of the significant models is non-linear (edf > edf_filter)! ",
-					"Significant linear models will get automatically a proportion (prop) value of 1."))
+      " or NONE of the significant models is non-linear (edf > edf_filter)! ",
+      "Significant linear models will get automatically a proportion (prop) value of 1."))
     return(alter_output)
   } else {
 
     # Divide mod_tbl/init_tbl in filtered and
     # unfiltered id (before sort both)
-  		mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
-  		init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
+    mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
+    init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
     filt <- mod_tbl[is_value(mod_tbl$edf) & is_value(mod_tbl$p_val) &
-    		mod_tbl$edf > edf_filter &	mod_tbl$p_val <= sign_level, ]
-    unfilt <- mod_tbl[!mod_tbl$id %in% filt$id, ]
-    filt_init <- init_tbl[init_tbl$id %in% filt$id, ]
+      mod_tbl$edf > edf_filter & mod_tbl$p_val <=
+      sign_level, ]
+    unfilt <- mod_tbl[!mod_tbl$id %in% filt$id,
+      ]
+    filt_init <- init_tbl[init_tbl$id %in% filt$id,
+      ]
 
-    # Assign prop of NA or 1.00 to unfiltered ids (if not
-    # (NA if not sign.)
+    # Assign prop of NA or 1.00 to unfiltered ids (if
+    # not (NA if not sign.)
     if (!nrow(unfilt) == 0) {
-    	unfilt$prop <- NA
-    	unfilt$prop[is_value(unfilt$p_val) & unfilt$p_val <= sign_level] <- 1.0
+      unfilt$prop <- NA
+      unfilt$prop[is_value(unfilt$p_val) & unfilt$p_val <=
+        sign_level] <- 1
     }
 
     # Apply method to filtered ids (functions work on
@@ -384,22 +391,21 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     if (method == "cond_boot") {
       filt_deriv <- cond_boot(init_tbl = filt_init,
         mod_tbl = filt, excl_outlier = excl_outlier,
-        n_boot = n_boot, ci = ci_boot,
-        par_comp = par_comp, no_clust = no_clust,
-        seed = seed)
+        n_boot = n_boot, ci = ci_boot, par_comp = par_comp,
+        no_clust = no_clust, seed = seed)
     } else {
-      filt_deriv <- approx_deriv(mod_tbl = filt, init_tbl = filt_init,
-        ci_prop_se = ci_prop_se)
+      filt_deriv <- approx_deriv(mod_tbl = filt,
+        init_tbl = filt_init, ci_prop_se = ci_prop_se)
     }
 
 
-    # Calculate significance for derivatives -------------
+    # Calculate significance for derivatives ---------
 
     filt_deriv$zero_in_conf <- purrr::map2(.x = filt_deriv$deriv1_ci_low,
       .y = filt_deriv$deriv1_ci_up, .f = calc_in_out)
 
     filt_deriv$zic_start_end <- purrr::map(1:length(filt_deriv$zero_in_conf),
-      ~ x_range(vec = filt_deriv$zero_in_conf[.]))
+      ~x_range(vec = filt_deriv$zero_in_conf[.]))
 
     filt_deriv$prop <- purrr::map_dbl(.x = filt_deriv$zic_start_end,
       ~round((1 - sum(.x)/length(.x)), digits = 2))
@@ -409,51 +415,51 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     output_tbl <- dplyr::bind_rows(unfilt, filt_deriv)
     # Arrange cols and rows
     output_tbl <- sort_output_tbl(output_tbl)
-    output_tbl <- dplyr::arrange_(output_tbl, .dots= "id")
+    output_tbl <- dplyr::arrange_(output_tbl, .dots = "id")
 
     # End of else condition
 
   }
 
   ### END OF FUNCTION
-		return(output_tbl)
+  return(output_tbl)
 }
 
 
 
-# Internal helper function -------------------------------------
+# Internal helper function ------------------------------
 
 # Functions to identify boundary areas where the zero-line is
 # within the confidence intervals
 
 calc_in_out <- function(x, y) {
-	if (all(is.na(x) | is.na(y))) {
-		out <- NA
-	} else {
-		 out <- ifelse(x < 0 & y > 0, TRUE, FALSE)
-	}
+  if (all(is.na(x) | is.na(y))) {
+    out <- NA
+  } else {
+    out <- ifelse(x < 0 & y > 0, TRUE, FALSE)
+  }
 }
 
 
 x_range <- function(vec) {
-	 if (is.na(vec)) {
-	 	 temp_for_if_break <- NA
-	 } else {
-	 	 vec <-  unlist(vec)
-			 n <- length(vec)
-		  temp_for_if_break <- vector(length = n)
-		  for (i in 1:n) {
-		    if (vec[i] == FALSE) {
-		      break
-		    }
-		    temp_for_if_break[i] <- TRUE
-		  }
-		  for (j in n:1) {
-		    if (vec[j] == FALSE) {
-		      break
-		    }
-		    temp_for_if_break[j] <- TRUE
-		  }
-	 }
+  if (is.na(vec)) {
+    temp_for_if_break <- NA
+  } else {
+    vec <- unlist(vec)
+    n <- length(vec)
+    temp_for_if_break <- vector(length = n)
+    for (i in 1:n) {
+      if (vec[i] == FALSE) {
+        break
+      }
+      temp_for_if_break[i] <- TRUE
+    }
+    for (j in n:1) {
+      if (vec[j] == FALSE) {
+        break
+      }
+      temp_for_if_break[j] <- TRUE
+    }
+  }
   return(temp_for_if_break)
 }

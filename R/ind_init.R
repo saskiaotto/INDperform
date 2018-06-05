@@ -69,27 +69,27 @@
 ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
   random = FALSE) {
 
-		# Data input validation -----------------------
-	 if (missing(ind_tbl)) {
-	 	stop("Argument ind_tbl is missing.")
-	 }
-	 if (missing(press_tbl)) {
-	 	stop("Argument press_tbl is missing.")
-	 }
-	 if (missing(time)) {
-	 	stop("Argument time is missing.")
-	 }
-		# Check parameters
-		x_ <- check_ind_press(press_tbl, input = "press")
-		y_ <- check_ind_press(ind_tbl)
-		time_ <- check_input_vec(time, "time")
-		# equal length?
-		if ( nrow(y_) != length(time_) || nrow(y_) != nrow(x_) ) {
-			 stop("The time steps in time, ind_tbl and press_tbl have to be the same!")
-		}
+  # Data input validation -----------------------
+  if (missing(ind_tbl)) {
+    stop("Argument ind_tbl is missing.")
+  }
+  if (missing(press_tbl)) {
+    stop("Argument press_tbl is missing.")
+  }
+  if (missing(time)) {
+    stop("Argument time is missing.")
+  }
+  # Check parameters
+  x_ <- check_ind_press(press_tbl, input = "press")
+  y_ <- check_ind_press(ind_tbl)
+  time_ <- check_input_vec(time, "time")
+  # equal length?
+  if (nrow(y_) != length(time_) || nrow(y_) != nrow(x_)) {
+    stop("The time steps in time, ind_tbl and press_tbl have to be the same!")
+  }
 
   if (train < 0 | train > 1) {
-  	 stop("The train argument has to be between 0 and 1!")
+    stop("The train argument has to be between 0 and 1!")
   }
 
   # ----------------
@@ -104,8 +104,8 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
   # Calc n to split input in train and test data
   nr_train <- round(nrow(x_) * train)
   if (random) {
-    select_train <- sort(sample(1:nrow(x_),
-      size = nr_train, replace = FALSE))
+    select_train <- sort(sample(1:nrow(x_), size = nr_train,
+      replace = FALSE))
     select_test <- sort((1:nrow(x_))[!(1:nrow(x_) %in%
       select_train)])
   } else {
@@ -117,15 +117,15 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
     press = pressure)
 
   # Add train and test data to output
-  ind_train <- purrr::map(init_tab$ind,
-  	 ~y_[select_train,.])
-  press_train <- purrr::map(init_tab$press,
-  	 ~x_[select_train,.])
+  ind_train <- purrr::map(init_tab$ind, ~y_[select_train,
+    .])
+  press_train <- purrr::map(init_tab$press, ~x_[select_train,
+    .])
   time_train <- purrr::map(init_tab$ind, ~time_[select_train])
-  ind_test <- purrr::map(init_tab$ind,
-  	 ~y_[select_test,.])
-  press_test <- purrr::map(init_tab$press,
-  	 ~x_[select_test,.])
+  ind_test <- purrr::map(init_tab$ind, ~y_[select_test,
+    .])
+  press_test <- purrr::map(init_tab$press, ~x_[select_test,
+    .])
   time_test <- purrr::map(init_tab$press, ~time_[select_test])
 
   # Name the values
@@ -167,9 +167,8 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
       length(select_test)))
     test_na <- purrr::map2(test_na, time_test,
       ~name_values(.x, .y))
-    test_na_sub <- seq_along(test_na) %>%
-    	 purrr::map(~test_na[[.]][time_test[[.]] %in%
-       min(time_train[[.]]):max(time_train[[.]])])
+    test_na_sub <- seq_along(test_na) %>% purrr::map(~test_na[[.]][time_test[[.]] %in%
+      min(time_train[[.]]):max(time_train[[.]])])
     # Merge test into train
     sorted_years <- order(as.numeric(c(names(train_na[[1]]),
       names(test_na_sub[[1]]))))
@@ -179,25 +178,27 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
       purrr::map(~c(train_na[[.]], test_na_sub[[.]])[sorted_years])
   }
 
-  # Check if there are too many NAs in the test data and return warning
+  # Check if there are too many NAs in the test data
+  # and return warning
   test_steps <- length(select_test)
   test_na <- purrr::map2(init_tab$ind, init_tab$press,
-  	~is.na(y_[select_test, .x]) | is.na(x_[select_test,
-  		.y]))
+    ~is.na(y_[select_test, .x]) | is.na(x_[select_test,
+      .y]))
   prop_na <- purrr::map_dbl(test_na, ~sum(.)/test_steps)
 
-  if(any(prop_na > 0.5)) {
+  if (any(prop_na > 0.5)) {
     sel <- which(prop_na > 0.5)
     too_many_nas <- init_tab[sel, 1:3]
     too_many_nas$nr_test_timesteps <- test_steps
-    too_many_nas$NAs_in_ind_press <- purrr::map_int(test_na, .f = sum)[sel]
+    too_many_nas$NAs_in_ind_press <- purrr::map_int(test_na,
+      .f = sum)[sel]
     message(paste0("NOTE: For the following IND~pressure combinations the number of NAs ",
-    	 "in the test data exceeds 50%! This will cause biased or no results when ",
-    	 "calculating the normalized root mean square error (NRMSE) in model_gam()/",
- 					"model_gamm(). You might want to choose a different test period, ",
-    	 "replace the NAs with means/interpolated values or remove specific indicator ",
-    	 "or pressure variables"))
-  	 print(too_many_nas)
+      "in the test data exceeds 50%! This will cause biased or no results when ",
+      "calculating the normalized root mean square error (NRMSE) in model_gam()/",
+      "model_gamm(). You might want to choose a different test period, ",
+      "replace the NAs with means/interpolated values or remove specific indicator ",
+      "or pressure variables"))
+    print(too_many_nas)
   }
 
   ### END OF FUNCTION

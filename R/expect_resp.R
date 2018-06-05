@@ -43,7 +43,6 @@
 #'  # Check if it worked:
 #'  expect_resp(all_results_ex, scores_tbl)
 #' }
-
 expect_resp <- function(mod_tbl, scores_tbl,
 	 crit_scores = INDperform::crit_scores_tmpl) {
 
@@ -109,9 +108,9 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 mod_tbl_split <- mod_tbl[mod_tbl$id %in% dat$id, ] %>%
 	 	dplyr::arrange_(.dots="id")
 
-	 # return error message if mod_tbl_split is empty (no sign. IND~PRESS)
+	 # return error message if mod_tbl_split is empty (no sign. IND~press)
 	 if (nrow(mod_tbl_split) == 0) {
-	 	 stop("There is IND~PRESS model where scores can be adjusted.")
+	 	 stop("There is no IND~press model where scores can be adjusted.")
 	 }
 
 
@@ -138,7 +137,6 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
   # Now comes the shiny app part ... ------------
 
-		#*****
 		# This code starts the shiny app and saves the edited table
 		# under "edited_tbl"
 		edited_tbl <- shiny::runApp(list(
@@ -205,11 +203,11 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		)
 	) # end of shiny::runApp()
 
-		#******
+		# ----------------
 
 		### Modify the edited table
 		edited_tbl$C10_1 <- as.numeric(edited_tbl$response_as_expected) - 1
-		  # need to substract 1 as no zero factor level
+		  # (need to substract 1 as no zero factor level)
   edited_tbl <- dplyr::select_(edited_tbl, .dots = "-response")
 
   # Replace the old C10_1 values by the new ones (for the sign.

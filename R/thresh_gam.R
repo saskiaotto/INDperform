@@ -62,77 +62,87 @@
 #' @examples
 #' # Using some models of the Baltic Sea demo data in this package
 #' test <- thresh_gam(model = model_gam_ex$model[[1]],
-#'                     ind_vec = ind_init_ex$ind_train[[1]],
-#'                     press_vec = ind_init_ex$press_train[[1]],
-#'                     t_var = ind_init_ex$press_train[[2]],
-#'                     name_t_var = "Ssum", k = 4, a = 0.2, b = 0.8)
-thresh_gam <- function(model, ind_vec, press_vec, t_var, name_t_var, k, a, b) {
+#'   ind_vec = ind_init_ex$ind_train[[1]],
+#'   press_vec = ind_init_ex$press_train[[1]],
+#'   t_var = ind_init_ex$press_train[[2]],
+#'   name_t_var = "Ssum", k = 4, a = 0.2, b = 0.8)
+thresh_gam <- function(model, ind_vec, press_vec, t_var,
+  name_t_var, k, a, b) {
 
-	nthd <- length(press_vec)
+  nthd <- length(press_vec)
 
-		lower <- stats::quantile(t_var, prob = a, na.rm = TRUE)
-		upper <- stats::quantile(t_var, prob = b, na.rm = TRUE)
+  lower <- stats::quantile(t_var, prob = a, na.rm = TRUE)
+  upper <- stats::quantile(t_var, prob = b, na.rm = TRUE)
 
-		t_val <- seq(from = lower, to = upper, by = (upper - lower) / nthd)
-		#family and link
-		family <- mgcv::summary.gam(model)$family[[1]]
-		if (stringr::str_detect(family, "Negative Binomial")) {
-			family <- "nb"
-		}
-		link <- mgcv::summary.gam(model)$family[[2]]
+  t_val <- seq(from = lower, to = upper, by = (upper -
+    lower)/nthd)
+  # family and link
+  family <- mgcv::summary.gam(model)$family[[1]]
+  if (stringr::str_detect(family, "Negative Binomial")) {
+    family <- "nb"
+  }
+  link <- mgcv::summary.gam(model)$family[[2]]
 
-		thresh_gams <- compare_thresholds(t_val, t_var)
-		#create input for the model
-		dat <- data.frame(ind = ind_vec,
-																				press = press_vec,
-																				t_var = t_var)
-		names(dat) <- c(all.vars(model$formula), name_t_var)
-		thresh_gams$model <- vector(length = nrow(thresh_gams), mode = "list")
+  thresh_gams <- compare_thresholds(t_val, t_var)
+  # create input for the model
+  dat <- data.frame(ind = ind_vec, press = press_vec,
+    t_var = t_var)
+  names(dat) <- c(all.vars(model$formula), name_t_var)
+  thresh_gams$model <- vector(length = nrow(thresh_gams),
+    mode = "list")
 
-		for (i in 1:nrow(thresh_gams)) {
-			if (thresh_gams$change[i]) {
-				#create the model formula
-				formula <- paste0(names(dat)[1],                                  #ind
-                      " ~ 1 + s(", names(dat)[2],                     #press
-                      ", by = I(1 * (", names(dat)[3],                #t_var
-                      " <= ", round(thresh_gams$t_val[i], digits = 3),#level t_var
-                      ")), k = ", k, ") + s(", names(dat)[2],          #press
-																						", by = I(1 * (", names(dat)[3],                #t_var
-																						" > ", round(thresh_gams$t_val[i], digits = 3), #level_t_var
-																						")), k = ", k, ")")
-				#create the model
-				mod <- mgcv::gam(formula = stats::as.formula(formula), na.action = "na.omit",
-																																								family = paste0(family,"(link = ",link,")"),
-																																								nthd = nthd, a = a, b = b, data = dat)
-				mod$original_data <- dat       #add original data
-				mod$mr <- thresh_gams$t_val[i] #save mr here already because its to late later
-				thresh_gams$model[[i]] <- mod
-			}
-		}
+  for (i in 1:nrow(thresh_gams)) {
+    if (thresh_gams$change[i]) {
+      # create the model formula: get ind, press, t_var,
+      # level t_var
+      formula <- paste0(names(dat)[1], " ~ 1 + s(",
+        names(dat)[2], ", by = I(1 * (", names(dat)[3],
+        " <= ", round(thresh_gams$t_val[i],
+          digits = 3), ")), k = ", k, ") + s(",
+        names(dat)[2], ", by = I(1 * (", names(dat)[3],
+        " > ", round(thresh_gams$t_val[i],
+          digits = 3), ")), k = ", k, ")")
+      # create the model
+      mod <- mgcv::gam(formula = stats::as.formula(formula),
+        na.action = "na.omit", family = paste0(family,
+          "(link = ", link, ")"), nthd = nthd,
+        a = a, b = b, data = dat)
+      mod$original_data <- dat
+      mod$mr <- thresh_gams$t_val[i]
+      thresh_gams$model[[i]] <- mod
+    }
+  }
 
-		# Extract gcvv from models and add gcvv for each model not generated
-		gcvv <- vector(mode = "numeric", length = nrow(thresh_gams))
-		gcvv[thresh_gams$change] <- purrr::map_dbl(thresh_gams$model[thresh_gams$change], ~.$gcv.ubre)
-		for(i in 1:length(gcvv)) {
-			if(gcvv[i] == 0) {
-				gcvv[i] <- gcvv[i-1]
-			}
-		}
-		# find best model
-		thresh_gams <- thresh_gams[thresh_gams$change,]
-		thresh_gams$gcvv <- purrr::map_dbl(thresh_gams$model, ~.$gcv.ubre)
-		# Extract model with the lowest gcvv score overall. In case of identical values, select chronologically.
-		# We can easily debug this code!
-		best_model_id <- min(which(thresh_gams$gcvv == min(thresh_gams$gcvv)))
-		#create output
-		if (length(best_model_id) == 1) {
-			 res <- thresh_gams$model[[best_model_id]]
-			 res$mgcv    <- thresh_gams$gcvv[best_model_id]
-			 res$gcvv    <- gcvv[order(t_val)]
-			 res$t_val <- sort(t_val)
-			 class(res) <- c("thresh_gam", "gam", "glm", "lm")
-				return(res)
-		} else {
-			stop("No thresh_gam available!")
-		}
+  # Extract gcvv from models and add gcvv for each
+  # model not generated
+  gcvv <- vector(mode = "numeric", length = nrow(thresh_gams))
+  gcvv[thresh_gams$change] <- purrr::map_dbl(thresh_gams$model[thresh_gams$change],
+    ~.$gcv.ubre)
+  for (i in 1:length(gcvv)) {
+    if (gcvv[i] == 0) {
+      gcvv[i] <- gcvv[i - 1]
+    }
+  }
+
+	# find best model
+  thresh_gams <- thresh_gams[thresh_gams$change, ]
+  thresh_gams$gcvv <- purrr::map_dbl(thresh_gams$model,
+    ~.$gcv.ubre)
+  # Extract model with the lowest gcvv score overall.
+  # In case of identical values, select
+  # chronologically.  We can easily debug this code!
+  best_model_id <- min(which(thresh_gams$gcvv ==
+    min(thresh_gams$gcvv)))
+  # create output
+  if (length(best_model_id) == 1) {
+    res <- thresh_gams$model[[best_model_id]]
+    res$mgcv <- thresh_gams$gcvv[best_model_id]
+    res$gcvv <- gcvv[order(t_val)]
+    res$t_val <- sort(t_val)
+    class(res) <- c("thresh_gam", "gam", "glm",
+      "lm")
+    return(res)
+  } else {
+    stop("No thresh_gam available!")
+  }
 }

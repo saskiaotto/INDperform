@@ -24,26 +24,32 @@
 #' @keywords internal
 #' @export
 #'
-place_text <- function(x, y, x_prop = 0.1, y_prop = 0.1, pos) {
-	 if (!pos %in% c("topleft", "topright", "bottomleft", "bottomright") ) {
-	 	 stop("'pos' has to be one of the following: topleft, topright, bottomleft or bottomright.")
-	 } else {
-				if(pos == "topleft") {
-						out <- data.frame(x = x[1] + (x[2] - x[1]) * x_prop,
-																							 y = y[2] - (y[2] - y[1]) * y_prop )
-				}
-				if(pos == "topright") {
-					 out <- data.frame(x = x[2] - (x[2] - x[1]) * x_prop,
-																							 y = y[2] - (y[2] - y[1]) * y_prop )
-				}
-				if(pos == "bottomleft") {
-					 out <- data.frame(x = x[1] + (x[2] - x[1]) * x_prop,
-																							 y = y[1] + (y[2] - y[1]) * y_prop )
-				}
-				if(pos == "bottomright") {
-					 out <- data.frame(x = x[2] - (x[2] - x[1]) * x_prop,
-																							 y = y[1] + (y[2] - y[1]) * y_prop )
-				}
-	 }
-		return(out)
+place_text <- function(x, y, x_prop = 0.1, y_prop = 0.1,
+  pos) {
+  if (!pos %in% c("topleft", "topright", "bottomleft",
+    "bottomright")) {
+    stop("'pos' has to be one of the following: topleft, topright, bottomleft or bottomright.")
+  } else {
+    if (pos == "topleft") {
+      out <- data.frame(x = x[1] + (x[2] - x[1]) *
+        x_prop, y = y[2] - (y[2] - y[1]) *
+        y_prop)
+    }
+    if (pos == "topright") {
+      out <- data.frame(x = x[2] - (x[2] - x[1]) *
+        x_prop, y = y[2] - (y[2] - y[1]) *
+        y_prop)
+    }
+    if (pos == "bottomleft") {
+      out <- data.frame(x = x[1] + (x[2] - x[1]) *
+        x_prop, y = y[1] + (y[2] - y[1]) *
+        y_prop)
+    }
+    if (pos == "bottomright") {
+      out <- data.frame(x = x[2] - (x[2] - x[1]) *
+        x_prop, y = y[1] + (y[2] - y[1]) *
+        y_prop)
+    }
+  }
+  return(out)
 }

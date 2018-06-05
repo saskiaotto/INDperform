@@ -35,19 +35,20 @@
 loocv_thresh_gam <- function(model, ind_vec, press_vec,
   t_var_vec, name_t_var, k, a, b, time) {
 
-	 # Data input preparation -------------------
+  # Data input preparation -------------------
 
   # Combine input vectors and create subsamples!
   data <- tibble::tibble(ind = ind_vec, press = press_vec,
     t_var = t_var_vec, time = time)
 
-  # Create as many subtibbles as there are observations
-  # with one observation left out in each (used for
-  # the prediction and the MSE calculation	)
-  data_train <- purrr::map(1:nrow(data),
-  	 ~data[-., ])
-  data_test <- purrr::map(1:nrow(data),
-  	 ~data[., ])
+  # Create as many subtibbles as there are
+  # observations with one observation left out in
+  # each (used for the prediction and the MSE
+  # calculation )
+  data_train <- purrr::map(1:nrow(data), ~data[-.,
+    ])
+  data_test <- purrr::map(1:nrow(data), ~data[.,
+    ])
 
   # Internal check:
   if (!all(purrr::map2_lgl(.x = data_train, .y = data_test,
@@ -56,18 +57,16 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   }
 
   # Create model lists and result tibble
-  thresh_gam_list <- vector(mode = "list",
-    length = length(time))
-  dat <- tibble::tibble(
-  	 gams_pred = rep(NA_real_, length(time)),
-  	 thresh_gams_pred = rep(NA_real_, length(time)),
-  	 observation = rep(NA_real_, length(time))
-  	)
+  thresh_gam_list <- vector(mode = "list", length = length(time))
+  dat <- tibble::tibble(gams_pred = rep(NA_real_,
+    length(time)), thresh_gams_pred = rep(NA_real_,
+    length(time)), observation = rep(NA_real_,
+    length(time)))
 
   # Capture family and link from the input
   family <- mgcv::summary.gam(model)$family[[1]]
   if (stringr::str_detect(family, "Negative Binomial")) {
-  	family <- "nb"
+    family <- "nb"
   }
   link <- mgcv::summary.gam(model)$family[[2]]
 
@@ -78,51 +77,54 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
 
   # Loop with progress bar
   pb <- dplyr::progress_estimated(length(time))
-		  # (initializes progress bar)
+  # (initializes progress bar)
   for (i in seq_along(time)) {
-    # Create input for model (formula cannot
-    # handle [[]])
+    # Create input for model (formula cannot handle
+    # [[]])
     ind <- data_train[[i]]$ind
     press <- data_train[[i]]$press
     t_var <- data_train[[i]]$t_var
-				test <- data_test[[i]]
+    test <- data_test[[i]]
 
     # Normal GAMM
     dat_gam <- data.frame(ind = ind, press = press,
       t_var = t_var)
     formula_gam <- paste0("ind ~ 1 + s(press, k = ",
       k, ") + s(t_var, k = ", k, ")")
-    # don't capture error for GAMs -> will occurr anyway also in thresh_gam
+    # don't capture error for GAMs -> will occurr
+    # anyway also in thresh_gam
     gam <- try(mgcv::gam(formula = stats::as.formula(formula_gam),
       data = dat, family = paste0(family, "(link = ",
         link, ")")), silent = TRUE)
 
-    # threshold-GAMM - apply safe version for capturing errors
+    # threshold-GAMM - apply safe version for capturing
+    # errors
     thresh_gam_list[[i]] <- thresh_gam_safe(ind_vec = ind,
-    	 press_vec = press, t_var = t_var, name_t_var = name_t_var,
+      press_vec = press, t_var = t_var, name_t_var = name_t_var,
       k = k, a = a, b = b, model = model)
 
     # Capture output
     if (is.null(thresh_gam_list[[i]]$error)) {
-    	 dat$gams_pred[[i]] <- mgcv::predict.gam(gam,
-      newdata = test)
-    	 # Add t_val to test_data for prediction
-    	 test$modifier_level <- thresh_gam_list[[i]]$result$mr
-    	 # Names has to be the same as in formula
-    	 names(test)[c(1:3)] <- c(all.vars(model$formula),
-    	 	name_t_var)
-    	 dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam_list[[i]]$result,
-    	 	newdata = test)
-    	 dat$observation[i] <- as.numeric(test[, 1])
+      dat$gams_pred[[i]] <- mgcv::predict.gam(gam,
+        newdata = test)
+      # Add t_val to test_data for prediction
+      test$modifier_level <- thresh_gam_list[[i]]$result$mr
+      # Names has to be the same as in formula
+      names(test)[c(1:3)] <- c(all.vars(model$formula),
+        name_t_var)
+      dat$thresh_gams_pred[[i]] <- mgcv::predict.gam(thresh_gam_list[[i]]$result,
+        newdata = test)
+      dat$observation[i] <- as.numeric(test[,
+        1])
     }
     # Increment progress bar
     pb$tick()$print()
-  } # end of loop
+  }  # end of loop
   # Stop progress bar
   pb$stop()
 
-  # Function to calculate the LOOCV by averaging across
-  # squared errors of each test observation
+  # Function to calculate the LOOCV by averaging
+  # across squared errors of each test observation
   calc_loocv <- function(pred, obs) {
     diff <- pred - obs
     diff_sq <- diff^2
@@ -134,29 +136,29 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   # Calculate LOOCV only if number of all thresh_gams
   # were fitted successfully
   if (!any(is.na(thresh_gam_list[[i]]$result))) {
-	  	if (calc_loocv(dat$gams_pred, dat$observation) >
-	  			calc_loocv(dat$thresh_gams_pred, dat$observation)) {
-	  		out_result <- TRUE
-	  	} else {
-	  		out_result <- FALSE
-	  	}
+    if (calc_loocv(dat$gams_pred, dat$observation) >
+      calc_loocv(dat$thresh_gams_pred, dat$observation)) {
+      out_result <- TRUE
+    } else {
+      out_result <- FALSE
+    }
   } else {
-  	out_result <- NA
+    out_result <- NA
   }
 
-  	# Save and return also all error messages
-  	out_error_list <- thresh_gam_list %>% purrr::transpose() %>% .$error
-  	if (all(purrr::map_lgl(out_error_list, .f = is.null))) {
-  		out_error <- NA
-  	} else {
-  		out_error <- purrr::map(out_error_list, ~ .$message)	%>%
-  		unlist() %>% unique() %>% paste(., collapse = "; ")
-  	}
+  # Save and return also all error messages
+  out_error_list <- thresh_gam_list %>% purrr::transpose() %>%
+    .$error
+  if (all(purrr::map_lgl(out_error_list, .f = is.null))) {
+    out_error <- NA
+  } else {
+    out_error <- purrr::map(out_error_list, ~.$message) %>%
+      unlist() %>% unique() %>% paste(., collapse = "; ")
+  }
 
 
-  	### END OF FUNCTION
-  	out <- list(result = out_result,
-  		error = out_error)
+  ### END OF FUNCTION
+  out <- list(result = out_result, error = out_error)
 
   return(out)
 }

@@ -25,18 +25,18 @@
 #' gridExtra::grid.arrange(grobs = pt)
 plot_trend <- function(trend_tbl, pos_label = "topleft") {
 
-	 # Data input validation ---------------------
+  # Data input validation ---------------------
   if (missing(trend_tbl)) {
-	 	stop("Argument trend_tbl is missing.")
-	 }
+    stop("Argument trend_tbl is missing.")
+  }
   # Check input tibble
-		trend_tbl <- check_input_tbl(
-	   trend_tbl, tbl_name = "trend_tbl", parent_func = "model_trend()",
-	 	 var_to_check = c("ind", "p_val", "ind_train", "time_train", "pred",
-	 	 	 "ci_up", "ci_low"),
-			 dt_to_check = c("character", "numeric", "list", "list", "list", "list", "list")
-	 )
-		# -----------------------------------------
+  trend_tbl <- check_input_tbl(trend_tbl, tbl_name = "trend_tbl",
+    parent_func = "model_trend()", var_to_check = c("ind",
+      "p_val", "ind_train", "time_train", "pred",
+      "ci_up", "ci_low"), dt_to_check = c("character",
+      "numeric", "list", "list", "list", "list",
+      "list"))
+  # -----------------------------------------
 
   # For text placement
   props_p <- vector("list", length = 4)
@@ -57,27 +57,31 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
   if (pos_label == "topleft") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p[[pos_label]]$x_prop,
-        y_prop = props_p[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "topright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p[[pos_label]]$x_prop,
-        y_prop = props_p[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomleft") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p[[pos_label]]$x_prop,
-        y_prop = props_p[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p[[pos_label]]$y_prop,
+        pos = pos_label))
   }
   if (pos_label == "bottomright") {
     pos_text <- purrr::map2(.x = x_range, .y = y_range,
       .f = ~place_text(.x, .y, x_prop = props_p[[pos_label]]$x_prop,
-        y_prop = props_p[[pos_label]]$y_prop, pos = pos_label))
+        y_prop = props_p[[pos_label]]$y_prop,
+        pos = pos_label))
   }
 
   # Create labels with p_val
-  label <- purrr::map(trend_tbl$p_val,
-  	~paste0("p = ", round(., 3)))
+  label <- purrr::map(trend_tbl$p_val, ~paste0("p = ",
+    round(., 3)))
 
   # Apply internal plot helper function
   p <- purrr::pmap(.l = list(time = trend_tbl$time_train,
@@ -96,40 +100,36 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
 # Internal helper functions (no extra script) -----
 
 plot_helper <- function(time, ind, pred, ci_up, ci_low,
-		ylab, pos_text, label) {
-		poly_x <- c(sort(time, decreasing = FALSE), sort(time,
-		  decreasing = TRUE))
-		poly_y <- c(ci_up[order(time, decreasing = FALSE)],
-		  ci_low[order(time, decreasing = TRUE)])
+  ylab, pos_text, label) {
+  poly_x <- c(sort(time, decreasing = FALSE), sort(time,
+    decreasing = TRUE))
+  poly_y <- c(ci_up[order(time, decreasing = FALSE)],
+    ci_low[order(time, decreasing = TRUE)])
 
-		p <- ggplot2::ggplot() +
-		  ggplot2::geom_polygon(data = NULL,
-		    ggplot2::aes_(x = poly_x, y = poly_y), fill = "lightblue",
-		    alpha = 0.5) +
-		  ggplot2::geom_line(data = NULL,
-		    ggplot2::aes_(x = time, y = ind)) +
-		  ggplot2::geom_point(data = NULL,
-		    ggplot2::aes_(x = time, y = ind)) +
-		  ggplot2::geom_line(data = NULL,
-		    ggplot2::aes_(x = time, y = pred), colour = "blue") +
-		  ggplot2::labs(y = ylab, x = "Time") +
-		  ggplot2::annotate(geom = "text", x = pos_text$x,
-		    y = pos_text$y, label = label, hjust = 0) +
-		  ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
-		  	 plot_outline()
+  p <- ggplot2::ggplot() + ggplot2::geom_polygon(data = NULL,
+    ggplot2::aes_(x = poly_x, y = poly_y), fill = "lightblue",
+    alpha = 0.5) + ggplot2::geom_line(data = NULL,
+    ggplot2::aes_(x = time, y = ind)) + ggplot2::geom_point(data = NULL,
+    ggplot2::aes_(x = time, y = ind)) + ggplot2::geom_line(data = NULL,
+    ggplot2::aes_(x = time, y = pred), colour = "blue") +
+    ggplot2::labs(y = ylab, x = "Time") + ggplot2::annotate(geom = "text",
+    x = pos_text$x, y = pos_text$y, label = label,
+    hjust = 0) + ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
+    plot_outline()
 
-		return(p)
+  return(p)
 }
 
-# Get full y-range shown in plot (same as in plot_model() )
+# Get full y-range shown in plot (same as in
+# plot_model() )
 calc_y_range <- function(y1, y2 = NULL, ci_low, ci_up,
-	 zoom = NULL) {
-	 # x: list of vectors (can have any length)
-	 if (is.null(zoom)) {
-		  out <- range(c(y1, y2, ci_low, ci_up), na.rm = TRUE)
-	 } else {
-		  out <- range(c(y1[zoom], y2[zoom], ci_low[zoom],
-			  ci_up[zoom]), na.rm = TRUE)
-	 }
-	 return(out)
+  zoom = NULL) {
+  # x: list of vectors (can have any length)
+  if (is.null(zoom)) {
+    out <- range(c(y1, y2, ci_low, ci_up), na.rm = TRUE)
+  } else {
+    out <- range(c(y1[zoom], y2[zoom], ci_low[zoom],
+      ci_up[zoom]), na.rm = TRUE)
+  }
+  return(out)
 }

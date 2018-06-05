@@ -88,42 +88,41 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   col_crit8_11 = NULL, lab_size = 6, title_size = 8) {
 
   # Data input validation -----------------------
-	 if (missing(summary_tbl)) {
-	 	stop("Argument summary_tbl is missing.")
-	 }
+  if (missing(summary_tbl)) {
+    stop("Argument summary_tbl is missing.")
+  }
   # Check input list
-	 if (class(summary_tbl) != "list") {
-	 	 stop("'summary_tbl has to be a list (output of summary_sc() function)!")
-	 }
+  if (class(summary_tbl) != "list") {
+    stop("'summary_tbl has to be a list (output of summary_sc() function)!")
+  }
 
   # Data re-organization ----------------------------
 
   # Check if crit 8 and 11 were scored (pressure
   # independent categories)
-  n_c8_c11 <- c(any(grepl("C8_in%",
-  	  names(summary_tbl[[1]])) == TRUE),
-    any(grepl("C11_in%",
-    	names(summary_tbl[[1]])) == TRUE))
+  n_c8_c11 <- c(any(grepl("C8_in%", names(summary_tbl[[1]])) ==
+    TRUE), any(grepl("C11_in%", names(summary_tbl[[1]])) ==
+    TRUE))
 
   # Check if crit 9 and 10 were scored (pressure-spec
   # categories)
-  n_c9_c10 <- c(any(grepl("C9_in%",
-  	  names(summary_tbl[[1]])) == TRUE),
-    any(grepl("C10_in%",
-    	names(summary_tbl[[1]])) == TRUE))
+  n_c9_c10 <- c(any(grepl("C9_in%", names(summary_tbl[[1]])) ==
+    TRUE), any(grepl("C10_in%", names(summary_tbl[[1]])) ==
+    TRUE))
 
-  # Order pressure-specific summary by ind, press_type and then press
-  summary_tbl[[2]] <- summary_tbl[[2]] %>%
-  	 dplyr::arrange_("ind", "press_type", "press")
+  # Order pressure-specific summary by ind,
+  # press_type and then press
+  summary_tbl[[2]] <- summary_tbl[[2]] %>% dplyr::arrange_("ind",
+    "press_type", "press")
 
   # Split summary_tbl by indicators
   split_input <- purrr::map(summary_tbl[[1]]$ind,
-    ~summary_tbl[[2]][summary_tbl[[2]]$ind == ., ])
+    ~summary_tbl[[2]][summary_tbl[[2]]$ind == .,
+      ])
 
   # Get all press_types
-  press_type <- unique(
-  	summary_tbl[[2]]$press_type)[!is.na(unique(summary_tbl[[2]]$press_type))] %>%
-  	sort()
+  press_type <- unique(summary_tbl[[2]]$press_type)[!is.na(unique(summary_tbl[[2]]$press_type))] %>%
+    sort()
 
   # Get categories and subcategories for scaling
   cat <- data.frame(press_type = press_type, n = 0,
@@ -152,7 +151,7 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
     }
   }
 
-  # Plot-specific information  ----------------------
+  # Plot-specific information ----------------------
 
   # Get colours for each pressure_type
   if (is.null(col_press_type))
@@ -185,20 +184,15 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
 
   # Plot -----------------------------------------
 
-  theme_infog <- ggplot2::theme_classic() +
-  	 ggplot2::theme(axis.line = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-  	 	 axis.ticks = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_blank(),
-  	 	 axis.text.x = ggplot2::element_blank())
+  theme_infog <- ggplot2::theme_classic() + ggplot2::theme(axis.line = ggplot2::element_blank(),
+    axis.title = ggplot2::element_blank(), axis.ticks = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_blank(), axis.text.x = ggplot2::element_blank())
 
-  p <- purrr::map2(
-    split_input, summary_tbl[[1]]$ind,
-  	 ~plot_spie(.x, scale, parting, cat,
-      summary_tbl[[1]], ground, n_c8_c11,
-      n_c9_c10, col_crit8_11, x_ring1,
-      theme_infog, ind = .y, lab_size = lab_size,
-  	 	title_size = title_size))
+  p <- purrr::map2(split_input, summary_tbl[[1]]$ind,
+    ~plot_spie(.x, scale, parting, cat, summary_tbl[[1]],
+      ground, n_c8_c11, n_c9_c10, col_crit8_11,
+      x_ring1, theme_infog, ind = .y, lab_size = lab_size,
+      title_size = title_size))
 
   # Give sublists names
   names(p) <- summary_tbl$overview$ind

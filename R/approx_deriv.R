@@ -54,8 +54,9 @@ approx_deriv <- function(init_tbl, mod_tbl, ci_prop_se) {
     .f = ~seq(min(.x, na.rm = TRUE), max(.x, na.rm = TRUE),
       length.out = length(.x)))
 
-  # Predicted values and ci proportion of original GAM(M) -----
-  # (using the helper function calc_pred)
+  # Predicted values and ci proportion of original
+  # GAM(M) (using the helper function calc_pred)
+  # -------------
 
   pred_list <- calc_pred(dat$model, dat$press_seq)
   dat$pred <- pred_list$pred
@@ -66,7 +67,8 @@ approx_deriv <- function(init_tbl, mod_tbl, ci_prop_se) {
     .f = ~.x/.y) %>% purrr::map(mean)
 
 
-  # Calculate 1st (F1) central derivatives --------------
+  # Calculate 1st (F1) central derivatives
+  # --------------
 
   dat$delta <- purrr::map_dbl(.x = dat$press_seq,
     .f = ~diff(seq(from = min(.x), to = max(.x),
@@ -88,9 +90,9 @@ approx_deriv <- function(init_tbl, mod_tbl, ci_prop_se) {
 
   # Use as CI a constant value that is added to every
   # deriv value. That constant is based on the mean
-  # proportion of the s.e. to the fitted y and multiplied
-  # by the conversion factor ci_prop_ci to get a
-  # proportion value of the strongest slope.
+  # proportion of the s.e. to the fitted y and
+  # multiplied by the conversion factor ci_prop_ci to
+  # get a proportion value of the strongest slope.
   prop_ci_corr <- purrr::map_dbl(.x = mean_prop_se,
     .f = ~.x * 25)
   max_slope <- purrr::map_dbl(.x = dat$deriv1, .f = ~abs(max(.x)))
@@ -104,8 +106,8 @@ approx_deriv <- function(init_tbl, mod_tbl, ci_prop_se) {
 
   # Remove various columns
   out <- dat[, c(1:17, 25, 32:34)]
-   # 1:17 are original variables in mod_tbl,
-   # incl. press_seq and deriv1/ci
+  # 1:17 are original variables in mod_tbl, incl.
+  # press_seq and deriv1/ci
 
   ### END OF FUNCTION
   return(out)

@@ -27,21 +27,21 @@
 clust_sc <- function(dist_mat, method_clust = "average",
   ...) {
 
-	 # Data input validation --------
-	 if (missing(dist_mat)) {
-	 	stop("Argument dist_mat is missing.")
-	 }
-	 if (class(dist_mat) != "dist") {
-	 	 stop("dist_mat is not an object of class "dist"! Is this the correct output from the dist_sc() function?")
-	 }
-	 # --------------------
+  # Data input validation --------
+  if (missing(dist_mat)) {
+    stop("Argument dist_mat is missing.")
+  }
+  if (class(dist_mat) != "dist") {
+    stop("dist_mat is not an object of class dist! Is this the correct output from the dist_sc() function?")
+  }
+  # --------------------
 
   score_hc <- stats::hclust(dist_mat, method = method_clust)
 
   # Calculate cophenetic correlation coefficient and
   # Gower distance
-  coph.corr <- round(stats::cor(dist_mat,
-    stats::cophenetic(score_hc)), 3)
+  coph.corr <- round(stats::cor(dist_mat, stats::cophenetic(score_hc)),
+    3)
   gow.dist <- round(sum((dist_mat - stats::cophenetic(score_hc))^2),
     2)
   # Print output to console

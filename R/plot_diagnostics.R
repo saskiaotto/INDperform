@@ -303,7 +303,8 @@ plot_diagnostics <- function(model_list) {
 
   # Insert NA in $gcvv_plot if model not a
   # thresh_gam(m)
-  out$gcvv_plot[check %in% c("gam", "gamm")] <- NA  # NULL does not work
+  out$gcvv_plot[check %in% c("gam", "gamm")] <- NA
+  # (NULL does not work)
 
 
   ### END OF FUNCTION

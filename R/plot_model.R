@@ -108,11 +108,11 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Data input validation ---------------------
   if (missing(init_tbl)) {
-	 	stop("Argument init_tbl is missing.")
+    stop("Argument init_tbl is missing.")
   }
-	if (missing(mod_tbl)) {
-	 	stop("Argument mod_tbl is missing.")
-	 }
+  if (missing(mod_tbl)) {
+    stop("Argument mod_tbl is missing.")
+  }
   # Check input tibbles
   init_tbl <- check_input_tbl(init_tbl, tbl_name = "init_tbl",
     parent_func = "ind_init()", var_to_check = c("id",
@@ -163,14 +163,15 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Input data for all ------------------------
 
-  # Sort init_tbl and mod_tbl by id to make sure row order is same
+  # Sort init_tbl and mod_tbl by id to make sure row
+  # order is same
   mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
   init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
 
   # Combine train/ test data and calculate pred on
   # observed press and sequence
   time <- purrr::map(1:length(init_tbl$time_train),
-  	~ sort(c(init_tbl$time_train[[.]], init_tbl$time_test[[.]])))
+    ~sort(c(init_tbl$time_train[[.]], init_tbl$time_test[[.]])))
   id_train <- purrr::map(1:length(time), ~which(time[[.]] %in%
     init_tbl$time_train[[.]]))
   id_test <- purrr::map(1:length(time), ~which(!time[[.]] %in%
@@ -257,26 +258,28 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   ylab <- as.list(init_tbl$ind)
 
 
-  # Apply plot function to all models in list
-  # (if input has values)
-  p1 <- purrr::map(1:length(ind_train),
-  		~ if ( all(is_value(pred_train[[.]])) ) {
-  					plot_response(x = press_train[[.]], y = ind_train[[.]], x_seq = press_train_seq[[.]],
-  						pred = pred_train[[.]], ci_up = ci_up_train[[.]], ci_low = ci_low_train[[.]],
-  					xlab = xlab[[.]], ylab = ylab[[.]], pos_text = pos_text[[.]], label = label[[.]]
-  					)
-  			} else {plot_empty()})
+  # Apply plot function to all models in list (if
+  # input has values)
+  p1 <- purrr::map(1:length(ind_train), ~if (all(is_value(pred_train[[.]]))) {
+    plot_response(x = press_train[[.]], y = ind_train[[.]],
+      x_seq = press_train_seq[[.]], pred = pred_train[[.]],
+      ci_up = ci_up_train[[.]], ci_low = ci_low_train[[.]],
+      xlab = xlab[[.]], ylab = ylab[[.]], pos_text = pos_text[[.]],
+      label = label[[.]])
+  } else {
+    plot_empty()
+  })
 
 
   # Plot 2 - Predictive performance
   # ---------------------
 
   ind <- purrr::map(1:length(init_tbl$ind_train),
-  	~ c(init_tbl$ind_train[[.]],
-  		init_tbl$ind_test[[.]])[ order(c(id_train[[.]], id_test[[.]])) ])
+    ~c(init_tbl$ind_train[[.]], init_tbl$ind_test[[.]])[order(c(id_train[[.]],
+      id_test[[.]]))])
   press <- purrr::map(1:length(init_tbl$press_train),
-  	~ c(init_tbl$press_train[[.]],
-  		init_tbl$press_test[[.]])[ order(c(id_train[[.]], id_test[[.]])) ])
+    ~c(init_tbl$press_train[[.]], init_tbl$press_test[[.]])[order(c(id_train[[.]],
+      id_test[[.]]))])
   pred <- calc_pred(model_list = mod_tbl$model, obs_press = press)$pred
   ci_low <- calc_pred(model_list = mod_tbl$model,
     obs_press = press)$ci_low
@@ -295,9 +298,10 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # Get subsets of x_range
   zoom <- purrr::map(id_test, ~c((min(.) - 2):(max(.) +
     1)))
-  # exclude zero and neg. indices (as they don't extist
-  # and were only produced when id_test starts with 1 or 2)
-  zoom <- purrr::map(zoom, ~ .[. > 0])
+  # exclude zero and neg. indices (as they don't
+  # extist and were only produced when id_test starts
+  # with 1 or 2)
+  zoom <- purrr::map(zoom, ~.[. > 0])
   # Get also zoomed y-range for text position
   y_range <- purrr::pmap(.l = list(ind, pred, ci_low,
     ci_up, zoom), .f = calc_y_range)
@@ -334,17 +338,19 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   xlab <- "Time"
   ylab <- as.list(init_tbl$ind)
 
-  # Apply plot_predict to all models in list
-  # (if input has values)
-		p2 <- purrr::map(1:length(ind),
-			~ if ( all(is_value(pred[[.]])) ) {
-				plot_predict(x = time[[.]], y_obs = ind[[.]], y_pred = pred[[.]],
-					ci_up = ci_up[[.]], ci_low = ci_low[[.]],
-					x_train = id_train[[.]], x_test = id_test[[.]], zoom = zoom[[.]],
-					x_range = x_range[[.]], y_range = y_range[[.]], xlab = xlab,
-					ylab = ylab[[.]], pos_text = pos_text[[.]], label = label[[.]]
-				)
-			} else {plot_empty()})
+  # Apply plot_predict to all models in list (if
+  # input has values)
+  p2 <- purrr::map(1:length(ind), ~if (all(is_value(pred[[.]]))) {
+    plot_predict(x = time[[.]], y_obs = ind[[.]],
+      y_pred = pred[[.]], ci_up = ci_up[[.]],
+      ci_low = ci_low[[.]], x_train = id_train[[.]],
+      x_test = id_test[[.]], zoom = zoom[[.]],
+      x_range = x_range[[.]], y_range = y_range[[.]],
+      xlab = xlab, ylab = ylab[[.]], pos_text = pos_text[[.]],
+      label = label[[.]])
+  } else {
+    plot_empty()
+  })
 
 
 
@@ -427,9 +433,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   if ("interaction" %in% names(mod_tbl)) {
     p4 <- vector(mode = "list", length = nrow(mod_tbl))
     for (i in 1:nrow(mod_tbl)) {
-      if (isTRUE(mod_tbl$interaction[i]) &
-      		suppressWarnings(!any(is.na(mod_tbl$thresh_models[[i]]),
-      			is.null(mod_tbl$thresh_models[[i]]))) )	{
+      if (isTRUE(mod_tbl$interaction[i]) & suppressWarnings(!any(is.na(mod_tbl$thresh_models[[i]]),
+        is.null(mod_tbl$thresh_models[[i]])))) {
         p4[[i]] <- plot_thresh(mod_tbl$thresh_models[[i]],
           choose_thresh_gam)
       } else {
@@ -461,14 +466,13 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
     predict_plot = p2, deriv_plot = p3, thresh_plot = p4,
     all_plots = all_plots)
 
-  # Insert NA in single plots if
-  # required variables not in input or no plot
-  # generated per id as edf=1 / interaction = FALSE
+  # Insert NA in single plots if required variables
+  # not in input or no plot generated per id as edf=1
+  # / interaction = FALSE
   plot_tab$response_plot[!purrr::map_lgl(pred_train,
-  	~ all(is_value(.)))] <- NA
+    ~all(is_value(.)))] <- NA
 
-  plot_tab$predict_plot[!purrr::map_lgl(pred,
-  	~ all(is_value(.)))] <- NA
+  plot_tab$predict_plot[!purrr::map_lgl(pred, ~all(is_value(.)))] <- NA
 
   if ("zero_in_conf" %in% names(mod_tbl)) {
     sel <- purrr::map_lgl(mod_tbl$zero_in_conf,
@@ -480,9 +484,9 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   if ("interaction" %in% names(mod_tbl)) {
     plot_tab$thresh_plot[is.na(mod_tbl$interaction) |
-    		!mod_tbl$interaction |
-    		(mod_tbl$interaction & suppressWarnings(any(is.na(mod_tbl$thresh_models[[i]]),
-      			is.null(mod_tbl$thresh_models[[i]]))) )	 ] <- NA
+      !mod_tbl$interaction | (mod_tbl$interaction &
+      suppressWarnings(any(is.na(mod_tbl$thresh_models[[i]]),
+        is.null(mod_tbl$thresh_models[[i]]))))] <- NA
   } else {
     plot_tab$thresh_plot <- NA
   }
