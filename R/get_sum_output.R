@@ -49,7 +49,7 @@ get_sum_output <- function(sum_list, varname, cell = NULL) {
   result <- purrr::map_if(sum_list, choose, ~.[[varname]][cell])
   # check output
   if (any(purrr::map_dbl(result, length) != 1)) {
-    stop("I don't know what happened, but it`s not ok!")
+    stop("I don`t know what happened, but it`s not ok!")
   }
   return(unlist(result))
 }
