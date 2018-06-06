@@ -14,7 +14,7 @@ scoring(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
 \item{press_type}{Data frame or tibble with pressure names (named `press`) in
 first column and corresponding pressure types in second column (named `press_type`).
-Needed for spiechart! (see for an example \code{\link{press_type_ex}})}
+Needed for the spie chart! (see for an example \code{\link{press_type_ex}})}
 
 \item{crit_scores}{Internal tibble of (sub)criteria and respective scores
 named \code{crit_scores_tmpl}; can be modified by saving this data frame as

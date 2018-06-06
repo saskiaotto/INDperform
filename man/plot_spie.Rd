@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_plot_spiechart.R
 \name{plot_spie}
 \alias{plot_spie}
-\title{Helper function for plot spiechart}
+\title{Helper function for plot_spiechart}
 \usage{
 plot_spie(split_input, scale, parting, cat, summary_tbl, ground, n_c8_c11,
   n_c9_c10, col_crit8_11, x_ring1, theme_infog, edge = "grey30", ind,
