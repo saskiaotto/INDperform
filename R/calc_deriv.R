@@ -62,7 +62,7 @@
 #'
 #' \strong{First Derivative:}
 #'
-#' The first derivative of a smoothing function i.e. s′(x),
+#' The first derivative of a smoothing function i.e. s'(x),
 #' represents the instantaneous rate of change of a dependent variable y to
 #' that of the independent variable x. It tells us whether a function is
 #' increasing or decreasing, and by how much. This information is reflected by
@@ -77,7 +77,7 @@
 #'
 #' \strong{Confidence intervals (CI) based on a conditional bootstrap:}
 #'
-#' By calculating approximate confidence intervals for s′(x), it may
+#' By calculating approximate confidence intervals for s'(x), it may
 #' be determined whether or not apparent IND changes are statistically
 #' significant, i.e. whether the non-zero estimate obtained for
 #' the slope is distinguishable from zero given the uncertainty in the
