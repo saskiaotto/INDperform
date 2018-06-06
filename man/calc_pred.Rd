@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_pred.R
 \name{calc_pred}
 \alias{calc_pred}
-\title{Calculate prediced values and their confidence intervals for GAM(M)s}
+\title{Calculate predicted values and their confidence intervals for GAM(M)s}
 \usage{
 calc_pred(model_list, obs_press)
 }
@@ -18,7 +18,7 @@ The function returns a tibble with one row for each model and three columns:
   \item{\code{pred}}{A list-column with the predicted IND values
              given the input pressure values.}
   \item{\code{ci_up}}{A list-column with the upper 95\% confidence limit
-             of theIND predictions.}
+             of the IND predictions.}
   \item{\code{ci_low}}{A list-column with the lower 95\% confidence limit
              of the IND predictions.}
 }

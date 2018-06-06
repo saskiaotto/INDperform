@@ -18,7 +18,7 @@
 #'   \item If only one model is provided as input coerce the model explicitly
 #'         to class `list`. An input such as model_gam_ex[1, "model"] will not work
 #'         as the class is a tibble. Use instead model_gam_ex$model[1].
-#'   \item If the input are one or more treshold-GAMs selected from
+#'   \item If the input are one or more threshold-GAMs selected from
 #'         the \code{\link{test_interaction}} output (variable \code{thresh_models}
 #'         the model list features a nested structure:
 #'         each IND~pressure pair (row) might have more than one threshold-GAM.
@@ -40,7 +40,7 @@
 #'   \item{\code{acf_plot}}{A list-column of ggplot2 objects that show  the
 #'               autocorrelation function for the residuals. NAs in the time
 #'               series due to real missing values, test data extraction or
-#'               exlusion of outliers are explicitly considered.}
+#'               exclusion of outliers are explicitly considered.}
 #'   \item{\code{pacf_plot}}{A list-column of ggplot2 objects that show the
 #'               partial autocorrelation function for the residuals. NAs are
 #'               explicitly considered.}

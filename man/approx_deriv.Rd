@@ -35,8 +35,8 @@ The function returns the input model tibble with the following 4 columns added
 }
 \description{
 \code{approx_deriv} implements a crude approximation for the uncertainty
-around the first derivatives. It should be used complementarily to the
-conditional boostrap, if problems with GAMM fittings occur
+around the first derivatives. It should be used complementary to the
+conditional bootstrap, if problems with GAMM fittings occur
 (see \code{\link{calc_deriv}}).
 }
 \details{

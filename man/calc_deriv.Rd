@@ -216,7 +216,7 @@ Large, S.I., Fay, G., Friedland, K.D., Link, J.S. (2013) Defining trends and thr
 responses of ecological indicators to fishing and environmental pressures.
 \emph{ICES Journal of Marine Science} 70, 755-767.
 
-Trenkel, V.M., Rochet, M.J. (2009) Intersection-union tests for characterising recent
+Trenkel, V.M., Rochet, M.J. (2009) Intersection-union tests for characterizing recent
 changes in smoothed indicator time series. \emph{Ecological Indicators} 9, 732-739.
 }
 \seealso{

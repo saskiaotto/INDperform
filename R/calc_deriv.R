@@ -185,7 +185,7 @@
 #' responses of ecological indicators to fishing and environmental pressures.
 #' \emph{ICES Journal of Marine Science} 70, 755-767.
 #'
-#' Trenkel, V.M., Rochet, M.J. (2009) Intersection-union tests for characterising recent
+#' Trenkel, V.M., Rochet, M.J. (2009) Intersection-union tests for characterizing recent
 #' changes in smoothed indicator time series. \emph{Ecological Indicators} 9, 732-739.
 #'
 #' @seealso \code{\link{cond_boot}} and \code{\link{approx_deriv}}

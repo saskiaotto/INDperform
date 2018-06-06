@@ -42,13 +42,13 @@ a modified polar area chart to permit the comparison of two sets of related
 data, e.g. the maximum achievable scores and each IND’s realized scores. In this
 function, the slice width is kept constant, while the length of the slices
 represents the percentage of scores achieved, with the boundary line (i.e. the
-inner grey circle) indicating the full 100%.
+inner gray circle) indicating the full 100%.
 
 The two unlabeled slices at the top represent the trend (right) and management
 (left) criteria. The sensitivity and robustness scores are shown individually for
 each pressure where a significant relationship was found. These are the labeled
-slices grouped by their pressure type represented by dotted devision lines and the
-segmented outer grey circle as well as pressure type-specific colors (sensitivity
+slices grouped by their pressure type represented by dotted division lines and the
+segmented outer gray circle as well as pressure type-specific colors (sensitivity
 scores are displayed in opaque color, robustness scores in transparent color).
 
 The plot slices adjust to the number of criteria used for the scoring function

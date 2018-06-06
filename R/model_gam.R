@@ -44,10 +44,10 @@
 #'   \item \code{nrmse} for the robustness of the established IND~pressure relationship
 #' }
 #'
-#' The robustness of the modelled pressure relationship based on the training data
+#' The robustness of the modeled pressure relationship based on the training data
 #' is evaluated by measuring how well the model prediction matches the test dataset,
 #' e.g. the last years. This is quantified by computing the absolute value of the
-#' normalised root mean square error (NRMSE) on the test dataset. The normalisation
+#' normalized root mean square error (NRMSE) on the test dataset. The normalization
 #' to the mean of the observed test data allows for comparisons and a general scoring
 #' of the model robustness across INDs with different scales or units.
 #'
@@ -59,7 +59,7 @@
 #'   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
 #'   \item{\code{ind}}{Indicator names.}
 #'   \item{\code{press}}{Pressure names.}
-#'   \item{\code{model_type}}{Specification of the modeltype; at this stage containing only
+#'   \item{\code{model_type}}{Specification of the model type; at this stage containing only
 #'              "gam" (Generalized Additive Model).}
 #'   \item{\code{corrstruc}}{Specification of the correlation structure; at this stage
 #'              containing only "none".}
