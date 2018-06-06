@@ -86,11 +86,10 @@ summary_tbl[[1]] <- summary_tbl[[1]][ ,
   ! names(summary_tbl[[1]]) \%in\% c("C9", "C9_in\%")]
 p <- plot_spiechart(summary_tbl)
 gridExtra::grid.arrange(grobs = p)
-
 }
 }
 \references{
-Stafoggia, M., Lallo, A., Fusco, D., Barone, A.P., D'Ovidio, M., Sorge, C.,
+Stafoggia, M., Lallo, A., Fusco, D., Barone, A.P., D`Ovidio, M., Sorge, C.,
 Perucci, C.A. (2011) Spie charts, target plots, and radar plots for
 displaying comparative outcomes of health care. \emph{Journal of Clinical
 Epidemiology} 64, 770-778.

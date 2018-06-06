@@ -33,6 +33,6 @@ crit_scores_tmpl
 \description{
 This table serves as basis for the \code{\link{scoring}} function and builds on
 the criterion-scoring scheme described in the underlying framework (Otto \emph{et al.},
-2018). The user can modify the weights, scores, conditions or remove specific (sub)crits.
+2018). The user can modify the weights, scores, conditions or remove specific (sub-)crits.
 }
 \keyword{datasets}

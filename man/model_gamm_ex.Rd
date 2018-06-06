@@ -9,7 +9,7 @@
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
   \item{\code{ind}}{Indicator names.}
   \item{\code{press}}{Pressure names.}
-  \item{\code{model_type}}{Specification of the modeltype; at this stage containing only
+  \item{\code{model_type}}{Specification of the model type; at this stage containing only
              "gam" (Generalized Additive Model).}
   \item{\code{corrstruc}}{Specification of the correlation structure; at this stage
              containing only "none".}
@@ -29,7 +29,7 @@
   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
               in the residuals. TRUE if model residuals show TAC.}
   \item{\code{pres_outlier}}{A list-column with outliers identified for each model (i.e.
-              cook`s distance > 1). The indices present the position in
+              Cook`s distance > 1). The indices present the position in
               the training data, including NAs.}
   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
               excluded in the GAM fitting}
