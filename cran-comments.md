@@ -10,8 +10,21 @@ This is my first submission.
 
 
 ## R CMD check results
+There were no ERRORs and WARNINGs.
 
-0 errors | 0 warnings | 0 notes
+There was 1 NOTE:
+
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Saskia A. Otto <saskia.a.otto@gmail.com>'
+
+New submission
+
+Possibly mis-spelled words in DESCRIPTION:
+  al (12:76)
+  et (12:73)
+  
+I refer in the description to a paper by me and co-authors:
+"Otto et al. 2018"", so et al. is correctly spelled here.
 
 ## Reverse dependencies
 
