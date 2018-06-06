@@ -47,7 +47,7 @@
 #'               generated from the \code{\link{model_gam}} or
 #'               \code{\link{model_gamm}} functions.}
 #'   \item{\code{deriv_plot}}{A list-column of ggplot2 objects that show the first
-#'               derivatives (S') of non-linear IND~pressure response curves (edf > 1.5)
+#'               derivatives (S`) of non-linear IND~pressure response curves (edf > 1.5)
 #'               and the proportion of the pressure range where the IND shows no further
 #'               significant change (i.e., slope approximates zero). Black triangles
 #'               represent values at the pressure`s boundary where the zero line falls

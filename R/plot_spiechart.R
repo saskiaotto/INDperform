@@ -41,7 +41,7 @@
 #' @return The function returns a list of \code{\link[ggplot2]{ggplot}} objects.
 #'
 #' @references
-#' Stafoggia, M., Lallo, A., Fusco, D., Barone, A.P., D'Ovidio, M., Sorge, C.,
+#' Stafoggia, M., Lallo, A., Fusco, D., Barone, A.P., D`Ovidio, M., Sorge, C.,
 #' Perucci, C.A. (2011) Spie charts, target plots, and radar plots for
 #' displaying comparative outcomes of health care. \emph{Journal of Clinical
 #' Epidemiology} 64, 770-778.
@@ -82,7 +82,6 @@
 #'   ! names(summary_tbl[[1]]) %in% c("C9", "C9_in%")]
 #' p <- plot_spiechart(summary_tbl)
 #' gridExtra::grid.arrange(grobs = p)
-#'
 #' }
 plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   col_crit8_11 = NULL, lab_size = 6, title_size = 8) {
@@ -93,7 +92,7 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   }
   # Check input list
   if (class(summary_tbl) != "list") {
-    stop("'summary_tbl has to be a list (output of summary_sc() function)!")
+    stop("summary_tbl has to be a list (output of summary_sc() function)!")
   }
 
   # Data re-organization ----------------------------

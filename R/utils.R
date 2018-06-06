@@ -93,7 +93,7 @@ check_example <- function() {
   prm_exp <- purrr::map(prm_exp, ~.[!grepl(pattern = "#' #",
     x = .)])
 
-  # Let's see if the functions are called within the
+  # Let´s see if the functions are called within the
   # example
   fn <- gsub(pattern = ".R", replacement = "", x = basename(prm_files[-exclude]))
   func_call <- purrr::map2_lgl(.x = prm_exp, .y = fn,
@@ -103,5 +103,3 @@ check_example <- function() {
 
 # check_this <- check_example()
 # check_this[check_this$call_in_example == FALSE, ]
-
-

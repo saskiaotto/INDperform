@@ -81,7 +81,7 @@ select_model <- function(gam_tbl, gamm_tbl) {
 
   # get best corrstruc
   corrstruc <- purrr::map_chr(model_list, get_best_model)
-  # initialise corrstruc_col with 'none'
+  # initialise corrstruc_col with "none"
   final_tab$corrstruc <- "none"
   # fill column with corrstruc
   for (i in gamm_tbl$id) {

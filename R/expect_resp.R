@@ -51,7 +51,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 	stop("Argument mod_tbl is missing.")
 		 }
 		 if (missing(scores_tbl)) {
-	 	stop("Argument scores_tbl' is missing.")
+	 	stop("Argument scores_tbl is missing.")
 	 }
 
 	 # Check input tibbles

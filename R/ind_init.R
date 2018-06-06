@@ -94,7 +94,7 @@ ind_init <- function(ind_tbl, press_tbl, time, train = 0.9,
 
   # ----------------
 
-  # Creates a vector with id's for each combination
+  # Creates a vector with id`s for each combination
   # ind ~ press
   id <- 1:(ncol(x_) * ncol(y_))
   # Creates a vector with ind

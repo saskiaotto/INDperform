@@ -159,7 +159,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
   # Create list of correlation parameter for
   # arima.sim function (when creating bootstrapped
-  # y's with GAMMs)
+  # y`s with GAMMs)
   cor_params <- list(ar1 = c("Phi", "Phi1"), ar2 = c("Phi1",
     "Phi2"), arma11 = c("Phi1", "Theta1"), arma12 = c("Phi1",
     "Theta1", "Theta2"), arma21 = c("Phi1", "Phi2",
@@ -207,7 +207,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
 
   # Helper functions that generate y_boot, refits
   # models, calculates preds and derivs, averages
-  # across bootstraps, including ci's
+  # across bootstraps, including ci`s
 
   boot_y <- function(y, resid, model, arma_list) {
     if (class(model)[1] == "gam") {
@@ -322,7 +322,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
 
     # Calculate predicted values from boot_fit (with
-    # ci's)
+    # ci`s)
     boot_tbl$boot_pred <- calc_pred(model_list = boot_tbl$boot_fit,
       obs_press = boot_tbl$press_seq)$pred
 
@@ -410,7 +410,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     .y = dat$adj_n_boot, .f = sample_boot)
 
 
-  # Calculate means and ci's for predicted and
+  # Calculate means and ci`s for predicted and
   # derivative values
   alp <- (1 - ci)/2
 
@@ -451,7 +451,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     n_boot)) {
     sel <- is.na(out$adj_n_boot) | out$adj_n_boot <
       n_boot
-    miss_mod <- out[sel, c(1:4, 20)]  # would be here 19 but 'prop' included in calc_deriv before
+    miss_mod <- out[sel, c(1:4, 20)]  # would be here 19 but `prop` included in calc_deriv before
     message(paste0("NOTE: For the following IND~pressure GAMs bootstrapping fitting procedure ",
       "failed completely (adj_n_boot = NA) or partly so that the number of bootstraps ",
       "had to be reduced. See the boot_error column in the output tibble for the error message of ",

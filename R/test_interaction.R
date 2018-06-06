@@ -70,7 +70,7 @@
 #' for the estimation of the threshold value as well as the effective degrees of
 #' freedom of all model terms.
 #'
-#'\strong{Implementation of threshold modeling}
+#' \strong{Implementation of threshold modeling}
 #'
 #' For each IND~pressure pair, specific pressures to test for interactions can be selected
 #' by creating a tibble containing the IND (termed `ind`), the pressure 1 (termed `press`)

@@ -91,7 +91,7 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       t_var = t_var)
     formula_gam <- paste0("ind ~ 1 + s(press, k = ",
       k, ") + s(t_var, k = ", k, ")")
-    # don't capture error for GAMs -> will occurr
+    # don`t capture error for GAMs -> will occurr
     # anyway also in thresh_gam
     gam <- try(mgcv::gam(formula = stats::as.formula(formula_gam),
       data = dat, family = paste0(family, "(link = ",

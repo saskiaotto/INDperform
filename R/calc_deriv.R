@@ -18,7 +18,6 @@
 #' smoothing curve. For more informations on this method see
 #' \code{\link{approx_deriv}}.
 #'
-
 #' @param init_tbl The output tibble of the \code{\link{ind_init}} function.
 #' @param mod_tbl A model output tibble from \code{\link{model_gam}},
 #'  \code{\link{select_model}} or \code{\link{merge_models}} representing the

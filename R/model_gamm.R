@@ -323,7 +323,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       purrr::map(.f = norm_test_safe) %>% purrr::transpose() %>%
       .$result %>% unlist() %>% round(., 4))
 
-    # Test for TAC - needs NA's in residuals!
+    # Test for TAC - needs NAs in residuals!
     res_new <- vector(mode = "list", length = nrow(gamm_tab))
     for (i in seq_along(res_new)) {
       res_new[[i]] <- rep(NA, length(train_na_rep[[i]]))

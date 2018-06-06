@@ -30,7 +30,6 @@
 #' upper <- stats::quantile(t_var, prob = .8, na.rm = TRUE)
 #' t_val <- seq(from = lower, to = upper, by = (upper - lower) / 20)
 #' compare_thresholds(t_val, t_var)
-#'
 compare_thresholds <- function(t_val, t_var) {
   comp <- do.call(rbind, purrr::map(t_val, ~t_var <= .))
   # If there is no change in the positions of TRUE in
