@@ -18,7 +18,7 @@ These functions can be executed on any number of indicators and pressures. Based
 Installation
 ------------
 
-Install the development version from Github using devtools
+Install the development version from Github using devtools (soon also on CRAN):
 
 ``` r
 # install.packages("devtools")
@@ -42,7 +42,7 @@ head(press_type_ex)
 crit_scores_tmpl
 
 
-# Trend modelling -------------
+# Trend modeling -------------
 
 m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
   time = ind_ex$Year)
@@ -54,7 +54,7 @@ pt <- plot_trend(m_trend)
 pt$TZA # shows trend of TZA indicator
 
 
-# Indicator response modelling ------------
+# Indicator response modeling ------------
 
 ### Initialize data (combining IND with pressures)
 dat_init <- ind_init(ind_tbl = ind_ex[ ,-1],
@@ -65,10 +65,10 @@ m_gam <- model_gam(init_tbl = dat_init)
 
 # Model diagnostics (e.g. first model)
 plot_diagnostics(model_list = m_gam$model[[1]])$all_plots[[1]]
-# Any outlier? 
+# Any outlier?
 m_gam$pres_outlier %>% purrr::compact(.)
 # - get number of models with outliers detected
-purrr::map_lgl(m_gam$pres_outlier, ~!is.null(.)) %>% sum() 
+purrr::map_lgl(m_gam$pres_outlier, ~!is.null(.)) %>% sum()
 # - which models and what observations?
 m_gam %>%
     dplyr::select(id, ind, press, pres_outlier) %>%
@@ -78,7 +78,7 @@ m_gam %>%
 m_gam <- model_gam(init_tbl = dat_init, excl_outlier = m_gam$pres_outlier)
 # Any temporal autocorrelation
 sum(m_gam$tac)
-# - which models 
+# - which models
 m_gam %>%
     dplyr::select(id, ind, press, tac) %>%
     dplyr::filter(tac)
@@ -87,7 +87,7 @@ m_gam %>%
 m_gamm <- model_gamm(init_tbl = dat_init,
   filter = m_gam$tac)
 # Again, any outlier?
-purrr::map_lgl(m_gamm$pres_outlier, ~!is.null(.)) %>% sum() 
+purrr::map_lgl(m_gamm$pres_outlier, ~!is.null(.)) %>% sum()
 
 # Select best GAMM from different correlation structures
 # (based on AIC)
@@ -119,9 +119,9 @@ spie$TZA # shows the spiechart of the indicator TZA
 
 #### Validation of IND performances
 
-##### Modelling IND trends and responses to single pressures
+##### Modeling IND trends and responses to single pressures
 
-Each IND is modelled as a function of time or a single pressure variable using Generalized Additive Models (GAMs) (based on the mgcv package).
+Each IND is modeled as a function of time or a single pressure variable using Generalized Additive Models (GAMs) (based on the mgcv package).
 
 -   `model_trend()` models the long-term trend of each IND and returns a tibble with all GAM outputs, the model object, and predicted time series per IND.
 -   `ind_init()` combines the time vector and the IND and press data into one tibble with defined training and test observations. All INDs are combined with all pressures.
@@ -171,7 +171,7 @@ crit_scores_tmpl
 This table contains the scores and weights for each (sub-)criterion. It includes also the variables from the model output tibbles on which each(sub)criterion is based on as well as the condition to determine the actual score. `crit_scores_tmpl` is set as default in the `scoring()` function and, if needed, should be modified prior to using the function.
 
 -   `scoring()` models the long-term trend of each IND and returns a tibble with all GAM outputs, the model object, and predicted time series per IND.
--   `expect_resp()` runs a shiny app to modify manually the score for the subcriterion 10.1 (IND response as expected) based on the response curves (default score 1 for neutral / no expectation).
+-   `expect_resp()` runs a shiny app to modify manually the score for the sub-criterion 10.1 (IND response as expected) based on the response curves (default score 1 for neutral / no expectation).
 -   `summary_sc()` provides a user-friendly summary of the scoring output tibble.
 -   `plot_spiechart()` generates a list of ggplot2 objects (one for each IND). A spie chart superimposes a normal pie chart with a modified polar area chart to permit the comparison of two sets of related data.
 

@@ -7,7 +7,7 @@
 #' @param mod_tbl Output tibble from the IND~pressure modeling functions.
 #' @param press_type Data frame or tibble with pressure names (named `press`) in
 #'  first column and corresponding pressure types in second column (named `press_type`).
-#'  Needed for spiechart! (see for an example \code{\link{press_type_ex}})
+#'  Needed for the spie chart! (see for an example \code{\link{press_type_ex}})
 #' @param crit_scores Internal tibble of (sub)criteria and respective scores
 #'  named \code{crit_scores_tmpl}; can be modified by saving this data frame as
 #'  new object and removing single (sub)criteria or assigning weights (default
@@ -226,11 +226,11 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   }
 
   # If press_type is not provided give note that
-  # error will occur in spiechart function, else
+  # error will occur in spie chart function, else
   # check if all pressures in mod_tbl are also in
   # press_type
   if (is.null(press_type)) {
-    message("NOTE: You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the spiechart function!")
+    message("NOTE: You did not provide the pressure type information for each pressure (as press_type tibble). This will lead to an error when running the plot_spiechart function!")
   } else {
     press_v <- unique(mod_tbl$press)
     if (any(!press_v %in% press_type$press)) {

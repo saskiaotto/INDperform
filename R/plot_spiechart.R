@@ -1,27 +1,27 @@
-#' Create score-based spiechart
+#' Create score-based spie chart
 #'
 #' \code{plot_spiechart} generates for each indicator in the scoring
-#' tibble a ggplot2-based spiechart to visualize the scores of each
+#' tibble a ggplot2-based spie chart to visualize the scores of each
 #' criterion.
 #'
 #' @param summary_tbl The output tibble from the
 #'  \code{\link{summary_sc}} function.
-#' @param col_press_type Colors for the spiechart slices representing
+#' @param col_press_type Colors for the spie chart slices representing
 #'  criteria 9 (sensitivity; opaque) and 9 (robustness; transparent).
 #'
 #'  The colors distinguish the different pressure types. The default
 #'  is set to the RColourBrewer palette "Set1".
-#' @param col_crit8_11 Colors for the spiechart slices representing
+#' @param col_crit8_11 Colors for the spie chart slices representing
 #'  criteria 8 (trend) and 11 (management application). The default is
 #'  set to cyan1 and yellow2.
 #' @param lab_size Size for the labels naming the significant pressures. The default is 6.
 #' @param title_size Size for the title naming the indicator. The default is 8.
 #'
 #' @details
-#' The overall performance of each tested IND is illustrated using a spiechart,
+#' The overall performance of each tested IND is illustrated using a spie chart,
 #' which has been shown to be a well-suited graphical tool for
 #' displaying multivariate data in comparative indicator evaluations
-#' (Stafoggia \emph{et al.}, 2011). A spiechart superimposes a normal pie chart with
+#' (Stafoggia \emph{et al.}, 2011). A spie chart superimposes a normal pie chart with
 #' a modified polar area chart to permit the comparison of two sets of related
 #' data, e.g. the maximum achievable scores and each IND’s realized scores. In this
 #' function, the slice width is kept constant, while the length of the slices

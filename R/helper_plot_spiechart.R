@@ -1,4 +1,4 @@
-#' Helper function for plot spiechart
+#' Helper function for plot_spiechart
 #'
 #' This is the actual plotting function used by the wrapper
 #' function \code{\link{plot_spiechart}} for each indicator.
@@ -162,7 +162,7 @@ plot_spie <- function(split_input, scale, parting,
     y = c(120, 120, 130, 130)), fill = "grey30") +
     ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = x_ring2,
       y = c(120, 120, 130, 130)), fill = "grey60") +
-    # Make the barplot to a spiechart
+    # Make the barplot to a spie chart
   ggplot2::coord_polar() + # Create the white borders between the categories
   ggplot2::geom_segment(ggplot2::aes_(x = border,
     xend = border, y = 120, yend = 140), colour = "white",
