@@ -147,22 +147,6 @@ test_that("test poisson family", {
 })
 
 
-# Poisson distribution
-set.seed(123)
-vec_train <- rpois(27, 15)
-vec_test <- rpois(3, 15)
-data <- ind_init_ex[1, ]
-data$ind_train <- list(vec_train)
-data$ind_test <- list(vec_test)
-example <- model_gamm(data, family = stats::poisson(link = identity))
-
-test_that("test poisson family", {
-  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[1]] ==
-    "poisson")
-  expect_true(mgcv::summary.gam(example$model[[1]]$gam)$family[[2]] ==
-    "identity")
-})
-
 # Negative Binomal distribution
 set.seed(123)
 vec_train <- rnbinom(27, size = 5.855, mu = 1/exp(-3))
@@ -188,15 +172,10 @@ dat3 <- dat
 dat3[1] <- "list"
 dat4 <- as.data.frame(dat)
 dat_filter <- c(TRUE, FALSE, TRUE, FALSE)
-x <- ind_ex[, 4:5]
-x$test_ind <- NA_real_
+x <- data.frame(TZA = ind_ex$TZA, test = rep(NA_real_, nrow(ind_ex)))
 y <- press_ex[, 2]
 dat5 <- suppressMessages(ind_init(x, y, time = ind_ex$Year))
 dat_filter2 <- c(FALSE, NA, NA, NA, FALSE)
-
-test_ids <- c(63:70)
-gam_test <- model_gam_ex[model_gam_ex$id %in% test_ids,
-  ]
 
 test_that("error messages and filter", {
   expect_error(model_gamm(k = 3), "Argument init_tbl is missing")
@@ -213,8 +192,8 @@ test_that("error messages and filter", {
     "The length of the logical filter")
   # should NOT provide an error message (filter
   # length correct) and return a tibble
-  expect_true(tibble::is.tibble(model_gamm(ind_init_ex[test_ids,
-    ], filter = gam_test$tac)))
+  expect_true(tibble::is.tibble(model_gamm(ind_init_ex[63, ],
+  	filter = model_gam_ex$tac[63])))
   # fitting procedure failed
   expect_error(model_gamm(dat, family = binomial()),
     "No IND~pressure GAMM could be fitted")

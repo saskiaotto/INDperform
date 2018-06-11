@@ -161,21 +161,23 @@ test_that("seed setting", {
 })
 
 
+#### Test message for fitting failure (wrong family so adj_n_boot = NA) ###
+# (test takes too long as it loops over every bootstrap
+# to get the n_boot full --> only on own development machine)
 
-# Test message for fitting failure
-x <- c(1, 2, 5, 3, 4, 6, 7, 8, 14, 9, 11, 13, 15, 18,
-  12, 16, 17, 10, 20, 19)
-y_bin <- c(rep(0, 10), rep(1, 10))
-set.seed(1)
-y_pois <- rpois(20, lambda = 2)
-y_pois <- sort(y_pois)
-test_init <- ind_init(data.frame(y_bin = y_bin, y_pois = y_pois),
-  x, time = 1970:1989)
-test_mod1 <- model_gam(test_init[1, ], family = binomial())
-test_mod1$model[[1]]$family$family <- "poisson"
+my_machine <- FALSE
+if (my_machine) {
+		x <- c(1, 2, 5, 3, 4, 6, 7, 8, 14, 9, 11, 13, 15, 18,
+			12, 16, 17, 10, 20, 19)
+		y_bin <- c(rep(0, 10), rep(1, 10))
+		test_init <- ind_init(data.frame(y_bin = y_bin),
+			x, time = 1970:1989)
+		test_mod1 <- model_gam(test_init, family = binomial())
+		test_mod1$model[[1]]$family$family <- "poisson"
 
-test_that("check message", {
-  expect_message(cond_boot(test_init[1, ], test_mod1,
-    n_boot = 40, ci = 0.95, excl_outlier = FALSE,
-    par_comp = FALSE, no_clust = NULL, seed = 1))
-})
+		test_that("check message", {
+			expect_message(cond_boot(test_init, test_mod1,
+				n_boot = 40, ci = 0.95, excl_outlier = FALSE,
+				par_comp = FALSE, no_clust = NULL, seed = 1))
+		})
+}
