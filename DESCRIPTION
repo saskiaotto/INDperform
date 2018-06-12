@@ -9,7 +9,7 @@ Authors@R: c(
     person("Alexander", "Keth", role = "aut")
     )
 Description: An implementation of the 7-step approach suggested by Otto et al. 
-    (2018, Ecol. Ind. 84:619-631) to validate ecological state indicators
+    (2018) <doi:10.1016/j.ecolind.2017.05.045> to validate ecological state indicators
     and to select a suite of complimentary and well performing indicators. 
     This suite can be then used to assess the current state of the system 
     in comparison to a reference period. However, the tools in this package 
