@@ -93,13 +93,13 @@
 #' dat$thresh_plot[[2]]
 #' dat$all_plots[[2]]
 #'
-#' \dontrun{
+#' \donttest{
 #'  # Apply function to all sign. models and save specific plots
 #'  id <- which(all_results_ex$p_val <= 0.05)
 #'  init_tbl <- ind_init_ex[id, ]
 #'  mod_tbl <- all_results_ex[id, ]
 #'  dat <- plot_model(init_tbl, mod_tbl, pos_label = "bottomright")
-#'  pdf("Plot.pdf", height=10, width=10)
+#'  pdf(file.path(tempdir(), "Plot.pdf"), height=10, width=10)
 #'  dat$all_plots
 #'  dev.off()
 #' }
