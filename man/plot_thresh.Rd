@@ -33,9 +33,9 @@ thresh_sublist1 <- all_results_ex$thresh_models[[69]]
 thresh_sublist2 <- all_results_ex$thresh_models[[70]]
 thresh_sublist <- list(thresh_sublist1, thresh_sublist2) \%>\%
   purrr::flatten(.)
+plot_thresh(thresh_sublist, choose_thresh_gam = NULL)
 plot_thresh(thresh_sublist, choose_thresh_gam = 1)
 plot_thresh(thresh_sublist, choose_thresh_gam = 2)
-plot_thresh(thresh_sublist, choose_thresh_gam = NULL)
 }
 \seealso{
 \code{\link{plot_model}}

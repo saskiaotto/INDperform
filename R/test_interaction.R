@@ -145,7 +145,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Using some models of the Baltic Sea demo data in this package
 #' init_tbl <- ind_init_ex
 #' mod_tbl <- merge_models_ex[c(5:7),]

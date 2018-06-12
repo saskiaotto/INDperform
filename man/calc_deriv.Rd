@@ -199,7 +199,7 @@ variable in the output tibble) reflects the proportion of FALSE values
 in \code{zero_in_conf}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Using some models of the Baltic Sea demo data
 init_tbl <- ind_init_ex[ind_init_ex$id \%in\% c(5,9,48,75), ]
 mod_tbl <- merge_models_ex[merge_models_ex$id  \%in\% c(5,9,48,75), ]

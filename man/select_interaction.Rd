@@ -30,7 +30,7 @@ this data frame.
 \details{
 For each IND~pressure pair specific pressures to test for interactions can
 be selected by creating a tibble containing the IND (termed `ind`), the
-pressure 1 (termed `press``) and the pressure 2 (termed `t_var``). The easiest
+pressure 1 (termed `press`) and the pressure 2 (termed `t_var`). The easiest
 is to use the helper function \code{\link{select_interaction}}: it creates
 all combinations of IND~press pairs and the threshold variables based on
 the input model tibble. If specific combinations should not be modeled

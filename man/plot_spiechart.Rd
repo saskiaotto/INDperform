@@ -62,7 +62,7 @@ summary_tbl <- summary_sc(scores_tbl)
 p <- plot_spiechart(summary_tbl)
 p$TZA
 
-\dontrun{
+\donttest{
  # Show all spiecharts together
  gridExtra::grid.arrange(grobs = p)
 

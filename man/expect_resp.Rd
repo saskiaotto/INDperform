@@ -38,7 +38,7 @@ function and then go back to this function for modifications
 of the expectation scores.
 }
 \examples{
-\dontrun{
+\donttest{
  # Using the Baltic Sea demo data:
  # Apply first the scoring on the model outputs
  scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,

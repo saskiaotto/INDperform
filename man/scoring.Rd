@@ -78,7 +78,7 @@ but needs to follow the same syntax.
 # Using the Baltic Sea demo data in this package
 scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
   press_type = press_type_ex)
-\dontrun{
+\donttest{
  # To see the criterion template and change it potentially
  View(crit_scores_tmpl)
  # E.g. exclude the trend criterion
