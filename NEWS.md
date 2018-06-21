@@ -1,4 +1,4 @@
-# INDperform 0.1
+# INDperform 0.1.0
 
 * All functions now have data input validation routines that will return detailed messages if the required input has not the correct format. This prevents potential error messages when running following functions.
 
