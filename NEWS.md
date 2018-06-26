@@ -13,3 +13,8 @@
 * `expect_response` now returns the modified input tibble with the correct column names.
 
 * In `model_gamm` the length of the outlier list to exclude (excl_outlier argument) is now correctly estimated in the data input validation routine.
+
+
+# INDperform 0.1.1
+
+* With the latest release of ggplot 2.3.9, we updated the reference plots for visual tests, which deviate now slightly from the previous version.
