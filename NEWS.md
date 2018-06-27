@@ -17,4 +17,4 @@
 
 # INDperform 0.1.1
 
-* With the latest release of ggplot 2.3.9, we updated the reference plots for visual tests, which deviate now slightly from the previous version.
+* With the upcoming release of ggplot 2.3.0 we deactivated our visual tests to avoid conflicts between generated and references plots and consequently failing tests.
