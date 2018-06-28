@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Removed the vdiffr package from the import list in namespace
+* Removed the vdiffr package from the import list in namespace (see below)
 * fixed the tests that caused errors in some of the environments with the last released version (see below)
 
 ## Test environments
@@ -10,10 +10,6 @@ This is a resubmission. In this version I have:
 * local OS X install, R 3.1.1
 * Windows 7, R 3.1.1, 64 bit
 * win-builder (devel and release)
-
-
-## R CMD check results this version
-There were no ERRORs WARNINGs or NOTEs.
 
 ## R CMD check results previous (last released) version
 There were 2 ERRORs and 1 NOTE.
