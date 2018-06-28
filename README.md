@@ -124,7 +124,9 @@ spie <- plot_spiechart(sum_sc)
 spie$TZA # shows the spiechart of the indicator TZA
 ```
 
-**NOTE:** All functions are tailored to indicator time series. Spatial data and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for `model_gamm()` as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as `time` vector in `ind_init()` an integer variable with **consecutive** numbers (with no gaps!) representing your different stations.
+------------------------------------------------------------------------
+
+<span style="color:red; font-weight:bold;">NOTE:</span> All functions are tailored to indicator time series. Spatial data and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for `model_gamm()` as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as `time` vector in `ind_init()` an integer variable with **consecutive** numbers (with no gaps!) representing your different stations.
 
 ``` r
 ### Use of station numbers instead of time vector
@@ -132,6 +134,8 @@ station_id <- 1:nrow(your_indicator_dfr)
 dat_init <- ind_init(ind_tbl = your_indicator_dfr,
   press_tbl = your_pressure_dfr, time = station_id)
 ```
+
+------------------------------------------------------------------------
 
 #### Validation of IND performances
 
