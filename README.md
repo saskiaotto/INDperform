@@ -1,11 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-INDperform
-==========
+INDperform <img src="man/figures/Logo.png" align="right" />
+===========================================================
 
-<p align="right">
-<img src="man/figures/Logo.png">
-</p>
 Overview
 --------
 
@@ -19,9 +16,6 @@ Finding suitable state indicators (IND) is challenging and cumbersome in stochas
 
 These functions can be executed on any number of indicators and pressures. Based on these analyses and a scoring scheme for selected criteria the individual performances can be quantified, visualized, and compared. The combination of tools provided in this package can help making state indicators operational under given management schemes such as the EU Marine Strategy Framework Directive.
 
-<p align="right">
-<img src="man/figures/Logo.png">
-</p>
 Installation
 ------------
 
