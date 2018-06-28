@@ -201,6 +201,8 @@ This table contains the scores and weights for each (sub-)criterion. It includes
 <p align="center">
 <img src="man/figures/README_spiechart.png" width="400" height="300">
 </p>
+<br>
+
 **Examining redundancies and selecting robust indicator suites**
 
 -   `dist_sc()` Calculates a (Euclidean) distance matrix based on all scores.
