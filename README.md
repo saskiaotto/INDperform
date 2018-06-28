@@ -25,6 +25,13 @@ Install the development version from Github using devtools (soon also on CRAN):
 devtools::install_github("saskiaotto/INDperform")
 ```
 
+If you encounter a clear bug, please file a minimal reproducible example on github. For questions email me any time.
+
+Cheatsheet
+----------
+
+<a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="630" height="630"/></a>
+
 Usage
 -----
 
@@ -115,6 +122,15 @@ scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, press_type = press_type_
 sum_sc <- summary_sc(scores)
 spie <- plot_spiechart(sum_sc)
 spie$TZA # shows the spiechart of the indicator TZA
+```
+
+**NOTE:** All functions are tailored to indicator time series. Spatial data and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for `model_gamm()` as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as `time` vector in `ind_init()` an integer variable with **consecutive** numbers (with no gaps!) representing your different stations.
+
+``` r
+### Use of station numbers instead of time vector
+station_id <- 1:nrow(your_indicator_dfr) 
+dat_init <- ind_init(ind_tbl = your_indicator_dfr,
+  press_tbl = your_pressure_dfr, time = station_id)
 ```
 
 #### Validation of IND performances
