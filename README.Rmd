@@ -138,7 +138,7 @@ spie$TZA # shows the spiechart of the indicator TZA
 ```
 
 ***
-**NOTE FOR SPATIAL DATA:**
+#### NOTE FOR SPATIAL DATA:
 
 All functions are tailored to indicator time series. **Spatial data** and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for `model_gamm()` as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as `time` vector in `ind_init()` an integer variable with **consecutive** numbers (with no gaps!) representing your different stations.
 
