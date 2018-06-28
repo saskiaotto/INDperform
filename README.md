@@ -126,7 +126,7 @@ spie$TZA # shows the spiechart of the indicator TZA
 
 ------------------------------------------------------------------------
 
-#### NOTE FOR SPATIAL DATA:
+##### NOTE FOR SPATIAL DATA:
 
 All functions are tailored to indicator time series. **Spatial data** and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for `model_gamm()` as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as `time` vector in `ind_init()` an integer variable with **consecutive** numbers (with no gaps!) representing your different stations.
 
@@ -223,6 +223,6 @@ Two approaches based on trajectories in state space to determine the current sta
 Documentation and further information
 -------------------------------------
 
-For guidance on how to apply the functions step-by-step see also the \[INDperform cheatsheet\] (<https://github.com/saskiaotto/cheatsheets/INDperform.pdf>). We are currently working on the Vignette but if you want more information on the framework for quantifying IND performances and its statistical tools implemented in this package see
+For guidance on how to apply the functions step-by-step see also the [INDperform cheatsheet](https://github.com/saskiaotto/cheatsheets/INDperform.pdf). We are currently working on the Vignette but if you want more information on the framework for quantifying IND performances and its statistical tools implemented in this package see
 
 *Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018): A quantitative framework for selecting and validating food web indicators. Ecological Indicators, 84: 619-631, doi: [https://doi.org/10.1016/j.ecolind.2017.05.045](http://www.sciencedirect.com/science/article/pii/S1470160X1730300X)*
