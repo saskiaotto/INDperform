@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-INDperform <img src="man/figures/Logo.png" align="right"/>
-==========================================================
+INDperform
+==========
+
+<img src="man/figures/Logo.png" align="right"/>
 
 Overview
 --------
@@ -199,7 +201,7 @@ This table contains the scores and weights for each (sub-)criterion. It includes
 -   `plot_spiechart()` generates a list of ggplot2 objects (one for each IND). A spie chart superimposes a normal pie chart with a modified polar area chart to permit the comparison of two sets of related data.
 
 <p align="center">
-<img src="man/figures/README_spiechart.png">
+<img src="man/figures/README_spiechart.png" width="300" height="200">
 </p>
 **Examining redundancies and selecting robust indicator suites**
 
