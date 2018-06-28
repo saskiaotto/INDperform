@@ -56,11 +56,22 @@ ks_test <- unlist(lapply(res, FUN = function(x) round(stats::ks.test(x,
   "pnorm", mean(x), sd(x))$p.value, 4)))
 tac <- unlist(lapply(res_tac, FUN = function(x) test_tac(list(x))$tac))
 
+summary(model)
 # -------------------------
 
 test_that("compare manual results", {
-  purrr::map2(model, dat$model, ~expect_equivalent(.x$lme,
-    .y$lme))
+		expect_true(all(purrr::map_lgl(1:length(model),
+			 ~all.equal(model[[.]]$lme$logLik,
+			dat$model[[.]]$lme$logLik, tolerance = 0.001))))
+		expect_true(all(purrr::map_lgl(1:length(model),
+			 ~all.equal(model[[.]]$lme$coefficients$fixed[[1]],
+			dat$model[[.]]$lme$coefficients$fixed[[1]], tolerance = 0.001))))
+		expect_true(all(purrr::map_lgl(1:length(model),
+			 ~all.equal(model[[.]]$lme$coefficients$fixed[[2]],
+			dat$model[[.]]$lme$coefficients$fixed[[2]], tolerance = 0.001))))
+		expect_true(all(purrr::map_lgl(1:length(model),
+			 ~all.equal(model[[.]]$lme$coefficients$random$g[[1]],
+			dat$model[[.]]$lme$coefficients$random$g[[1]], tolerance = 0.001))))
   expect_equal(model_type, dat$model_type)
   expect_is(model_type[1], "character")
   expect_equal(corrstruct, dat$corrstruc)
@@ -69,7 +80,7 @@ test_that("compare manual results", {
   expect_is(aic[1], "numeric")
   expect_equal(edf, dat$edf)
   expect_is(edf[1], "numeric")
-  expect_equal(p_val, dat$p_val)
+  expect_equal(p_val, dat$p_val, tolerance = 1e-06)
   expect_is(p_val[1], "numeric")
   expect_equal(signif_code, dat$signif_code)
   expect_is(signif_code[1], "character")
@@ -98,8 +109,8 @@ ind_init2$train_na[[1]][8] <- TRUE
 example2 <- model_gamm(ind_init2)
 
 test_that("test excl outlier", {
-  expect_equivalent(example$p_val, example2$p_val)
-  expect_equivalent(example$nrmse, example2$nrmse)
+  expect_equivalent(example$p_val, example2$p_val, tolerance = 1e-06)
+  expect_equivalent(example$nrmse, example2$nrmse, tolerance = 1e-06)
   expect_error(model_gamm(ind_init_ex[102, ], excl_outlier = as.list(c(8,
     6))))  #only 1 list entry can be recycled
 })
