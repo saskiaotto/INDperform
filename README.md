@@ -30,7 +30,7 @@ If you encounter a clear bug, please file a minimal reproducible example on gith
 Cheatsheet
 ----------
 
-<a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="630" height="630"/></a>
+<a href="https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.1.0.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="750" height="300"/></a>
 
 Usage
 -----
