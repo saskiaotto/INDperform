@@ -14,4 +14,8 @@
 
 * In `model_gamm` the length of the outlier list to exclude (excl_outlier argument) is now correctly estimated in the data input validation routine.
 
+# INDperform 0.1.1
+
 * With the upcoming release of ggplot2 v2.3.0 we deactivated our visual tests to avoid conflicts between generated and references plots that would cause tests to fail.
+
+* Minor modifications in the test files to pass all system checks on CRAN.
