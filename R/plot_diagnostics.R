@@ -136,7 +136,7 @@ plot_diagnostics <- function(model_list) {
         model_resid_na[[i]][!pass_model$train_na] <- model_resid[[i]]
       }
       # Not yet implemented
-      if(class(pass_model)[1] == "thresh_gamm") {
+      if (class(pass_model)[1] == "thresh_gamm") {
       	 pass_model <- pass_model$gam
         cooks_dist[[i]] <- stats::cooks.distance(pass_model)
         gcvv[[i]] <- pass_model$gcvv
@@ -239,30 +239,30 @@ plot_diagnostics <- function(model_list) {
   # Apply helper plot functions to each model
 	 # (if input has values)
   cook_plots <- purrr::map(1:length(cooks_dist),
-  		~ if ( all(is_value(cooks_dist[[.]])) ) {
+  		~ if ( sum(is_value(cooks_dist[[.]])) > 1 ) {
   					plot_cook(values = cooks_dist[[.]])
   			} else {NA})
 
   acf_plots <- purrr::map(1:length(tac$acf),
-  		~ if ( all(is_value(tac$acf[[.]])) ) {
+  		~ if ( sum(is_value(tac$acf[[.]])) > 1 ) {
   			plot_acf(x_var = acf_lag[[.]],
   			y_var = tac$acf[[.]])
   			} else {NA})
 
   pacf_plots <- purrr::map(1:length(tac$pacf),
-  		~ if ( all(is_value(tac$pacf[[.]])) ) {
+  		~ if ( sum(is_value(tac$pacf[[.]])) > 1 ) {
   			plot_pacf(x_var = pacf_lag[[.]],
   			y_var = tac$pacf[[.]])
   			} else {NA})
 
   resid_plots <- purrr::map(1:length(model_pred),
-  		~ if ( all(is_value(model_pred[[.]])) | all(is_value(model_resid[[.]])) ) {
+  		~ if ( (sum(is_value(model_pred[[.]])) > 1) | (sum(is_value(model_resid[[.]])) > 1) ) {
   			plot_resid(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
   			model_fitted = model_pred[[.]])
   			} else {NA} )
 
   qq_plots <- purrr::map(1:length(model_resid),
-  		~ if ( all(is_value(model_resid[[.]])) ) {
+  		~ if ( sum(is_value(model_resid[[.]])) > 1 ) {
   			plot_qq(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
   			theo_quan = theo_quan[[.]][!is.na(theo_quan[[.]])])
   			} else {NA})
