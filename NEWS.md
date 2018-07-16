@@ -19,3 +19,7 @@
 * With the upcoming release of ggplot2 v2.3.0 we deactivated our visual tests to avoid conflicts between generated and references plots that would cause tests to fail.
 
 * Minor modifications in the test files to pass all system checks on CRAN.
+
+# INDperform 0.1.1.9000
+
+* Fixed issue of missing acf and pacf diagnostic plots as soon as there were NAs in the acf vectors (happens if time series is very short)
