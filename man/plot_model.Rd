@@ -119,3 +119,4 @@ Other IND~pressure modeling functions: \code{\link{find_id}},
   \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }
+\concept{IND~pressure modeling functions}

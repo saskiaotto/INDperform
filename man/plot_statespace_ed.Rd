@@ -35,3 +35,4 @@ p + ggplot2::geom_point(col = "red") +
 Other state assessment functions: \code{\link{plot_statespace_ch}},
   \code{\link{statespace_ch}}, \code{\link{statespace_ed}}
 }
+\concept{state assessment functions}

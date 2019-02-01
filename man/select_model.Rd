@@ -50,3 +50,4 @@ Other IND~pressure modeling functions: \code{\link{find_id}},
   \code{\link{plot_model}}, \code{\link{scoring}},
   \code{\link{test_interaction}}
 }
+\concept{IND~pressure modeling functions}

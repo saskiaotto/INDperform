@@ -44,3 +44,4 @@ p + ggplot2::xlab("TZA") + ggplot2::ylab("MS") +
 Other state assessment functions: \code{\link{plot_statespace_ed}},
   \code{\link{statespace_ch}}, \code{\link{statespace_ed}}
 }
+\concept{state assessment functions}

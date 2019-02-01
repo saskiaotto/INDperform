@@ -7,8 +7,8 @@ of pressure range in which the response is significant}
 \usage{
 calc_deriv(init_tbl, mod_tbl, edf_filter = 1.5, sign_level = 0.05,
   excl_outlier = FALSE, method = "cond_boot", n_boot = 200,
-  ci_boot = 0.95, ci_prop_se = 25, par_comp = FALSE, no_clust = NULL,
-  seed = NULL)
+  ci_boot = 0.95, ci_prop_se = 25, par_comp = FALSE,
+  no_clust = NULL, seed = NULL)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}
@@ -222,3 +222,4 @@ changes in smoothed indicator time series. \emph{Ecological Indicators} 9, 732-7
 \seealso{
 \code{\link{cond_boot}} and \code{\link{approx_deriv}}
 }
+\concept{IND~pressure  modeling functions}

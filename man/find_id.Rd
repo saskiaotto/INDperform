@@ -41,3 +41,4 @@ Other IND~pressure modeling functions: \code{\link{ind_init}},
   \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }
+\concept{IND~pressure modeling functions}

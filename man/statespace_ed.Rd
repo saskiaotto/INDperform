@@ -57,3 +57,4 @@ Other state assessment functions: \code{\link{plot_statespace_ch}},
   \code{\link{plot_statespace_ed}},
   \code{\link{statespace_ch}}
 }
+\concept{state assessment functions}

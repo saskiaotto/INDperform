@@ -44,14 +44,14 @@ calc_pred <- function(model_list, obs_press) {
   # ----------------------------------------------------------
 
   temp <- vector(mode = "list", length = length(obs_press))
-  # for (i in 1:length(obs_press)) {
+
   for (i in seq_along(obs_press)) {
     # Create input for predict.gam
     dat <- tibble::tibble(ind = NA, press = obs_press[[i]])
     model <- model_list[i]
 
     # Check if model is available
-    if (is.null(model[[1]])) {
+    if (is.null(model[[1]]) | is.na(model)) {
       temp[[i]] <- NA
     } else {
       # Create predictions for gams

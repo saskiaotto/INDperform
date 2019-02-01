@@ -10,11 +10,12 @@
 \usage{
 plot_thresh(thresh_sublist, choose_thresh_gam)
 
-plot_response(x, y, x_seq, pred, ci_up, ci_low, xlab, ylab, pos_text, label,
-  title = "Response curve S")
+plot_response(x, y, x_seq, pred, ci_up, ci_low, xlab, ylab, pos_text,
+  label, title = "Response curve S")
 
-plot_predict(x, y_obs, y_pred, ci_up, ci_low, x_train, x_test, zoom, x_range,
-  y_range, xlab, ylab, pos_text, label, title = "Predictive performance")
+plot_predict(x, y_obs, y_pred, ci_up, ci_low, x_train, x_test, zoom,
+  x_range, y_range, xlab, ylab, pos_text, label,
+  title = "Predictive performance")
 
 plot_deriv(press_seq, deriv1, deriv1_ci_low, deriv1_ci_up, zic_start_end,
   zero_in_conf, xlab, ylab, pos_text, label)
