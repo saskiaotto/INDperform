@@ -2,23 +2,25 @@
 #'
 #' Summarizes the scoring output tibble so that IND-specific scores for each
 #' criterion as well as the pressure-specific sub-criteria scores (in crit.
-#' 9 and 10) can be easily compared.
+#' 9 and 10) can be easily compared and used for further score-based IND
+#' performance functions.
 #'
 #' @param scores_tbl The output tibble from the \code{\link{scoring}}
 #'  function.
-#' @param crit_scores The(un)modified criterion-scoring template
+#' @param crit_scores The (un)modified criterion-scoring template
 #'  \code{crit_scores_tmpl}; required to calculate the scores in
 #'  percentage. Has to be the same than used in \code{scoring}. Default
 #'  is the unmodified template \code{crit_scores_tmpl}.
 #'
 #' @return
-#' The function returns a list of 2 data frames
+#' The function returns a list of 3 data frames
 #' \describe{
 #'   \item{\code{overview}}{IND-specific scores and percentages from
 #'         max. score for all criteria (crit 9 and 10 averaged across
 #'         all sign. pressures and the number of significant pressures).}
 #'   \item{\code{subcriteria_per_press}}{IND- and pressure-specific scores for
 #'          all (sub-)criteria and the percentages from max. criterion score.}
+#'   \item{\code{scores_matrix}}{TEXT}
 #' }
 #'
 #' @family score-based IND performance functions
@@ -64,7 +66,9 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
     	 dplyr::select_(.dots = names(scores_tbl)[names(scores_tbl) %in%
         c("ind", "C8", "C11")])
 
-    # Add proportions only to the
+    scores_c811_out3 <- scores_c811
+
+    # Add proportions
     for (i in 2:ncol(scores_c811)) {
       crit_s <- names(scores_c811)[i]
       new_var <- paste0(crit_s, "_in%")
@@ -200,13 +204,84 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   }
 
+
+  # Generate Output Table 3 ---------------------
+  # (Matrix of all (pressure-specific) criteria, uncluding all
+  # tested pressures)
+
+
+  if ("press_spec_sc" %in% names(scores_tbl) == TRUE)
+    {
+
+      # Extract scores of sign. pressures
+      scores_c910 <- scores_tbl %>% dplyr::select_(.dots = c("ind",
+        "press_spec_sc")) %>% tidyr::unnest()
+      # Make data long for calculating total scores per
+      # criterion
+      scores_c910_l <- scores_c910 %>% tidyr::gather_(key_col = "subcrit",
+        value_col = "score", gather_cols = names(scores_c910)[!names(scores_c910) %in%
+          c("ind", "id", "press", "press_type")])
+      # Add the criteria
+      scores_c910_l$crit <- sub("\\_.*", "",
+        scores_c910_l$subcrit)
+
+      # Calculate sum across sub-criteria in C9 and C10
+      scores_c910_sum <- scores_c910_l %>% dplyr::group_by_(.dots = c("ind",
+        "press", "crit")) %>% dplyr::summarise_(.dots = stats::setNames(list(~sum(score)),
+        "score")) %>% dplyr::ungroup(.)  # needed for later operations
+
+      # Add new variable that identifies pressure and
+      # crit
+      scores_c910_sum$press_crit <- paste(scores_c910_sum$press,
+        scores_c910_sum$crit, sep = "_")
+
+      # Make datasets wide for merging with scores_c811
+      scores_c910w <- scores_c910_sum %>% dplyr::select_("ind",
+        "press_crit", "score") %>% tidyr::spread_("press_crit",
+        "score")
+
+    }  # end of if statement for C9/10 scores
+
+
+  # Merging of data depending on criteria included ----
+
+  # If only C8 and/or 11 were scored but NOT C9/10:
+  if (sum(c("C8", "C11") %in% names(scores_tbl)) >
+    0 & "press_spec_sc" %in% names(scores_tbl) ==
+    FALSE) {
+
+    out3 <- as.data.frame(scores_c811_out3)
+    rownames(out3) <- out3$ind
+    out3$ind <- NULL
+
+  } else {
+
+    # If only C9/10 were scored but NOT C8/11:
+    if (sum(c("C8", "C11") %in% names(scores_tbl)) ==
+      0 & "press_spec_sc" %in% names(scores_tbl) ==
+      TRUE) {
+
+      out3 <- as.data.frame(scores_c910w)
+      rownames(out3) <- out3$ind
+      out3$ind <- NULL
+
+    } else {
+
+      # Combine datasets if both exist
+      out3 <- as.data.frame(dplyr::left_join(scores_c811_out3,
+        scores_c910w, by = "ind"))
+      rownames(out3) <- out3$ind
+      out3$ind <- NULL
+
+    }
+  }
+
+
   ### END OF FUNCTION ###
 
-  print_list <- vector("list", length = 2)
-  print_list[[1]] <- out1
-  print_list[[2]] <- out2
-  names(print_list)[1] <- "overview"
-  names(print_list)[2] <- "subcriteria_per_press"
+  print_list <- list(out1, out2, out3)
+  names(print_list) <- c("overview",
+  "subcriteria_per_press", "scores_matrix")
 
   return(print_list)
 }

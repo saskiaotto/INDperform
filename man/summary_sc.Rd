@@ -10,25 +10,27 @@ summary_sc(scores_tbl, crit_scores = INDperform::crit_scores_tmpl)
 \item{scores_tbl}{The output tibble from the \code{\link{scoring}}
 function.}
 
-\item{crit_scores}{The(un)modified criterion-scoring template
+\item{crit_scores}{The (un)modified criterion-scoring template
 \code{crit_scores_tmpl}; required to calculate the scores in
 percentage. Has to be the same than used in \code{scoring}. Default
 is the unmodified template \code{crit_scores_tmpl}.}
 }
 \value{
-The function returns a list of 2 data frames
+The function returns a list of 3 data frames
 \describe{
   \item{\code{overview}}{IND-specific scores and percentages from
         max. score for all criteria (crit 9 and 10 averaged across
         all sign. pressures and the number of significant pressures).}
   \item{\code{subcriteria_per_press}}{IND- and pressure-specific scores for
          all (sub-)criteria and the percentages from max. criterion score.}
+  \item{\code{scores_matrix}}{TEXT}
 }
 }
 \description{
 Summarizes the scoring output tibble so that IND-specific scores for each
 criterion as well as the pressure-specific sub-criteria scores (in crit.
-9 and 10) can be easily compared.
+9 and 10) can be easily compared and used for further score-based IND
+performance functions.
 }
 \examples{
 # Using the Baltic Sea demo data in this package
@@ -38,7 +40,8 @@ summary_sc(scores_tbl)
 }
 \seealso{
 Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}},
+  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
+  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
   \code{\link{plot_spiechart}}, \code{\link{scoring}}
 }
+\concept{score-based IND performance functions}

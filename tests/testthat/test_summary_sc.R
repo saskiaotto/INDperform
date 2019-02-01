@@ -6,13 +6,14 @@ scores_ex <- scoring(model_trend_ex, all_results_ex,
 dat <- summary_sc(scores_ex)
 out1 <- dat[[1]]
 out2 <- dat[[2]]
+out3 <- dat[[3]]
 # prop.variables in list 1 and 2
-prop_list1 <- grep("in%", names(dat[[1]]))
-prop_list2 <- grep("in%", names(dat[[2]]))
+prop_list1 <- grep("in%", names(out1))
+prop_list2 <- grep("in%", names(out2))
 
-nr_press_list2 <- dplyr::count(dat[[2]], ind)
-comp <- merge(dat[[1]][dat[[1]]$nr_sign_press > 0,
-  c("ind", "nr_sign_press")], nr_press_list2, all = TRUE)
+nr_press_list2 <- dplyr::count(out2, ind)
+comp <- merge(out1[out1$nr_sign_press > 0, c("ind",
+  "nr_sign_press")], nr_press_list2, all = TRUE)
 
 is_numeric <- function(x) {
   n <- ncol(x)
@@ -25,7 +26,10 @@ is_numeric <- function(x) {
 
 test_that("test structure of returned list", {
   expect_identical(class(dat), "list")
-  expect_identical(dat[[1]]$ind, unique(scores_ex$ind))
+  expect_identical(class(out1), "data.frame")
+  expect_identical(class(out3), "data.frame")
+  expect_identical(out1$ind, unique(scores_ex$ind))
+  expect_identical(rownames(out3), unique(scores_ex$ind))
   expect_equal(comp$nr_sign_press, comp$n)
 })
 
@@ -45,6 +49,12 @@ test_that("test content of sublist 2", {
   expect_lte(max(out2[, prop_list2]), 100)
 })
 
+test_that("test content of sublist 3", {
+  expect_true(is_numeric(out3))
+  expect_gte(min(out3), 0)
+  expect_gte(max(out3), 6)
+})
+
 test_that("error messages", {
   expect_error(summary_sc(), "Argument scores_tbl is missing")
   expect_error(summary_sc(scores_tbl = as.data.frame(scores_ex)),
@@ -52,5 +62,3 @@ test_that("error messages", {
   expect_error(summary_sc(scores_tbl = scores_ex[,
     -1]), "The following variables required")
 })
-
-x <- as.data.frame(scores_ex)
