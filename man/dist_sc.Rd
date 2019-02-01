@@ -4,12 +4,13 @@
 \alias{dist_sc}
 \title{Score-based distance matrix}
 \usage{
-dist_sc(scores_tbl, method_dist = "euclidean", ...)
+dist_sc(scores_mat, method_dist = "euclidean", ...)
 }
 \arguments{
-\item{scores_tbl}{The output tibble from the scoring.}
+\item{scores_mat}{A data frame or matrix containing the scores. This could be
+the \code{$scores_matrix} output of the \code{\link{summary_sc}} function.}
 
-\item{method_dist}{Dissimilarity index used in the \code{vegdist} function to
+\item{method_dist}{Dissimilarity index used in the \code{vegdist} function
 to calculate the dissimilarity matrix based on the scores.
 Default is `euclidean`, for alternatives see \code{\link[vegan]{vegdist}}.}
 
@@ -26,14 +27,17 @@ tibble (or the output tibble from the \code{\link{expect_resp}} function).
 # Using the Baltic Sea demo data
 scores_tbl <- scoring(trend_tbl = model_trend_ex,
   mod_tbl = all_results_ex, press_type = press_type_ex)
-dist_matrix <- dist_sc(scores_tbl, method_dist = "euclidean")
+scores_mat <- summary_sc(scores_tbl)$scores_matrix
+dist_matrix <- dist_sc(scores_mat, method_dist = "euclidean")
 }
 \seealso{
 \code{\link[vegan]{vegdist}} for the computation of the
 dissimilarity index
 
 Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
+  \code{\link{dist_sc_group}}, \code{\link{expect_resp}},
+  \code{\link{plot_clust_sc}},
   \code{\link{plot_spiechart}}, \code{\link{scoring}},
   \code{\link{summary_sc}}
 }
+\concept{score-based IND performance functions}
