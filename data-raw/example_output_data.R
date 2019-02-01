@@ -32,6 +32,18 @@ boot_deriv_ex <- calc_deriv(init_tbl = ind_init_ex,
 all_results_ex <- test_interaction(init_tbl = ind_init_ex, mod_tbl = boot_deriv_ex,
 	interactions = select_interaction(boot_deriv_ex), excl_outlier = TRUE)
 
+
+# Modify the NRMSE so it is based on the original scale of the untransformed indicator time series:
+# log-transformed: TZA, rCC, Cops, Micro, Sprat, Herring, Stickle, Cod, SPF, LPF
+
+all_results_ex$nrmse <- calc_nrmse(
+	press =  ind_init_ex$press_test,
+	ind = ind_init_ex$ind_test,
+	model = all_results_ex$model,
+ transformation = c(rep("log",7), rep("none",7), rep("log",3*7), rep("none",7), rep("log",6*7))
+)
+
+
 devtools::use_data(model_trend_ex,
 																			ind_init_ex,
 																			model_gam_ex,
