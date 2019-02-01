@@ -96,7 +96,8 @@ Epidemiology} 64, 770-778.
 }
 \seealso{
 Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}}, \code{\link{scoring}},
-  \code{\link{summary_sc}}
+  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
+  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
+  \code{\link{scoring}}, \code{\link{summary_sc}}
 }
+\concept{score-based IND performance functions}

@@ -2,7 +2,7 @@ context("test clust_sc")
 
 scores_ex <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
   press_type = INDperform::press_type_ex)
-dist_ex <- dist_sc(scores_ex, method_dist = "euclidean")
+dist_ex <- dist_sc(summary_sc(scores_ex)[[3]], method_dist = "euclidean")
 dat <- clust_sc(dist_ex, method_clust = "complete")
 
 test_that("test structure of returned object", {
