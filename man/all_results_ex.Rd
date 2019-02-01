@@ -23,7 +23,8 @@
               if your model is worse than a one parameter constant model, and can be
               higher for the smaller of two nested models.}
   \item{\code{expl_dev}}{The proportion of the null deviance explained by the models.}
-  \item{\code{nrmse}}{Absolute values of the Normalized Root Mean Square Error (NRMSE).}
+  \item{\code{nrmse}}{Absolute values of the root mean square error normalized by the
+              standard deviation (NRMSE) and corrected for the prior (log) transformation.}
   \item{\code{ks_test}}{The p-values from a Kolmogorov-Smirnov Test applied on the model
               residuals to test for normal distribution. P-values > 0.05 indicate
               normally distributed residuals.}
@@ -35,10 +36,10 @@
   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
               excluded in the GAM fitting}
   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
-  \item{\code{prop}}{The proportion of the observed pressure range where the IND
+  \item{\code{prop}}{The proportion of the observed pressure range where the
              indicator shows a response (see the last section in \emph{Details})}
   \item{\code{zero_in_conf}}{A list-column of logical vectors indicating for
-             every pressure value (in press_seq) whether the slope of the IND
+             every pressure value (in press_seq) whether the slope of the indicator
              response at that pressure value is within the confidence interval,
              i.e. is zero.}
   \item{\code{zic_start_end}}{A list-column of logical vectors indicating for
