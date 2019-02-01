@@ -50,4 +50,4 @@ Suggests:
     tripack (>= 1.3-8)
 License: GPL
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
