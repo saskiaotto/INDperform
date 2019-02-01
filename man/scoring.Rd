@@ -100,8 +100,8 @@ list-column \code{press_spec_sc} its own row and \code{\link[tidyr]{nest}} for t
 inverse operation
 
 Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}},
+  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
+  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
   \code{\link{plot_spiechart}}, \code{\link{summary_sc}}
 
 Other IND~pressure modeling functions: \code{\link{find_id}},
@@ -110,3 +110,5 @@ Other IND~pressure modeling functions: \code{\link{find_id}},
   \code{\link{plot_model}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }
+\concept{IND~pressure modeling functions}
+\concept{score-based IND performance functions}
