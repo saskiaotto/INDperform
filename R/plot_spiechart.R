@@ -86,6 +86,8 @@
 plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   col_crit8_11 = NULL, lab_size = 6, title_size = 8) {
 
+	#summary_tbl <- summary_tbl[[3]] <- NULL
+
   # Data input validation -----------------------
   if (missing(summary_tbl)) {
     stop("Argument summary_tbl is missing.")
@@ -188,7 +190,7 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
     axis.text.y = ggplot2::element_blank(), axis.text.x = ggplot2::element_blank())
 
   p <- purrr::map2(split_input, summary_tbl[[1]]$ind,
-    ~plot_spie(.x, scale, parting, cat, summary_tbl[[1]],
+    ~ plot_spie(split_input = .x, scale, parting, cat, summary_tbl[[1]],
       ground, n_c8_c11, n_c9_c10, col_crit8_11,
       x_ring1, theme_infog, ind = .y, lab_size = lab_size,
       title_size = title_size))

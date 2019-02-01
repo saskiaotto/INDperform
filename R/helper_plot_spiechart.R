@@ -43,11 +43,19 @@ plot_spie <- function(split_input, scale, parting,
   # ----------------
 
   # Which values from scale are needed
-  take <- suppressMessages(split_input %>% dplyr::group_by_(.dots = "press_type") %>%
-    dplyr::summarise_(.dots = stats::setNames(list(~unique(n_press)),
-      "n_press")) %>% dplyr::left_join(cat, .))
-  # DEN TEIL VERSTEH ICH HIER NICHT:
-  take$n_press[is.na(take$n_press)] <- 0
+
+  if (nrow(split_input) > 0) {
+  	take <- suppressMessages(
+  	split_input %>% dplyr::group_by(!!as.name("press_type")) %>%
+	  	dplyr::summarise(n_press = unique(!!as.name("n_press"))) %>%
+	  	dplyr::left_join(cat, .)
+  	)
+  	take$n_press[is.na(take$n_press)] <- 0
+  } else {
+  	take <- cat
+  	take$n_press <- 0
+  }
+
   x <- vector(mode = "list", length = nrow(take))
   for (i in 1:nrow(take)) {
     x[[i]] <- rep(FALSE, times = take$n[i] - take$n_press[i])
@@ -56,7 +64,6 @@ plot_spie <- function(split_input, scale, parting,
     x[[i]] <- c(x[[i]], rep(FALSE, times = take$n[i] -
       take$n_press[i]))
   }
-  # --------???
 
   take <- unlist(x)
   if (!all(n_c9_c10)) {
@@ -154,7 +161,7 @@ plot_spie <- function(split_input, scale, parting,
 
   # Actual plot -----------------------
 
-  p <- ggplot2::ggplot() + theme_infog +
+  p <-	ggplot2::ggplot() + theme_infog +
   # Create a white background
   ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = ground$x,
     y = ground$y1), fill = "white") + # Create the outer ring
@@ -186,5 +193,5 @@ plot_spie <- function(split_input, scale, parting,
   ggplot2::geom_text(ggplot2::aes_(x = x_ring1[1],
     y = 150, label = ind), size = title_size, na.rm = TRUE)
 
-  return(p)
+ return(p)
 }
