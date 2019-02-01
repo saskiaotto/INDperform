@@ -47,7 +47,8 @@ the data.frame(), including the following elements:
               if your model is worse than a one parameter constant model, and can be
               higher for the smaller of two nested models.}
   \item{\code{expl_dev}}{The proportion of the null deviance explained by the models.}
-  \item{\code{nrmse}}{Absolute values of the Normalized Root Mean Square Error (NRMSE).}
+  \item{\code{nrmse}}{Absolute values of the root mean square error normalized by the
+              standard deviation (NRMSE).}
   \item{\code{ks_test}}{The p-values from a Kolmogorov-Smirnov Test applied on the model
               residuals to test for normal distribution. P-values > 0.05 indicate
               normally distributed residuals.}
@@ -138,3 +139,4 @@ Other IND~pressure modeling functions: \code{\link{find_id}},
   \code{\link{scoring}}, \code{\link{select_model}},
   \code{\link{test_interaction}}
 }
+\concept{IND~pressure modeling functions}

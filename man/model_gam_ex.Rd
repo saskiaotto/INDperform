@@ -23,7 +23,8 @@
               if your model is worse than a one parameter constant model, and can be
               higher for the smaller of two nested models.}
   \item{\code{expl_dev}}{The proportion of the null deviance explained by the models.}
-  \item{\code{nrmse}}{Absolute values of the Normalized Root Mean Square Error (NRMSE).}
+  \item{\code{nrmse}}{Absolute values of the root mean square error normalized by the
+              standard deviation (NRMSE) using no back-transformation.}
   \item{\code{ks_test}}{The p-values from a Kolmogorov-Smirnov Test applied on the model
               residuals to test for normal distribution. P-values > 0.05 indicate
               normally distributed residuals.}

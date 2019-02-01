@@ -83,7 +83,6 @@
 #' gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
 model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   excl_outlier = NULL, filter = NULL) {
-  # init_tbl = dat_init
 
   # Data input validation ---------------------
   if (missing(init_tbl)) {
@@ -301,8 +300,9 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
     # Calculate nrmse using external helper function
     dummy <- dplyr::left_join(gamm_tab, init_tbl,
       by = c("press", "ind", "id"))
-    gamm_tab$nrmse <- calc_nrmse(pred = calc_pred(model_list = dummy$model,
-      obs_press = dummy$press_test)$pred, obs_ind = dummy$ind_test)
+    gamm_tab$nrmse <- calc_nrmse(
+    	press = dummy$press_test, ind = dummy$ind_test,
+    	model = dummy$model)
 
     # Get residuals (cannot handle NAs, hence use of
     # possibly())

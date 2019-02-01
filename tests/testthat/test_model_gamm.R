@@ -47,16 +47,18 @@ edf <- get_sum_output(summary, "edf")
 p_val <- get_sum_output(summary, "s.table", cell = 4)
 signif_code <- get_signif_code(p_val)
 r_sq <- get_sum_output(summary, "r.sq")
-nrmse <- calc_nrmse(calc_pred(model, list(p_test, p_test,
-  p_test, p_test, p_test, p_test))$pred, list(i_test,
-  i_test, i_test, i_test, i_test, i_test))
+nrmse <- calc_nrmse(press = list(p_test, p_test,
+  p_test, p_test, p_test, p_test),
+	ind = list(i_test,
+  i_test, i_test, i_test, i_test, i_test),
+	model = model)
 res <- purrr::map(model, ~mgcv::residuals.gam(.$gam))
 res_tac <- purrr::map(model, ~residuals(.$lme, type = "normalized"))
 ks_test <- unlist(lapply(res, FUN = function(x) round(stats::ks.test(x,
   "pnorm", mean(x), sd(x))$p.value, 4)))
 tac <- unlist(lapply(res_tac, FUN = function(x) test_tac(list(x))$tac))
 
-summary(model)
+#summary(model)
 # -------------------------
 
 test_that("compare manual results", {

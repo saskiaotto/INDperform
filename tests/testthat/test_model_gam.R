@@ -14,8 +14,8 @@ edf <- get_sum_output(list(summary), "edf")
 p_val <- get_sum_output(list(summary), "s.table", cell = 4)
 sig_code <- get_signif_code(p_val)
 r_sq <- get_sum_output(list(summary), "r.sq")
-nrmse <- calc_nrmse(calc_pred(list(model), list(ind_init_ex$press_test[[71]]))$pred,
-  list(ind_init_ex$ind_test[[71]]))
+nrmse <- calc_nrmse(ind_init_ex$press_test[71],
+  ind_init_ex$ind_test[71], dat$model[71])
 res <- mgcv::residuals.gam(model, type = "deviance")
 ks_test <- round(stats::ks.test(res, "pnorm", mean(res),
   sd(res))$p.value, 4)

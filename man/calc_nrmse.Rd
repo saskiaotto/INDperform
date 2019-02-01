@@ -2,35 +2,79 @@
 % Please edit documentation in R/calc_nrmse.R
 \name{calc_nrmse}
 \alias{calc_nrmse}
-\title{Calculates the Normalized Root Mean Square Error (NRMSE) as absolute value.}
+\title{Calculates the Normalized Root Mean Square Error (NRMSE) for a list of models}
 \usage{
-calc_nrmse(pred, obs_ind)
+calc_nrmse(press, ind, model, method = "sd", transformation = "none",
+  trans_function = "none")
 }
 \arguments{
-\item{pred}{A list of vectors with predicted values.}
+\item{press}{A list of vectors containing the pressure values.}
 
-\item{obs_ind}{A list of vectors with observed values.}
+\item{ind}{A list of with vectors containing the indicator values.}
+
+\item{model}{A list containing the models.}
+
+\item{method}{A character string or vector of the same length as the model list
+indicating the value(s) to be used for the normalization of the RMSE. The default is
+the standard deviation, alternative methods are the \code{"mean"},
+\code{"maxmin"} (difference between the maximum and minimum observed values) or \code{"iq"}
+(interquartile) (see also \code{\link{nrmse}}).}
+
+\item{transformation}{A character string or vector of the same length as the model list
+indicating the type of transformation applied to the observations
+prior to the analysis. Choose one of the following: \code{"none"} (default), \code{"sqrt"},
+\code{"4thrt"} (fourth root), \code{"log"} (natural logarithm),
+\code{"log10"} (common, i.e. base 10, logarithm),
+\code{"log2"} (binary logarithm), \code{"log1p"} (i.e. log(1+x)),
+\code{"arcsine"} (if data is proportional, NOT percentage) or \code{"other"}.}
+
+\item{trans_function}{If \code{transformation} is set to "\code{"other"} for some or all models,
+the function for the back-transformation needs to be defined here as single character string
+(applied to all models ) or as character vector (with one string per model).
+If no special transformation was applied use default setting \code{"none"}.}
 }
 \value{
 The function returns a numerical vector of the same length then the
-input lists, with one NRMSE value for each GAM(M).
+input lists, with one NRMSE value for each model.
+
+NOTE: If NA is returned for some models it means that either no model is available or that
+not enough observations with both indicator and pressure values are available
+(minimum of 2 required).
 }
 \description{
-\code{calc_nrmse} is a helper function for \code{\link{model_gam}} and
-\code{\link{model_gamm}} and calculates the NRMSE from the test data.
-The test MSE and test RMSE are commonly used tools for measuring the quality of
-the model fit on previously unseen data. The normalization to the mean of
-the observed test data allows for comparisons and a general scoring of the
-model robustness across INDs with different scales or units. The absolute
-values are needed for the \code{\link{scoring}} function.
+\code{calc_nrmse} is a wrapper function that applies the \code{\link{nrmse}} function to a
+list of models given the input indicator and pressure observations. The function calculates
+first the predicted values for each model, which are then used for the NRMSE
+computation. The normalization method and transformation types required for
+\code{\link{nrmse}} can be set for all models the same or individually.
+}
+\details{
+This wrapper function is used within the \code{\link{model_gam}} and
+\code{\link{model_gamm}} functions with the default \code{"sd"} method and no transformation.
+If another normalization is required or indicators where standardized prior to the analysis,
+this wrapper function should be applied to the final model output tibble to compute
+NRMSE that are based on the original indicator scale (advides for cross-indicator
+comparisons).
+
+The more common transformation types applied to the indicator can be simply specified in the
+\code{transformation} argument, which will invoke the respective back-transformation of the
+observed and predicted indicator values before the NRMSE calculation. Any other transformation
+applied should be indicated with  \code{transformation = "other"} and the respective
+back-transformation (simply the inverse of the original transformation)
+specified under \code{trans_function}, e.g. e.g. "5^x" if observations log(x, base = 5)
+transformed or "exp(x) - 0.001" if observations log(x + 0.001) transformed.
+
+Missing values in obs and pred are removed before the computation proceeds, and
+only those positions with non-missing values in both pred and obs are considered in the
+computation.
 }
 \examples{
-# Using the Baltic Sea demo data
-data <- dplyr::left_join(model_gam_ex, ind_init_ex)
-pred <- calc_pred(data$model, data$press_test)
-x <- calc_nrmse(pred = pred$pred, obs_ind = data$ind_test)
+# Calculate NRMSE for the indicators TZA (~Fcod), which was let's say
+# log(x+ 0.001)-transformed, and MS (~TSum), which was not transformed:
+calc_nrmse(press = ind_init_ex$press_test[7:8], ind = ind_init_ex$ind_test[7:8],
+model = model_gam_ex$model[7:8], method = "sd", transformation = c("other", "none"),
+trans_function = c("exp(x) - 0.001", "none") )
 }
 \seealso{
-\code{\link{model_gam}} and \code{\link{model_gamm}}
+\code{\link{nrmse}}, \code{\link{model_gam}} and \code{\link{model_gamm}}
 }
-\keyword{internal}

@@ -73,7 +73,8 @@
 #'               if your model is worse than a one parameter constant model, and can be
 #'               higher for the smaller of two nested models.}
 #'   \item{\code{expl_dev}}{The proportion of the null deviance explained by the models.}
-#'   \item{\code{nrmse}}{Absolute values of the Normalized Root Mean Square Error (NRMSE).}
+#'   \item{\code{nrmse}}{Absolute values of the root mean square error normalized by the
+#'               standard deviation (NRMSE).}
 #'   \item{\code{ks_test}}{The p-values from a Kolmogorov-Smirnov Test applied on the model
 #'               residuals to test for normal distribution. P-values > 0.05 indicate
 #'               normally distributed residuals.}
@@ -226,9 +227,9 @@ model_gam <- function(init_tbl, k = 5, family = stats::gaussian(),
       NA_real_))
 
     # Calculate nrmse using external helper function
-    gam_tab$nrmse <- calc_nrmse(pred = calc_pred(model_list = gam_tab$model,
-      obs_press = init_tbl$press_test)$pred,
-      obs_ind = init_tbl$ind_test)
+    gam_tab$nrmse <- calc_nrmse(
+    	press = init_tbl$press_test, ind = init_tbl$ind_test,
+    	model = gam_tab$model)
 
     # Get residuals (cannot handle NAs, hence use of
     # possibly())
