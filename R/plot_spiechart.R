@@ -86,8 +86,6 @@
 plot_spiechart <- function(summary_tbl, col_press_type = NULL,
   col_crit8_11 = NULL, lab_size = 6, title_size = 8) {
 
-	#summary_tbl <- summary_tbl[[3]] <- NULL
-
   # Data input validation -----------------------
   if (missing(summary_tbl)) {
     stop("Argument summary_tbl is missing.")
