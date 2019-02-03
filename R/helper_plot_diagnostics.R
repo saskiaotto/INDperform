@@ -37,7 +37,7 @@ plot_cook <- function(values) {
 #' @rdname plot_outline
 # Autocorrelation function plot
 plot_acf <- function(x_var, y_var) {
-  p <- ggplot2::ggplot(data = NULL, ggplot2::aes_(x = x_var,
+  p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = x_var,
     y_var)) + ggplot2::geom_bar(stat = "identity",
     width = 0.1) + ggplot2::geom_abline(intercept = 0,
     slope = 0) + ggplot2::geom_abline(intercept = 0.4,
@@ -53,7 +53,7 @@ plot_acf <- function(x_var, y_var) {
 #' @rdname plot_outline
 # Partial acf plot
 plot_pacf <- function(x_var, y_var, acf_lag) {
-  p <- ggplot2::ggplot(data = NULL, ggplot2::aes_(x = x_var,
+  p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = x_var,
     y_var)) + ggplot2::geom_bar(stat = "identity",
     width = 0.1) + ggplot2::geom_abline(intercept = 0,
     slope = 0) + ggplot2::geom_abline(intercept = 0.4,
@@ -68,7 +68,7 @@ plot_pacf <- function(x_var, y_var, acf_lag) {
 #' @rdname plot_outline
 # Plot residuals vs fitted values
 plot_resid <- function(model_fitted, model_resid) {
-  p <- ggplot2::ggplot(data = NULL, ggplot2::aes_(x = model_fitted,
+  p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = model_fitted,
     y = model_resid)) + ggplot2::geom_point() +
     ggplot2::geom_abline(intercept = 0, slope = 0) +
     ggplot2::labs(x = "Fitted values", y = "Residuals") +
@@ -85,7 +85,7 @@ plot_qq <- function(model_resid, theo_quan) {
   if (is.null(theo_quan)) {
     theo_quan <- 0
   }
-  p <- ggplot2::ggplot(data = NULL, ggplot2::aes_(x = theo_quan,
+  p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = theo_quan,
     y = sort(model_resid, na.last = TRUE))) + ggplot2::geom_point() +
     ggplot2::geom_smooth(method = "lm", se = FALSE) +
     ggplot2::labs(x = "Theoretical Quantiles",
@@ -97,7 +97,7 @@ plot_qq <- function(model_resid, theo_quan) {
 # GCVV plot for threshold models
 plot_gcvv <- function(x_var, y_var, lab, best_t_val) {
   if (!is.null(x_var)) {
-    p <- ggplot2::ggplot(data = NULL, ggplot2::aes_(x = x_var,
+    p <- ggplot2::ggplot(data = NULL, ggplot2::aes(x = x_var,
       y = y_var)) + ggplot2::geom_line() + ggplot2::geom_vline(xintercept = best_t_val,
       colour = "red") + ggplot2::labs(x = all.vars(lab$formula)[3],
       y = "GCVV") + plot_outline()

@@ -161,36 +161,39 @@ plot_spie <- function(split_input, scale, parting,
 
   # Actual plot -----------------------
 
+  x_plot <- ground$x
+  y_plot <- ground$y
+
   p <-	ggplot2::ggplot() + theme_infog +
   # Create a white background
-  ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = ground$x,
-    y = ground$y1), fill = "white") + # Create the outer ring
-  ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = x_ring1,
+  ggplot2::geom_polygon(data = NULL, ggplot2::aes(x = x_plot,
+    y = y_plot), fill = "white") + # Create the outer ring
+  ggplot2::geom_polygon(data = NULL, ggplot2::aes(x = x_ring1,
     y = c(120, 120, 130, 130)), fill = "grey30") +
-    ggplot2::geom_polygon(data = NULL, ggplot2::aes_(x = x_ring2,
+    ggplot2::geom_polygon(data = NULL, ggplot2::aes(x = x_ring2,
       y = c(120, 120, 130, 130)), fill = "grey60") +
     # Make the barplot to a spie chart
   ggplot2::coord_polar() + # Create the white borders between the categories
-  ggplot2::geom_segment(ggplot2::aes_(x = border,
+  ggplot2::geom_segment(ggplot2::aes(x = border,
     xend = border, y = 120, yend = 140), colour = "white",
-    data = NULL, cex = 2) + ggplot2::geom_segment(ggplot2::aes_(x = border,
+    data = NULL, cex = 2) + ggplot2::geom_segment(ggplot2::aes(x = border,
     xend = border, y = 0, yend = 100), colour = "grey60",
     data = NULL, linetype = 2) +
   # Plot the pressure specific data
-  ggplot2::geom_bar(data = NULL, ggplot2::aes_(x = x_bar_press,
+  ggplot2::geom_bar(data = NULL, ggplot2::aes(x = x_bar_press,
     y = y_bar_press), stat = "identity", width = parting,
     fill = col_slice, alpha = alpha, col = "grey30",
     na.rm = TRUE) + # Plot the pressure-unspecific data
-  ggplot2::geom_bar(data = NULL, ggplot2::aes_(x = x_bar_ind,
+  ggplot2::geom_bar(data = NULL, ggplot2::aes(x = x_bar_ind,
     y = y_bar_ind), stat = "identity", width = parting_ind,
     fill = col_crit8_11, col = edge, na.rm = TRUE) +
     # Add 100% line
   ggplot2::geom_abline(intercept = 100, slope = 0,
     linetype = 1, col = "grey60") + # Add labels for sig pressures
-  ggplot2::geom_text(ggplot2::aes_(x = x_lab, y = 100,
+  ggplot2::geom_text(ggplot2::aes(x = x_lab, y = 100,
     label = lab), size = lab_size, na.rm = TRUE) +
     # Add title
-  ggplot2::geom_text(ggplot2::aes_(x = x_ring1[1],
+  ggplot2::geom_text(ggplot2::aes(x = x_ring1[1],
     y = 150, label = ind), size = title_size, na.rm = TRUE)
 
  return(p)
