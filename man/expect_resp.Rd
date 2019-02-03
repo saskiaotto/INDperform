@@ -45,9 +45,9 @@ of the expectation scores.
  scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
    press_type = press_type_ex)
  # Then run the expect_resp() shiny function to correct one criterion
- scores_tbl <- expect_resp(all_results_ex, scores_tbl)
+ #scores_tbl <- expect_resp(all_results_ex, scores_tbl)
  # Check if it worked:
- expect_resp(all_results_ex, scores_tbl)
+ #expect_resp(all_results_ex, scores_tbl)
 }
 }
 \seealso{
