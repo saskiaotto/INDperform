@@ -443,7 +443,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     "press_train", "time_train", "ind_test", "press_test",
     "time_test", "train_na", "delta", "xp", "xm",
     "dfF", "values", "resid", "arma_list", "boot_tbl")]
-  out <- dat %>% dplyr::select_(.dots = incl_var)
+  out <- dat[ ,incl_var]
 
 
   # Warning if some models were not fitted

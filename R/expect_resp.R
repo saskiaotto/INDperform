@@ -39,9 +39,9 @@
 #'  scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
 #'    press_type = press_type_ex)
 #'  # Then run the expect_resp() shiny function to correct one criterion
-#'  scores_tbl <- expect_resp(all_results_ex, scores_tbl)
+#'  #scores_tbl <- expect_resp(all_results_ex, scores_tbl)
 #'  # Check if it worked:
-#'  expect_resp(all_results_ex, scores_tbl)
+#'  #expect_resp(all_results_ex, scores_tbl)
 #' }
 expect_resp <- function(mod_tbl, scores_tbl,
 	 crit_scores = INDperform::crit_scores_tmpl) {
@@ -67,7 +67,9 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
 		# Check if subcrit 10_1 exists in the crit_scores table, if TRUE continue
 		names_press_spec_sp <- scores_tbl %>%
-			dplyr::select_("press_spec_sc") %>% tidyr::unnest() %>% names(.)
+			dplyr::select(!!rlang::sym("press_spec_sc")) %>%
+			tidyr::unnest() %>%
+			names(.)
 		if("C10_1" %in% names_press_spec_sp == FALSE) {
 			 stop("There is no scored subcriterion 10_1 in your scoring output table, which can be modified. You need to include it in the scoring function")
 		}
@@ -77,14 +79,16 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 crit_scores$weighted_score <- crit_scores$score * crit_scores$weight
 
 	 # Create model output table
+	 vars <- rlang::syms(c("ind", "press_spec_sc") )
 	 scores_tbl_press <- scores_tbl %>%
-		 dplyr::select_(.dots = c("ind", "press_spec_sc")) %>%
+		 dplyr::select(!!!vars) %>%
 		 tidyr::unnest()
 
-	 dat <-		scores_tbl_press %>%
-		 dplyr::filter(rowSums(dplyr::select_(.,
-			 .dots = c("-ind","-press", "-id", "-press_type"))) > 0) %>%
-		 dplyr::select_(.dots = c("id", "ind", "press", "C10_1"))
+	 vars <- names(scores_tbl_press)[!names(scores_tbl_press) %in%
+	 		c("ind", "press", "id", "press_type")]
+	 keep_in <- rowSums(scores_tbl_press[, vars]) > 0
+	 dat <- scores_tbl_press[keep_in, c("id", "ind", "press", "C10_1")]
+
 
 	 # Convert score into factor showing only type
 	 # (for table displayed in the shiny app)
@@ -93,20 +97,19 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		 labels = crit_scores$score_explanation[crit_scores$subcrit == "C10_1"])
 
 	 # Select few variables only for table displayed
-	 dat <- dplyr::select_(dat,
-		 .dots = c("id", "ind", "press", "response_as_expected") )
+	 dat <- dat[ ,c("id", "ind", "press", "response_as_expected")]
 
 	 # Convert to dataframe otherwise rhandsontable has problems
 	 # showing all factor levels
 	 dat <- as.data.frame(dat)
-	 dat <- dplyr::arrange_(dat, .dots="id")
+	 dat <- dplyr::arrange(dat, !!rlang::sym("id"))
 
 	 # Generate rhandsontable including the figures ------------
 
 	 # Split first the model data based on whether the pressure effect
 	 # was considered in the scoring (i.e. same rows as in dats)
 	 mod_tbl_split <- mod_tbl[mod_tbl$id %in% dat$id, ] %>%
-	 	dplyr::arrange_(.dots="id")
+	 	dplyr::arrange(!!rlang::sym("id"))
 
 	 # return error message if mod_tbl_split is empty (no sign. IND~press)
 	 if (nrow(mod_tbl_split) == 0) {
@@ -208,7 +211,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		### Modify the edited table
 		edited_tbl$C10_1 <- as.numeric(edited_tbl$response_as_expected) - 1
 		  # (need to substract 1 as no zero factor level)
-  edited_tbl <- dplyr::select_(edited_tbl, .dots = "-response")
+  edited_tbl$response <- NULL
 
   # Replace the old C10_1 values by the new ones (for the sign.
   # pressures)
@@ -222,13 +225,12 @@ expect_resp <- function(mod_tbl, scores_tbl,
 
 		# Convert data into the original nested tibble for return
 		pre_out <- pre_out %>%
-			dplyr::group_by_("ind") %>%
+			dplyr::group_by(!!rlang::sym("ind")) %>%
 			tidyr::nest(.key = "press_spec_sc")
 
 		# Merge back into the old
-  out <- scores_tbl %>%
-			dplyr::select_(.dots = "-press_spec_sc") %>%
-			dplyr::left_join(pre_out, by = "ind")
+  scores_tbl$press_spec_sc <- NULL
+  out <-	dplyr::left_join(scores_tbl, pre_out, by = "ind")
 
 
   ### END OF FUNCTION

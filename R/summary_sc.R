@@ -35,36 +35,34 @@
 summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   # Data input validation -----------------------
-	if (missing(scores_tbl)) {
-	 	stop("Argument scores_tbl is missing.")
-	 }
+  if (missing(scores_tbl)) {
+    stop("Argument scores_tbl is missing.")
+  }
   # Check input tibble
   scores_tbl <- check_input_tbl(scores_tbl, tbl_name = "scores_tbl",
-    parent_func = "scoring()", var_to_check = c("ind"),
-    dt_to_check = c("character"))
+    parent_func = "scoring()", var_to_check = c("ind"), dt_to_check = c("character"))
 
   # Data preparation -------------------
 
   # Get weighted scores for calculating total scores
-  crit_scores$weighted_score <- crit_scores$score *
-    crit_scores$weight
+  crit_scores$weighted_score <- crit_scores$score * crit_scores$weight
 
   # Get total scores per criterion
-  total_sc <- crit_scores %>% dplyr::group_by_(.dots = c("crit",
-    "subcrit")) %>% dplyr::summarise_(.dots = stats::setNames(list(~max(score)),
-    "max_score")) %>% dplyr::group_by_(.dots = "crit") %>%
-    dplyr::summarise_(.dots = stats::setNames(list(~sum(max_score)),
-      "total_score"))
+  vars <- rlang::syms(c("crit", "subcrit"))
+  total_sc <- crit_scores %>%
+  	dplyr::group_by(!!!vars) %>%
+   dplyr::summarise(max_score = max(!!rlang::sym("score"))) %>%
+   dplyr::group_by(!!rlang::sym("crit")) %>%
+  	dplyr::summarise(total_score = sum(!!rlang::sym("max_score")))
 
-  # Separate data into general and pressure-specific
-  # scores (here only significant pressures) but
-  # check first if criteria are present in scoring
-  # tibble
 
+  # Separate data into general and pressure-specific scores
+  # (here only significant pressures) but check first if
+  # criteria are present in scoring tibble
+  vars <- names(scores_tbl)[names(scores_tbl) %in% c("ind",
+    "C8", "C11")]
   if (sum(c("C8", "C11") %in% names(scores_tbl)) > 0) {
-    scores_c811 <- scores_tbl %>%
-    	 dplyr::select_(.dots = names(scores_tbl)[names(scores_tbl) %in%
-        c("ind", "C8", "C11")])
+    scores_c811 <- scores_tbl[, vars]
 
     scores_c811_out3 <- scores_c811
 
@@ -72,37 +70,38 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
     for (i in 2:ncol(scores_c811)) {
       crit_s <- names(scores_c811)[i]
       new_var <- paste0(crit_s, "_in%")
-      tsc <- total_sc$total_score[total_sc$crit ==
-        crit_s]
-      scores_c811[, new_var] <- round(scores_c811[,
-        i]/tsc * 100, 0)
+      tsc <- total_sc$total_score[total_sc$crit == crit_s]
+      scores_c811[, new_var] <- round(scores_c811[, i]/tsc *
+        100, 0)
     }
 
   }
 
   if ("press_spec_sc" %in% names(scores_tbl) == TRUE) {
     # Extract scores of sign.pressures
-    scores_c910 <- scores_tbl %>% dplyr::select_(.dots = c("ind",
-      "press_spec_sc")) %>% tidyr::unnest() %>%
-      dplyr::filter(rowSums(dplyr::select_(.,
-        .dots = c("-ind", "-press", "-id",
-          "-press_type"))) > 0)
+    scores_c910 <- scores_tbl %>%
+    	dplyr::select(!!!rlang::syms(c("ind","press_spec_sc"))) %>%
+    	tidyr::unnest()
+    vars <- names(scores_c910)[!names(scores_c910) %in% c("ind",
+      "press", "id", "press_type")]
+    keep_in <- rowSums(scores_c910[, vars]) > 0
+    scores_c910 <- scores_c910[keep_in, ]
+
     # Make data long for the aggregation in output 1
-    scores_c910_l <- scores_c910 %>% tidyr::gather_(key_col = "subcrit",
-      value_col = "score", gather_cols = names(scores_c910)[!names(scores_c910) %in%
-        c("ind", "id", "press", "press_type")])
+    vars <- rlang::syms(vars)
+    scores_c910_l <- scores_c910 %>%
+    	tidyr::gather(key = "subcrit", value = "score", !!!vars)
     # Add the criteria
     scores_c910_l$crit <- sub("\\_.*", "", scores_c910_l$subcrit)
   }
 
-  # Generate Output Table 1
-  # --------------------------------- (Overview table
-  # where C9 and C10 are averaged across sign. press)
+  # Generate Output Table 1 ---------------------------------
+  # (Overview table where C9 and C10 are averaged across sign.
+  # press)
 
   ### If only C8 and/or 11 were scored but NOT C9/10:
-  if (sum(c("C8", "C11") %in% names(scores_tbl)) >
-    0 & "press_spec_sc" %in% names(scores_tbl) ==
-    FALSE) {
+  if (sum(c("C8", "C11") %in% names(scores_tbl)) > 0 & "press_spec_sc" %in%
+    names(scores_tbl) == FALSE) {
 
     # Returned output
     print_list <- vector("list", length = 1)
@@ -111,52 +110,57 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   } else {
 
-    # Calculate sum across sub-criteria in C9 and C10
-    # and return to wide format (long format simply to
-    # avoid if statements for checking for crit
-    # presence)
-    scores_c910_sum <- scores_c910_l %>% dplyr::group_by_(.dots = c("ind",
-      "press", "crit")) %>% dplyr::summarise_(.dots = stats::setNames(list(~sum(score)),
-      "sum_score")) %>% tidyr::spread_("crit",
-      "sum_score")
+    # Calculate sum across sub-criteria in C9 and C10 and return
+    # to wide format (long format simply to avoid if statements
+    # for checking for crit presence)
+    vars <- rlang::syms(c("ind", "press", "crit"))
+    scores_c910_sum <- scores_c910_l %>%
+    	 dplyr::group_by(!!!vars) %>%
+      dplyr::summarise(sum_score = sum(!!rlang::sym("score"))) %>%
+      tidyr::spread(!!rlang::sym("crit"), !!rlang::sym("sum_score"))
 
-    # Calculate number of sign. pressures and mean
-    # across sign.pressures for C9/C10
-    scores_c910_mean <- scores_c910_sum %>% dplyr::group_by_(.dots = "ind") %>%
-      dplyr::summarise_(.dots = stats::setNames(list(~dplyr::n_distinct(press),
-        ~round(sum(C9)/nr_sign_press, 1), ~round(sum(C10)/nr_sign_press,
-          1)), c("nr_sign_press", "C9", "C10")))  # quite tricky to calculate several variables in the SE summarise version!
+
+    # Calculate number of sign. pressures and mean across
+    # sign.pressures for C9/C10
+    scores_c910_mean <- scores_c910_sum %>%
+    	 dplyr::group_by(!!rlang::sym("ind")) %>%
+      dplyr::summarise(
+      	nr_sign_press = dplyr::n_distinct(!!rlang::sym("press")),
+        C9 = round(sum(!!rlang::sym("C9"))/(!!rlang::sym("nr_sign_press")),
+          1),
+      	C10 = round(sum(!!rlang::sym("C10"))/(!!rlang::sym("nr_sign_press")),
+          1)
+      	)
+
 
     # Add proportions of total scores
     for (i in 3:ncol(scores_c910_mean)) {
       crit_s <- names(scores_c910_mean)[i]
       new_var <- paste0(crit_s, "_in%")
-      tsc <- total_sc$total_score[total_sc$crit ==
-        crit_s]
+      tsc <- total_sc$total_score[total_sc$crit == crit_s]
       scores_c910_mean[, new_var] <- round(scores_c910_mean[,
         i]/tsc * 100, 0)
     }
 
 
     ### If only C9/10 were scored but NOT C8/11:
-    if (sum(c("C8", "C11") %in% names(scores_tbl)) ==
-      0 & "press_spec_sc" %in% names(scores_tbl) ==
-      TRUE) {
+    if (sum(c("C8", "C11") %in% names(scores_tbl)) == 0 &
+      "press_spec_sc" %in% names(scores_tbl) == TRUE) {
 
-      # return list with scores_c910_mean as first output
-      # list
+      # return list with scores_c910_mean as first output list
       out1 <- as.data.frame(scores_c910_mean)
 
     } else {
 
       ### Combine datasets if both exist
-      score_overview <- dplyr::left_join(scores_c811,
-        scores_c910_mean, by = "ind")
-      score_overview <- score_overview %>% dplyr::select_(~c(ind,
-        nr_sign_press, dplyr::everything()))
+      score_overview <- dplyr::left_join(scores_c811, scores_c910_mean,
+        by = "ind")
+      score_overview <- score_overview %>%
+      	dplyr::select(!!rlang::sym("ind"),
+        !!rlang::sym("nr_sign_press"), dplyr::everything())
 
-      # Convert NAs in nr_sign_press, C9, and C10 (due to
-      # lack of pressure responses) to zero
+      # Convert NAs in nr_sign_press, C9, and C10 (due to lack of
+      # pressure responses) to zero
       score_overview[is.na(score_overview)] <- 0
 
       # Order variables
@@ -179,17 +183,17 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
 
   if ("press_spec_sc" %in% names(scores_tbl) == TRUE) {
 
-    out2 <- dplyr::select_(scores_c910, "-id")
+    out2 <- scores_c910
+    out2$id <- NULL
 
-    ### Merge the total scores across sub-criteria from
-    ### calculation in output1, including the proportion
+    ### Merge the total scores across sub-criteria from calculation
+    ### in output1, including the proportion
 
     # Add proportions of total scores
     for (i in 3:ncol(scores_c910_sum)) {
       crit_s <- names(scores_c910_sum)[i]
       new_var <- paste0(crit_s, "_in%")
-      tsc <- total_sc$total_score[total_sc$crit ==
-        crit_s]
+      tsc <- total_sc$total_score[total_sc$crit == crit_s]
       scores_c910_sum[, new_var] <- round(scores_c910_sum[,
         i]/tsc * 100, 0)
     }
@@ -199,46 +203,54 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
       paste0(unique(scores_c910_l$crit), "_in%"))
     scores_c910_sum <- scores_c910_sum[, order_var]
 
-    out2 <- as.data.frame(dplyr::left_join(out2,
-      scores_c910_sum, by = c("ind", "press")))
+    out2 <- as.data.frame(dplyr::left_join(out2, scores_c910_sum,
+      by = c("ind", "press")))
 
   }
 
 
-  # Generate Output Table 3 ---------------------
-  # (Matrix of all (pressure-specific) criteria, uncluding all
-  # tested pressures)
+  # Generate Output Table 3 --------------------- (Matrix of
+  # all (pressure-specific) criteria, uncluding all tested
+  # pressures)
 
 
   if ("press_spec_sc" %in% names(scores_tbl) == TRUE)
     {
 
       # Extract scores of sign. pressures
-      scores_c910 <- scores_tbl %>% dplyr::select_(.dots = c("ind",
-        "press_spec_sc")) %>% tidyr::unnest()
-      # Make data long for calculating total scores per
-      # criterion
-      scores_c910_l <- scores_c910 %>% tidyr::gather_(key_col = "subcrit",
-        value_col = "score", gather_cols = names(scores_c910)[!names(scores_c910) %in%
-          c("ind", "id", "press", "press_type")])
+      vars <- rlang::syms(c("ind", "press_spec_sc"))
+      scores_c910 <- scores_tbl %>%
+      	dplyr::select(!!!vars) %>%
+        tidyr::unnest()
+      # Make data long for calculating total scores per criterion
+      vars <- rlang::syms(names(scores_c910)[!names(scores_c910) %in%
+        c("ind", "id", "press", "press_type")])
+      scores_c910_l <- scores_c910 %>%
+      	tidyr::gather(key = "subcrit", value = "score", !!!vars)
       # Add the criteria
-      scores_c910_l$crit <- sub("\\_.*", "",
-        scores_c910_l$subcrit)
+      scores_c910_l$crit <- sub("\\_.*", "", scores_c910_l$subcrit)
 
       # Calculate sum across sub-criteria in C9 and C10
-      scores_c910_sum <- scores_c910_l %>% dplyr::group_by_(.dots = c("ind",
-        "press", "crit")) %>% dplyr::summarise_(.dots = stats::setNames(list(~sum(score)),
-        "score")) %>% dplyr::ungroup(.)  # needed for later operations
+      # scores_c910_sum <- scores_c910_l %>% dplyr::group_by_(.dots
+      # = c('ind', 'press', 'crit')) %>% dplyr::summarise_(.dots =
+      # stats::setNames(list(~sum(score)), 'score')) %>%
+      # dplyr::ungroup(.)  # needed for later operations
+      vars <- rlang::syms(c("ind", "press", "crit"))
+      scores_c910_sum <- scores_c910_l %>%
+      	dplyr::group_by(!!!vars) %>%
+      	dplyr::summarise(score = sum(!!rlang::sym("score"))) %>%
+      	dplyr::ungroup(.)  # needed for later operations
 
-      # Add new variable that identifies pressure and
-      # crit
+
+      # Add new variable that identifies pressure and crit
       scores_c910_sum$press_crit <- paste(scores_c910_sum$press,
         scores_c910_sum$crit, sep = "_")
 
       # Make datasets wide for merging with scores_c811
-      scores_c910w <- scores_c910_sum %>% dplyr::select_("ind",
-        "press_crit", "score") %>% tidyr::spread_("press_crit",
-        "score")
+      vars <- rlang::syms(c("ind", "press_crit", "score"))
+      scores_c910w <- scores_c910_sum %>%
+      	dplyr::select(!!!vars) %>%
+        tidyr::spread(!!rlang::sym("press_crit"), !!rlang::sym("score"))
 
     }  # end of if statement for C9/10 scores
 
@@ -246,9 +258,8 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
   # Merging of data depending on criteria included ----
 
   # If only C8 and/or 11 were scored but NOT C9/10:
-  if (sum(c("C8", "C11") %in% names(scores_tbl)) >
-    0 & "press_spec_sc" %in% names(scores_tbl) ==
-    FALSE) {
+  if (sum(c("C8", "C11") %in% names(scores_tbl)) > 0 & "press_spec_sc" %in%
+    names(scores_tbl) == FALSE) {
 
     out3 <- as.data.frame(scores_c811_out3)
     rownames(out3) <- out3$ind
@@ -257,9 +268,8 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
   } else {
 
     # If only C9/10 were scored but NOT C8/11:
-    if (sum(c("C8", "C11") %in% names(scores_tbl)) ==
-      0 & "press_spec_sc" %in% names(scores_tbl) ==
-      TRUE) {
+    if (sum(c("C8", "C11") %in% names(scores_tbl)) == 0 &
+      "press_spec_sc" %in% names(scores_tbl) == TRUE) {
 
       out3 <- as.data.frame(scores_c910w)
       rownames(out3) <- out3$ind
@@ -280,8 +290,8 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
   ### END OF FUNCTION ###
 
   print_list <- list(out1, out2, out3)
-  names(print_list) <- c("overview",
-  "subcriteria_per_press", "scores_matrix")
+  names(print_list) <- c("overview", "subcriteria_per_press",
+    "scores_matrix")
 
   return(print_list)
 }
