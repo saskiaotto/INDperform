@@ -111,8 +111,9 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
 
   # Order pressure-specific summary by ind,
   # press_type and then press
-  summary_tbl[[2]] <- summary_tbl[[2]] %>% dplyr::arrange_("ind",
-    "press_type", "press")
+  summary_tbl[[2]] <- summary_tbl[[2]] %>%
+  dplyr::arrange(!!!rlang::syms(c("ind",
+    "press_type", "press")))
 
   # Split summary_tbl by indicators
   split_input <- purrr::map(summary_tbl[[1]]$ind,

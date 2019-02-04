@@ -68,8 +68,7 @@ select_interaction <- function(mod_tbl) {
   pressures <- suppressMessages(dplyr::left_join(mod_tbl[,
     c("ind", "press")], pressures))
   # Sort columns
-  pressures <- dplyr::select_(pressures, "ind", "press",
-    "t_var")
+  pressures <- pressures[ , c("ind", "press", "t_var")]
 
 
   return(pressures)

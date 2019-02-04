@@ -200,9 +200,9 @@ model_trend <- function(ind_tbl, time, train = 1, random = FALSE,
     temp_pred <- calc_pred(trend_tab$model, obs_press = trend_tab$time_train)
     trend_tab <- dplyr::bind_cols(trend_tab, temp_pred)
     # Generate final output tibble
-    trend_tab <- dplyr::select_(trend_tab, .dots = c("ind_id",
-      "ind", "p_val", "model", "ind_train", "time_train",
-      "pred", "ci_up", "ci_low"))
+    trend_tab <- trend_tab[ ,c("ind_id", "ind", "p_val",
+      "model", "ind_train", "time_train", "pred",
+      "ci_up", "ci_low")]
   }
 
   # Warning if some models were not fitted

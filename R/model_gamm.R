@@ -264,14 +264,13 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       "ar1", "ar2", "arma11", "arma12", "arma21"),
       length.out = length(temp_mod$result)),
       model = temp_mod$result) %>% dplyr::left_join(init_tbl[,
-      1:3], by = "id") %>% dplyr::arrange_(~id)
+      1:3], by = "id") %>% dplyr::arrange(!!rlang::sym("id"))
 
     # Add model_type
     gamm_tab$model_type <- "gamm"
     # Rearrange columns
-    gamm_tab <- dplyr::select_(gamm_tab, .dots = c("id",
-      "ind", "press", "model_type", "corrstruc",
-      "model"))
+    gamm_tab <- gamm_tab[, c("id", "ind", "press",
+      "model_type", "corrstruc", "model")]
 
     # Save summary for each gam (cannot handle NAs,
     # hence use of possibly())

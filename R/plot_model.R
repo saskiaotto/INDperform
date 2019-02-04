@@ -165,8 +165,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
 
   # Sort init_tbl and mod_tbl by id to make sure row
   # order is same
-  mod_tbl <- dplyr::arrange_(mod_tbl, .dots = "id")
-  init_tbl <- dplyr::arrange_(init_tbl, .dots = "id")
+  mod_tbl <- dplyr::arrange(mod_tbl, !!rlang::sym("id"))
+  init_tbl <- dplyr::arrange(init_tbl, !!rlang::sym("id"))
 
   # Combine train/ test data and calculate pred on
   # observed press and sequence

@@ -38,7 +38,7 @@ sort_output_tbl <- function(mod_tbl) {
   # Add the other variables not in all_var
   others <- nam[is.na(match(nam, defined_var))]
   all_var <- c(order_var, others)
-  mod_tbl <- mod_tbl %>% dplyr::select_(.dots = all_var)
+  mod_tbl <- mod_tbl[ ,all_var]
 
   return(mod_tbl)
 }

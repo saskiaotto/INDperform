@@ -107,11 +107,11 @@ plot_helper <- function(time, ind, pred, ci_up, ci_low,
     ci_low[order(time, decreasing = TRUE)])
 
   p <- ggplot2::ggplot() + ggplot2::geom_polygon(data = NULL,
-    ggplot2::aes_(x = poly_x, y = poly_y), fill = "lightblue",
+    ggplot2::aes(x = poly_x, y = poly_y), fill = "lightblue",
     alpha = 0.5) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes_(x = time, y = ind)) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes_(x = time, y = ind)) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes_(x = time, y = pred), colour = "blue") +
+    ggplot2::aes(x = time, y = ind)) + ggplot2::geom_point(data = NULL,
+    ggplot2::aes(x = time, y = ind)) + ggplot2::geom_line(data = NULL,
+    ggplot2::aes(x = time, y = pred), colour = "blue") +
     ggplot2::labs(y = ylab, x = "Time") + ggplot2::annotate(geom = "text",
     x = pos_text$x, y = pos_text$y, label = label,
     hjust = 0) + ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
@@ -133,4 +133,3 @@ calc_y_range <- function(y1, y2 = NULL, ci_low, ci_up,
   }
   return(out)
 }
-

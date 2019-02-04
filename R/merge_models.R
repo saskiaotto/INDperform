@@ -98,7 +98,7 @@ merge_models <- function(mod_tbl1, mod_tbl2) {
     message("Some columns are only present in one table and are filled with NAs in the other table.")
   }
   # Sort by id
-  dat <- dplyr::arrange_(dat, "id")
+  dat <- dplyr::arrange(dat, !!rlang::sym("id"))
 
   ### END OF FUNCTION
   return(dat)

@@ -71,8 +71,9 @@ plot_statespace_ch <- function(x, col_ch_ref = "red",
   ggplot2::theme_set(ggplot2::theme_bw())
 
   # Scatter plot
-  chplot <- ggplot2::ggplot(xy_full, ggplot2::aes_(~x,
-    ~y)) + ggplot2::geom_point(shape = 1, col = "black") +
+  chplot <- ggplot2::ggplot(xy_full,
+    ggplot2::aes(x = !!rlang::sym("x"), y = !!rlang::sym("y"))) +
+    ggplot2::geom_point(shape = 1, col = "black") +
     ggplot2::xlab("x") + ggplot2::ylab("y") + ggplot2::xlim(xrange) +
     ggplot2::ylim(yrange)
 

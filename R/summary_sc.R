@@ -231,10 +231,6 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
       scores_c910_l$crit <- sub("\\_.*", "", scores_c910_l$subcrit)
 
       # Calculate sum across sub-criteria in C9 and C10
-      # scores_c910_sum <- scores_c910_l %>% dplyr::group_by_(.dots
-      # = c('ind', 'press', 'crit')) %>% dplyr::summarise_(.dots =
-      # stats::setNames(list(~sum(score)), 'score')) %>%
-      # dplyr::ungroup(.)  # needed for later operations
       vars <- rlang::syms(c("ind", "press", "crit"))
       scores_c910_sum <- scores_c910_l %>%
       	dplyr::group_by(!!!vars) %>%

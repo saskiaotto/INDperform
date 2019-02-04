@@ -98,7 +98,7 @@ select_model <- function(gam_tbl, gamm_tbl) {
   # combine final_tab1 and 2
   final_tab <- dplyr::bind_rows(final_tab1, final_tab2)
   # sort rows by ids
-  final_tab <- dplyr::arrange_(final_tab, .dots = "id")
+  final_tab <- dplyr::arrange(final_tab, !!rlang::sym("id"))
   # arrange cols
   final_tab <- sort_output_tbl(final_tab)
 

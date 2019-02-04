@@ -301,8 +301,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   subcrit_v <- unique(crit_scores$subcrit[crit_scores$crit %in%
     c("C9", "C10")])
 
-  if (!is.null(subcrit_v))
-    {
+  if (!is.null(subcrit_v)) {
 
       # Create empty scoring table with metadata and all
       # selected sub-criteria
@@ -356,10 +355,9 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
           # Loop where the apply_score function is applied
           # for each subcriterion that needs to be scored
           for (i in 1:length(subcrit_v)) {
-          var_ch <- sc_var$var[sc_var$scr ==
-            subcrit_v[i]]
+          var_ch <- sc_var$var[sc_var$scr == subcrit_v[i]]
           var_num <- mod_tbl_split$`TRUE` %>%
-            dplyr::select_(.dots = var_ch) %>%
+            dplyr::select(!!!rlang::syms(var_ch)) %>%
             .[[1]]  # .[[1]] needed to get vector, not 1D tibble
           score_c910_split$`TRUE`[, subcrit_v[i]] <- apply_score(var = var_num,
             crit_df = crit_scores, scr = subcrit_v[i])
@@ -371,7 +369,8 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       # bind_rows simply returns the one not NULL
       score_c910 <- dplyr::bind_rows(score_c910_split$`FALSE`,
         score_c910_split$`TRUE`)
-      score_c910 <- score_c910 %>% dplyr::arrange_(.dots = "id")
+      score_c910 <- score_c910 %>%
+        dplyr::arrange(!!rlang::sym("id"))
 
     }  # end of if statement for C9/10 selection
 
@@ -458,8 +457,9 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   } else {
     # Convert table into a nested tibble for merging
     # with other criteria
-    score_c910 <- score_c910 %>% dplyr::group_by_(.dots = "ind") %>%
-      tidyr::nest_(key_col = "press_spec_sc")
+    score_c910 <- score_c910 %>%
+    dplyr::group_by(!!rlang::sym("ind")) %>%
+      tidyr::nest(.key = "press_spec_sc")
 
     # (if only the score_c910 table was generated)
     if (is.null(crit_v_811) == TRUE) {

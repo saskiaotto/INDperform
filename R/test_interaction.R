@@ -252,21 +252,20 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   # Add training data of t_var to interaction tibble
   # (remove duplicated press entries in init_tbl
   # before merging)
-  interactions <- interactions %>% dplyr::left_join(init_tbl[!duplicated(init_tbl[,
+  interactions <- interactions %>%
+  		dplyr::left_join(init_tbl[!duplicated(init_tbl[,
     c("press", "press_train")]), c("press", "press_train")],
     by = c(t_var = "press"))
   names(interactions)[names(interactions) == "press_train"] <- "t_var_train"
 
-  # press_ex$Tsum init_tbl$time_train[[1]]
-  # interactions$t_var_train[[4]]
-
   # Combine press values with press & t_var
   # combinations.
-  suppressWarnings(final_tab <- dplyr::select_(data,
-    .dots = c("ind", "press", "press_train", "time_train",
-      "ind_train", "p_val", "model_type", "model",
-      "excl_outlier")) %>% dplyr::left_join(interactions,
-    ., by = c("ind", "press")))
+  vars <- c("ind", "press", "press_train", "time_train",
+    "ind_train", "p_val", "model_type", "model",
+    "excl_outlier")
+  final_tab <- suppressWarnings(
+    dplyr::select(data, !!!rlang::syms(vars))  %>%
+  		dplyr::left_join(interactions, ., by = c("ind", "press")) )
   # Filter data for significance
   final_tab <- final_tab[is_value(final_tab$p_val) &
     final_tab$p_val <= sign_level, ]
@@ -275,6 +274,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   if (nrow(final_tab) == 0) {
     stop("Not a single model has a p_val <= sign_level!")
   }
+
   # Create input data
   if (!excl_outlier) {
     y <- final_tab$ind_train
@@ -367,7 +367,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
       res <- mgcv::residuals.gam(final_tab$thresh_models[[i]],
         type = "deviance")
       res_full <- rep(NA, length(final_tab$train.na[[i]]))
-      res_full[!final_tab$train.na[[i]]] <- res  #12,15,18,20,
+      res_full[!final_tab$train.na[[i]]] <- res
       final_tab$tac_in_thresh[[i]] <- test_tac(list(res_full))$tac
 
       # Store NA vector in model for plot_diagnostics
@@ -377,27 +377,27 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     }
   }
 
-  # Data aggregation for output tibble
-  # -----------------------
+  # Data aggregation for output tibble -----------------
 
-  # Get ind~press where interaction is TRUE if any
-  # thresh_gam is better max becomes 1 = TRUE -->
-  # thresh_gam was better than gam
-  temp <- suppressWarnings(final_tab %>% dplyr::group_by_(.dots = c("ind",
-    "press")) %>% dplyr::summarise_(.dots = stats::setNames(list(~any(interaction)),
-    "interaction")))
+  # Summarize results per ind~press (across the different thresholds)
+  vars <- c("ind","press", "interaction", "thresh_var",
+    "tac_in_thresh", "thresh_error", "thresh_models")
+  out <- final_tab %>%
+    dplyr::group_by(!!!rlang::syms( c("ind", "press") )) %>%
+    dplyr::select(!!!rlang::syms(vars)) %>%
+  		dplyr::summarise(
+  					# is there any model where thresh_gam better?
+  			interaction = any(!!rlang::sym("interaction")),
+  					# aggregate all model results as lists
+  			thresh_var = list(!!rlang::sym("thresh_var")),
+  			tac_in_thresh = list(!!rlang::sym("tac_in_thresh")),
+  			thresh_error = list(!!rlang::sym("thresh_error")),
+  			thresh_models = list(!!rlang::sym("thresh_models"))
+  		) %>%
+  			# rearrange order
+  	dplyr::select(!!!rlang::syms(c("ind", "press", "interaction")),
+  		dplyr::everything())
 
-  # Get every thresh_gam better than the
-  # corresponding gam
-  out <- final_tab %>% dplyr::group_by_(.dots = c("ind",
-    "press")) %>% dplyr::select_(.dots = c("ind",
-    "press", "interaction", "thresh_var", "tac_in_thresh",
-    "thresh_error", "thresh_models")) %>% dplyr::summarise_(thresh_var = lazyeval::interp(~list(var),
-    var = as.name("thresh_var")), tac_in_thresh = lazyeval::interp(~list(var),
-    var = as.name("tac_in_thresh")), thresh_error = lazyeval::interp(~list(var),
-    var = as.name("thresh_error")), thresh_models = lazyeval::interp(~list(var),
-    var = as.name("thresh_models"))) %>% dplyr::left_join(temp,
-    ., by = c("ind", "press"))
 
   # Remove all infos on thresh_gams that are NULL
   # (not as good as a gam) - except for error
@@ -416,7 +416,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
   out <- dplyr::left_join(mod_tbl, out, by = c("ind",
     "press"))
   out <- sort_output_tbl(out)
-  out <- dplyr::arrange_(out, .dots = "id")
+  out <- dplyr::arrange(out, !!rlang::sym("id"))
 
 
   # Warning if some models were not fitted
