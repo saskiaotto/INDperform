@@ -14,6 +14,8 @@ test_that("test structure of returned object", {
 test_that("error messages and warnings", {
   expect_error(dist_sc(sc_sum[3]), "scores_mat is not a data frame or matrix.")
   expect_error(dist_sc(1:10), "scores_mat is not a data frame or matrix.")
+  expect_error(dist_sc(sc_sum[[2]]), "All columns in scores_mat have to be numeric.")
+  expect_error(dist_sc(scores_tbl = sc_sum[[3]]), "Argument scores_tbl is deprecated;")
   # if too many zeros warning with bray-curtis
   expect_warning(dist_sc(sc_sum[[3]], method_dist = "bray"))
 })

@@ -4,11 +4,14 @@
 \alias{dist_sc}
 \title{Score-based distance matrix}
 \usage{
-dist_sc(scores_mat, method_dist = "euclidean", ...)
+dist_sc(scores_mat, scores_tbl, method_dist = "euclidean", ...)
 }
 \arguments{
 \item{scores_mat}{A data frame or matrix containing the scores. This could be
 the \code{$scores_matrix} output of the \code{\link{summary_sc}} function.}
+
+\item{scores_tbl}{Deprecated argument from earlier version (0.1.0); scores_tbl
+represented the output tibble from the \code{scoring} function.}
 
 \item{method_dist}{Dissimilarity index used in the \code{vegdist} function
 to calculate the dissimilarity matrix based on the scores.
