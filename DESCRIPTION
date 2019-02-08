@@ -24,7 +24,7 @@ Imports:
     cowplot (>= 0.7.0),
     dplyr (>= 0.8.0),
     grDevices (>= 1.8-17),
-    ggplot2 (>= 2.2.1),
+    ggplot2 (>= 3.1.0),
     htmlwidgets (>= 0.8),
     jsonlite (>= 1.4),
     lazyeval (>= 0.2.0),
