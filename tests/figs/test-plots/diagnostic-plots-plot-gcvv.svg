@@ -19,6 +19,7 @@
   </clipPath>
 </defs>
 <polyline points='87.21,195.25 109.34,195.25 131.46,195.25 153.59,195.25 175.72,208.09 197.85,208.09 219.97,208.09 242.10,341.70 264.23,373.01 286.36,373.01 308.48,373.01 330.61,373.01 352.74,373.01 374.87,516.08 396.99,341.90 419.12,341.90 441.25,351.15 463.38,203.43 485.50,266.41 507.63,266.41 529.76,323.89 551.88,374.32 574.01,349.70 596.14,349.70 618.27,349.70 640.39,349.70 662.52,46.26 684.65,77.15 ' style='stroke-width: 1.07; stroke-linecap: butt;' clip-path='url(#cpNTcuMzR8NzE0LjUyfDUzOS41N3wyMi43Nw==)' />
+<line x1='374.87' y1='539.57' x2='374.87' y2='22.77' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' clip-path='url(#cpNTcuMzR8NzE0LjUyfDUzOS41N3wyMi43Nw==)' />
 <rect x='57.34' y='22.77' width='657.18' height='516.80' style='stroke-width: 1.07;' clip-path='url(#cpNTcuMzR8NzE0LjUyfDUzOS41N3wyMi43Nw==)' />
 <defs>
   <clipPath id='cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA='>
@@ -43,7 +44,7 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='244.99' y='553.44' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='25.31px' lengthAdjust='spacingAndGlyphs'>15.0</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='399.36' y='553.44' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='25.31px' lengthAdjust='spacingAndGlyphs'>15.5</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='553.73' y='553.44' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='25.31px' lengthAdjust='spacingAndGlyphs'>16.0</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='376.90' y='567.82' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='18.06px' lengthAdjust='spacingAndGlyphs'>NA</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='371.84' y='567.82' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='28.19px' lengthAdjust='spacingAndGlyphs'>Swin</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(14.42,299.59) rotate(-90)' style='font-size: 13.00px; font-family: Liberation Sans;' textLength='36.84px' lengthAdjust='spacingAndGlyphs'>GCVV</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='57.34' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='146.53px' lengthAdjust='spacingAndGlyphs'>diagnostic plots plot gcvv</text></g>
 </svg>
