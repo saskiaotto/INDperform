@@ -18,7 +18,7 @@ plot_cook(values)
 
 plot_acf(x_var, y_var)
 
-plot_pacf(x_var, y_var, acf_lag)
+plot_pacf(x_var, y_var)
 
 plot_resid(model_fitted, model_resid)
 
