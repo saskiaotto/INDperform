@@ -1,33 +1,20 @@
-## Resubmission
-This is a resubmission. In this version I have:
+## Release summary
 
-* Removed the vdiffr package from the import list in namespace (see below)
-* fixed the tests that caused errors in some of the environments with the last released version (see below)
+This major update has incorporated the tidy evaluation principles from the recent tidyverse packages, which also fixes a bug that would have occurred with the upcoming release of dplyr 0.8.0. Soft-deprecated SE tidyverse function (SE versions) are no longer used to avoid future code breaks and variables in dataframes are accessed as unquoted symbols converted from strings using !!rlang::sym(). All aesthetic mappings are based on variables within dataframes instead single vectors as before.
+
+Other changes include different statistics computations and added functionality through new standalone functions. Some bugs were also fixed.
+
 
 ## Test environments
 
-* local OS X install, R 3.5
-* local OS X install, R 3.1.1
-* Windows 7, R 3.1.1, 64 bit
+* local OS X install, R 3.5.0
+* local OS X install, R 3.5.2
 * win-builder (devel and release)
 
-## R CMD check results previous (last released) version
-There were 2 ERRORs and 1 NOTE.
+## R CMD check results 
 
-* checking dependencies in R code ... NOTE
-Namespace in Imports field not imported from: ‘vdiffr’
-  All declared Imports should be used.
-  
-  We removed/deactivated the visual tests (code in test files as comment currently included, reference plots removed) as we were requested by Hadley Wickham to fix to failed visual test with the new ggplot v2.3.0 release (which is not on CRAN yet so the reference plots and generated test plots did not match). Consequently we also removed 'vdiffr' removed from import list namespace, which also fixed the NOTE raised above.
-  
-* error in ATLAS: Failure: test excl outlier (@test_model_gamm.R#101)
-  We added some tolerance when testing if 2 p-values are nearly equal.
+There were 0 errors, 0 warnings and 0 notes in the local R cmd check.
 
-* error in MKL: Failure: compare manual results (@test_model_gamm.R#72) 
-		We added some tolerance when testing if 2 p-values are nearly equal.
-
-* error in MKL: Failure: compare manual results (@test_model_gamm.R#62) 
-	 We added some tolerance to the comparison.
 
 
 ## Reverse dependencies
