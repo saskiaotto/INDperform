@@ -13,7 +13,7 @@ Other changes include different statistics computations and added functionality 
 
 ## R CMD check results 
 
-There were 0 errors, 0 warnings and 0 notes in the local R cmd check.
+There were 0 errors, 0 warnings and 0 notes.
 
 
 
