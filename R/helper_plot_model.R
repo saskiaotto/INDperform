@@ -82,14 +82,27 @@ plot_thresh <- function(thresh_sublist, choose_thresh_gam) {
     poly_y <- c(pred$ci_up[order(pred$press_seq,
       decreasing = FALSE)], pred$ci_low[order(pred$press_seq,
       decreasing = TRUE)])
-    p <- ggplot2::ggplot() + ggplot2::geom_polygon(data = NULL,
-      ggplot2::aes(x = poly_x, y = poly_y),
-      fill = col, alpha = 0.2) + ggplot2::geom_point(data = NULL,
-      ggplot2::aes(x = data$press, y = data$ind),
-      colour = col, size = 1) + ggplot2::geom_line(ggplot2::aes(x = pred$press_seq,
-      y = pred$pred), colour = col) + ggplot2::labs(x = x_lab,
-      y = y_lab) + ggplot2::expand_limits(x = range(model$model[,
-      2]), y = y_lim) + ggplot2::ggtitle(title) +
+
+    p <- ggplot2::ggplot() +
+    	ggplot2::geom_polygon(
+    		data = data.frame(poly_x = poly_x, poly_y = poly_y),
+      mapping = ggplot2::aes(x = !!rlang::sym("poly_x"),
+      	y = !!rlang::sym("poly_y")),
+      fill = col, alpha = 0.2) +
+    	ggplot2::geom_point(
+    		data = data,
+      mapping = ggplot2::aes(x = !!rlang::sym("press"),
+      	y = !!rlang::sym("ind")),
+      colour = col, size = 1) +
+    	ggplot2::geom_line(
+    		data = pred,
+    		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
+    			y = !!rlang::sym("pred")),
+      colour = col) +
+    	ggplot2::labs(x = x_lab, y = y_lab) +
+    	ggplot2::expand_limits(x = range(model$model[,
+      2]), y = y_lim) +
+    	ggplot2::ggtitle(title) +
       plot_outline()
     return(p)
   }
@@ -127,15 +140,25 @@ plot_response <- function(x, y, x_seq, pred, ci_up,
   poly_y <- c(ci_up[order(x_seq, decreasing = FALSE)],
     ci_low[order(x_seq, decreasing = TRUE)])
 
-  p <- ggplot2::ggplot() + ggplot2::geom_polygon(data = NULL,
-    ggplot2::aes(x = poly_x, y = poly_y), fill = "dodgerblue3",
-    alpha = 0.2) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = x_seq, y = pred), colour = "dodgerblue3",
-    size = 1) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = x, y = y), shape = 16, size = 1) +
-    ggplot2::annotate(geom = "text", x = pos_text$x,
+  p <- ggplot2::ggplot() +
+  	ggplot2::geom_polygon(
+  		data = data.frame(poly_x = poly_x, poly_y = poly_y),
+    mapping = ggplot2::aes(x = !!rlang::sym("poly_x"),
+    	y = !!rlang::sym("poly_y")), fill = "dodgerblue3",
+    alpha = 0.2) +
+  	ggplot2::geom_line(
+  		data = data.frame(x_seq = x_seq, pred = pred),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_seq"),
+  			y = !!rlang::sym("pred")),
+  		colour = "dodgerblue3", size = 1) +
+  	ggplot2::geom_point(
+  		data = data.frame(xp = x, yp = y),
+  		mapping = ggplot2::aes(x = !!rlang::sym("xp"), y = !!rlang::sym("yp")),
+  		shape = 16, size = 1) +
+   ggplot2::annotate(geom = "text", x = pos_text$x,
       y = pos_text$y, label = label, hjust = 0) +
-    ggplot2::labs(x = xlab, y = ylab) + ggplot2::ggtitle(title) +
+    ggplot2::labs(x = xlab, y = ylab) +
+  	ggplot2::ggtitle(title) +
     plot_outline()
 
   return(p)
@@ -165,46 +188,81 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
     1))
   x_seq_on_axis <- x_seq_on_axis[is.wholenumber(x_seq_on_axis)]
 
-  p <- ggplot2::ggplot() + ggplot2::geom_ribbon(data = NULL,
-    ggplot2::aes(x = x_zoom, ymin = ci_low_zoom,
-      ymax = ci_up_zoom), fill = "darkseagreen4",
-    alpha = 0.2) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = x_zoom, y = y_pred_zoom),
-    colour = "darkseagreen4", size = 1) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = x[x_train_zoom], y = y_obs[x_train_zoom]),
-    shape = 16, size = 2) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = x[x_test], y = y_obs[x_test]),
-    shape = 17, size = 3) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = x[x_test], y = y_pred[x_test]),
+  # data needs to be tibble to deal with rows of NAs
+  p <- ggplot2::ggplot() +
+  	ggplot2::geom_ribbon(
+  		data = tibble::tibble(x_zoom = x_zoom, ci_low_zoom = ci_low_zoom,
+  			ci_up_zoom = ci_up_zoom),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"),
+  			ymin = !!rlang::sym("ci_low_zoom"),
+     ymax = !!rlang::sym("ci_up_zoom")),
+  		fill = "darkseagreen4", alpha = 0.2) +
+  	ggplot2::geom_line(
+  		data = tibble::tibble(x_zoom = x_zoom, y_pred_zoom = y_pred_zoom),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"), y = !!rlang::sym("y_pred_zoom")),
+    colour = "darkseagreen4", size = 1) +
+  	ggplot2::geom_point(
+  		data = tibble::tibble(x_zoom = x[x_train_zoom], y_obs_zoom = y_obs[x_train_zoom]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"), y = !!rlang::sym("y_obs_zoom")),
+    shape = 16, size = 2) +
+  	ggplot2::geom_point(
+  		data = tibble::tibble(x_test = x[x_test], yobs_xtest = y_obs[x_test]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_test"), y = !!rlang::sym("yobs_xtest")),
+    shape = 17, size = 3) +
+  	ggplot2::geom_point(
+  		data = tibble::tibble(x_test = x[x_test], ypred_xtest = y_pred[x_test]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x_test"), y = !!rlang::sym("ypred_xtest")),
     shape = 17, size = 3, colour = "darkseagreen4") +
-    ggplot2::ylim(y_range) + ggplot2::scale_x_continuous(breaks = x_seq_on_axis,
-    limits = x_range) + ggplot2::labs(x = xlab,
-    y = ylab) + ggplot2::annotate(geom = "text",
+    ggplot2::ylim(y_range) +
+  	ggplot2::scale_x_continuous(breaks = x_seq_on_axis,
+    limits = x_range) +
+  	ggplot2::labs(x = xlab,
+    y = ylab) +
+  	ggplot2::annotate(geom = "text",
     x = pos_text$x, y = pos_text$y, label = label,
-    hjust = 0) + ggplot2::ggtitle(title) + plot_outline()
+    hjust = 0) +
+  	ggplot2::ggtitle(title) + plot_outline()
 
   return(p)
 }
+
+
 
 #' @rdname plot_thresh
 # Function to plot derivatives
 plot_deriv <- function(press_seq, deriv1, deriv1_ci_low,
   deriv1_ci_up, zic_start_end, zero_in_conf, xlab,
   ylab, pos_text, label) {
-  p <- ggplot2::ggplot() + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = press_seq, y = deriv1), lty = 1,
-    color = "red") + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = press_seq, y = deriv1_ci_up),
-    lty = 2, color = "red") + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = press_seq, y = deriv1_ci_low),
-    lty = 2, color = "red") + ggplot2::geom_hline(yintercept = 0,
-    linetype = "dashed", color = "black") + ggplot2::labs(x = xlab,
-    y = paste0("S' (", ylab, ")")) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = press_seq, y = deriv1, col = as.factor(zero_in_conf),
-      shape = as.factor(zic_start_end))) + ggplot2::annotate(geom = "text",
+  p <- ggplot2::ggplot() +
+  	ggplot2::geom_line(
+  		data = data.frame(press_seq = press_seq, deriv1 = deriv1),
+  		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
+  			y = !!rlang::sym("deriv1")), lty = 1,
+    color = "red") +
+  	ggplot2::geom_line(
+  		data = data.frame(press_seq = press_seq, deriv1_ci_up = deriv1_ci_up),
+  		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"), y = !!rlang::sym("deriv1_ci_up")),
+    lty = 2, color = "red") +
+  	ggplot2::geom_line(
+  		data = data.frame(press_seq = press_seq, deriv1_ci_low = deriv1_ci_low),
+  		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"), y = !!rlang::sym("deriv1_ci_low")),
+    lty = 2, color = "red") +
+  	ggplot2::geom_hline(yintercept = 0,
+    linetype = "dashed", color = "black") +
+  	ggplot2::labs(x = xlab,
+    y = paste0("S' (", ylab, ")")) +
+  	ggplot2::geom_point(
+  		data = data.frame(press_seq = press_seq, deriv1 = deriv1,
+  			zero_in_conf = as.factor(zero_in_conf), zic_start_end = as.factor(zic_start_end)),
+  		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
+  			y = !!rlang::sym("deriv1"), col = !!rlang::sym("zero_in_conf"),
+    shape = !!rlang::sym("zic_start_end"))) +
+  	ggplot2::annotate(geom = "text",
     x = pos_text$x, y = pos_text$y, label = label,
-    hjust = 0) + ggplot2::scale_colour_manual(values = c(2,
-    1)) + ggplot2::theme(legend.position = "none") +
+    hjust = 0) +
+  	ggplot2::scale_colour_manual(values = c(2,
+    1)) +
+  	ggplot2::theme(legend.position = "none") +
     ggplot2::ggtitle("1st Derivative S'") + plot_outline()
 
   return(p)
@@ -214,12 +272,15 @@ plot_deriv <- function(press_seq, deriv1, deriv1_ci_low,
 #' @rdname plot_thresh
 # Cowplot that will combine the different ggplots
 plot_all_mod <- function(p1, p2, p3, p4, title) {
-  cowplot::ggdraw() + cowplot::draw_plot(p1, x = 0,
-    y = 0.5, width = 0.5, height = 0.45) + cowplot::draw_plot(p2,
+  cowplot::ggdraw() +
+		cowplot::draw_plot(p1, x = 0,
+    y = 0.5, width = 0.5, height = 0.45) +
+		cowplot::draw_plot(p2,
     x = 0.5, y = 0.5, width = 0.5, height = 0.45) +
-    cowplot::draw_plot(p3, x = 0, y = 0, width = 0.5,
-      height = 0.45) + cowplot::draw_plot(p4,
+  cowplot::draw_plot(p3, x = 0, y = 0, width = 0.5,
+    height = 0.45) +
+		cowplot::draw_plot(p4,
     x = 0.5, y = 0, width = 0.5, height = 0.45) +
-    cowplot::draw_plot_label(label = title, hjust = -0.5,
-      vjust = 2)
+  cowplot::draw_plot_label(label = title, hjust = -0.5,
+    vjust = 2)
 }

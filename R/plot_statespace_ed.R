@@ -40,9 +40,10 @@ plot_statespace_ed <- function(x) {
   edplot <- ggplot2::ggplot(x,
     ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ed"))) +
     ggplot2::geom_smooth(col = "firebrick3",
-    fill = "cadetblue", alpha = 0.2) + ggplot2::geom_line(col = "black",
-    size = 0.5) + ggplot2::geom_point(shape = 16,
-    col = "black", size = 1.5) + ggplot2::ylab(paste0("Euclidean distance s from reference point (",
+    fill = "cadetblue", alpha = 0.2) +
+  	ggplot2::geom_line(col = "black", size = 0.5) +
+  	ggplot2::geom_point(shape = 16, col = "black", size = 1.5) +
+  	ggplot2::ylab(paste0("Euclidean distance s from reference point (",
     x$time[which(x$ref_time == TRUE)], ")")) +
     ggplot2::xlab("") + # General layout
   		ggplot2::theme(panel.grid.major = ggplot2::element_blank(),

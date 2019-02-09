@@ -55,7 +55,11 @@ test_plot_qq <- plot_qq(resid, theo_quan)
 # Test ggcv_plot()
 t_val <- all_results_ex$thresh_models[[6]][[1]]$t_val
 gcvv <- all_results_ex$thresh_models[[6]][[1]]$gcvv
-test_plot_gcvv <- plot_gcvv(t_val, gcvv, all_results_ex$thresh_models[[2]])
+lab <- all_results_ex$thresh_models[[6]][[1]]
+min_t_val <- all_results_ex$thresh_models[[6]][[1]]$mr
+test_plot_gcvv <- plot_gcvv(x_var = t_val, y_var = gcvv,
+	lab = lab,	best_t_val = min_t_val)
+
 
 
 test_that("plot_diagnostics", {

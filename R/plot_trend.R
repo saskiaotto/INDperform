@@ -106,15 +106,23 @@ plot_helper <- function(time, ind, pred, ci_up, ci_low,
   poly_y <- c(ci_up[order(time, decreasing = FALSE)],
     ci_low[order(time, decreasing = TRUE)])
 
-  p <- ggplot2::ggplot() + ggplot2::geom_polygon(data = NULL,
-    ggplot2::aes(x = poly_x, y = poly_y), fill = "lightblue",
-    alpha = 0.5) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = time, y = ind)) + ggplot2::geom_point(data = NULL,
-    ggplot2::aes(x = time, y = ind)) + ggplot2::geom_line(data = NULL,
-    ggplot2::aes(x = time, y = pred), colour = "blue") +
-    ggplot2::labs(y = ylab, x = "Time") + ggplot2::annotate(geom = "text",
+  p <- ggplot2::ggplot() +
+  	ggplot2::geom_polygon(
+  		data = data.frame(poly_x = poly_x, poly_y= poly_y),
+    mapping = ggplot2::aes(x = !!rlang::sym("poly_x"), y = !!rlang::sym("poly_y")),
+  		fill = "lightblue", alpha = 0.5) +
+  	ggplot2::geom_line(data = data.frame(time = time, ind = ind),
+    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+  	ggplot2::geom_point(data = data.frame(time = time, ind = ind),
+    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+  	ggplot2::geom_line(data = data.frame(time = time, ind = ind),
+    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("pred")),
+  		colour = "blue") +
+   ggplot2::labs(y = ylab, x = "Time") +
+  	ggplot2::annotate(geom = "text",
     x = pos_text$x, y = pos_text$y, label = label,
-    hjust = 0) + ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
+    hjust = 0) +
+  	ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
     plot_outline()
 
   return(p)
