@@ -32,7 +32,7 @@ treat all variables, i.e. here the criteria, the same, which might be not always
 For instance, two indicators that show no trend but respond each to a specific type of
 fishing pressure (with a score of 1) and a third indicator that only shows a trend (score of 1 here) would
 have all the same distance to each other. So to add more weight to the similarity of the
-first two indicators responding to the same pressure type, this function computes seperate
+first two indicators responding to the same pressure type, this function computes separate
 distance matrices that are then averaged.
 }
 \examples{

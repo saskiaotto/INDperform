@@ -25,7 +25,7 @@
 #'
 #' @references
 #' Burnham, K.P., Anderson, D.R. (2002) Model Selection and Multimodel Inference - A
-#' Practical Information-Theoretic Approach. Springer-Verlag New York.
+#' Practical Information-Theoretic Approach. Springer, New York.
 #'
 #' @family IND~pressure modeling functions
 #'

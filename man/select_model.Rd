@@ -41,7 +41,7 @@ best_gamm <- select_model(gam_tbl, gamm_tbl)
 }
 \references{
 Burnham, K.P., Anderson, D.R. (2002) Model Selection and Multimodel Inference - A
-Practical Information-Theoretic Approach. Springer-Verlag New York.
+Practical Information-Theoretic Approach. Springer, New York.
 }
 \seealso{
 Other IND~pressure modeling functions: \code{\link{find_id}},

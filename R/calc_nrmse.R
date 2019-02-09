@@ -31,7 +31,7 @@
 #' \code{\link{model_gamm}} functions with the default \code{"sd"} method and no transformation.
 #' If another normalization is required or indicators where standardized prior to the analysis,
 #' this wrapper function should be applied to the final model output tibble to compute
-#' NRMSE that are based on the original indicator scale (advides for cross-indicator
+#' NRMSE that are based on the original indicator scale (advised for cross-indicator
 #' comparisons).
 #'
 #' The more common transformation types applied to the indicator can be simply specified in the
