@@ -1,4 +1,4 @@
-# INDperform 0.1.1.9000
+# INDperform 0.2.0
 
 ## Breaking changes
 

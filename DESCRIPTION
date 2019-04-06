@@ -1,6 +1,6 @@
 Type: Package
 Package: INDperform
-Version: 0.2.0
+Version: 0.2.0.9000
 Title: Evaluation of Indicator Performances for Assessing Ecosystem States
 Authors@R: c(
     person("Saskia A.", "Otto", email = "saskia.a.otto@gmail.com", role = c("aut", "cre")),

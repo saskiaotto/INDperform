@@ -3,6 +3,13 @@
 INDperform <img src="man/figures/logo.png" align="right" width="100" height="112" />
 ====================================================================================
 
+NEWS
+----
+
+Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes changes include a new NRMSE calculation based on the standard deviation and back-transformation (see <https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/> for the motivation), an NRMSE stand-alone function (`nrmse()`) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (`dist_sc_group()`). For more information see the [news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md)file.
+
+------------------------------------------------------------------------
+
 Overview
 --------
 
@@ -36,7 +43,7 @@ Cheatsheet
 Usage
 -----
 
-INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2018) (see also the package's cheat sheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
+INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2018) (see also the package's cheatsheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
 
 This is a suggested workflow demonstrated on the example data included in the package:
 
