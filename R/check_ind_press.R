@@ -28,7 +28,7 @@ check_ind_press <- function(x, input = "ind") {
       names(x) <- "press"
     }
   } else {
-    if (is.matrix(x) || tibble::is.tibble(x))
+    if (is.matrix(x) || tibble::is_tibble(x))
       x <- as.data.frame(x)
   }
 

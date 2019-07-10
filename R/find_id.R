@@ -40,19 +40,16 @@ find_id <- function(mod_tbl, ind_name = NULL, press_name = NULL) {
       res <- mod_tbl
     } else {
       # Look for matches with ind_name
-      res <- dplyr::filter_(mod_tbl, ~ind %in%
-        ind_name)
+      res <- mod_tbl[mod_tbl$ind %in%ind_name, ]
+
     }
   } else {
     # Check for matches with press_name
     if (is.null(ind_name)) {
-      res <- dplyr::filter_(mod_tbl, ~press %in%
-        press_name)
+      res <- mod_tbl[mod_tbl$press %in%press_name, ]
     } else {
       # Check for matches with both ind_ and press_name
-      res <- dplyr::filter_(mod_tbl, ~press %in%
-        press_name) %>% dplyr::filter_(~ind %in%
-        ind_name)
+      res <- mod_tbl[mod_tbl$ind %in%ind_name& mod_tbl$press %in%press_name, ]
     }
   }
   return(res)

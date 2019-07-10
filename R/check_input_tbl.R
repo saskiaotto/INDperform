@@ -23,7 +23,7 @@ check_input_tbl <- function(x, tbl_name, parent_func = NULL,
   var_to_check = NULL, dt_to_check = NULL) {
 
   # Check if x is tibble
-  if (!tibble::is.tibble(x)) {
+  if (!tibble::is_tibble(x)) {
     if (!is.null(parent_func)) {
       stop(paste0("The input object ", tbl_name,
         " has to be a tibble (output from ",
