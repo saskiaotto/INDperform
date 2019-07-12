@@ -20,7 +20,7 @@
 
 * All functions incorporate now the tidy evaluation principles to account for the recent updates of dplyr, ggplot and all other tidyverse packages, i.e. 
 		* all deprecated SE versions of the main tidyverse verbs have been replaced with the main verb and using `!!rlang::sym()`, to create symbols from the variables provided as strings and unquote them directly in the capturing functions (see https://github.com/r-lib/rlang/issues/116).
-		* aesthetic mappings in internal ggplot functions were based on individual vectors (by setting `data = NULL`) in previous function. In the updated version aesthetic variables are provided in a data frame explicitly defined in the `data` argument and refered to using `!!rlang::sym()`.
+		* aesthetic mappings in internal ggplot functions were based on individual vectors (by setting `data = NULL`) in previous function. In the updated version aesthetic variables are provided in a data frame explicitly defined in the `data` argument and referred to using `!!rlang::sym()`.
 
 ## Bug fixes
 
