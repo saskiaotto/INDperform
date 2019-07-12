@@ -1,0 +1,132 @@
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,600,700,700i);
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono&display=swap');
+
+body {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+}
+
+code, kbd, pre, samp {
+  font-family: 'Fira Mono', monospace;
+}
+
+/* increase font-weight for headers */
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+  font-weight: 600;
+}
+
+/* relax lower margins of headers, default -60px */
+.contents h1, .contents h2, .contents h3, .contents h4 {
+  margin-top: -40px;
+}
+
+/* set font-size of all tables to 12 */
+.table {
+  font-size: 12px;
+}
+
+/* ----------- Modify Navigation bar  ----------------- */
+
+.navbar, .navbar-default{
+  background-color: transparent;
+  background-image: linear-gradient(120deg, #D77020, #ffdf1f, #5F8539 ); /* #FF0000 #88BF52 */
+  border-color: transparent;
+  box-shadow: 3px 3px 10px #cccccc;
+}
+
+/* Custom width and font size for navbar */
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    font-size: 1.7rem;
+    color: #121212;
+}
+
+/* Set the logo in the navbar */
+.navbar-brand {
+  padding: 3rem 2rem 3rem 2rem;
+  width: 75px;
+  height: 50px;
+  line-height: 50px;
+  background-image: url(logo.png);
+  background-size: 40px auto;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+.navbar-nav >li>a{
+  height: 60px;
+  padding-top: 20px;
+}
+
+/* Change settings when hovering etc. */
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus {
+  background-color: transparent;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #121212;
+}
+
+/* Show not the version number in navbar (default) */
+span.version.label.label-default, a.navbar-link {
+  display: none;
+}
+
+
+/* ----- Sidebar -----  */
+
+/* Grey background for active and hovered elements (instead of blue) */
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+  color: #ffffff;
+  background-color: #666666;
+}
+
+
+
+
+/* ------ Syntax highlighting theme ------ */
+
+.fl      {color: #1514b5;}
+.co      {color: #888888;}    /* comments */
+.ch, .st {color: green;}      /* strings */
+.dv, .ot {color: darkblue;}   /* numbers, logicals */
+.sourceCode.r .op {color: #505050;}  /* operators */
+.sourceCode.r .dt {color: #303030;}  /* function argument names,  #303030 - darkgray */
+.sourceCode.r .kw, .fu, .cf,   /* function names */
+    .sourceCode a:link,
+    .sourceCode a:active,
+    .sourceCode a:visited {color:darkred;}
+
+/*
+.message {color: darkgreen;}
+.warning {color: orange;}
+.error   {color: red;}
+*/
+
+
+/*  LEGEND for highlighting:
+
+.co comments
+.ch string (character?)
+.st string
+.dv numbers
+.ot logical values
+.op operator
+.dt function argument name
+.kw keyword
+.fu function name
+.cf function name.
+.sourceCode a:link - links in code blocs (they are function names)
+
+.cf was a present as function name `function` in this example:
+ps_ksvm = makeParamSet(
+  makeNumericParam("sigma", lower = -12, upper = 12, trafo = function(x) 2^x)
+)
+*/

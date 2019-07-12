@@ -265,8 +265,3 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
-
-# standalone packages
-*.sta
-.Rproj.user
-docs/
