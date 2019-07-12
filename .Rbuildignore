@@ -9,5 +9,5 @@
 ^docs$
 ^pkgdown$
 ^\.travis.yml$
-index.md
-index.Rmd
+^index.md$
+^index.Rmd$
