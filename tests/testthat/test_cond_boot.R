@@ -66,10 +66,17 @@ test_that("test sample_boot", {
   expect_equal(sum(test1$considered), 1)
   expect_equal(sum(test2$considered), 3)
   expect_equal(sum(test3$considered), 6)
-  expect_true(test1$considered[1])
-  expect_true(all(test2$considered[c(1, 2, 4)]))
-  expect_true(all(test3$considered))
 })
+
+
+### test only internally (different results depending on R version due to seed)
+# test_that("test sample_boot internal", {
+#   expect_true(test1$considered[1])
+#   expect_true(all(test2$considered[c(1, 2, 4)]))
+#   expect_true(all(test3$considered))
+# })
+
+
 
 # calc_value
 test_list <- list(ind_init_ex)
