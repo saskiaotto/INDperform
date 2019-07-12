@@ -37,6 +37,7 @@ test_that("test method", {
 x <- c(1, 2, 5, 3, 4, 6, 7, 8, 14, 9, 11, 13, 15, 18,
   12, 16, 17, 10, 20, 19)
 y_bin <- c(rep(0, 10), rep(1, 10))
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(1)
 y_pois <- rpois(20, lambda = 2)
 y_pois <- sort(y_pois)

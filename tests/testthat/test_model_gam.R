@@ -63,6 +63,7 @@ test_that("test excl outlier", {
 })
 
 # Binomial distribution
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(123)
 vec_train <- sample(x = c(0, 1), size = 27, replace = TRUE)
 vec_test <- sample(x = c(0, 1), size = 3, replace = TRUE)
@@ -79,6 +80,7 @@ test_that("test binomial family", {
 })
 
 # Poisson distribution
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(123)
 vec <- rpois(27, 15)
 data <- ind_init_ex[1, ]
@@ -94,6 +96,7 @@ test_that("test poisson family", {
 
 
 # Negative Binomal distribution
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(123)
 vec <- rnbinom(27, size = 5.855, mu = 1/exp(-3))
 data <- ind_init_ex[1, ]

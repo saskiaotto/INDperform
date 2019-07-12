@@ -56,6 +56,7 @@ y = 10:1
 m1 <- mgcv::gam(y ~ s(x))
 a <- tibble::tibble(id = 1:6, boot_fit = list(m1, m1,
   m1, m1, m1, m1))
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(1)
 test1 <- sample_boot(a, 1)
 test2 <- sample_boot(a, 3)
@@ -80,6 +81,7 @@ test_that("test sample_boot", {
 
 # calc_value
 test_list <- list(ind_init_ex)
+suppressWarnings(RNGversion("3.5.0")) # (required  for set.seed for passing CRAN checks)
 set.seed(1)
 a <- tibble::tibble(id = 1:3, test_list = list(x1 = rnorm(20),
   x2 = rnorm(20), x3 = rnorm(20)), considered = rep(TRUE,
