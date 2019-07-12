@@ -1,8 +1,5 @@
 destination: docs
 
-#title: INDperform
-#url: https://saskiaotto.de
-
 template:
   params:
     bootswatch: cosmo
@@ -11,8 +8,12 @@ template:
  # default_assets: false
 
 authors:
-  Saskia Otto:
+  Saskia A. Otto:
     href: https://saskiaotto.de
+  Rene Plonus:
+    href: https://github.com/reneplonus
+  Steffen Funk:
+    href: https://www.biologie.uni-hamburg.de/forschung/oekologie-biologische-ressourcen/maroeksysdyn/mitarbeiter/funk.html
 
 # to remove header line from README
 home:
