@@ -1,0 +1,143 @@
+destination: docs
+
+#title: INDperform
+#url: https://saskiaotto.de
+
+template:
+  params:
+    bootswatch: cosmo
+#  path: pkgdown/templates
+#  assets: pkgdown/assets
+ # default_assets: false
+
+authors:
+  Saskia Otto:
+    href: https://saskiaotto.de
+
+# to remove header line from README
+home:
+  strip_header: false
+
+navbar:
+  title: INDperform
+  type: default
+  left:
+  - icon: fa-home
+    #text: "INDperform"
+    href: index.html
+  - icon: fa-file-code-o
+    text: "Datasets & Functions"
+    href: reference/index.html
+  - icon: fas fa-book
+    text: "Articles"
+    menu:
+    -  text: Quantitative framework for selecting and validating food web indicators
+       href: https://doi.org/10.1016/j.ecolind.2017.05.045
+    -  text: Indperform cheatsheet
+       href: https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.1.0.pdf
+
+
+  - icon: fa-newspaper-o
+    text: "News"
+    href: news/index.html
+
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/saskiaotto/INDperform
+  - icon: fa-send
+    href: mailto:saskia.otto@uni-hamburg.de
+
+#output:
+#  html_document:
+ #   theme: spacelab
+ #   highlight: tango
+ #   include:
+ #     after_body: footer_site.html
+ #   css: css_site/style_site.css
+
+
+
+reference:
+  - title: "Indicator and pressure data"
+    desc: >
+      Example data from the Baltic Sea
+    contents:
+      - ind_ex
+      - press_ex
+      - press_type_ex
+  - title: "Templates"
+    desc: >
+      Scoring template which can be modified for scoring() function
+    contents:
+      - crit_scores_tmpl
+  - title: "Example output tibbles"
+    desc: >
+      Output tibbles from the different modelling function
+    contents:
+      - model_trend_ex
+      - ind_init_ex
+      - model_gam_ex
+      - model_gamm_ex
+      - merge_models_ex
+      - all_results_ex
+  - title: "Modelling functions"
+    desc: >
+      Modelling indicator trends or pressure relationships
+    contents:
+      - model_trend
+      - ind_init
+      - model_gam
+      - model_gamm
+      - select model
+      - merge_models
+      - calc_deriv
+      - select_interaction
+      - test_interaction
+      - calc_nrmse
+  - title: "Scoring function"
+    desc: >
+      Assessing the indicator performance based on model results
+    contents:
+      - scoring
+      - expect_resp
+      - summary_sc
+      - dist_sc
+      - dist_sc_group
+      - clust_sc
+  - title: "Status assessment"
+    desc: >
+      Calculate Euclidean state space and convex hull
+    contents:
+      - statespace_ed
+      - statespace_ch
+  - title: "Plotting functions"
+    contents:
+      - plot_diagnostics
+      - plot_trend
+      - plot_model
+      - plot_spiechart
+      - plot_clust_sc
+      - plot_statespace_ed
+      - plot_statespace_ch
+  - title: "Internal functions and helpers"
+    contents:
+      - approx_deriv
+      - calc_pred
+      - check_ind_press
+      - check_input_tbl
+      - check_input_vec
+      - compare_thresholds
+      - cond_boot
+      - cooks_dist_gamm
+      - find_id
+      - get_signif_code
+      - get_sum_output
+      - is_value
+      - loocv_thresh_gam
+      - nmrse
+      - pipe
+      - place_text
+      - plot_thresh
+      - sort_output
+      - test_tac
+      - thresh_gam

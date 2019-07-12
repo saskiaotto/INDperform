@@ -5,3 +5,9 @@
 ^README\.Rmd$
 ^README-.*\.png$
 ^cran-comments\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.travis.yml$
+index.md
+index.Rmd
