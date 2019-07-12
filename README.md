@@ -36,17 +36,17 @@ Or install the development version from GitHub:
 devtools::install_github("saskiaotto/INDperform")
 ```
 
-## Usage
+If you encounter a clear bug, please file a minimal reproducible example
+on github. For questions email me any time.
 
-Please see the package website:
-<https://saskiaotto.github.io/INDperform/>
+## Usage
 
 **For more information, documentation and examples of use, please see
 INDperform website at <https://saskiaotto.github.io/INDperform/>**
 
 For guidance on how to apply the functions step-by-step see also the
 [INDperform
-cheatsheet](https://github.com/saskiaotto/cheatsheets/INDperform.pdf).
+cheatsheet](https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.1.0.pdf).
 We are currently working on the Vignette but if you want more
 information on the framework for quantifying IND performances and its
 statistical tools implemented in this package see
