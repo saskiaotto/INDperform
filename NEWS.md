@@ -1,3 +1,8 @@
+# INDperform 0.2.1
+
+* Fixed a minor issue with different test results under different R versions by modifying some tests.
+
+
 # INDperform 0.2.0
 
 ## Breaking changes
