@@ -8,12 +8,18 @@ Fixed the warning caused by changes in the random sampling algorithm when callin
 ## Test environments
 
 * macOS 10.14.5 on local install, R 3.6.1
-* ubuntu 14.04 on travis-ci (R-devel, R-release, R-oldrelease)
+* ubuntu 16.04 on travis-ci (R-devel, R-release, R-oldrelease)
 * win-builder (R-devel, R-release, R-oldrelease)
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs but 1 NOTE:
+
+*Possibly mis-spelled words in DESCRIPTION:
+  al (13:76)
+  et (13:73)*
+  
+I am referring to my paper Otto et al. (2018) in the Description section and don't know how to write it in a way to not receive a note.  
 
 ## Reverse dependencies
 
