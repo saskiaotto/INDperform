@@ -15,9 +15,17 @@ Fixed the warning caused by changes in the random sampling algorithm when callin
 
 There were no ERRORs or WARNINGs but 1 NOTE:
   
-*Possibly mis-spelled words in DESCRIPTION:
+*New submission
+
+Package was archived on CRAN
+
+Possibly mis-spelled words in DESCRIPTION:
   al (13:76)
-  et (13:73)*
+  et (13:73)
+
+CRAN repository db overrides:
+  X-CRAN-Comment: Archived on 2019-04-22 as check errors were not
+    corrected despite reminders. *
   
 I am referring to my paper Otto et al. (2018) in the Description section and don't know how to write it in a way to not receive a note.  
 
