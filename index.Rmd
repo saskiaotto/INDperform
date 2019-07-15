@@ -41,6 +41,10 @@ ________________________________________________________________________________
 
 ## <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest News 
 
+In Version 0.2.1, a minor bug with different internal test results under different R versions was fixed by modifying some tests. But this bug did not affect the modelling results or performance of the previous version.
+
+---
+
 Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes changes include a new NRMSE calculation based on the standard deviation and back-transformation (see [https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/](https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/) for the motivation), an NRMSE stand-alone function (`nrmse()`) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (`dist_sc_group()`).
 For more information see the [news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md) file.
 
@@ -63,10 +67,6 @@ install.packages("INDperform")
 devtools::install_github("saskiaotto/INDperform")
 ```
 
-***
-**NOTE**: The 0.2.0 version is currently only available from the CRAN archive, so for now please go for option #2:
-
-***
 
 INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2018) (see also the package's cheatsheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
 
@@ -231,6 +231,12 @@ This table contains the scores and weights for each (sub-)criterion. It includes
 
 * `scoring()` models the long-term trend of each IND and returns a tibble with all GAM outputs, the model object, and predicted time series per IND.
 * `expect_resp()` runs a shiny app to modify manually the score for the sub-criterion 10.1 (IND response as expected) based on the response curves (default score 1 for neutral / no expectation).
+
+<p align="center">
+  <img src="man/figures/shiny_app_expect_resp.png" width="700">
+</p><br>
+
+
 * `summary_sc()` provides a user-friendly summary of the scoring output tibble.
 * `plot_spiechart()` generates a list of ggplot2 objects (one for each IND). A spie chart superimposes a normal pie chart with a modified polar area chart to permit the comparison of two sets of related data.
 

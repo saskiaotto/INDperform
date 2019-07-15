@@ -26,9 +26,6 @@ Install the CRAN version:
 install.packages("INDperform")
 ```
 
-**NOTE**: The 0.2.0 version is currently only available from the CRAN
-archive, so for now please go for option \#2:
-
 Or install the development version from GitHub:
 
 ``` r
@@ -57,6 +54,12 @@ indicators. Ecological Indicators, 84: 619-631, doi:
 [https://doi.org/10.1016/j.ecolind.2017.05.045](http://www.sciencedirect.com/science/article/pii/S1470160X1730300X)*
 
 ## Important News
+
+In Version 0.2.1 a minor bug with different internal test results under
+different R versions was fixed by modifying some tests. But this bug did
+not affect the modelling results or performance of the previous version.
+
+-----
 
 Version 0.2.0 has been released on CRAN 2019-02-10\! The new version
 includes a few internal changes as adjustments to updated packages it

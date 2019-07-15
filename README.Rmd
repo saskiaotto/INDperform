@@ -33,8 +33,6 @@ Install the CRAN version:
 install.packages("INDperform")
 ```
 
-**NOTE**: The 0.2.0 version is currently only available from the CRAN archive, so for now please go for option #2:
-
 Or install the development version from GitHub:
 
 ```{r, eval = FALSE}
@@ -54,6 +52,10 @@ For guidance on how to apply the functions step-by-step see also the [INDperform
 
 
 ## Important News
+
+In Version 0.2.1, a minor bug with different internal test results under different R versions was fixed by modifying some tests. But this bug did not affect the modelling results or performance of the previous version.
+
+---
 
 Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes changes include a new NRMSE calculation based on the standard deviation and back-transformation (see [https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/](https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/) for the motivation), an NRMSE stand-alone function (`nrmse()`) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (`dist_sc_group()`).
 For more information see the [news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md) file.

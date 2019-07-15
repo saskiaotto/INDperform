@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">INDperform</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9000</span>
       </span>
     </div>
 
@@ -140,6 +140,8 @@
 <div id="latest-news" class="section level2">
 <h2 class="hasAnchor">
 <a href="#latest-news" class="anchor"></a><i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest News</h2>
+<p>In Version 0.2.1, a minor bug with different internal test results under different R versions was fixed by modifying some tests. But this bug did not affect the modelling results or performance of the previous version.</p>
+<hr>
 <p>Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes changes include a new NRMSE calculation based on the standard deviation and back-transformation (see <a href="https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/">https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/</a> for the motivation), an NRMSE stand-alone function (<code><a href="reference/nrmse.html">nrmse()</a></code>) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (<code><a href="reference/dist_sc_group.html">dist_sc_group()</a></code>). For more information see the <a href="https://github.com/saskiaotto/INDperform/blob/master/NEWS.md">news</a> file.</p>
 <hr>
 </div>
@@ -157,9 +159,6 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"saskiaotto/INDperform"</span>)</a></code></pre></div>
-<hr>
-<p><strong>NOTE</strong>: The 0.2.0 version is currently only available from the CRAN archive, so for now please go for option #2:</p>
-<hr>
 <p>INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto <em>et al.</em> (2018) (see also the package’s cheatsheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto <em>et al.</em>, 2018).</p>
 <p>This is a suggested workflow demonstrated on the example data included in the package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(INDperform)</a>
@@ -344,6 +343,11 @@
 <code><a href="reference/scoring.html">scoring()</a></code> models the long-term trend of each IND and returns a tibble with all GAM outputs, the model object, and predicted time series per IND.</li>
 <li>
 <code><a href="reference/expect_resp.html">expect_resp()</a></code> runs a shiny app to modify manually the score for the sub-criterion 10.1 (IND response as expected) based on the response curves (default score 1 for neutral / no expectation).</li>
+</ul>
+<p align="center">
+<img src="reference/figures/shiny_app_expect_resp.png" width="700"></p>
+<p><br></p>
+<ul>
 <li>
 <code><a href="reference/summary_sc.html">summary_sc()</a></code> provides a user-friendly summary of the scoring output tibble.</li>
 <li>
