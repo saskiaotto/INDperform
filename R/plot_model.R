@@ -209,7 +209,7 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   for (i in 1:length(press_train_seq)) {
     press_vector <- press_train[[i]]
     x_seq <- seq(min(press_vector, na.rm = TRUE),
-      max(press_vector, na.rm = TRUE), length.out = length(press_vector))
+      max(press_vector, na.rm = TRUE), length.out = 100)
     press_train_seq[[i]] <- x_seq
   }
   pred_train <- calc_pred(model_list = mod_tbl$model,
