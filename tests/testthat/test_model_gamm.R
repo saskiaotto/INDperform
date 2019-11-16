@@ -1,7 +1,7 @@
 context("test model_gamm")
 
 test_id <- 64
-dat <- model_gamm(ind_init_ex[test_id, ])
+dat <- model_gamm(init_tbl = ind_init_ex[test_id, ])
 
 # set control parameters
 lmc <- nlme::lmeControl(niterEM = 5000, msMaxIter = 1000)
@@ -206,7 +206,7 @@ test_that("error messages and filter", {
     "The length of the logical filter")
   # should NOT provide an error message (filter
   # length correct) and return a tibble
-  expect_true(tibble::is.tibble(model_gamm(ind_init_ex[63, ],
+  expect_true(tibble::is_tibble(model_gamm(ind_init_ex[63, ],
   	filter = model_gam_ex$tac[63])))
   # fitting procedure failed
   expect_error(model_gamm(dat, family = binomial()),

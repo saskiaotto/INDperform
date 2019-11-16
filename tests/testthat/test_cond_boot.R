@@ -70,7 +70,7 @@ test_that("test sample_boot", {
 })
 
 
-### test only internally (different results depending on R version due to seed)
+## test only internally (different results depending on R version due to seed)
 # test_that("test sample_boot internal", {
 #   expect_true(test1$considered[1])
 #   expect_true(all(test2$considered[c(1, 2, 4)]))
@@ -127,9 +127,9 @@ test_that("output tibble", {
   expect_is(dat$pred, "list")
   expect_is(dat$deriv1, "list")
   expect_is(dat$press_seq[[1]], "numeric")
-  expect_equal(length(dat$press_seq[[1]]), 27)
+  expect_equal(length(dat$press_seq[[1]]), 100)
   expect_is(dat$deriv1[[1]], "numeric")
-  expect_equal(length(dat$deriv1[[1]]), 27)
+  expect_equal(length(dat$deriv1[[1]]), 100)
   expect_is(dat$deriv1_ci_low[[1]], "numeric")
   expect_is(dat$deriv1_ci_up[[1]], "numeric")
   expect_is(dat$boot_error[[1]], "list")
