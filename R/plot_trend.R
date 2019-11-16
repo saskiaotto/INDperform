@@ -34,8 +34,8 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
     parent_func = "model_trend()", var_to_check = c("ind",
       "p_val", "ind_train", "time_train", "pred",
       "ci_up", "ci_low"), dt_to_check = c("character",
-      "numeric", "list", "list", "list", "list",
-      "list"))
+        "numeric", "list", "list", "list", "list",
+        "list"))
   # -----------------------------------------
 
   # For text placement
@@ -83,10 +83,23 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
   label <- purrr::map(trend_tbl$p_val, ~paste0("p = ",
     round(., 3)))
 
+
+  # Calculate pred +/- CI on long time sequence to get smooth curve
+  # (important if only short time series) using calc_pred()
+  gen_time_seq <- function(x) {
+    x_seq <- seq(min(x), max(x), length.out = 100)
+    return(x_seq)
+  }
+  time_seq <- purrr::map(1:length(trend_tbl$model),
+    ~ gen_time_seq(trend_tbl$time_train[[.]]) )
+
+  pred_seq <- calc_pred(trend_tbl$model, obs_press = time_seq)
+
   # Apply internal plot helper function
-  p <- purrr::pmap(.l = list(time = trend_tbl$time_train,
-    ind = trend_tbl$ind_train, pred = trend_tbl$pred,
-    ci_up = trend_tbl$ci_up, ci_low = trend_tbl$ci_low,
+  p <- purrr::pmap(.l = list(
+    time = trend_tbl$time_train, ind = trend_tbl$ind_train,
+    time_seq = time_seq, pred_seq = pred_seq$pred,
+    ci_up_seq = pred_seq$ci_up, ci_low_seq = pred_seq$ci_low,
     ylab = trend_tbl$ind, pos_text = pos_text,
     label = label), .f = plot_helper)
 
@@ -99,30 +112,27 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
 
 # Internal helper functions (no extra script) -----
 
-plot_helper <- function(time, ind, pred, ci_up, ci_low,
-  ylab, pos_text, label) {
-  poly_x <- c(sort(time, decreasing = FALSE), sort(time,
-    decreasing = TRUE))
-  poly_y <- c(ci_up[order(time, decreasing = FALSE)],
-    ci_low[order(time, decreasing = TRUE)])
+plot_helper <- function(time, ind, time_seq, pred_seq,
+  ci_up_seq, ci_low_seq, ylab, pos_text, label) {
 
   p <- ggplot2::ggplot() +
-  	ggplot2::geom_polygon(
-  		data = data.frame(poly_x = poly_x, poly_y= poly_y),
-    mapping = ggplot2::aes(x = !!rlang::sym("poly_x"), y = !!rlang::sym("poly_y")),
-  		fill = "lightblue", alpha = 0.5) +
-  	ggplot2::geom_line(data = data.frame(time = time, ind = ind),
-    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
-  	ggplot2::geom_point(data = data.frame(time = time, ind = ind),
-    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
-  	ggplot2::geom_line(data = data.frame(time = time, ind = ind),
-    ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("pred")),
-  		colour = "blue") +
-   ggplot2::labs(y = ylab, x = "Time") +
-  	ggplot2::annotate(geom = "text",
-    x = pos_text$x, y = pos_text$y, label = label,
-    hjust = 0) +
-  	ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
+    ggplot2::geom_ribbon(
+      data = data.frame(time_seq = time_seq, ci_low = ci_low_seq, ci_up = ci_up_seq),
+      mapping = ggplot2::aes(x = !!rlang::sym("time_seq"),
+        ymin = !!rlang::sym("ci_low"), ymax = !!rlang::sym("ci_up")),
+      fill = "lightblue", alpha = 0.5) +
+    ggplot2::geom_line(data = data.frame(time = time, ind = ind),
+      ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+    ggplot2::geom_point(data = data.frame(time = time, ind = ind),
+      ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+    ggplot2::geom_line(data = data.frame(time_seq = time_seq, pred_seq = pred_seq),
+      ggplot2::aes(x = !!rlang::sym("time_seq"), y = !!rlang::sym("pred_seq")),
+      colour = "blue") +
+    ggplot2::labs(y = ylab, x = "Time") +
+    ggplot2::annotate(geom = "text",
+      x = pos_text$x, y = pos_text$y, label = label,
+      hjust = 0) +
+    ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
     plot_outline()
 
   return(p)
