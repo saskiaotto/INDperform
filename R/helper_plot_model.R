@@ -75,18 +75,12 @@ plot_thresh <- function(thresh_sublist, choose_thresh_gam) {
     x_lab <- names(data)[2]
     y_lab <- names(data)[1]
     names(data)[1:2] <- c("ind", "press")
-    # Add CI
-    poly_x <- c(sort(pred$press_seq, decreasing = FALSE),
-      sort(pred$press_seq, decreasing = TRUE))
-    poly_y <- c(pred$ci_up[order(pred$press_seq,
-      decreasing = FALSE)], pred$ci_low[order(pred$press_seq,
-      decreasing = TRUE)])
 
     p <- ggplot2::ggplot() +
-    	ggplot2::geom_polygon(
-    		data = data.frame(poly_x = poly_x, poly_y = poly_y),
-      mapping = ggplot2::aes(x = !!rlang::sym("poly_x"),
-      	y = !!rlang::sym("poly_y")),
+    	ggplot2::geom_ribbon(
+    		data = pred,
+    		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
+    			ymin = !!rlang::sym("ci_low"), ymax = !!rlang::sym("ci_up")),
       fill = col, alpha = 0.2) +
     	ggplot2::geom_point(
     		data = data,
@@ -131,20 +125,15 @@ plot_thresh <- function(thresh_sublist, choose_thresh_gam) {
 # Function to plot response curve
 plot_response <- function(x, y, x_seq, pred, ci_up,
   ci_low, xlab, ylab, pos_text, label, title = "Response curve S") {
-  # x: press, y: ind, x_seq = sequence of x and pred
-  # = predicted values based on x_seq for smoother
-
-  poly_x <- c(sort(x_seq, decreasing = FALSE), sort(x_seq,
-    decreasing = TRUE))
-  poly_y <- c(ci_up[order(x_seq, decreasing = FALSE)],
-    ci_low[order(x_seq, decreasing = TRUE)])
+  # x: press, y: ind, x_seq: sequence of x and pred
+  # pred: predicted values based on x_seq for smoother
 
   p <- ggplot2::ggplot() +
-  	ggplot2::geom_polygon(
-  		data = data.frame(poly_x = poly_x, poly_y = poly_y),
-    mapping = ggplot2::aes(x = !!rlang::sym("poly_x"),
-    	y = !!rlang::sym("poly_y")), fill = "dodgerblue3",
-    alpha = 0.2) +
+  	ggplot2::geom_ribbon(
+  		data = data.frame(x_seq = x_seq, y_ci_low = ci_low, y_ci_up = ci_up),
+    mapping = ggplot2::aes(x = !!rlang::sym("x_seq"),
+    	ymin = !!rlang::sym("y_ci_low"), ymax = !!rlang::sym("y_ci_up")),
+  		fill = "dodgerblue3", alpha = 0.2) +
   	ggplot2::geom_line(
   		data = data.frame(x_seq = x_seq, pred = pred),
   		mapping = ggplot2::aes(x = !!rlang::sym("x_seq"),

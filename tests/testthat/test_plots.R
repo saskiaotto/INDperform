@@ -77,16 +77,21 @@
 # # Test helper function for plot_trend() ---------
 # time <- model_trend_ex$time_train[[1]]
 # ind <- model_trend_ex$ind_train[[1]]
-# pred <- model_trend_ex$pred[[1]]
-# ci_up <- model_trend_ex$ci_up[[1]]
-# ci_low <- model_trend_ex$ci_low[[1]]
+# time_seq <- seq(min(time), max(time), length.out = 100)
+# pred <- calc_pred(
+# 	model_trend_ex$model[1],
+# 	obs_press = list(time_seq)
+# 	)
+# pred_seq <- pred$pred[[1]]
+# ci_up_seq <- pred$ci_up[[1]]
+# ci_low_seq <- pred$ci_low[[1]]
 # x_range <- range(time)
-# y_range <- range(c(ind, pred, ci_up, ci_low), na.rm = TRUE)
+# y_range <- range(c(ind, pred_seq, ci_up_seq, ci_low_seq), na.rm = TRUE)
 # pos_text <- place_text(x = x_range, y = y_range, x_prop = 0,
 #   y_prop = 0.1, pos = "topleft")
 #
-# trend_plot <- plot_helper(time, ind, pred, ci_up, ci_low,
-#   ylab = "y", pos_text, label = "Test!")
+# trend_plot <- plot_helper(time, ind, time_seq, pred_seq,
+#   ci_up_seq, ci_low_seq, ylab = "y", pos_text, label = "Test!")
 #
 # test_that("plot_trend", {
 #   vdiffr::expect_doppelganger("plot trend", trend_plot)
