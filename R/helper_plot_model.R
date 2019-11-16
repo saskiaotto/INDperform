@@ -41,16 +41,15 @@ plot_thresh <- function(thresh_sublist, choose_thresh_gam) {
   # below/above threshold value
   add_pred <- function(mod, t_val, which) {
     press_seq <- seq(from = min(mod$model[, 2]),
-      to = max(mod$model[, 2]), length.out = length(mod$model[,
-        2]))
+      to = max(mod$model[, 2]), length.out = 200) # here 200 -> rougly 100 per regime
     if (which == "below") {
       new_dat <- data.frame(press = press_seq,
         t_var = rep((t_val - (t_val * 0.1)),
-          times = length(mod$model[, 2])))
+          times = 200))
     } else {
       new_dat <- data.frame(press = press_seq,
         t_var = rep((t_val + (t_val * 0.1)),
-          times = length(mod$model[, 2])))
+          times = 200))
     }
     names(new_dat) <- names(mod$original_data)[2:3]
     temp <- mgcv::predict.gam(mod, newdata = new_dat,
@@ -193,27 +192,37 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
   	ggplot2::geom_ribbon(
   		data = tibble::tibble(x_zoom = x_zoom, ci_low_zoom = ci_low_zoom,
   			ci_up_zoom = ci_up_zoom),
-  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"),
+  		mapping = ggplot2::aes(
+  			x = !!rlang::sym("x_zoom"),
   			ymin = !!rlang::sym("ci_low_zoom"),
      ymax = !!rlang::sym("ci_up_zoom")),
   		fill = "darkseagreen4", alpha = 0.2) +
   	ggplot2::geom_line(
-  		data = tibble::tibble(x_zoom = x_zoom, y_pred_zoom = y_pred_zoom),
-  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"), y = !!rlang::sym("y_pred_zoom")),
+  		data = tibble::tibble(x = x_zoom, y = y_pred_zoom),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x"),
+  			y = !!rlang::sym("y")),
     colour = "darkseagreen4", size = 1) +
   	ggplot2::geom_point(
-  		data = tibble::tibble(x_zoom = x[x_train_zoom], y_obs_zoom = y_obs[x_train_zoom]),
-  		mapping = ggplot2::aes(x = !!rlang::sym("x_zoom"), y = !!rlang::sym("y_obs_zoom")),
+  		data = tibble::tibble(x = x_zoom, y = y_pred_zoom),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x"),
+  			y = !!rlang::sym("y")),
+    colour = "darkseagreen4", shape = 16, size = 2) +
+  	ggplot2::geom_point(
+  		data = tibble::tibble(x = x[x_train_zoom], y = y_obs[x_train_zoom]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x"),
+  			y = !!rlang::sym("y")),
     shape = 16, size = 2) +
   	ggplot2::geom_point(
-  		data = tibble::tibble(x_test = x[x_test], yobs_xtest = y_obs[x_test]),
-  		mapping = ggplot2::aes(x = !!rlang::sym("x_test"), y = !!rlang::sym("yobs_xtest")),
+  		data = tibble::tibble(x = x[x_test], y = y_obs[x_test]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x"),
+  			y = !!rlang::sym("y")),
     shape = 17, size = 3) +
   	ggplot2::geom_point(
-  		data = tibble::tibble(x_test = x[x_test], ypred_xtest = y_pred[x_test]),
-  		mapping = ggplot2::aes(x = !!rlang::sym("x_test"), y = !!rlang::sym("ypred_xtest")),
+  		data = tibble::tibble(x = x[x_test], y = y_pred[x_test]),
+  		mapping = ggplot2::aes(x = !!rlang::sym("x"),
+  			y = !!rlang::sym("y")),
     shape = 17, size = 3, colour = "darkseagreen4") +
-    ggplot2::ylim(y_range) +
+   ggplot2::ylim(y_range) +
   	ggplot2::scale_x_continuous(breaks = x_seq_on_axis,
     limits = x_range) +
   	ggplot2::labs(x = xlab,
