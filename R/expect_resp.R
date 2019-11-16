@@ -68,7 +68,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		# Check if subcrit 10_1 exists in the crit_scores table, if TRUE continue
 		names_press_spec_sp <- scores_tbl %>%
 			dplyr::select(!!rlang::sym("press_spec_sc")) %>%
-			tidyr::unnest() %>%
+			tidyr::unnest(cols = c(!!!rlang::syms("press_spec_sc"))) %>%
 			names(.)
 		if("C10_1" %in% names_press_spec_sp == FALSE) {
 			 stop("There is no scored subcriterion 10_1 in your scoring output table, which can be modified. You need to include it in the scoring function")
@@ -82,7 +82,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 	 vars <- rlang::syms(c("ind", "press_spec_sc") )
 	 scores_tbl_press <- scores_tbl %>%
 		 dplyr::select(!!!vars) %>%
-		 tidyr::unnest()
+		 tidyr::unnest(cols = c(!!!rlang::syms("press_spec_sc")))
 
 	 vars <- names(scores_tbl_press)[!names(scores_tbl_press) %in%
 	 		c("ind", "press", "id", "press_type")]
@@ -226,7 +226,8 @@ expect_resp <- function(mod_tbl, scores_tbl,
 		# Convert data into the original nested tibble for return
 		pre_out <- pre_out %>%
 			dplyr::group_by(!!rlang::sym("ind")) %>%
-			tidyr::nest(.key = "press_spec_sc")
+			tidyr::nest() %>%
+   dplyr::rename(press_spec_sc = !!rlang::sym("data"))
 
 		# Merge back into the old
   scores_tbl$press_spec_sc <- NULL

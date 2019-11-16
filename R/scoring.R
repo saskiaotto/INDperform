@@ -331,8 +331,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
       # Score significant models (`TRUE` list) per
       # sub-criterion --------
-      if (!is.null(mod_tbl_split$`TRUE`))
-        {
+      if (!is.null(mod_tbl_split$`TRUE`)) {
 
           # To get the correct variable for the respective
           # subcriterion
@@ -388,8 +387,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Create empty scoring table and do the scoring
   # ONLY if C8 and/or C11 are selected
-  if (!is.null(crit_v_811))
-    {
+  if (!is.null(crit_v_811)) {
       # Create scoring table including indicator name and
       # selected criteria
       score_c811 <- tibble::tibble(ind = unique(mod_tbl$ind))
@@ -406,8 +404,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       }
 
       ### Score C11 combinations of significant pressures
-      if ("C11" %in% crit_v_811)
-        {
+      if ("C11" %in% crit_v_811) {
           if (is.null(score_c910_split$`TRUE`)) {
           # i.e. if none of the tested indicator respond to
           # any pressure
@@ -459,7 +456,8 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     # with other criteria
     score_c910 <- score_c910 %>%
     dplyr::group_by(!!rlang::sym("ind")) %>%
-      tidyr::nest(.key = "press_spec_sc")
+      tidyr::nest() %>%
+      dplyr::rename(press_spec_sc = !!rlang::sym("data"))
 
     # (if only the score_c910 table was generated)
     if (is.null(crit_v_811) == TRUE) {
