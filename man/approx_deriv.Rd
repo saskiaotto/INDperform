@@ -23,14 +23,17 @@ from the conditional bootstrap.}
 \value{
 The function returns the input model tibble with the following 4 columns added
 \describe{
-  \item{\code{press_seq}}{A list-column with sequences of evenly spaced pressure
+  \item{\code{press_seq}}{A list-column with sequences of 100 evenly spaced pressure
              values (with the length of the time series).}
   \item{\code{deriv1}}{A list-column with the first derivatives of the indicator
-             responses averaged across all bootstraps.}
+             responses averaged across all bootstraps (for the 100 equally spaced
+             pressure values).}
   \item{\code{deriv1_ci_up}}{A list-column with the upper confidence limit of the
-             bootstrapped first derivatives.}
+             bootstrapped first derivatives(for the 100 equally spaced
+             pressure values).}
   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the
-             bootstrapped first derivatives.}
+             bootstrapped first derivatives(for the 100 equally spaced
+             pressure values).}
 }
 }
 \description{

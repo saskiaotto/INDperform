@@ -41,16 +41,18 @@ computation with the same seed and number of clusters.}
 \value{
 The function returns the input model tibble with the following 9 columns added
 \describe{
-  \item{\code{press_seq}}{A list-column with sequences of evenly spaced pressure
-             values (with the length of the time series).}
+  \item{\code{press_seq}}{A list-column with sequences of 100 evenly spaced pressure
+             values.}
   \item{\code{pred}}{A list-column with the predicted indicator responses
-             averaged across all bootstraps.}
+             averaged across all bootstraps (for the 100 equally spaced
+             pressure values).}
   \item{\code{pred_ci_up}}{A list-column with the upper confidence limit of the
              bootstrapped predictions.}
   \item{\code{pred_ci_low}}{A list-column with the lower confidence limit of the
              bootstrapped predictions.}
   \item{\code{deriv1}}{A list-column with the first derivatives of the indicator
-             responses averaged across all bootstraps.}
+             responses averaged across all bootstraps (for the 100 equally spaced
+             pressure values).}
   \item{\code{deriv1_ci_up}}{A list-column with the upper confidence limit of the
              bootstrapped first derivatives.}
   \item{\code{deriv1_ci_low}}{A list-column with the lower confidence limit of the

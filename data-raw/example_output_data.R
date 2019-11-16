@@ -44,7 +44,7 @@ all_results_ex$nrmse <- calc_nrmse(
 )
 
 
-devtools::use_data(model_trend_ex,
+usethis::use_data(model_trend_ex,
 																			ind_init_ex,
 																			model_gam_ex,
 																			model_gamm_ex,
