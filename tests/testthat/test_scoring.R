@@ -2,7 +2,7 @@ context("test scoring")
 
 dat <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
   press_type = INDperform::press_type_ex)
-dat <- tidyr::unnest(dat)
+dat <- tidyr::unnest(dat, cols = press_spec_sc)
 ind_v <- unique(dat$ind)
 crit_v <- names(dat) %in% c("C8", "C11")
 subcrit_v <- c("C9_1", "C9_2", "C10_1", "C10_2", "C10_3",

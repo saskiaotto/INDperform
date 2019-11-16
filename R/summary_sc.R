@@ -81,7 +81,7 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
     # Extract scores of sign.pressures
     scores_c910 <- scores_tbl %>%
     	dplyr::select(!!!rlang::syms(c("ind","press_spec_sc"))) %>%
-    	tidyr::unnest()
+    	tidyr::unnest(cols = c(!!!rlang::syms("press_spec_sc")))
     vars <- names(scores_c910)[!names(scores_c910) %in% c("ind",
       "press", "id", "press_type")]
     keep_in <- rowSums(scores_c910[, vars]) > 0
@@ -214,14 +214,13 @@ summary_sc <- function(scores_tbl, crit_scores = INDperform::crit_scores_tmpl) {
   # pressures)
 
 
-  if ("press_spec_sc" %in% names(scores_tbl) == TRUE)
-    {
+  if ("press_spec_sc" %in% names(scores_tbl) == TRUE) {
 
       # Extract scores of sign. pressures
       vars <- rlang::syms(c("ind", "press_spec_sc"))
       scores_c910 <- scores_tbl %>%
       	dplyr::select(!!!vars) %>%
-        tidyr::unnest()
+        tidyr::unnest(cols = c(!!!rlang::syms("press_spec_sc")))
       # Make data long for calculating total scores per criterion
       vars <- rlang::syms(names(scores_c910)[!names(scores_c910) %in%
         c("ind", "id", "press", "press_type")])
