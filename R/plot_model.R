@@ -125,8 +125,8 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
     var_to_check = c("id", "ind", "press", "edf",
       "p_val", "r_sq", "expl_dev", "nrmse", "model"),
     dt_to_check = c("integer", "character", "character",
-      "numeric", "numeric", "numeric", "numeric",
-      "numeric", "list"))
+      "double", "double", "double", "double",
+      "double", "list"))
 
   # Check if init_tbl represents the same full set or
   # subset of IND-pressure combinations than mod_tbl

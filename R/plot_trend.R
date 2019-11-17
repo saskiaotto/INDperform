@@ -34,7 +34,7 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
     parent_func = "model_trend()", var_to_check = c("ind",
       "p_val", "ind_train", "time_train", "pred",
       "ci_up", "ci_low"), dt_to_check = c("character",
-        "numeric", "list", "list", "list", "list",
+        "double", "list", "list", "list", "list",
         "list"))
   # -----------------------------------------
 

@@ -65,6 +65,7 @@ expect_resp <- function(mod_tbl, scores_tbl,
 				var_to_check = c("ind", "press_spec_sc"), dt_to_check = c("character", "list")
 		)
 
+
 		# Check if subcrit 10_1 exists in the crit_scores table, if TRUE continue
 		names_press_spec_sp <- scores_tbl %>%
 			dplyr::select(!!rlang::sym("press_spec_sc")) %>%

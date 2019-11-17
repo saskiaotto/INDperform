@@ -48,19 +48,19 @@ check_input_tbl <- function(x, tbl_name, parent_func = NULL,
         # Check if variables have the correct data type
         dt <- rep(FALSE, length(var_to_check))
         for (i in seq_along(var_to_check)) {
-          if (class(x[[var_to_check[i]]]) ==
+          if (typeof(x[[var_to_check[i]]]) ==
           dt_to_check[i])
           dt[i] <- TRUE
         }
         if (any(dt == FALSE)) {
           wrong_dt <- dt_to_check[dt == FALSE]
-          var_wrong_dt <- var_to_check[dt ==
-          FALSE]
+          var_wrong_dt <- var_to_check[dt == FALSE]
           message(paste0("The following variables have not the required data types in ",
           tbl_name, ":"))
           print(data.frame(variable = var_wrong_dt,
           required_data_type = wrong_dt))
-          stop()
+          stop("Change the data type in these columns and run function again.",
+            call. = FALSE)
         }
       }
     }

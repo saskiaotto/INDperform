@@ -50,11 +50,11 @@ select_model <- function(gam_tbl, gamm_tbl) {
   gam_tbl <- check_input_tbl(gam_tbl, tbl_name = "gam_tbl",
     parent_func = "model_gam()", var_to_check = c("id",
       "ind", "press", "aic"), dt_to_check = c("integer",
-      "character", "character", "numeric"))
+      "character", "character", "double"))
   gamm_tbl <- check_input_tbl(gamm_tbl, tbl_name = "gamm_tbl",
     parent_func = "model_gamm()", var_to_check = c("id",
       "ind", "press", "aic"), dt_to_check = c("integer",
-      "character", "character", "numeric"))
+      "character", "character", "double"))
 
   # Test if all gamm_ids occur in the gam_tbl
   if (!all(gamm_tbl$id %in% gam_tbl$id)) {

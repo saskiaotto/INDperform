@@ -239,7 +239,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     var_to_check = c("id", "ind", "press", "corrstruc",
       "edf", "p_val", "model"), dt_to_check = c("integer",
       "character", "character", "character",
-      "numeric", "numeric", "list"))
+      "double", "double", "list"))
 
   # Test if there are any ids with NAs in models (if,
   # e.g., GAMMs were manually selected and

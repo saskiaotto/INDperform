@@ -188,7 +188,7 @@ test_interaction <- function(init_tbl, mod_tbl, interactions,
     var_to_check = c("id", "ind", "press", "model_type",
       "p_val", "model"), dt_to_check = c("integer",
       "character", "character", "character",
-      "numeric", "list"))
+      "double", "list"))
 
   if ((!"excl_outlier" %in% names(mod_tbl)) & isTRUE(excl_outlier)) {
     stop("There is no column excl_outlier. Please set excl_outlier to FALSE!")
