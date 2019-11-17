@@ -93,13 +93,13 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
   time_seq <- purrr::map(1:length(trend_tbl$model),
     ~ gen_time_seq(trend_tbl$time_train[[.]]) )
 
-  pred_seq <- calc_pred(trend_tbl$model, obs_press = time_seq)
+  pred_ci_seq <- calc_pred(trend_tbl$model, obs_press = time_seq)
 
   # Apply internal plot helper function
   p <- purrr::pmap(.l = list(
     time = trend_tbl$time_train, ind = trend_tbl$ind_train,
-    time_seq = time_seq, pred_seq = pred_seq$pred,
-    ci_up_seq = pred_seq$ci_up, ci_low_seq = pred_seq$ci_low,
+    time_seq = time_seq, pred_seq = pred_ci_seq$pred,
+    ci_up_seq = pred_ci_seq$ci_up, ci_low_seq = pred_ci_seq$ci_low,
     ylab = trend_tbl$ind, pos_text = pos_text,
     label = label), .f = plot_helper)
 
@@ -115,25 +115,44 @@ plot_trend <- function(trend_tbl, pos_label = "topleft") {
 plot_helper <- function(time, ind, time_seq, pred_seq,
   ci_up_seq, ci_low_seq, ylab, pos_text, label) {
 
-  p <- ggplot2::ggplot() +
-    ggplot2::geom_ribbon(
-      data = data.frame(time_seq = time_seq, ci_low = ci_low_seq, ci_up = ci_up_seq),
-      mapping = ggplot2::aes(x = !!rlang::sym("time_seq"),
-        ymin = !!rlang::sym("ci_low"), ymax = !!rlang::sym("ci_up")),
-      fill = "lightblue", alpha = 0.5) +
-    ggplot2::geom_line(data = data.frame(time = time, ind = ind),
-      ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
-    ggplot2::geom_point(data = data.frame(time = time, ind = ind),
-      ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
-    ggplot2::geom_line(data = data.frame(time_seq = time_seq, pred_seq = pred_seq),
-      ggplot2::aes(x = !!rlang::sym("time_seq"), y = !!rlang::sym("pred_seq")),
-      colour = "blue") +
-    ggplot2::labs(y = ylab, x = "Time") +
-    ggplot2::annotate(geom = "text",
-      x = pos_text$x, y = pos_text$y, label = label,
-      hjust = 0) +
-    ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
-    plot_outline()
+  if (all(is.na(pred_seq))) {
+
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_line(data = data.frame(time = time, ind = ind),
+        ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+      ggplot2::geom_point(data = data.frame(time = time, ind = ind),
+        ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+      ggplot2::labs(y = ylab, x = "Time") +
+      ggplot2::annotate(geom = "text",
+        x = pos_text$x, y = pos_text$y, label = "no model",
+        hjust = 0) +
+      ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
+      plot_outline()
+
+  } else {
+
+    p <- ggplot2::ggplot() +
+      ggplot2::geom_ribbon(
+        data = data.frame(time_seq = time_seq, ci_low = ci_low_seq, ci_up = ci_up_seq),
+        mapping = ggplot2::aes(x = !!rlang::sym("time_seq"),
+          ymin = !!rlang::sym("ci_low"), ymax = !!rlang::sym("ci_up")),
+        fill = "lightblue", alpha = 0.5) +
+      ggplot2::geom_line(data = data.frame(time = time, ind = ind),
+        ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+      ggplot2::geom_point(data = data.frame(time = time, ind = ind),
+        ggplot2::aes(x = !!rlang::sym("time"), y = !!rlang::sym("ind"))) +
+      ggplot2::geom_line(data = data.frame(time_seq = time_seq, pred_seq = pred_seq),
+        ggplot2::aes(x = !!rlang::sym("time_seq"), y = !!rlang::sym("pred_seq")),
+        colour = "blue") +
+      ggplot2::labs(y = ylab, x = "Time") +
+      ggplot2::annotate(geom = "text",
+        x = pos_text$x, y = pos_text$y, label = label,
+        hjust = 0) +
+      ggplot2::scale_x_continuous(breaks = pretty(min(time):max(time))) +
+      plot_outline()
+
+
+  }
 
   return(p)
 }
