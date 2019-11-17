@@ -6,6 +6,8 @@
 
 * Adjusted the nest() and unnest() function to the new tidyr package release (removed deprecated arguments).
 
+* trend_plot() slightly changed so that if model not available only obs plotted.
+
 
 # INDperform 0.2.1
 
