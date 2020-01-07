@@ -449,8 +449,33 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   # All Plots combined -----------------------------
 
   # Title
+  # Helper function to create title including the corrstruct
+  create_title <- function(x) {
+    if (grepl("gamm", class(x)[1])) {
+      temp <- strsplit(
+        utils::capture.output(x$lme$modelStruct$corStruct)[1],
+        "cor")[[1]][2]
+      corrstruct <- strsplit(temp, " ")[[1]][1]
+      if (grepl("ARMA", corrstruct)) {
+        corrstruct <- paste0(corrstruct,
+          attr(x$lme$modelStruct$corStruct, "p"),
+          ",", attr(x$lme$modelStruct$corStruct, "q"))
+      }
+      t <- paste0(all.vars(x$gam$formula)[1],   # ind
+        " ~ ", all.vars(x$gam$formula)[2], # press
+        " (", toupper(class(x)[1]),        # model class
+        " [", toupper(corrstruct), "])")
+    } else {
+      t <- paste0(all.vars(x$formula)[1],   # ind
+        " ~ ", all.vars(x$formula)[2], # press
+        " (", toupper(class(x)[1]),    # model class
+        ")" )
+    }
+    return(t)
+  }
+
   if (header) {
-    title <- paste0(mod_tbl$ind, " ~ ", mod_tbl$press)
+    title <- purrr::map(mod_tbl$model, ~create_title(.x))
   } else {
     title <- ""
   }

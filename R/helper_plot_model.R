@@ -279,6 +279,6 @@ plot_all_mod <- function(p1, p2, p3, p4, title) {
     height = 0.45) +
 		cowplot::draw_plot(p4,
     x = 0.5, y = 0, width = 0.5, height = 0.45) +
-  cowplot::draw_plot_label(label = title, hjust = -0.5,
+  cowplot::draw_plot_label(label = title, hjust = -0.2,
     vjust = 2)
 }
