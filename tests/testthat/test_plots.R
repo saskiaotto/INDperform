@@ -24,8 +24,12 @@
 #
 # # Test helper_plot_diagnostics functions: ---------
 #
+# title_test <- "Sprat ~ Tsum \n (GAM)"
+#
 # # Test plot_cook()
-# test_plot_cook <- plot_cook(cooks_dist_gamm(gamm_model = model_gamm_ex$model[[1]]$gam))
+# test_plot_cook <- plot_cook(
+# 	values = cooks_dist_gamm(gamm_model = model_gamm_ex$model[[1]]$gam),
+# 	title = title_test)
 #
 # # Test plot_tac()
 # resid <- mgcv::residuals.gam(all_results_ex$model[[1]])
@@ -34,12 +38,12 @@
 # acf_lag <- as.vector(stats::acf(resid, na.action = stats::na.pass,
 #   plot = FALSE)$lag)
 # acf <- test_tac(model_resid = list(resid))$acf[[1]]
-# test_plot_tac <- plot_acf(acf_lag, acf)
+# test_plot_tac <- plot_acf(acf_lag, acf, title = title_test)
 #
 # # Test plot_resid()
 # pred <- calc_pred(all_results_ex$model[1], ind_init_ex$press_train[1])$pred[[1]]
 # test_plot_resid <- plot_resid(model_resid = resid,
-#   model_fitted = pred)
+#   model_fitted = pred, title = title_test)
 #
 # # Test plot_qq() quan_normal <- quantile(x =
 # # rnorm(length(resid))) -> if i run this I would
@@ -48,7 +52,7 @@
 # theo_quan <- seq(from = -2.0533143, to = 2.0820291,
 #   by = (2.0820291 + 2.0533143)/(length(resid) - 1))
 # # (seq from min to max)
-# test_plot_qq <- plot_qq(resid, theo_quan)
+# test_plot_qq <- plot_qq(resid, theo_quan, title = title_test)
 #
 # # Test ggcv_plot()
 # t_val <- all_results_ex$thresh_models[[6]][[1]]$t_val
@@ -56,7 +60,7 @@
 # lab <- all_results_ex$thresh_models[[6]][[1]]
 # min_t_val <- all_results_ex$thresh_models[[6]][[1]]$mr
 # test_plot_gcvv <- plot_gcvv(x_var = t_val, y_var = gcvv,
-# 	lab = lab,	best_t_val = min_t_val)
+# 	lab = lab,	best_t_val = min_t_val, title = title_test)
 #
 #
 #

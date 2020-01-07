@@ -199,13 +199,13 @@ plot_diagnostics <- function(model_list) {
 						  t <- paste0(all.vars(x$gam$formula)[1],   # ind
 										" ~ ", all.vars(x$gam$formula)[2], # press
 										" | ", all.vars(x$gam$formula)[3], # threshold variable
-										" (", toupper(class(x)[1]),    # model class
+										" \n (", toupper(class(x)[1]),    # model class
 										")" )
 					 } else {                            # thresh_gam
 						  t <- paste0(all.vars(x$formula)[1],   # ind
 										" ~ ", all.vars(x$formula)[2], # press
 										" | ", all.vars(x$formula)[3], # threshold variable
-										" (", toupper(class(x)[1]),    # model class
+										" \n (", toupper(class(x)[1]),    # model class
 										")" )
 		 			}
 				} else {
@@ -221,12 +221,12 @@ plot_diagnostics <- function(model_list) {
 					   }
 					   t <- paste0(all.vars(x$gam$formula)[1],   # ind
 										" ~ ", all.vars(x$gam$formula)[2], # press
-										" (", toupper(class(x)[1]),        # model class
+										" \n (", toupper(class(x)[1]),        # model class
 										" [", toupper(corrstruct), "])")
 				  } else {
 					   t <- paste0(all.vars(x$formula)[1],   # ind
 										" ~ ", all.vars(x$formula)[2], # press
-										" (", toupper(class(x)[1]),    # model class
+										" \n (", toupper(class(x)[1]),    # model class
 										")" )
 				  }
 				}
@@ -240,35 +240,35 @@ plot_diagnostics <- function(model_list) {
 	 # (if input has values)
   cook_plots <- purrr::map(1:length(cooks_dist),
   		~ if ( sum(is_value(cooks_dist[[.]])) > 1 ) {
-  					plot_cook(values = cooks_dist[[.]])
+  					plot_cook(values = cooks_dist[[.]], title = title[[.]])
   			} else {NA})
 
   acf_plots <- purrr::map(1:length(tac$acf),
   		~ if ( sum(is_value(tac$acf[[.]])) > 1 ) {
   			plot_acf(x_var = acf_lag[[.]],
-  			y_var = tac$acf[[.]])
+  			y_var = tac$acf[[.]], title = title[[.]])
   			} else {NA})
 
   pacf_plots <- purrr::map(1:length(tac$pacf),
   		~ if ( sum(is_value(tac$pacf[[.]])) > 1 ) {
   			plot_pacf(x_var = pacf_lag[[.]],
-  			y_var = tac$pacf[[.]])
+  			y_var = tac$pacf[[.]], title = title[[.]])
   			} else {NA})
 
   resid_plots <- purrr::map(1:length(model_pred),
   		~ if ( (sum(is_value(model_pred[[.]])) > 1) | (sum(is_value(model_resid[[.]])) > 1) ) {
   			plot_resid(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
-  			model_fitted = model_pred[[.]])
+  			model_fitted = model_pred[[.]], title = title[[.]])
   			} else {NA} )
 
   qq_plots <- purrr::map(1:length(model_resid),
   		~ if ( sum(is_value(model_resid[[.]])) > 1 ) {
   			plot_qq(model_resid = model_resid[[.]][!is.na(model_resid[[.]])],
-  			theo_quan = theo_quan[[.]][!is.na(theo_quan[[.]])])
+  			theo_quan = theo_quan[[.]][!is.na(theo_quan[[.]])], title = title[[.]])
   			} else {NA})
 
   gcvv_plots <- purrr::pmap(list(t_val, gcvv, model_list,
-    best_t_val), plot_gcvv)
+    best_t_val, title = title), plot_gcvv)
 
   # Plot everything on 1 page (the absolutely longest
   # step)

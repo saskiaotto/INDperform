@@ -15,13 +15,15 @@ plot_outline <- function() {
     panel.grid = ggplot2::element_blank(), panel.border = ggplot2::element_rect(fill = NA,
       colour = "black"), panel.background = ggplot2::element_blank(),
     panel.grid.minor = ggplot2::element_blank(),
-    panel.grid.major = ggplot2::element_blank())
+    panel.grid.major = ggplot2::element_blank(),
+  	 plot.subtitle = ggplot2::element_text(size = 10)
+  	)
   return(p)
 }
 
 #' @rdname plot_outline
 # Function to plot the Cooks distance
-plot_cook <- function(values) {
+plot_cook <- function(values, title) {
   if (is.null(values)) {
     values <- 0
   }
@@ -34,13 +36,14 @@ plot_cook <- function(values) {
   	ggplot2::labs(x = "", y = "Cook`s distance") +
   	ggplot2::geom_hline(yintercept = 1, colour = "red") +
   	ggplot2::geom_abline(intercept = 0, slope = 0) +
+  	ggplot2::labs(subtitle = title) +
   	plot_outline()
   return(p)
 }
 
 #' @rdname plot_outline
 # Autocorrelation function plot
-plot_acf <- function(x_var, y_var) {
+plot_acf <- function(x_var, y_var, title) {
   p <- ggplot2::ggplot(
   	data = data.frame(x_var = x_var, y_var = y_var),
   	mapping = ggplot2::aes(x = !!rlang::sym("x_var"), y = !!rlang::sym("y_var"))) +
@@ -56,13 +59,14 @@ plot_acf <- function(x_var, y_var) {
     ggplot2::scale_x_continuous(breaks = seq(0,
       max(x_var), 2), labels = seq(0, max(x_var),
       2)) +
+  	ggplot2::labs(subtitle = title) +
   	plot_outline()
   return(p)
 }
 
 #' @rdname plot_outline
 # Partial acf plot
-plot_pacf <- function(x_var, y_var) {
+plot_pacf <- function(x_var, y_var, title) {
   p <- ggplot2::ggplot(
   	data = data.frame(x_var = x_var, y_var = y_var),
   	mapping = ggplot2::aes(x = !!rlang::sym("x_var"), y = !!rlang::sym("y_var"))) +
@@ -79,28 +83,30 @@ plot_pacf <- function(x_var, y_var) {
   	ggplot2::scale_x_continuous(breaks = seq(0,
     max(x_var), 2), labels = seq(0, max(x_var),
     2)) +
+  	ggplot2::labs(subtitle = title) +
   	plot_outline()
   return(p)
 }
 
 #' @rdname plot_outline
 # Plot residuals vs fitted values
-plot_resid <- function(model_fitted, model_resid) {
+plot_resid <- function(model_fitted, model_resid, title) {
   p <- ggplot2::ggplot(
   	data = data.frame(model_fitted = model_fitted,
   			model_resid = model_resid),
   	 mapping = ggplot2::aes(x = !!rlang::sym("model_fitted"),
      y = !!rlang::sym("model_resid"))) +
-  		ggplot2::geom_point() +
-    ggplot2::geom_abline(intercept = 0, slope = 0) +
-    ggplot2::labs(x = "Fitted values", y = "Residuals") +
-    plot_outline()
+  	ggplot2::geom_point() +
+   ggplot2::geom_abline(intercept = 0, slope = 0) +
+   ggplot2::labs(x = "Fitted values", y = "Residuals") +
+  	ggplot2::labs(subtitle = title) +
+  plot_outline()
   return(p)
 }
 
 #' @rdname plot_outline
 # Quantile-quantile plot
-plot_qq <- function(model_resid, theo_quan) {
+plot_qq <- function(model_resid, theo_quan, title) {
   if (is.null(model_resid)) {
     model_resid <- 0
   }
@@ -112,17 +118,18 @@ plot_qq <- function(model_resid, theo_quan) {
   		sorted_y = sort(model_resid, na.last = TRUE)),
   	mapping = ggplot2::aes(x = !!rlang::sym("theo_quan"),
     y = !!rlang::sym("sorted_y"))) +
-  		ggplot2::geom_point() +
-    ggplot2::geom_smooth(method = "lm", se = FALSE) +
-    ggplot2::labs(x = "Theoretical Quantiles",
+  	ggplot2::geom_point() +
+   ggplot2::geom_smooth(method = "lm", se = FALSE) +
+   ggplot2::labs(x = "Theoretical Quantiles",
       y = "Sample Quantiles") +
+   ggplot2::labs(subtitle = title) +
   	plot_outline()
   return(p)
 }
 
 #' @rdname plot_outline
 # GCVV plot for threshold models
-plot_gcvv <- function(x_var, y_var, lab, best_t_val) {
+plot_gcvv <- function(x_var, y_var, lab, best_t_val, title) {
   if (!is.null(x_var)) {
     p <- ggplot2::ggplot(
     	data = data.frame(x_var = x_var, y_var = y_var),
@@ -132,6 +139,7 @@ plot_gcvv <- function(x_var, y_var, lab, best_t_val) {
       colour = "red") +
     	ggplot2::labs(x = all.vars(lab$formula)[3],
       y = "GCVV") +
+    	ggplot2::labs(subtitle = title) +
     	plot_outline()
   } else {
     p <- plot_empty()
@@ -142,6 +150,15 @@ plot_gcvv <- function(x_var, y_var, lab, best_t_val) {
 #' @rdname plot_outline
 # Cowplot that will combine the different ggplots
 plot_all_diag <- function(p1, p2, p3, p4, p5, p6, title) {
+
+		# remove subtitles from each ggplot
+	 p1$labels$subtitle <- p2$labels$subtitle <-
+	 	p3$labels$subtitle <- p4$labels$subtitle <-
+	 	p5$labels$subtitle <- p6$labels$subtitle <- NULL
+
+	 # remove line break in title
+	 title <- stringr::str_replace(title, "\\n \\(", "\\(")
+
   cowplot::ggdraw() +
 		cowplot::draw_plot(p1, x = 0,
     y = 0.5, width = 0.3, height = 0.4) + cowplot::draw_plot(p2,
@@ -154,8 +171,8 @@ plot_all_diag <- function(p1, p2, p3, p4, p5, p6, title) {
       height = 0.4) +
 		 cowplot::draw_plot(p6,
     x = 0.6, y = 0.1, width = 0.3, height = 0.4) +
-    cowplot::draw_plot_label(label = title, hjust = -0.25,
-      vjust = 4)
+    cowplot::draw_plot_label(label = title, hjust = -0.2,
+      vjust = 2)
 }
 
 #' @rdname plot_outline

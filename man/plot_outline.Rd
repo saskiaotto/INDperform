@@ -14,17 +14,17 @@
 \usage{
 plot_outline()
 
-plot_cook(values)
+plot_cook(values, title)
 
-plot_acf(x_var, y_var)
+plot_acf(x_var, y_var, title)
 
-plot_pacf(x_var, y_var)
+plot_pacf(x_var, y_var, title)
 
-plot_resid(model_fitted, model_resid)
+plot_resid(model_fitted, model_resid, title)
 
-plot_qq(model_resid, theo_quan)
+plot_qq(model_resid, theo_quan, title)
 
-plot_gcvv(x_var, y_var, lab, best_t_val)
+plot_gcvv(x_var, y_var, lab, best_t_val, title)
 
 plot_all_diag(p1, p2, p3, p4, p5, p6, title)
 
