@@ -223,8 +223,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   for (i in seq_along(inputs)) {
     if (any(match == i)) {
       # Create ar0 GAMMs
-      names(inputs[[i]])[1:2] <- dat[i, c("ind",
-        "press")]
+      names(inputs[[i]])[1:2] <- unlist(dat[i, c("ind","press")], use.names=FALSE)
       gamms[[i]] <- suppressWarnings(gamm_ar0_func_safe(x = names(inputs[[i]])[2],
         y = names(inputs[[i]])[1], data = inputs[[i]],
         family = family))
@@ -235,8 +234,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       }
     } else {
       # Create GAMMs with corr structure
-      names(inputs[[i]])[1:2] <- dat[i, c("ind",
-        "press")]
+      names(inputs[[i]])[1:2] <- unlist(dat[i, c("ind","press")], use.names=FALSE)
       gamms[[i]] <- suppressWarnings(gamm_ar_func_safe(x = names(inputs[[i]])[2],
         y = names(inputs[[i]])[1], data = inputs[[i]],
         family = family, ar_values = values[[i]],
