@@ -74,3 +74,21 @@ test_that("correct indicator and pressure names for vectors",
     expect_true(test2$ind[1] == "y")
     expect_true(test2$press[1] == "x")
   })
+
+
+ind_tbl <- ind_ex[ ,1:3]
+names(ind_tbl)[-1] <- c("1TZA", "M-S")
+press_tbl <- press_ex[ ,1:3]
+names(press_tbl)[-1] <- c("12 Tsum-/", "  S(win)")
+dat <- ind_init(ind_tbl[ ,-1], press_tbl[ ,-1], time = ind_tbl[ ,1])
+
+test_that("correct indicator and pressure name conversion", {
+  expect_true(dat$ind[1] == "x1TZA")
+  expect_true(dat$ind[2] == "x1TZA")
+  expect_true(dat$ind[3] == "M_S")
+  expect_true(dat$ind[4] == "M_S")
+  expect_true(dat$press[1] == "x12_Tsum")
+  expect_true(dat$press[2] == "S_win")
+  expect_true(dat$press[3] == "x12_Tsum")
+  expect_true(dat$press[4] == "S_win")
+})

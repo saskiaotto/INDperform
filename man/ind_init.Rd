@@ -30,8 +30,12 @@ The function returns a \code{\link[tibble]{tibble}}, which is a trimmed down ver
 the data.frame(), including the following elements:
 \describe{
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
-  \item{\code{ind}}{Indicator names.}
-  \item{\code{press}}{Pressure names.}
+  \item{\code{ind}}{Indicator names.These might be modified to exclude any character, which
+              is not in the model formula (e.g. hyphens, brackets, etc. are replaced by an
+              underscore, variables starting with a number will get an x before the number.}
+  \item{\code{press}}{Pressure names.These might be modified to exclude any character, which
+              is not in the model formula (e.g. hyphens, brackets, etc. are replaced by an
+              underscore, variables starting with a number will get an x before the number.}
   \item{\code{ind_train}}{A list-column with indicator values of the training data.}
   \item{\code{press_train}}{A list-column with pressure values of the training data.}
   \item{\code{time_train}}{A list-column with the time steps of the training data.}

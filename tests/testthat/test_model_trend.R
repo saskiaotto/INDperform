@@ -70,3 +70,15 @@ test_that("correct indicator name for vectors", {
   expect_true(model_trend(data.frame(y = ind_ex$MS),
     time = ind_ex$Year)$ind[1] == "y")
 })
+
+
+
+ind_tbl <- ind_ex[ ,1:3]
+names(ind_tbl)[-1] <- c("1TZA", "M-S")
+dat <- model_trend(ind_tbl[, -1], time = ind_tbl[, 1])
+
+test_that("correct indicator name conversion", {
+  expect_true(dat$ind[1] == "x1TZA")
+  expect_true(dat$ind[2] == "M_S")
+})
+

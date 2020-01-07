@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_ind_press.R
 \name{check_ind_press}
 \alias{check_ind_press}
-\title{Check class and variable types of ind and press data}
+\title{Check class and variable names and types of ind and press data}
 \usage{
 check_ind_press(x, input = "ind")
 }
@@ -15,13 +15,16 @@ pressure variable(s). If x is a vector, `input` determines the variable
 name when coerced to a data frame.}
 }
 \value{
-The function returns the input object as data frame.
+The function returns the input object as data frame with correct variable names.
 }
 \description{
 \code{check_ind_press} is a helper function for \code{\link{model_trend}}
 and \code{\link{ind_init}}. It coerces the data into a data frame and
 checks the type of each variable. If any of the variables is not a
-number (double or integer) it will return an error message.
+number (double or integer) it will return an error message. Also the
+variable names are checked for unwanted characters (e.g. hyphen, brackets, etc.)
+and when necessary replaced by an underscore. The latter is required for
+the correct model specifications.
 }
 \seealso{
 \code{\link{model_trend}} and the \code{\link{ind_init}}

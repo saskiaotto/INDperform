@@ -42,7 +42,9 @@
 #' the data.frame(), including the following elements:
 #' \describe{
 #'   \item{\code{ind_id}}{Indicator IDs.}
-#'   \item{\code{ind}}{Indicator names.}
+#'   \item{\code{ind}}{Indicator names. These might be modified to exclude any character, which
+#'               is not in the model formula (e.g. hyphens, brackets, etc. are replaced by an
+#'               underscore, variables starting with a number will get an x before the number.}
 #'   \item{\code{p_val}}{The p values for the smoothing term (here time).}
 #'   \item{\code{model}}{A list-column of indicator-specific gam objects.}
 #'   \item{\code{ind_train}}{A list-column with indicator values of the training data.}
