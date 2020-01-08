@@ -34,8 +34,8 @@ plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
     stop("Argument x is missing.")
   }
   # dendro_data works only with specific objects:
-  if (!class(x) %in% c("hclust", "dendrogram", "tree",
-    "rpart", "agnes", "diana", "twins")) {
+  if (! any(class(x) %in% c("hclust", "dendrogram", "tree",
+    "rpart", "agnes", "diana", "twins"))  ){
     stop("x is not an object that contains dendrogram information (should be of class hclust, dendrogram. tree, rpwart, agnes, diana, twins). Use the output of clust_sc() function here!")
   }
   # ------------------------------
@@ -57,9 +57,9 @@ plot_clust_sc <- function(x, rotate = FALSE, text_size = 15) {
   }
 
   # Extract the data (for rectangular lines)
-  if (!ggdendro::is.dendro(x))
+  if (!ggdendro::is.dendro(x)) {
     data <- ggdendro::dendro_data(x)
-
+  }
 
   p <- ggplot2::ggplot() + ggplot2::geom_blank()
   p <- p + ggplot2::geom_segment(data = ggdendro::segment(data),
