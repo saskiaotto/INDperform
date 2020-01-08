@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,17 +43,17 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Visualization of all IND~pressure-model results relevant for the scoring — plot_model" />
 
+<meta property="og:title" content="Visualization of all IND~pressure-model results relevant for the scoring — plot_model" />
 <meta property="og:description" content="plot_model creates a tibble with up to 4 individual plots and one
 combined plot (all ggplot2 objects) for each IND~pressure pair in the
 input tibble. The number of plots generated depends on the information
 provided in the input tibble. If all model IND~pressure modeling functions
 have been applied to create the final input tibble all five plots will be
 produced." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -126,7 +128,6 @@ produced." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -159,19 +160,22 @@ produced." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>plot_model</code> creates a tibble with up to 4 individual plots and one
 combined plot (all ggplot2 objects) for each IND~pressure pair in the
 input tibble. The number of plots generated depends on the information
 provided in the input tibble. If all model IND~pressure modeling functions
 have been applied to create the final input tibble all five plots will be
 produced.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>plot_model</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>choose_thresh_gam</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>plot_model</span>(
+  <span class='no'>init_tbl</span>,
+  <span class='no'>mod_tbl</span>,
+  <span class='kw'>choose_thresh_gam</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>,
+  <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -202,7 +206,7 @@ For more details see <code><a href='place_text.html'>place_text</a></code>.</p><
 name, pressure name(s) and the model type.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, including the
@@ -258,28 +262,32 @@ following elements:</p><dl class='dl-horizontal'>
   <dt><code>all_plots</code></dt><dd><p>A list-column of ggplot2 objects that show all
              plots together using additional drawing canvas from the
              <code>cowplot</code> package on top of ggplot2.</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other IND~pressure modeling functions: <code><a href='find_id.html'>find_id</a></code>,
-  <code><a href='ind_init.html'>ind_init</a></code>, <code><a href='model_gamm.html'>model_gamm</a></code>,
-  <code><a href='model_gam.html'>model_gam</a></code>, <code><a href='plot_diagnostics.html'>plot_diagnostics</a></code>,
-  <code><a href='scoring.html'>scoring</a></code>, <code><a href='select_model.html'>select_model</a></code>,
-  <code><a href='test_interaction.html'>test_interaction</a></code></p></div>
-    
+    <div class='dont-index'><p>Other IND~pressure modeling functions: 
+<code><a href='find_id.html'>find_id</a>()</code>,
+<code><a href='ind_init.html'>ind_init</a>()</code>,
+<code><a href='model_gamm.html'>model_gamm</a>()</code>,
+<code><a href='model_gam.html'>model_gam</a>()</code>,
+<code><a href='plot_diagnostics.html'>plot_diagnostics</a>()</code>,
+<code><a href='scoring.html'>scoring</a>()</code>,
+<code><a href='select_model.html'>select_model</a>()</code>,
+<code><a href='test_interaction.html'>test_interaction</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data in this package</span>
 <span class='no'>mod_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>all_results_ex</span>[<span class='fl'>4</span>:<span class='fl'>5</span>, ]
 <span class='no'>init_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>ind_init_ex</span>[<span class='fl'>4</span>:<span class='fl'>5</span>, ]
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_model</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='input'><span class='no'>dat</span>$<span class='no'>response_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='img'><img src='plot_model-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>predict_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='img'><img src='plot_model-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>deriv_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>thresh_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>all_plots</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-5.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><div class='input'> <span class='co'># Apply function to all sign. models and save specific plots</span>
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_model</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='input'><span class='no'>dat</span>$<span class='no'>response_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='img'><img src='plot_model-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>predict_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='img'><img src='plot_model-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>deriv_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>thresh_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>dat</span>$<span class='no'>all_plots</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_model-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># \donttest{</span>
+ <span class='co'># Apply function to all sign. models and save specific plots</span>
  <span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>all_results_ex</span>$<span class='no'>p_val</span> <span class='kw'>&lt;=</span> <span class='fl'>0.05</span>)
  <span class='no'>init_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>ind_init_ex</span>[<span class='no'>id</span>, ]
  <span class='no'>mod_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>all_results_ex</span>[<span class='no'>id</span>, ]
- <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_model</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"bottomright"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 8 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_point).</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/grDevices/pdf.html'>pdf</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Plot.pdf"</span>), <span class='kw'>height</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>10</span>)
+ <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_model</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>pos_label</span> <span class='kw'>=</span> <span class='st'>"bottomright"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 8 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/grDevices/pdf.html'>pdf</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Plot.pdf"</span>), <span class='kw'>height</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>10</span>)
  <span class='no'>dat</span>$<span class='no'>all_plots</span></div><div class='output co'>#&gt; [[1]]</div><div class='output co'>#&gt; 
 #&gt; [[2]]</div><div class='output co'>#&gt; 
 #&gt; [[3]]</div><div class='output co'>#&gt; 
@@ -293,17 +301,15 @@ following elements:</p><dl class='dl-horizontal'>
 #&gt; [[11]]</div><div class='output co'>#&gt; 
 #&gt; [[12]]</div><div class='output co'>#&gt; 
 #&gt; [[13]]</div><div class='output co'>#&gt; </div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span>()</div><div class='output co'>#&gt; pdf 
-#&gt;   2 </div></pre>
+#&gt;   2 </div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -317,7 +323,7 @@ following elements:</p><dl class='dl-horizontal'>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

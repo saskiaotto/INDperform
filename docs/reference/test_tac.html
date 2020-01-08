@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,15 +43,15 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Compute (partial) autocorrelation functions and test for significance — test_tac" />
 
+<meta property="og:title" content="Compute (partial) autocorrelation functions and test for significance — test_tac" />
 <meta property="og:description" content="test_tac is a helper function for model_gam,
 model_gamm, and plot_diagnostics to compute
 the (partial) autocorrelation functions. It also tests whether residuals
 show temporal autocorrelation (see details)." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -124,7 +126,6 @@ show temporal autocorrelation (see details)." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -157,16 +158,14 @@ show temporal autocorrelation (see details)." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>test_tac</code> is a helper function for <code><a href='model_gam.html'>model_gam</a></code>,
 <code><a href='model_gamm.html'>model_gamm</a></code>, and <code><a href='plot_diagnostics.html'>plot_diagnostics</a></code> to compute
 the (partial) autocorrelation functions. It also tests whether residuals
 show temporal autocorrelation (see details).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>test_tac</span>(<span class='no'>model_resid</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -176,7 +175,7 @@ show temporal autocorrelation (see details).</p>
 Additive (Mixed) Models (GAM(M).</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a tibble with one row for each model and three columns:</p><dl class='dl-horizontal'>
@@ -184,9 +183,9 @@ Additive (Mixed) Models (GAM(M).</p></td>
   <dt><code>pacf</code></dt><dd><p>A list-column with values from the partial autocorrelation
              function.</p></dd>
   <dt><code>tac</code></dt><dd><p>logical; if TRUE, temporal autocorrelation was detected</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>NOTE: if the time series on which the GAM(M) is fitted contains missing values,
@@ -195,12 +194,10 @@ one or more NAs in-between will be otherwise considered as having a lag of 1.</p
 <p>The test for temporal autocorrelation is based on the following condition: If
 any of the acf <strong>and</strong> any of the pacf values of lag 1 - 5 is greater or
 lower than 0.4, a TRUE is returned.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='model_gam.html'>model_gam</a></code>, <code><a href='model_gamm.html'>model_gamm</a></code>,
 <code><a href='plot_diagnostics.html'>plot_diagnostics</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using models of the Baltic Sea demo data:</span>
@@ -223,7 +220,7 @@ lower than 0.4, a TRUE is returned.</p>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
 #&gt; </span><span style='color: #949494;'># … with 74 more rows</span><span></div><div class='input'>
 <span class='co'># Works also with GAMMs</span>
-<span class='no'>model_resid</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_if</a></span>(<span class='no'>model_gamm_ex</span>$<span class='no'>model</span>,
+<span class='no'>model_resid</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map_if.html'>map_if</a></span>(<span class='no'>model_gamm_ex</span>$<span class='no'>model</span>,
   !<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>model_gamm_ex</span>$<span class='no'>model</span>),
   ~<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw pkg'>mgcv</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/residuals.gam.html'>residuals.gam</a></span>(<span class='no'>.</span>$<span class='no'>gam</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"deviance"</span>)))
   <span class='co'># (exclude those GAMMs that were not fitted)</span>
@@ -243,13 +240,9 @@ lower than 0.4, a TRUE is returned.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -263,7 +256,7 @@ lower than 0.4, a TRUE is returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

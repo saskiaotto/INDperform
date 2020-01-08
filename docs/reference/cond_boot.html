@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Conditional bootstraps — cond_boot" />
 
+<meta property="og:title" content="Conditional bootstraps — cond_boot" />
 <meta property="og:description" content="cond_boot creates n_boot predicted IND time series based on a
 conditional bootstrap for calculating the derivatives of the resulting
 smoothing curves." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ smoothing curves." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,16 +157,22 @@ smoothing curves." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>cond_boot</code> creates n_boot predicted IND time series based on a
 conditional bootstrap for calculating the derivatives of the resulting
 smoothing curves.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>cond_boot</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='no'>excl_outlier</span>, <span class='no'>n_boot</span>, <span class='no'>ci</span>, <span class='no'>par_comp</span>, <span class='no'>no_clust</span>,
-  <span class='no'>seed</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>cond_boot</span>(
+  <span class='no'>init_tbl</span>,
+  <span class='no'>mod_tbl</span>,
+  <span class='no'>excl_outlier</span>,
+  <span class='no'>n_boot</span>,
+  <span class='no'>ci</span>,
+  <span class='no'>par_comp</span>,
+  <span class='no'>no_clust</span>,
+  <span class='no'>seed</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -216,20 +223,22 @@ stream under serial computation. To reproduce results use the same type of
 computation with the same seed and number of clusters.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns the input model tibble with the following 9 columns added</p><dl class='dl-horizontal'>
-  <dt><code>press_seq</code></dt><dd><p>A list-column with sequences of evenly spaced pressure
-             values (with the length of the time series).</p></dd>
+  <dt><code>press_seq</code></dt><dd><p>A list-column with sequences of 100 evenly spaced pressure
+             values.</p></dd>
   <dt><code>pred</code></dt><dd><p>A list-column with the predicted indicator responses
-             averaged across all bootstraps.</p></dd>
+             averaged across all bootstraps (for the 100 equally spaced
+             pressure values).</p></dd>
   <dt><code>pred_ci_up</code></dt><dd><p>A list-column with the upper confidence limit of the
              bootstrapped predictions.</p></dd>
   <dt><code>pred_ci_low</code></dt><dd><p>A list-column with the lower confidence limit of the
              bootstrapped predictions.</p></dd>
   <dt><code>deriv1</code></dt><dd><p>A list-column with the first derivatives of the indicator
-             responses averaged across all bootstraps.</p></dd>
+             responses averaged across all bootstraps (for the 100 equally spaced
+             pressure values).</p></dd>
   <dt><code>deriv1_ci_up</code></dt><dd><p>A list-column with the upper confidence limit of the
              bootstrapped first derivatives.</p></dd>
   <dt><code>deriv1_ci_low</code></dt><dd><p>A list-column with the lower confidence limit of the
@@ -240,9 +249,9 @@ computation with the same seed and number of clusters.</p></td>
   <dt><code>boot_error</code></dt><dd><p>A list-column capturing potential error messages that
              occurred as side effects when refitting the GAM(M)s on each bootstrap
              sample.</p></dd>
- </dl>
+ 
+</dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>cond_boot</code> produces first n_boot new IND time series by
@@ -268,31 +277,27 @@ is the 2.5% and 97.5% percentiles representing the 95% CI).</p>
 <code>parallel</code> and <code>pbapply</code> with its function
 <code><a href='https://rdrr.io/pkg/pbapply/man/pbapply.html'>pblapply</a></code>. This allows the vectorized computations
  similar to <code>lapply</code> and adds further a progress bar.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>the wrapper function <code><a href='calc_deriv.html'>calc_deriv</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'># Using some models of the Baltic Sea demo data</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+ <span class='co'># Using some models of the Baltic Sea demo data</span>
  <span class='no'>init_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>ind_init_ex</span>[<span class='no'>ind_init_ex</span>$<span class='no'>id</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>75</span>), ]
  <span class='no'>mod_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>merge_models_ex</span>[<span class='no'>merge_models_ex</span>$<span class='no'>id</span>  <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>75</span>), ]
  <span class='no'>deriv_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>cond_boot</span>(<span class='kw'>mod_tbl</span> <span class='kw'>=</span> <span class='no'>mod_tbl</span>, <span class='kw'>init_tbl</span> <span class='kw'>=</span> <span class='no'>init_tbl</span>,
                         <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>n_boot</span> <span class='kw'>=</span> <span class='fl'>200</span>,      <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-                        <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>no_clust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div></pre>
+                        <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>no_clust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -306,7 +311,7 @@ is the 2.5% and 97.5% percentiles representing the 95% CI).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

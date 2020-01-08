@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,13 +43,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Merging two model output tibbles. — merge_models" />
 
+<meta property="og:title" content="Merging two model output tibbles. — merge_models" />
 <meta property="og:description" content="The function appends the second model output tibble to the first
 while keeping all variables from both tibbles." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -122,7 +124,6 @@ while keeping all variables from both tibbles." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -155,14 +156,12 @@ while keeping all variables from both tibbles." />
     </div>
 
     <div class="ref-description">
-    
     <p>The function appends the second model output tibble to the first
 while keeping all variables from both tibbles.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>merge_models</span>(<span class='no'>mod_tbl1</span>, <span class='no'>mod_tbl2</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -175,18 +174,16 @@ while keeping all variables from both tibbles.</p>
       <td><p>Model output tibble created e.g. with <code><a href='select_model.html'>select_model</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>merge_models</code> returns the same type as the input including all columns of
 both tibbles.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>merge_models</code> function applies internally the dplyr::bind_rows function so that columns
 are matched by name, and any missing columns will be filled with NA. The function
 has also some data validation incorporated to check for double entries.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data:</span>
@@ -200,10 +197,10 @@ has also some data validation incorporated to check for double entries.</p>
 <span class='fu'>merge_models</span>(<span class='no'>gam_tbl</span>[<span class='no'>gam_tbl</span>$<span class='no'>tac</span> <span class='kw'>==</span> <span class='fl'>FALSE</span>,], <span class='no'>best_gamm</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 17</span><span>
 #&gt;      id ind   press model_type corrstruc   aic   edf   p_val signif_code    r_sq
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>    47 Sprat Fspr… gamm       ar1        66.5 1.14  8.13</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>         -</span><span style='color: #BB0000;'>0.070</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    48 Sprat Fher  gamm       ar2        60.4 3.85  6.66</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span><span> ***          0.364 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    49 Sprat Fcod  gamm       ar1        63.6 1.000 9.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> .           -</span><span style='color: #BB0000;'>0.017</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>    50 Herr… Tsum  gam        none       24.6 1.    2.49</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.014</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>    47 Sprat Fspr… gamm       ar1        66.5  1.14 8.13</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>         -</span><span style='color: #BB0000;'>0.070</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>    48 Sprat Fher  gamm       ar2        60.4  3.85 6.66</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span><span> </span><span style='color: #949494;'>"</span><span>***</span><span style='color: #949494;'>"</span><span>        0.364 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>    49 Sprat Fcod  gamm       ar1        63.6  1.00 9.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>         -</span><span style='color: #BB0000;'>0.017</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>    50 Herr… Tsum  gam        none       24.6  1.   2.49</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.014</span><span style='text-decoration: underline;'>8</span><span>
 #&gt; </span><span style='color: #949494;'># … with 7 more variables: expl_dev </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, nrmse </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
 #&gt; #   tac </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #949494;'>, pres_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, excl_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, model </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># Merge 2 IND-specific GAM tibbles (where)</span>
@@ -218,7 +215,7 @@ has also some data validation incorporated to check for double entries.</p>
 #&gt;      id ind   press model_type corrstruc   aic   edf  p_val signif_code    r_sq
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 TZA   Tsum  gam        none       49.8  1.92 0.146  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.138 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 TZA   Swin  gam        none       48.1  2.74 0.077</span><span style='text-decoration: underline;'>2</span><span> .            0.211 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 TZA   Swin  gam        none       48.1  2.74 0.077</span><span style='text-decoration: underline;'>2</span><span> </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>          0.211 
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3 Cod   Tsum  gam        none       68.4  1.   0.648  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>         -</span><span style='color: #BB0000;'>0.031</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4 Cod   Swin  gam        none       64.1  1.57 0.102  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.139 
 #&gt; </span><span style='color: #949494;'># … with 6 more variables: expl_dev </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, nrmse </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
@@ -228,11 +225,8 @@ has also some data validation incorporated to check for double entries.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -246,7 +240,7 @@ has also some data validation incorporated to check for double entries.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

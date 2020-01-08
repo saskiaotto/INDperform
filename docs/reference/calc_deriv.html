@@ -16,10 +16,12 @@ of pressure range in which the response is significant — calc_deriv • INDper
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -42,9 +44,9 @@ of pressure range in which the response is significant — calc_deriv • INDper
 
   <link href="../extra.css" rel="stylesheet">
   
+
 <meta property="og:title" content="Calculate the derivatives of the IND response functions and the proportion
 of pressure range in which the response is significant — calc_deriv" />
-
 <meta property="og:description" content="In the case of non-linear IND responses to pressures first derivatives
 of the response curve are calculated to identify whether the IND ceases
 to respond at the lower or upper end of the pressure range (relevant for
@@ -61,9 +63,9 @@ are calculated directly from the smoothing curve of the original method. The
 confidence intervals are then just approximated from the standard errors of the
 smoothing curve. For more informations on this method see
 approx_deriv." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -138,7 +140,6 @@ approx_deriv." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -172,7 +173,6 @@ of pressure range in which the response is significant</h1>
     </div>
 
     <div class="ref-description">
-    
     <p>In the case of non-linear IND responses to pressures first derivatives
 of the response curve are calculated to identify whether the IND ceases
 to respond at the lower or upper end of the pressure range (relevant for
@@ -189,14 +189,23 @@ are calculated directly from the smoothing curve of the original method. The
 confidence intervals are then just approximated from the standard errors of the
 smoothing curve. For more informations on this method see
 <code><a href='approx_deriv.html'>approx_deriv</a></code>.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>calc_deriv</span>(<span class='no'>init_tbl</span>, <span class='no'>mod_tbl</span>, <span class='kw'>edf_filter</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>sign_level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cond_boot"</span>, <span class='kw'>n_boot</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-  <span class='kw'>ci_boot</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>ci_prop_se</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>no_clust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>calc_deriv</span>(
+  <span class='no'>init_tbl</span>,
+  <span class='no'>mod_tbl</span>,
+  <span class='kw'>edf_filter</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
+  <span class='kw'>sign_level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cond_boot"</span>,
+  <span class='kw'>n_boot</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+  <span class='kw'>ci_boot</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>ci_prop_se</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>no_clust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -272,7 +281,7 @@ stream under serial computation. To reproduce results use the same type of
 computation with the same seed and number of clusters.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns the input model tibble with the following 12 columns added</p><dl class='dl-horizontal'>
@@ -289,16 +298,18 @@ computation with the same seed and number of clusters.</p></td>
              every pressure value (in press_seq) whether the slope is considered
              as zero for the proportion calculation (see the last section in
              <em>Details</em>).</p></dd>
-  <dt><code>press_seq</code></dt><dd><p>A list-column with sequences of evenly spaced pressure
-             values (with the length of the time series).</p></dd>
+  <dt><code>press_seq</code></dt><dd><p>A list-column with sequences of 100 evenly spaced
+             pressure values.</p></dd>
   <dt><code>pred</code></dt><dd><p>A list-column with the predicted indicator responses
-             averaged across all bootstraps.</p></dd>
+             averaged across all bootstraps (for the 100 equally spaced
+             pressure values).</p></dd>
   <dt><code>pred_ci_up</code></dt><dd><p>A list-column with the upper confidence limit of the
              bootstrapped predictions.</p></dd>
   <dt><code>pred_ci_low</code></dt><dd><p>A list-column with the lower confidence limit of the
              bootstrapped predictions.</p></dd>
   <dt><code>deriv1</code></dt><dd><p>A list-column with the first derivatives of the indicator
-             responses averaged across all bootstraps.</p></dd>
+             responses averaged across all bootstraps (for the 100 equally spaced
+             pressure values).</p></dd>
   <dt><code>deriv1_ci_up</code></dt><dd><p>A list-column with the upper confidence limit of the
              bootstrapped first derivatives.</p></dd>
   <dt><code>deriv1_ci_low</code></dt><dd><p>A list-column with the lower confidence limit of the
@@ -309,10 +320,10 @@ computation with the same seed and number of clusters.</p></td>
   <dt><code>boot_error</code></dt><dd><p>A list-column capturing potential error messages that
              occurred as side effects when refitting the GAM(M)s on each bootstrap
              sample.</p></dd>
+
 </dl><p>If none of the significant models has edf &gt; edf_filter, only the variable <code>prop</code>
 will be added. If the `approx_deriv` method was used, the output tibble will
 not contain the <code>pred</code>, <code>pred_ci_up</code>, and <code>pred_ci_low</code> variables.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In the case of non-linear IND responses to pressures first derivatives
@@ -386,7 +397,6 @@ It then starts the same procedure from end of the <code>zero_in_conf</code>
 vector. The proportion of pressure range (returned as <code>prop</code>
 variable in the output tibble) reflects the proportion of FALSE values
 in <code>zero_in_conf</code>.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Fewster, R.M., Buckland, S.T., Siriwardena, G.M., Baillie, S.R., Wilson, J.D. (2000)
@@ -397,32 +407,27 @@ responses of ecological indicators to fishing and environmental pressures.
 <em>ICES Journal of Marine Science</em> 70, 755-767.</p>
 <p>Trenkel, V.M., Rochet, M.J. (2009) Intersection-union tests for characterizing recent
 changes in smoothed indicator time series. <em>Ecological Indicators</em> 9, 732-739.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='cond_boot.html'>cond_boot</a></code> and <code><a href='approx_deriv.html'>approx_deriv</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># Using some models of the Baltic Sea demo data</span>
 <span class='no'>init_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>ind_init_ex</span>[<span class='no'>ind_init_ex</span>$<span class='no'>id</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>48</span>,<span class='fl'>75</span>), ]
 <span class='no'>mod_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>merge_models_ex</span>[<span class='no'>merge_models_ex</span>$<span class='no'>id</span>  <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>48</span>,<span class='fl'>75</span>), ]
 <span class='no'>deriv_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>calc_deriv</span>(<span class='kw'>init_tbl</span><span class='kw'>=</span><span class='no'>init_tbl</span>, <span class='kw'>mod_tbl</span><span class='kw'>=</span><span class='no'>mod_tbl</span>,
-  <span class='kw'>n_boot</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span><span class='kw'>=</span><span class='fl'>1</span>)</div></pre>
+  <span class='kw'>n_boot</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>par_comp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span><span class='kw'>=</span><span class='fl'>1</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -436,7 +441,7 @@ changes in smoothed indicator time series. <em>Ecological Indicators</em> 9, 732
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,16 +43,16 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Normalized Root Mean Square Error — nrmse" />
 
+<meta property="og:title" content="Normalized Root Mean Square Error — nrmse" />
 <meta property="og:description" content="nrmse is a function that allows the user to calculate the normalized root
 mean square error (NRMSE) as absolute value between predicted
 and observed values using different type of normalization methods.
 It further allows the NRMSE calculation on the scale of the untransformed
 indicator, which is advisable for a comparison across indicators." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -125,7 +127,6 @@ indicator, which is advisable for a comparison across indicators." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -158,18 +159,21 @@ indicator, which is advisable for a comparison across indicators." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>nrmse</code> is a function that allows the user to calculate the normalized root
 mean square error (NRMSE) as absolute value between predicted
 and observed values using different type of normalization methods.
 It further allows the NRMSE calculation on the scale of the untransformed
 indicator, which is advisable for a comparison across indicators.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>nrmse</span>(<span class='no'>pred</span>, <span class='no'>obs</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sd"</span>, <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>trans_function</span> <span class='kw'>=</span> <span class='st'>"none"</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>nrmse</span>(
+  <span class='no'>pred</span>,
+  <span class='no'>obs</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sd"</span>,
+  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>trans_function</span> <span class='kw'>=</span> <span class='st'>"none"</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -205,13 +209,12 @@ the original transformation), e.g. "5^x" if observations log(x, base = 5) transf
 "exp(x) - 0.001" if observations log(x + 0.001) transformed. Default is <code>"none"</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a single NRMSE value (expressed as absolute value). In case the
 number of positions with non-missing values in both pred and obs is less then 2, NA is returned
 with a message.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The for most common normalization methods are implemented here:</p>
@@ -223,11 +226,9 @@ difference between the 25th and 75th percentile of observations</p>
 <p>Missing values in obs and pred are removed before the computation proceeds, and
 only those positions with non-missing values in both pred and obs are considered in the
 computation.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='calc_nrmse.html'>calc_nrmse</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>obs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>14</span>, <span class='fl'>20</span>)
@@ -240,13 +241,9 @@ computation.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -260,7 +257,7 @@ computation.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

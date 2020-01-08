@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Helper functions for plot_model — plot_thresh" />
 
+<meta property="og:title" content="Helper functions for plot_model — plot_thresh" />
 <meta property="og:description" content="These are the actual plotting functions for each of the 4 plots shown
 in the wrapper function plot_model. plot_thresh
 works currently only for threshold-GAMs but not for threshold_GAMMs." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ works currently only for threshold-GAMs but not for threshold_GAMMs." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,31 +157,64 @@ works currently only for threshold-GAMs but not for threshold_GAMMs." />
     </div>
 
     <div class="ref-description">
-    
     <p>These are the actual plotting functions for each of the 4 plots shown
 in the wrapper function <code><a href='plot_model.html'>plot_model</a></code>. <code>plot_thresh</code>
 works currently only for threshold-GAMs but not for threshold_GAMMs.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>plot_thresh</span>(<span class='no'>thresh_sublist</span>, <span class='no'>choose_thresh_gam</span>)
 
-<span class='fu'>plot_response</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>x_seq</span>, <span class='no'>pred</span>, <span class='no'>ci_up</span>, <span class='no'>ci_low</span>, <span class='no'>xlab</span>, <span class='no'>ylab</span>, <span class='no'>pos_text</span>,
-  <span class='no'>label</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Response curve S"</span>)
+<span class='fu'>plot_response</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='no'>x_seq</span>,
+  <span class='no'>pred</span>,
+  <span class='no'>ci_up</span>,
+  <span class='no'>ci_low</span>,
+  <span class='no'>xlab</span>,
+  <span class='no'>ylab</span>,
+  <span class='no'>pos_text</span>,
+  <span class='no'>label</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Response curve S"</span>
+)
 
-<span class='fu'>plot_predict</span>(<span class='no'>x</span>, <span class='no'>y_obs</span>, <span class='no'>y_pred</span>, <span class='no'>ci_up</span>, <span class='no'>ci_low</span>, <span class='no'>x_train</span>, <span class='no'>x_test</span>, <span class='no'>zoom</span>,
-  <span class='no'>x_range</span>, <span class='no'>y_range</span>, <span class='no'>xlab</span>, <span class='no'>ylab</span>, <span class='no'>pos_text</span>, <span class='no'>label</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Predictive performance"</span>)
+<span class='fu'>plot_predict</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y_obs</span>,
+  <span class='no'>y_pred</span>,
+  <span class='no'>ci_up</span>,
+  <span class='no'>ci_low</span>,
+  <span class='no'>x_train</span>,
+  <span class='no'>x_test</span>,
+  <span class='no'>zoom</span>,
+  <span class='no'>x_range</span>,
+  <span class='no'>y_range</span>,
+  <span class='no'>xlab</span>,
+  <span class='no'>ylab</span>,
+  <span class='no'>pos_text</span>,
+  <span class='no'>label</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Predictive performance"</span>
+)
 
-<span class='fu'>plot_deriv</span>(<span class='no'>press_seq</span>, <span class='no'>deriv1</span>, <span class='no'>deriv1_ci_low</span>, <span class='no'>deriv1_ci_up</span>, <span class='no'>zic_start_end</span>,
-  <span class='no'>zero_in_conf</span>, <span class='no'>xlab</span>, <span class='no'>ylab</span>, <span class='no'>pos_text</span>, <span class='no'>label</span>)
+<span class='fu'>plot_deriv</span>(
+  <span class='no'>press_seq</span>,
+  <span class='no'>deriv1</span>,
+  <span class='no'>deriv1_ci_low</span>,
+  <span class='no'>deriv1_ci_up</span>,
+  <span class='no'>zic_start_end</span>,
+  <span class='no'>zero_in_conf</span>,
+  <span class='no'>xlab</span>,
+  <span class='no'>ylab</span>,
+  <span class='no'>pos_text</span>,
+  <span class='no'>label</span>
+)
 
 <span class='fu'>plot_all_mod</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>, <span class='no'>title</span>)</pre>
-        
+
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='plot_model.html'>plot_model</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example for dealing with nested list-columns using the</span>
@@ -194,9 +228,7 @@ works currently only for threshold-GAMs but not for threshold_GAMMs.</p>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -210,7 +242,7 @@ works currently only for threshold-GAMs but not for threshold_GAMMs.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

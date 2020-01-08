@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,17 +43,17 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Calculate predicted values and their confidence intervals for GAM(M)s — calc_pred" />
 
+<meta property="og:title" content="Calculate predicted values and their confidence intervals for GAM(M)s — calc_pred" />
 <meta property="og:description" content="calc_pred is a helper function for model_trend,
 model_gam, model_gamm and
 plot_model. It calculates for a list of Generalized Additive
 (Mixed) Models the predicted IND values as well as the upper and lower
 95% confidence intervals based on a list of corresponding
 pressure values (observed or a regular spaced sequence)." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -126,7 +128,6 @@ pressure values (observed or a regular spaced sequence)." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -159,18 +160,16 @@ pressure values (observed or a regular spaced sequence)." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>calc_pred</code> is a helper function for <code><a href='model_trend.html'>model_trend</a></code>,
 <code><a href='model_gam.html'>model_gam</a></code>, <code><a href='model_gamm.html'>model_gamm</a></code> and
 <code><a href='plot_model.html'>plot_model</a></code>. It calculates for a list of Generalized Additive
 (Mixed) Models the predicted IND values as well as the upper and lower
 95% confidence intervals based on a list of corresponding
 pressure values (observed or a regular spaced sequence).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>calc_pred</span>(<span class='no'>model_list</span>, <span class='no'>obs_press</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -184,7 +183,7 @@ pressure values (observed or a regular spaced sequence).</p>
 artificial sequence).</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a tibble with one row for each model and three columns:</p><dl class='dl-horizontal'>
@@ -194,14 +193,13 @@ artificial sequence).</p></td>
              of the IND predictions.</p></dd>
   <dt><code>ci_low</code></dt><dd><p>A list-column with the lower 95% confidence limit
              of the IND predictions.</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='model_trend.html'>model_trend</a></code>, <code><a href='model_gam.html'>model_gam</a></code>,
 <code><a href='model_gamm.html'>model_gamm</a></code>, <code><a href='plot_model.html'>plot_model</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the Baltic Sea demo data</span>
@@ -213,11 +211,8 @@ artificial sequence).</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -231,7 +226,7 @@ artificial sequence).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

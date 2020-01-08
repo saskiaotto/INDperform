@@ -55,7 +55,7 @@ indicators. Ecological Indicators, 84: 619-631, doi:
 
 ## Important News
 
-In Version 0.2.1 a minor bug with different internal test results under
+In Version 0.2.1, a minor bug with different internal test results under
 different R versions was fixed by modifying some tests. But this bug did
 not affect the modelling results or performance of the previous version.
 

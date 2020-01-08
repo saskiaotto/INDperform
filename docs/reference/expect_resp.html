@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Score adjustments for sub-criterion 10.1 — expect_resp" />
 
+<meta property="og:title" content="Score adjustments for sub-criterion 10.1 — expect_resp" />
 <meta property="og:description" content="expect_resp runs a shiny app in which the expectation of the IND response to
 a pressure (sub-criterion 10.1) can be manually changed to `yes` or `no` based on
 visual inspection of the IND response curve." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ visual inspection of the IND response curve." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,16 +157,13 @@ visual inspection of the IND response curve." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>expect_resp</code> runs a shiny app in which the expectation of the IND response to
 a pressure (sub-criterion 10.1) can be manually changed to `yes` or `no` based on
 visual inspection of the IND response curve.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>expect_resp</span>(<span class='no'>mod_tbl</span>, <span class='no'>scores_tbl</span>,
-  <span class='kw'>crit_scores</span> <span class='kw'>=</span> <span class='kw pkg'>INDperform</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/INDperform/man/crit_scores_tmpl.html'>crit_scores_tmpl</a></span>)</pre>
-    
+    <pre class="usage"><span class='fu'>expect_resp</span>(<span class='no'>mod_tbl</span>, <span class='no'>scores_tbl</span>, <span class='kw'>crit_scores</span> <span class='kw'>=</span> <span class='kw pkg'>INDperform</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/INDperform/man/crit_scores_tmpl.html'>crit_scores_tmpl</a></span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -184,12 +182,11 @@ has to be the same than used in <code>scoring</code>. Default is the unmodified
 template <code>crit_scores_tmpl</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns the input scoring tibble, but with modified scores
 in the variable <code>C10_1</code>, once the "Press Me!" button is activated.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The sub-criterion 10.1 (i.e. the IND response to a pressure, which has been found significant,
@@ -202,19 +199,20 @@ graphical representation of this smoothing function.</p>
 <p>For a more comprehensive figure use the <code><a href='plot_model.html'>plot_model</a></code>
 function and then go back to this function for modifications
 of the expectation scores.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='plot_model.html'>plot_model</a></code> for visualization of the IND responses to pressures</p>
-<p>Other score-based IND performance functions: <code><a href='clust_sc.html'>clust_sc</a></code>,
-  <code><a href='dist_sc_group.html'>dist_sc_group</a></code>, <code><a href='dist_sc.html'>dist_sc</a></code>,
-  <code><a href='plot_clust_sc.html'>plot_clust_sc</a></code>,
-  <code><a href='plot_spiechart.html'>plot_spiechart</a></code>, <code><a href='scoring.html'>scoring</a></code>,
-  <code><a href='summary_sc.html'>summary_sc</a></code></p></div>
-    
+<p>Other score-based IND performance functions: 
+<code><a href='clust_sc.html'>clust_sc</a>()</code>,
+<code><a href='dist_sc_group.html'>dist_sc_group</a>()</code>,
+<code><a href='dist_sc.html'>dist_sc</a>()</code>,
+<code><a href='plot_clust_sc.html'>plot_clust_sc</a>()</code>,
+<code><a href='plot_spiechart.html'>plot_spiechart</a>()</code>,
+<code><a href='scoring.html'>scoring</a>()</code>,
+<code><a href='summary_sc.html'>summary_sc</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
  <span class='co'># Using the Baltic Sea demo data:</span>
  <span class='co'># Apply first the scoring on the model outputs</span>
  <span class='no'>scores_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='scoring.html'>scoring</a></span>(<span class='kw'>trend_tbl</span> <span class='kw'>=</span> <span class='no'>model_trend_ex</span>, <span class='kw'>mod_tbl</span> <span class='kw'>=</span> <span class='no'>all_results_ex</span>,
@@ -223,19 +221,15 @@ of the expectation scores.</p>
  <span class='no'>scores_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>expect_resp</span>(<span class='no'>all_results_ex</span>, <span class='no'>scores_tbl</span>)
  <span class='co'># Check if it worked:</span>
  <span class='fu'>expect_resp</span>(<span class='no'>all_results_ex</span>, <span class='no'>scores_tbl</span>)
-<span class='co'># }</span></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -249,7 +243,7 @@ of the expectation scores.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

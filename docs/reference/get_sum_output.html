@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Extract specific outputs from the GAM(M) summary — get_sum_output" />
 
+<meta property="og:title" content="Extract specific outputs from the GAM(M) summary — get_sum_output" />
 <meta property="og:description" content="get_sum_output is a helper function for model_trend,
 model_gam, and model_gamm and extracts from a list
 of summary.gam objects specific values defined in `varname`." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ of summary.gam objects specific values defined in `varname`." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,15 +157,13 @@ of summary.gam objects specific values defined in `varname`." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>get_sum_output</code> is a helper function for <code><a href='model_trend.html'>model_trend</a></code>,
 <code><a href='model_gam.html'>model_gam</a></code>, and <code><a href='model_gamm.html'>model_gamm</a></code> and extracts from a list
 of <code>summary.gam</code> objects specific values defined in `varname`.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>get_sum_output</span>(<span class='no'>sum_list</span>, <span class='no'>varname</span>, <span class='kw'>cell</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -182,17 +181,15 @@ of <code>summary.gam</code> objects specific values defined in `varname`.</p>
 which one you want to pull with `cell`.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a vector with the length of `sum_list` containing the
 extracted values.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='model_trend.html'>model_trend</a></code>, <code><a href='model_gam.html'>model_gam</a></code>,
  <code><a href='model_gamm.html'>model_gamm</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data:</span>
@@ -218,7 +215,7 @@ extracted values.</p>
 #&gt; [31] 7.159061e-01 6.167581e-01 2.545820e-02 6.735817e-02 4.031123e-01
 #&gt; [36] 1.359406e-02 6.892301e-01 6.498481e-01 9.693019e-01 1.433137e-01
 #&gt; [41] 3.651521e-01 1.988939e-01 5.583602e-02 5.490926e-02 2.559344e-01
-#&gt; [46] 6.347853e-02 1.930749e-01 3.261328e-03 3.609634e-01 2.493204e-01
+#&gt; [46] 6.347853e-02 1.930749e-01 3.261327e-03 3.609634e-01 2.493204e-01
 #&gt; [51] 9.197584e-02 7.516344e-02 4.301833e-01 1.267355e-01 9.633124e-01
 #&gt; [56] 2.268141e-01 1.106198e-01 4.953339e-01 7.704678e-02 1.396545e-01
 #&gt; [61] 7.084900e-02 1.447595e-03 2.514511e-03 6.483280e-01 1.140138e-01
@@ -231,11 +228,8 @@ extracted values.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -249,7 +243,7 @@ extracted values.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

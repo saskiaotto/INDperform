@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Modeling of indicator responses to single pressures with GAMs — model_gam" />
 
+<meta property="og:title" content="Modeling of indicator responses to single pressures with GAMs — model_gam" />
 <meta property="og:description" content="model_gam applies Generalized Additive Models (GAMs) to each IND~pressure
 combination created in ind_init and returns a tibble with
 IND~pressure-specific GAM outputs." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ IND~pressure-specific GAM outputs." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,16 +157,13 @@ IND~pressure-specific GAM outputs." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>model_gam</code> applies Generalized Additive Models (GAMs) to each IND~pressure
 combination created in <code><a href='ind_init.html'>ind_init</a></code> and returns a tibble with
 IND~pressure-specific GAM outputs.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>model_gam</span>(<span class='no'>init_tbl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>gaussian</a></span>(),
-  <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>model_gam</span>(<span class='no'>init_tbl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>gaussian</a></span>(), <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -196,7 +194,7 @@ can be re-run again, then excluding all these outliers provided in
 <code>$pres_outlier</code> from the the first run (see example)).</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, which is a trimmed down version of
@@ -236,9 +234,9 @@ the data.frame(), including the following elements:</p><dl class='dl-horizontal'
               excluded in the GAM fitting</p></dd>
   <dt><code>model</code></dt><dd><p>A list-column of IND~press-specific gam objects that contain additionally
              the logical vector indicating missing values (<code>$train_na</code>).</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>To evaluate the IND`s sensitivity and robustness time series of the IND are
@@ -267,24 +265,25 @@ e.g. the last years. This is quantified by computing the absolute value of the
 normalized root mean square error (NRMSE) on the test dataset. The normalization
 to the mean of the observed test data allows for comparisons and a general scoring
 of the model robustness across INDs with different scales or units.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Pinheiro, J.C., Bates, D.M. (2000) Mixed-Effects Models in S and S-Plus.
 Springer, New York, 548pp.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code> and the <code>vignette("tibble")</code> for more
  informations on tibbles,
  <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>gam</a></code> for more information on GAMs, and
  <code><a href='plot_diagnostics.html'>plot_diagnostics</a></code> for assessing the model diagnostics</p>
-<p>Other IND~pressure modeling functions: <code><a href='find_id.html'>find_id</a></code>,
-  <code><a href='ind_init.html'>ind_init</a></code>, <code><a href='model_gamm.html'>model_gamm</a></code>,
-  <code><a href='plot_diagnostics.html'>plot_diagnostics</a></code>, <code><a href='plot_model.html'>plot_model</a></code>,
-  <code><a href='scoring.html'>scoring</a></code>, <code><a href='select_model.html'>select_model</a></code>,
-  <code><a href='test_interaction.html'>test_interaction</a></code></p></div>
-    
+<p>Other IND~pressure modeling functions: 
+<code><a href='find_id.html'>find_id</a>()</code>,
+<code><a href='ind_init.html'>ind_init</a>()</code>,
+<code><a href='model_gamm.html'>model_gamm</a>()</code>,
+<code><a href='plot_diagnostics.html'>plot_diagnostics</a>()</code>,
+<code><a href='plot_model.html'>plot_model</a>()</code>,
+<code><a href='scoring.html'>scoring</a>()</code>,
+<code><a href='select_model.html'>select_model</a>()</code>,
+<code><a href='test_interaction.html'>test_interaction</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the Baltic Sea demo data in this package</span>
@@ -320,7 +319,10 @@ Springer, New York, 548pp.</p>
 #&gt; 2000 
 #&gt;   22 
 #&gt; </div><div class='input'><span class='co'># Exclude outliers by passing this list as input:</span>
-<span class='no'>gam_tbl_out</span> <span class='kw'>&lt;-</span> <span class='fu'>model_gam</span>(<span class='no'>dat_init</span>, <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='no'>gam_tbl</span>$<span class='no'>pres_outlier</span>)</div><div class='input'> <span class='co'># Using another error distribution</span>
+<span class='no'>gam_tbl_out</span> <span class='kw'>&lt;-</span> <span class='fu'>model_gam</span>(<span class='no'>dat_init</span>, <span class='kw'>excl_outlier</span> <span class='kw'>=</span> <span class='no'>gam_tbl</span>$<span class='no'>pres_outlier</span>)
+
+<span class='co'># \donttest{</span>
+ <span class='co'># Using another error distribution</span>
  <span class='no'>ind_sub</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='no'>ind_ex</span>[ ,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>8</span>,<span class='fl'>9</span>)]),<span class='fl'>0</span>) <span class='co'># to unlog data and convert to integers</span>
  <span class='no'>ind_tbl2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ind_init.html'>ind_init</a></span>(<span class='no'>ind_sub</span>, <span class='no'>press_ex</span>, <span class='kw'>time</span> <span class='kw'>=</span> <span class='no'>ind_ex</span>$<span class='no'>Year</span>)
  <span class='fu'>model_gam</span>(<span class='no'>ind_tbl2</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"log"</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 24 x 16</span><span>
@@ -337,21 +339,17 @@ Springer, New York, 548pp.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9 Sprat Year  gam        none      8.81</span><span style='color: #949494;'>e</span><span>4  3.99     0 ***          0.516 
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10 Sprat Tsum  gam        none      1.75</span><span style='color: #949494;'>e</span><span>5  3.99     0 ***         -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>
 #&gt; </span><span style='color: #949494;'># … with 14 more rows, and 6 more variables: expl_dev </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, nrmse </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
-#&gt; #   ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, tac </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #949494;'>, pres_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, model </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div></span></pre>
+#&gt; #   ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, tac </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #949494;'>, pres_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, model </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'># }
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -365,7 +363,7 @@ Springer, New York, 548pp.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

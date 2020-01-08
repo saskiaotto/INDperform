@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,14 +43,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Leave-One-Out Cross-Validation (LOOCV) procedure for (threshold-)GAMs — loocv_thresh_gam" />
 
+<meta property="og:title" content="Leave-One-Out Cross-Validation (LOOCV) procedure for (threshold-)GAMs — loocv_thresh_gam" />
 <meta property="og:description" content="loocv_thresh_gam applies a LOOCV on a threshold-GAM and its corresponding GAM and
 returns TRUE if the threshold-GAM has a lower estimate, else FALSE (see for more infos on
 the LOOCV procedure the details section in test_interaction)." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -123,7 +125,6 @@ the LOOCV procedure the details section in test_interaction)." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -156,16 +157,23 @@ the LOOCV procedure the details section in test_interaction)." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>loocv_thresh_gam</code> applies a LOOCV on a threshold-GAM and its corresponding GAM and
 returns TRUE if the threshold-GAM has a lower estimate, else FALSE (see for more infos on
 the LOOCV procedure the details section in <code><a href='test_interaction.html'>test_interaction</a></code>).</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>loocv_thresh_gam</span>(<span class='no'>model</span>, <span class='no'>ind_vec</span>, <span class='no'>press_vec</span>, <span class='no'>t_var_vec</span>, <span class='no'>name_t_var</span>, <span class='no'>k</span>, <span class='no'>a</span>, <span class='no'>b</span>,
-  <span class='no'>time</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>loocv_thresh_gam</span>(
+  <span class='no'>model</span>,
+  <span class='no'>ind_vec</span>,
+  <span class='no'>press_vec</span>,
+  <span class='no'>t_var_vec</span>,
+  <span class='no'>name_t_var</span>,
+  <span class='no'>k</span>,
+  <span class='no'>a</span>,
+  <span class='no'>b</span>,
+  <span class='no'>time</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -210,7 +218,7 @@ the estimated threshold is not allowed to exceed; the default is 0.8.</p></td>
       <td><p>A vector containing the actual time series.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a list with the following 2 sublists:</p><dl class='dl-horizontal'>
@@ -219,14 +227,13 @@ the estimated threshold is not allowed to exceed; the default is 0.8.</p></td>
   <dt><code>error</code></dt><dd><p>A string capturing potential error messages that
              occurred as side effects when fitting the threshold GAM for the
              LOOCV.</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='thresh_gam.html'>thresh_gam</a></code> which creates a threshold-GAM object and
 <code><a href='test_interaction.html'>test_interaction</a></code> which applies thresh_gam and loocv_thresh_gam</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the first model in the Baltic Sea demo data</span>
@@ -247,11 +254,8 @@ the estimated threshold is not allowed to exceed; the default is 0.8.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -265,7 +269,7 @@ the estimated threshold is not allowed to exceed; the default is 0.8.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -15,10 +15,12 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -41,17 +43,17 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Diagnostic plots for a fitted GAM, GAMM or threshold-GAM(M) — plot_diagnostics" />
 
+<meta property="og:title" content="Diagnostic plots for a fitted GAM, GAMM or threshold-GAM(M) — plot_diagnostics" />
 <meta property="og:description" content="plot_diagnostics takes a list of models of class `gam`, `gamm`
 or `thresh_gam` or a mix of those and produces some diagnostic
 information of the fitting procedure and results. The function returns a
 tibble with 6 list-columns containing individual plots (ggplot2 objects)
 and one list-column containing a plot that shows all diagnostic plots
 together." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -126,7 +128,6 @@ together." />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
@@ -159,18 +160,16 @@ together." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>plot_diagnostics</code> takes a list of models of class `gam`, `gamm`
 or `thresh_gam` or a mix of those and produces some diagnostic
 information of the fitting procedure and results. The function returns a
 tibble with 6 list-columns containing individual plots (ggplot2 objects)
 and one list-column containing a plot that shows all diagnostic plots
 together.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>plot_diagnostics</span>(<span class='no'>model_list</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -181,7 +180,7 @@ e.g. the list-column <code>model</code> from the <code><a href='model_gam.html'>
 tibble.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, which is a trimmed down version
@@ -218,9 +217,9 @@ of the data.frame(), including the following elements:</p><dl class='dl-horizont
              five (six if threshold-GAM) plots together. For this plot,
              drawing canvas from the <code>cowplot</code> package were added
              on top of ggplot2.</p></dd>
+
 </dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function can deal with any model of the classes `gam`, `gamm` or
@@ -236,18 +235,20 @@ of the data.frame(), including the following elements:</p><dl class='dl-horizont
         function (see examples).</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/influence.measures.html'>cooks.distance</a></code>, <code><a href='https://rdrr.io/r/stats/acf.html'>acf</a></code>,
 <code><a href='https://rdrr.io/r/stats/acf.html'>pacf</a></code>, <code><a href='https://rdrr.io/r/stats/qqnorm.html'>qqnorm</a></code>, and
 <code><a href='https://purrr.tidyverse.org/reference/flatten.html'>flatten</a></code> for removing a level hierarchy from a list</p>
-<p>Other IND~pressure modeling functions: <code><a href='find_id.html'>find_id</a></code>,
-  <code><a href='ind_init.html'>ind_init</a></code>, <code><a href='model_gamm.html'>model_gamm</a></code>,
-  <code><a href='model_gam.html'>model_gam</a></code>, <code><a href='plot_model.html'>plot_model</a></code>,
-  <code><a href='scoring.html'>scoring</a></code>, <code><a href='select_model.html'>select_model</a></code>,
-  <code><a href='test_interaction.html'>test_interaction</a></code></p></div>
-    
+<p>Other IND~pressure modeling functions: 
+<code><a href='find_id.html'>find_id</a>()</code>,
+<code><a href='ind_init.html'>ind_init</a>()</code>,
+<code><a href='model_gamm.html'>model_gamm</a>()</code>,
+<code><a href='model_gam.html'>model_gam</a>()</code>,
+<code><a href='plot_model.html'>plot_model</a>()</code>,
+<code><a href='scoring.html'>scoring</a>()</code>,
+<code><a href='select_model.html'>select_model</a>()</code>,
+<code><a href='test_interaction.html'>test_interaction</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data:</span>
@@ -264,13 +265,9 @@ of the data.frame(), including the following elements:</p><dl class='dl-horizont
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -284,7 +281,7 @@ of the data.frame(), including the following elements:</p><dl class='dl-horizont
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
