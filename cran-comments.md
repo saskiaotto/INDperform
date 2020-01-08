@@ -14,7 +14,16 @@ Fixed the notes and particularly error message under different R versions and pl
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTES:
+There were no ERRORs or WARNINGs but 1 NOTE:
+
+> checking installed package size ... NOTE
+   installed size is  5.0Mb
+    sub-directories of 1Mb or more:
+      data   3.1Mb
+      help   1.6Mb
+      
+The data needs to have this size, so there is nothing I can do about.
+
 
 ## Reverse dependencies
 
