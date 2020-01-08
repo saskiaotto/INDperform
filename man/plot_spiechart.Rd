@@ -4,8 +4,13 @@
 \alias{plot_spiechart}
 \title{Create score-based spie chart}
 \usage{
-plot_spiechart(summary_tbl, col_press_type = NULL, col_crit8_11 = NULL,
-  lab_size = 6, title_size = 8)
+plot_spiechart(
+  summary_tbl,
+  col_press_type = NULL,
+  col_crit8_11 = NULL,
+  lab_size = 6,
+  title_size = 8
+)
 }
 \arguments{
 \item{summary_tbl}{The output tibble from the
@@ -95,9 +100,13 @@ displaying comparative outcomes of health care. \emph{Journal of Clinical
 Epidemiology} 64, 770-778.
 }
 \seealso{
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
-  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
-  \code{\link{scoring}}, \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc_group}()},
+\code{\link{dist_sc}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

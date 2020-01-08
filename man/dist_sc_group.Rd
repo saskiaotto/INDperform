@@ -49,10 +49,13 @@ dist_matrix <- dist_sc_group(x = list(
 \code{\link{summary_sc}} and \code{\link[vegan]{vegdist}} for the
   computation of the dissimilarity index
 
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}},
-  \code{\link{plot_spiechart}}, \code{\link{scoring}},
-  \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

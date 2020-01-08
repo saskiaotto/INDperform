@@ -4,8 +4,13 @@
 \alias{check_input_tbl}
 \title{Check class, existing variables and data types of input objects}
 \usage{
-check_input_tbl(x, tbl_name, parent_func = NULL, var_to_check = NULL,
-  dt_to_check = NULL)
+check_input_tbl(
+  x,
+  tbl_name,
+  parent_func = NULL,
+  var_to_check = NULL,
+  dt_to_check = NULL
+)
 }
 \arguments{
 \item{x}{An output tibble from one of the INDperform modeling or scoring

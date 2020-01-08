@@ -104,8 +104,9 @@ health of coastal waters. \emph{ICES Journal of Marine Science} 65, 1475-1482.
 \seealso{
 \code{\link[tripack]{tri.mesh}} for the computation of the convex hull.
 
-Other state assessment functions: \code{\link{plot_statespace_ch}},
-  \code{\link{plot_statespace_ed}},
-  \code{\link{statespace_ed}}
+Other state assessment functions: 
+\code{\link{plot_statespace_ch}()},
+\code{\link{plot_statespace_ed}()},
+\code{\link{statespace_ed}()}
 }
 \concept{state assessment functions}

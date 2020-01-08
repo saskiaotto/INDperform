@@ -4,8 +4,16 @@
 \alias{cond_boot}
 \title{Conditional bootstraps}
 \usage{
-cond_boot(init_tbl, mod_tbl, excl_outlier, n_boot, ci, par_comp, no_clust,
-  seed)
+cond_boot(
+  init_tbl,
+  mod_tbl,
+  excl_outlier,
+  n_boot,
+  ci,
+  par_comp,
+  no_clust,
+  seed
+)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}

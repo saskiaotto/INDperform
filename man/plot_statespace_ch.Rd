@@ -4,8 +4,7 @@
 \alias{plot_statespace_ch}
 \title{Convex hull plot}
 \usage{
-plot_statespace_ch(x, col_ch_ref = "red", col_ch_cur = "blue",
-  size_time = 4)
+plot_statespace_ch(x, col_ch_ref = "red", col_ch_cur = "blue", size_time = 4)
 }
 \arguments{
 \item{x}{An object from the \code{\link{statespace_ch}} function.}
@@ -41,7 +40,9 @@ p + ggplot2::xlab("TZA") + ggplot2::ylab("MS") +
     axis.title = ggplot2::element_text(size = 20))
 }
 \seealso{
-Other state assessment functions: \code{\link{plot_statespace_ed}},
-  \code{\link{statespace_ch}}, \code{\link{statespace_ed}}
+Other state assessment functions: 
+\code{\link{plot_statespace_ed}()},
+\code{\link{statespace_ch}()},
+\code{\link{statespace_ed}()}
 }
 \concept{state assessment functions}

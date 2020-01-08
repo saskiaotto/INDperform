@@ -95,10 +95,14 @@ plots <- plot_diagnostics(model_list)
 \code{\link[stats]{pacf}}, \code{\link[stats]{qqnorm}}, and
 \code{\link[purrr]{flatten}} for removing a level hierarchy from a list
 
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

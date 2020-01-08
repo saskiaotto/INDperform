@@ -5,10 +5,20 @@
 \title{Calculate the derivatives of the IND response functions and the proportion
 of pressure range in which the response is significant}
 \usage{
-calc_deriv(init_tbl, mod_tbl, edf_filter = 1.5, sign_level = 0.05,
-  excl_outlier = FALSE, method = "cond_boot", n_boot = 200,
-  ci_boot = 0.95, ci_prop_se = 25, par_comp = FALSE,
-  no_clust = NULL, seed = NULL)
+calc_deriv(
+  init_tbl,
+  mod_tbl,
+  edf_filter = 1.5,
+  sign_level = 0.05,
+  excl_outlier = FALSE,
+  method = "cond_boot",
+  n_boot = 200,
+  ci_boot = 0.95,
+  ci_prop_se = 25,
+  par_comp = FALSE,
+  no_clust = NULL,
+  seed = NULL
+)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}

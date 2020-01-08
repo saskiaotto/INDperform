@@ -4,8 +4,16 @@
 \alias{test_interaction}
 \title{Test for interactions between 2 pressure variables}
 \usage{
-test_interaction(init_tbl, mod_tbl, interactions, sign_level = 0.05,
-  k = 4, a = 0.2, b = 0.8, excl_outlier = FALSE)
+test_interaction(
+  init_tbl,
+  mod_tbl,
+  interactions,
+  sign_level = 0.05,
+  k = 4,
+  a = 0.2,
+  b = 0.8,
+  excl_outlier = FALSE
+)
 }
 \arguments{
 \item{init_tbl}{The (full) output tibble of the \code{\link{ind_init}} function.}
@@ -176,10 +184,14 @@ dynamics of a key copepod. \emph{Marine Ecology Progress Series} 498, 73-84.
 \seealso{
 \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{select_model}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()}
 }
 \concept{IND~pressure modeling functions}

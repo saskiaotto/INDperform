@@ -37,9 +37,13 @@ plot_clust_sc(clust_analysis, rotate = TRUE, text_size = 20) +
 \code{\link[ggplot2]{ggplot}}, \code{\link[ggdendro]{dendro_data}}
 for the data extraction from the \code{hclust} object to produce the dendrogram
 
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
-  \code{\link{expect_resp}}, \code{\link{plot_spiechart}},
-  \code{\link{scoring}}, \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc_group}()},
+\code{\link{dist_sc}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

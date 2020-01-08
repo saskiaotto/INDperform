@@ -4,8 +4,7 @@
 \alias{model_gam}
 \title{Modeling of indicator responses to single pressures with GAMs}
 \usage{
-model_gam(init_tbl, k = 5, family = stats::gaussian(),
-  excl_outlier = NULL)
+model_gam(init_tbl, k = 5, family = stats::gaussian(), excl_outlier = NULL)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}
@@ -133,10 +132,14 @@ Springer, New York, 548pp.
  \code{\link[mgcv]{gam}} for more information on GAMs, and
  \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

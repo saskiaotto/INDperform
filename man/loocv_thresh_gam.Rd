@@ -4,8 +4,17 @@
 \alias{loocv_thresh_gam}
 \title{Leave-One-Out Cross-Validation (LOOCV) procedure for (threshold-)GAMs}
 \usage{
-loocv_thresh_gam(model, ind_vec, press_vec, t_var_vec, name_t_var, k, a, b,
-  time)
+loocv_thresh_gam(
+  model,
+  ind_vec,
+  press_vec,
+  t_var_vec,
+  name_t_var,
+  k,
+  a,
+  b,
+  time
+)
 }
 \arguments{
 \item{model}{A single GAM object from the model tibble needed to extract

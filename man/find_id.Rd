@@ -35,10 +35,14 @@ find_id(model_gam_ex, ind_name, press_name)
 find_id(model_gam_ex, press_name = press_name)
 }
 \seealso{
-Other IND~pressure modeling functions: \code{\link{ind_init}},
-  \code{\link{model_gamm}}, \code{\link{model_gam}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

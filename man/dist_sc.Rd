@@ -37,10 +37,13 @@ dist_matrix <- dist_sc(scores_mat, method_dist = "euclidean")
 \code{\link[vegan]{vegdist}} for the computation of the
 dissimilarity index
 
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc_group}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}},
-  \code{\link{plot_spiechart}}, \code{\link{scoring}},
-  \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc_group}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

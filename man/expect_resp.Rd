@@ -4,8 +4,7 @@
 \alias{expect_resp}
 \title{Score adjustments for sub-criterion 10.1}
 \usage{
-expect_resp(mod_tbl, scores_tbl,
-  crit_scores = INDperform::crit_scores_tmpl)
+expect_resp(mod_tbl, scores_tbl, crit_scores = INDperform::crit_scores_tmpl)
 }
 \arguments{
 \item{mod_tbl}{Output tibble from the IND~pressure modeling functions.}
@@ -53,10 +52,13 @@ of the expectation scores.
 \seealso{
 \code{\link{plot_model}} for visualization of the IND responses to pressures
 
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
-  \code{\link{plot_clust_sc}},
-  \code{\link{plot_spiechart}}, \code{\link{scoring}},
-  \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc_group}()},
+\code{\link{dist_sc}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

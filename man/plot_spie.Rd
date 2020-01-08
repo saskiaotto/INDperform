@@ -4,9 +4,23 @@
 \alias{plot_spie}
 \title{Helper function for plot_spiechart}
 \usage{
-plot_spie(split_input, scale, parting, cat, summary_tbl, ground, n_c8_c11,
-  n_c9_c10, col_crit8_11, x_ring1, theme_infog, edge = "grey30", ind,
-  lab_size, title_size)
+plot_spie(
+  split_input,
+  scale,
+  parting,
+  cat,
+  summary_tbl,
+  ground,
+  n_c8_c11,
+  n_c9_c10,
+  col_crit8_11,
+  x_ring1,
+  theme_infog,
+  edge = "grey30",
+  ind,
+  lab_size,
+  title_size
+)
 }
 \description{
 This is the actual plotting function used by the wrapper

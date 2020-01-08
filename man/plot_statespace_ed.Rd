@@ -32,7 +32,9 @@ p + ggplot2::geom_point(col = "red") +
     axis.title=ggplot2::element_text(size = 18))
 }
 \seealso{
-Other state assessment functions: \code{\link{plot_statespace_ch}},
-  \code{\link{statespace_ch}}, \code{\link{statespace_ed}}
+Other state assessment functions: 
+\code{\link{plot_statespace_ch}()},
+\code{\link{statespace_ch}()},
+\code{\link{statespace_ed}()}
 }
 \concept{state assessment functions}

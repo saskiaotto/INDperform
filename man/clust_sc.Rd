@@ -35,10 +35,13 @@ clust_analysis <- clust_sc(dist_matrix, method_clust = "complete")
 \seealso{
 \code{\link{hclust}}
 
-Other score-based IND performance functions: \code{\link{dist_sc_group}},
-  \code{\link{dist_sc}}, \code{\link{expect_resp}},
-  \code{\link{plot_clust_sc}},
-  \code{\link{plot_spiechart}}, \code{\link{scoring}},
-  \code{\link{summary_sc}}
+Other score-based IND performance functions: 
+\code{\link{dist_sc_group}()},
+\code{\link{dist_sc}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()},
+\code{\link{summary_sc}()}
 }
 \concept{score-based IND performance functions}

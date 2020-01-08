@@ -81,10 +81,14 @@ ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = pr
 \code{\link[tibble]{tibble}} and the \code{vignette("tibble")} for more
  informations on tibbles
 
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{model_gamm}}, \code{\link{model_gam}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

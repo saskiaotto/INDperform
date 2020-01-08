@@ -53,8 +53,9 @@ Framework for understanding marine ecosystem health. \emph{Marine Ecology
 Progress Series.} 494, 1-27.
 }
 \seealso{
-Other state assessment functions: \code{\link{plot_statespace_ch}},
-  \code{\link{plot_statespace_ed}},
-  \code{\link{statespace_ch}}
+Other state assessment functions: 
+\code{\link{plot_statespace_ch}()},
+\code{\link{plot_statespace_ed}()},
+\code{\link{statespace_ch}()}
 }
 \concept{state assessment functions}

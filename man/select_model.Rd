@@ -44,10 +44,14 @@ Burnham, K.P., Anderson, D.R. (2002) Model Selection and Multimodel Inference - 
 Practical Information-Theoretic Approach. Springer, New York.
 }
 \seealso{
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{plot_model}}, \code{\link{scoring}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

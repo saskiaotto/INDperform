@@ -39,9 +39,13 @@ scores_tbl <- scoring(trend_tbl = model_trend_ex, mod_tbl = all_results_ex,
 summary_sc(scores_tbl)
 }
 \seealso{
-Other score-based IND performance functions: \code{\link{clust_sc}},
-  \code{\link{dist_sc_group}}, \code{\link{dist_sc}},
-  \code{\link{expect_resp}}, \code{\link{plot_clust_sc}},
-  \code{\link{plot_spiechart}}, \code{\link{scoring}}
+Other score-based IND performance functions: 
+\code{\link{clust_sc}()},
+\code{\link{dist_sc_group}()},
+\code{\link{dist_sc}()},
+\code{\link{expect_resp}()},
+\code{\link{plot_clust_sc}()},
+\code{\link{plot_spiechart}()},
+\code{\link{scoring}()}
 }
 \concept{score-based IND performance functions}

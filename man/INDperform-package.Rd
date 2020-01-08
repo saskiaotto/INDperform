@@ -157,7 +157,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Saskia A. Otto \email{saskia.a.otto@gmail.com} (0000-0001-7780-1322)
+\strong{Maintainer}: Saskia A. Otto \email{saskia.a.otto@gmail.com} (\href{https://orcid.org/0000-0001-7780-1322}{ORCID})
 
 Authors:
 \itemize{

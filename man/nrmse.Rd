@@ -4,8 +4,13 @@
 \alias{nrmse}
 \title{Normalized Root Mean Square Error}
 \usage{
-nrmse(pred, obs, method = "sd", transformation = "none",
-  trans_function = "none")
+nrmse(
+  pred,
+  obs,
+  method = "sd",
+  transformation = "none",
+  trans_function = "none"
+)
 }
 \arguments{
 \item{pred}{A vector of predicted values.}

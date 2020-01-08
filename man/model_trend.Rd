@@ -4,8 +4,14 @@
 \alias{model_trend}
 \title{Modeling of indicator trends}
 \usage{
-model_trend(ind_tbl, time, train = 1, random = FALSE, k = 4,
-  family = stats::gaussian())
+model_trend(
+  ind_tbl,
+  time,
+  train = 1,
+  random = FALSE,
+  k = 4,
+  family = stats::gaussian()
+)
 }
 \arguments{
 \item{ind_tbl}{A data frame, matrix or tibble containing only the (numeric) IND

@@ -4,8 +4,13 @@
 \alias{model_gamm}
 \title{Modeling of indicator responses to single pressures with GAMMs}
 \usage{
-model_gamm(init_tbl, k = 5, family = stats::gaussian(),
-  excl_outlier = NULL, filter = NULL)
+model_gamm(
+  init_tbl,
+  k = 5,
+  family = stats::gaussian(),
+  excl_outlier = NULL,
+  filter = NULL
+)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}
@@ -93,10 +98,14 @@ Chapman and Hall/CRC Press
 \code{\link[mgcv]{gamm}} for more information on GAMMs and
 \code{\link{plot_diagnostics}} for assessing the model diagnostics
 
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gam}},
-  \code{\link{plot_diagnostics}}, \code{\link{plot_model}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{plot_model}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}

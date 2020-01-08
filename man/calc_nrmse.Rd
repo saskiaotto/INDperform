@@ -4,8 +4,14 @@
 \alias{calc_nrmse}
 \title{Calculates the Normalized Root Mean Square Error (NRMSE) for a list of models}
 \usage{
-calc_nrmse(press, ind, model, method = "sd", transformation = "none",
-  trans_function = "none")
+calc_nrmse(
+  press,
+  ind,
+  model,
+  method = "sd",
+  transformation = "none",
+  trans_function = "none"
+)
 }
 \arguments{
 \item{press}{A list of vectors containing the pressure values.}

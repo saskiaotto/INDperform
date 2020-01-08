@@ -4,8 +4,13 @@
 \alias{plot_model}
 \title{Visualization of all IND~pressure-model results relevant for the scoring}
 \usage{
-plot_model(init_tbl, mod_tbl, choose_thresh_gam = NULL,
-  pos_label = "topleft", header = TRUE)
+plot_model(
+  init_tbl,
+  mod_tbl,
+  choose_thresh_gam = NULL,
+  pos_label = "topleft",
+  header = TRUE
+)
 }
 \arguments{
 \item{init_tbl}{The output tibble of the \code{\link{ind_init}} function.}
@@ -113,10 +118,14 @@ dat$all_plots[[2]]
 }
 }
 \seealso{
-Other IND~pressure modeling functions: \code{\link{find_id}},
-  \code{\link{ind_init}}, \code{\link{model_gamm}},
-  \code{\link{model_gam}}, \code{\link{plot_diagnostics}},
-  \code{\link{scoring}}, \code{\link{select_model}},
-  \code{\link{test_interaction}}
+Other IND~pressure modeling functions: 
+\code{\link{find_id}()},
+\code{\link{ind_init}()},
+\code{\link{model_gamm}()},
+\code{\link{model_gam}()},
+\code{\link{plot_diagnostics}()},
+\code{\link{scoring}()},
+\code{\link{select_model}()},
+\code{\link{test_interaction}()}
 }
 \concept{IND~pressure modeling functions}
