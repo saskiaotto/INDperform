@@ -1,3 +1,27 @@
+INDperform 0.2.2
+================
+
+## Release summary
+
+Fixed some bugs and made some minor changes to improve usability.
+Fixed the notes and particularly error message under different R versions and platforms caused by the changes to matrix objects in the newer versions, as was requested by the CRAN team.
+
+## Test environments
+
+* macOS 10.14.5 on local install, R 3.6.1, and macOS 10.15.2 on local R 3.6.2 install
+* ubuntu 16.04 on travis-ci (R-devel, R-release, R-oldrelease)
+* win-builder (R-devel, R-release, R-oldrelease)
+
+## R CMD check results
+
+There were no ERRORs, WARNINGs or NOTES:
+
+## Reverse dependencies
+
+There are currently no downstream dependencies for this package.
+
+
+
 INDperform 0.2.1
 ================
 
