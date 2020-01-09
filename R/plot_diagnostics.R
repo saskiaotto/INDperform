@@ -72,6 +72,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # Using some models of the Baltic Sea demo data:
 #' # Apply function to a list of various model types
 #' model_list <- c(all_results_ex$thresh_models[[5]],
@@ -88,6 +89,7 @@
 #' # Make sure that thresh_models have not a nested list structure:
 #' model_list <- all_results_ex$thresh_models[5:6] %>% purrr::flatten(.)
 #' plots <- plot_diagnostics(model_list)
+#' }
 plot_diagnostics <- function(model_list) {
 
   # Data input validation --------------------
