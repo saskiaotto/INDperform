@@ -164,6 +164,7 @@
 <li><p>The multipanel plot in <code><a href="../reference/plot_model.html">plot_model()</a></code> includes in the title also the model type in addition to the formula</p></li>
 <li><p>A new data validation routine in the internal <code><a href="../reference/check_ind_press.html">check_ind_press()</a></code> function (used in <code><a href="../reference/model_trend.html">model_trend()</a></code> and <code><a href="../reference/ind_init.html">ind_init()</a></code>) checks for unwanted characters in column names of indicator and pressure datasets, which caused errors when building the models. These characters are now removed or replaced by hyphens.</p></li>
 <li><p>Some internal adjustments to changes in the newer R versions and packages (e.g. in all functions that use the nest() and unnest() functions from the tidyr package arguments were removed that are deprecated in the newer tidyr version).</p></li>
+<li><p>Some function examples excluded from automatic testing with /dontrun due to long running time.</p></li>
 </ul>
 </div>
     <div id="indperform-0-2-1" class="section level1">

@@ -14,6 +14,8 @@
 
 * Some internal adjustments to changes in the newer R versions and packages (e.g. in all functions that use the nest() and unnest() functions from the tidyr package arguments were removed that are deprecated in the newer tidyr version).
 
+* Some function examples excluded from automatic testing with /dontrun due to long running time.
+
 
 # INDperform 0.2.1
 
