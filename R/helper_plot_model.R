@@ -133,12 +133,12 @@ plot_response <- function(x, y, x_seq, pred, ci_up,
   		data = data.frame(x_seq = x_seq, y_ci_low = ci_low, y_ci_up = ci_up),
     mapping = ggplot2::aes(x = !!rlang::sym("x_seq"),
     	ymin = !!rlang::sym("y_ci_low"), ymax = !!rlang::sym("y_ci_up")),
-  		fill = "dodgerblue3", alpha = 0.2) +
+  		fill = "#1874CD", alpha = 0.2) +
   	ggplot2::geom_line(
   		data = data.frame(x_seq = x_seq, pred = pred),
   		mapping = ggplot2::aes(x = !!rlang::sym("x_seq"),
   			y = !!rlang::sym("pred")),
-  		colour = "dodgerblue3", size = 1) +
+  		colour = "#1874CD", size = 1) +
   	ggplot2::geom_point(
   		data = data.frame(xp = x, yp = y),
   		mapping = ggplot2::aes(x = !!rlang::sym("xp"), y = !!rlang::sym("yp")),
@@ -185,17 +185,17 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
   			x = !!rlang::sym("x_zoom"),
   			ymin = !!rlang::sym("ci_low_zoom"),
      ymax = !!rlang::sym("ci_up_zoom")),
-  		fill = "darkseagreen4", alpha = 0.2) +
+  		fill = "#698B69", alpha = 0.2) +
   	ggplot2::geom_line(
   		data = tibble::tibble(x = x_zoom, y = y_pred_zoom),
   		mapping = ggplot2::aes(x = !!rlang::sym("x"),
   			y = !!rlang::sym("y")),
-    colour = "darkseagreen4", size = 1) +
+    colour = "#698B69", size = 1) +
   	ggplot2::geom_point(
   		data = tibble::tibble(x = x_zoom, y = y_pred_zoom),
   		mapping = ggplot2::aes(x = !!rlang::sym("x"),
   			y = !!rlang::sym("y")),
-    colour = "darkseagreen4", shape = 16, size = 2) +
+    colour = "#698B69", shape = 16, size = 2) +
   	ggplot2::geom_point(
   		data = tibble::tibble(x = x[x_train_zoom], y = y_obs[x_train_zoom]),
   		mapping = ggplot2::aes(x = !!rlang::sym("x"),
@@ -210,7 +210,7 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
   		data = tibble::tibble(x = x[x_test], y = y_pred[x_test]),
   		mapping = ggplot2::aes(x = !!rlang::sym("x"),
   			y = !!rlang::sym("y")),
-    shape = 17, size = 3, colour = "darkseagreen4") +
+    shape = 17, size = 3, colour = "#698B69") +
    ggplot2::ylim(y_range) +
   	ggplot2::scale_x_continuous(breaks = x_seq_on_axis,
     limits = x_range) +

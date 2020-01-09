@@ -73,6 +73,7 @@ The function can deal with any model of the classes `gam`, `gamm` or
 }
 }
 \examples{
+\dontrun{
 # Using some models of the Baltic Sea demo data:
 # Apply function to a list of various model types
 model_list <- c(all_results_ex$thresh_models[[5]],
@@ -89,6 +90,7 @@ plots$all_plots[[1]] # shows all 5-6 plots
 # Make sure that thresh_models have not a nested list structure:
 model_list <- all_results_ex$thresh_models[5:6] \%>\% purrr::flatten(.)
 plots <- plot_diagnostics(model_list)
+}
 }
 \seealso{
 \code{\link[stats]{cooks.distance}}, \code{\link[stats]{acf}},
