@@ -251,15 +251,24 @@ of the data.frame(), including the following elements:</p><dl class='dl-horizont
 <code><a href='test_interaction.html'>test_interaction</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data:</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Using some models of the Baltic Sea demo data:</span>
 <span class='co'># Apply function to a list of various model types</span>
 <span class='no'>model_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>all_results_ex</span>$<span class='no'>thresh_models</span><span class='kw'>[[</span><span class='fl'>5</span>]],
   <span class='no'>model_gam_ex</span>$<span class='no'>model</span>[<span class='fl'>39</span>], <span class='no'>all_results_ex</span>$<span class='no'>model</span>[<span class='fl'>76</span>])
 <span class='no'>plots</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_diagnostics</span>(<span class='no'>model_list</span>)
-<span class='no'>plots</span>$<span class='no'>cooks_dist</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='img'><img src='plot_diagnostics-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>acf_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='img'><img src='plot_diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>pacf_plot</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='plot_diagnostics-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>resid_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='img'><img src='plot_diagnostics-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>qq_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='img'><img src='plot_diagnostics-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>gcvv_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># for threshold models</span></div><div class='img'><img src='plot_diagnostics-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>plots</span>$<span class='no'>all_plots</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># shows all 5-6 plots</span></div><div class='img'><img src='plot_diagnostics-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>plots</span>$<span class='no'>cooks_dist</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>plots</span>$<span class='no'>acf_plot</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+<span class='no'>plots</span>$<span class='no'>pacf_plot</span><span class='kw'>[[</span><span class='fl'>3</span>]]
+<span class='no'>plots</span>$<span class='no'>resid_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>plots</span>$<span class='no'>qq_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>plots</span>$<span class='no'>gcvv_plot</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># for threshold models</span>
+<span class='no'>plots</span>$<span class='no'>all_plots</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='co'># shows all 5-6 plots</span>
+
 <span class='co'># Make sure that thresh_models have not a nested list structure:</span>
 <span class='no'>model_list</span> <span class='kw'>&lt;-</span> <span class='no'>all_results_ex</span>$<span class='no'>thresh_models</span>[<span class='fl'>5</span>:<span class='fl'>6</span>] <span class='kw'>%&gt;%</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/flatten.html'>flatten</a></span>(<span class='no'>.</span>)
-<span class='no'>plots</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_diagnostics</span>(<span class='no'>model_list</span>)</div></pre>
+<span class='no'>plots</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_diagnostics</span>(<span class='no'>model_list</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

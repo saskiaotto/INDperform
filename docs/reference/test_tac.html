@@ -205,20 +205,20 @@ lower than 0.4, a TRUE is returned.</p>
 <span class='no'>model_resid</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>model_gam_ex</span>$<span class='no'>model</span>,
   ~<span class='kw pkg'>mgcv</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/residuals.gam.html'>residuals.gam</a></span>(<span class='no'>.</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"deviance"</span>))
 <span class='co'># test whether model residuals show significant TAC</span>
-<span class='fu'>test_tac</span>(<span class='no'>model_resid</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 84 x 3</span><span>
+<span class='fu'>test_tac</span>(<span class='no'>model_resid</span>)</div><div class='output co'>#&gt; # A tibble: 84 x 3
 #&gt;    acf        pacf       tac  
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [14]&gt;</span><span> FALSE
-#&gt; </span><span style='color: #949494;'># … with 74 more rows</span><span></div><div class='input'>
+#&gt;    &lt;list&gt;     &lt;list&gt;     &lt;lgl&gt;
+#&gt;  1 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  2 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  3 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  4 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  5 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  6 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  7 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  8 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt;  9 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt; 10 &lt;dbl [15]&gt; &lt;dbl [14]&gt; FALSE
+#&gt; # … with 74 more rows</div><div class='input'>
 <span class='co'># Works also with GAMMs</span>
 <span class='no'>model_resid</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map_if.html'>map_if</a></span>(<span class='no'>model_gamm_ex</span>$<span class='no'>model</span>,
   !<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>model_gamm_ex</span>$<span class='no'>model</span>),
@@ -234,7 +234,7 @@ lower than 0.4, a TRUE is returned.</p>
 #&gt;  [91] TRUE TRUE TRUE TRUE   NA TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 #&gt; [106] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE   NA TRUE TRUE
 #&gt; [121] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-#&gt; [136] TRUE   NA   NA</div></span></pre>
+#&gt; [136] TRUE   NA   NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

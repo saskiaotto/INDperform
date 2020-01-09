@@ -231,35 +231,35 @@ plot_predict <- function(x, y_obs, y_pred, ci_up, ci_low,
 plot_deriv <- function(press_seq, deriv1, deriv1_ci_low,
   deriv1_ci_up, zic_start_end, zero_in_conf, xlab,
   ylab, pos_text, label) {
+
   p <- ggplot2::ggplot() +
   	ggplot2::geom_line(
   		data = data.frame(press_seq = press_seq, deriv1 = deriv1),
   		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
   			y = !!rlang::sym("deriv1")), lty = 1,
-    color = "red") +
+    colour = "red") +
   	ggplot2::geom_line(
   		data = data.frame(press_seq = press_seq, deriv1_ci_up = deriv1_ci_up),
   		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"), y = !!rlang::sym("deriv1_ci_up")),
-    lty = 2, color = "red") +
+    lty = 2, colour = "red") +
   	ggplot2::geom_line(
   		data = data.frame(press_seq = press_seq, deriv1_ci_low = deriv1_ci_low),
   		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"), y = !!rlang::sym("deriv1_ci_low")),
-    lty = 2, color = "red") +
+    lty = 2, colour = "red") +
   	ggplot2::geom_hline(yintercept = 0,
-    linetype = "dashed", color = "black") +
+    linetype = "dashed", colour = "black") +
   	ggplot2::labs(x = xlab,
     y = paste0("S' (", ylab, ")")) +
   	ggplot2::geom_point(
   		data = data.frame(press_seq = press_seq, deriv1 = deriv1,
   			zero_in_conf = as.factor(zero_in_conf), zic_start_end = as.factor(zic_start_end)),
   		mapping = ggplot2::aes(x = !!rlang::sym("press_seq"),
-  			y = !!rlang::sym("deriv1"), col = !!rlang::sym("zero_in_conf"),
+  			y = !!rlang::sym("deriv1"), colour = !!rlang::sym("zero_in_conf"),
     shape = !!rlang::sym("zic_start_end"))) +
   	ggplot2::annotate(geom = "text",
     x = pos_text$x, y = pos_text$y, label = label,
     hjust = 0) +
-  	ggplot2::scale_colour_manual(values = c(2,
-    1)) +
+  	ggplot2::scale_colour_manual(values = c("red", "black")) +
   	ggplot2::theme(legend.position = "none") +
     ggplot2::ggtitle("1st Derivative S'") + plot_outline()
 

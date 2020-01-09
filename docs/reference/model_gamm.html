@@ -272,10 +272,10 @@ Chapman and Hall/CRC Press</p>
 <span class='no'>gam_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='model_gam.html'>model_gam</a></span>(<span class='no'>dat_init</span>)
 <span class='co'># Any temporal autocorrelation</span>
 <span class='no'>gam_tbl</span>$<span class='no'>tac</span></div><div class='output co'>#&gt; [1] TRUE TRUE</div><div class='input'><span class='co'># Applying model_gamm function and passing the $tac variable as filter</span>
-<span class='no'>gamm_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>model_gamm</span>(<span class='no'>dat_init</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>gam_tbl</span>$<span class='no'>tac</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: For the following IND~pressure GAMMs fitting procedure failed:</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 6</span><span>
+<span class='no'>gamm_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>model_gamm</span>(<span class='no'>dat_init</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='no'>gam_tbl</span>$<span class='no'>tac</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: For the following IND~pressure GAMMs fitting procedure failed:</span></div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;      id ind   press model_type corrstruc error_message                          
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                  
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     2 Cod   Fher  gamm       arma21    </span><span style='color: #949494;'>"</span><span>Error in lme.formula(y ~ X - 1, rando…</div></span></pre>
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;                                  
+#&gt; 1     2 Cod   Fher  gamm       arma21    "Error in lme.formula(y ~ X - 1, rando…</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
