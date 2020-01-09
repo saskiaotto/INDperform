@@ -202,20 +202,20 @@ values (above and below the t_val).</p>
 <span class='no'>lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>t_var</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>.2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='no'>t_var</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>.8</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>t_val</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='no'>lower</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>upper</span>, <span class='kw'>by</span> <span class='kw'>=</span> (<span class='no'>upper</span> - <span class='no'>lower</span>) / <span class='fl'>20</span>)
-<span class='fu'>compare_thresholds</span>(<span class='no'>t_val</span>, <span class='no'>t_var</span>)</div><div class='output co'>#&gt; # A tibble: 21 x 2
+<span class='fu'>compare_thresholds</span>(<span class='no'>t_val</span>, <span class='no'>t_var</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 21 x 2</span><span>
 #&gt;     t_val change
-#&gt;     &lt;dbl&gt; &lt;lgl&gt; 
-#&gt;  1 -0.619 TRUE  
-#&gt;  2 -0.576 TRUE  
-#&gt;  3 -0.534 TRUE  
-#&gt;  4 -0.491 TRUE  
-#&gt;  5 -0.449 TRUE  
-#&gt;  6 -0.406 FALSE 
-#&gt;  7 -0.364 FALSE 
-#&gt;  8 -0.321 TRUE  
-#&gt;  9 -0.279 TRUE  
-#&gt; 10 -0.236 FALSE 
-#&gt; # … with 11 more rows</div></pre>
+#&gt;     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> -</span><span style='color: #BB0000;'>0.619</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> -</span><span style='color: #BB0000;'>0.576</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> -</span><span style='color: #BB0000;'>0.534</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> -</span><span style='color: #BB0000;'>0.491</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> -</span><span style='color: #BB0000;'>0.449</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> -</span><span style='color: #BB0000;'>0.406</span><span> FALSE 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> -</span><span style='color: #BB0000;'>0.364</span><span> FALSE 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> -</span><span style='color: #BB0000;'>0.321</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> -</span><span style='color: #BB0000;'>0.279</span><span> TRUE  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> -</span><span style='color: #BB0000;'>0.236</span><span> FALSE 
+#&gt; </span><span style='color: #949494;'># … with 11 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
