@@ -57,6 +57,7 @@ returns TRUE if the threshold-GAM has a lower estimate, else FALSE (see for more
 the LOOCV procedure the details section in \code{\link{test_interaction}}).
 }
 \examples{
+\dontrun{
 # Using the first model in the Baltic Sea demo data
 loocv_thresh_gam(model = model_gam_ex$model[[1]],
   ind_vec = ind_init_ex$ind_train[[1]],
@@ -65,6 +66,7 @@ loocv_thresh_gam(model = model_gam_ex$model[[1]],
   name_t_var = "Swin",
   k = 4, a = 0.2, b = 0.8,
   time = ind_init_ex$time_train[[1]])
+}
 }
 \seealso{
 \code{\link{thresh_gam}} which creates a threshold-GAM object and
