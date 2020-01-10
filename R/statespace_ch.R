@@ -123,7 +123,8 @@ statespace_ch <- function(x, y, time, period_ref, period_current) {
   # Check input vectors
   x <- check_input_vec(x, "x")
   y <- check_input_vec(y, "y")
-  time <- check_input_vec(time, "time")
+  time <- check_input_vec(time, "argument time")
+	 # (I added explicitly 'argument' to NOT test for regularity in time steps!)
 
   if (length(x) != length(y) | length(x) != length(time)) {
     stop("One of the x, y, or time vectors has a different length!")

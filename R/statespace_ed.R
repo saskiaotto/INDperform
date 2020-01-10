@@ -59,7 +59,8 @@ statespace_ed <- function(x, time, ref_time = NULL) {
 	 if (any(class(x) == "list")) {
 	 	 stop("x cannot be a list.")
 	 }
-	 time <- check_input_vec(time, "time")
+	 time <- check_input_vec(time, "argument time")
+	 # (I added explicitly 'argument' to NOT test for regularity in time steps!)
   if (is.null(ref_time)) {
     id <- 1
   } else {

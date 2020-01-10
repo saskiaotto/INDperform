@@ -4,6 +4,8 @@
 
 * Some minor fixes to pass all platform builds.
 
+* `state_space_ed()` and `state_space_ch()` allow now also irregular time series (before an error message was returned).
+
 
 # INDperform 0.2.2
 
