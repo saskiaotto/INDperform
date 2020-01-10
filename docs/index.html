@@ -372,10 +372,15 @@
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># Weighted cluster analysis where distance matrix is averaged across group scores</span></a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co"># (see ?dist_sc_group for more infos)</span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7">sc_mat &lt;-<span class="st"> </span>sum_sc<span class="op">$</span>scores_matrix</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(sc_mat[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], sc_mat[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>], sc_mat[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], sc_mat[,<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]) </a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">scores_w_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc_group.html">dist_sc_group</a></span>(x)</a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">scores_w_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_w_dist)</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_w_clust)</a></code></pre></div>
+<a class="sourceLine" id="cb12-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">    sc_mat[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="co"># crit 8 and 11</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">    sc_mat[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>], <span class="co"># crit 9 and 10 - fisheries</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">    sc_mat[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], <span class="co"># crit 9 and 10 - nutrients</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">    sc_mat[,<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>] <span class="co"># crit 9 and 10 - climate</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">    ) </a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">scores_w_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc_group.html">dist_sc_group</a></span>(x)</a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">scores_w_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_w_dist)</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_w_clust)</a></code></pre></div>
 </div>
 </div>
 <div id="d--state-assessment-based-on-final-suite-of-ind" class="section level3">

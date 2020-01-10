@@ -338,7 +338,12 @@ plot_clust_sc(scores_clust)
 # Weighted cluster analysis where distance matrix is averaged across group scores
 # (see ?dist_sc_group for more infos)
 sc_mat <- sum_sc$scores_matrix
-x <- list(sc_mat[,1:2], sc_mat[,3:8], sc_mat[,9:12], sc_mat[,13:16]) 
+x <- list(
+    sc_mat[,1:2], # crit 8 and 11
+    sc_mat[,3:8], # crit 9 and 10 - fisheries
+    sc_mat[,9:12], # crit 9 and 10 - nutrients
+    sc_mat[,13:16] # crit 9 and 10 - climate
+    ) 
 scores_w_dist <- dist_sc_group(x)
 scores_w_clust <- clust_sc(scores_w_dist)
 plot_clust_sc(scores_w_clust)
