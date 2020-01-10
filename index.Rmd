@@ -39,6 +39,10 @@ ________________________________________________________________________________
 
 ## <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest News 
 
+In Version 0.2.2 some adjustments were made to account for changes in packages INDperform uses and a minor bug fixed in the NRMSE model prediction plot. Some of the plotting functions include now also titles in the individual panels. A data validation routine was added to check for unwanted characters in indicator or pressure names which caused models to not build. For more details see the [NEWS]( https://saskiaotto.github.io/INDperform/news/index.html) file.
+
+---
+
 In Version 0.2.1, a minor bug with different internal test results under different R versions was fixed by modifying some tests. But this bug did not affect the modelling results or performance of the previous version.
 
 ---
@@ -50,7 +54,9 @@ ________________________________________________________________________________
 
 ## Cheat sheet
 
-<a href="https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.1.0.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="900" height="252"/></a>  
+*(last update 01/2020)*
+
+<a href="https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.2.2.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="900" height="252"/></a>  
 
 ____________________________________________________________________________________
 
@@ -70,39 +76,80 @@ INDperform offers function that can be applied individually to some extent but m
 
 This is a suggested workflow demonstrated on the example data included in the package:
 
+## Workflow
+
 ```{r, eval = FALSE}
 library(INDperform)
+library(tidyverse)
+library(gridExtra)
+
 # Using the demo data
 head(ind_ex)
 head(press_ex)
 head(press_type_ex)
 # Scoring template:
 crit_scores_tmpl
+```
 
+### A. Trend modeling
 
-# Trend modeling -------------
-
-m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
+```{r, eval = FALSE}
+m_trend <- model_trend(ind_tbl = ind_ex[ ,-1]
   time = ind_ex$Year)
+
 # Model diagnostics
 pd <- plot_diagnostics(model_list = m_trend$model)
 pd$all_plots[[1]] # first indicator
+# check for outliers in all models
+grid.arrange(grobs = pd$cooks_dist, ncol = 3) 
+# check normality in all models
+grid.arrange(grobs = pd$qq_plot, ncol = 3)
+# check homogeneity in all models
+grid.arrange(grobs = pd$resid_plot, ncol = 3)
+# check for autocorrelation in all models
+grid.arrange(grobs = pd$acf_plot, ncol = 3)
+# check for partial autocorrelation in all models
+grid.arrange(grobs = pd$pacf_plot, ncol = 3)
+
+# Save diagnostic plots per indicator in a pdf
+ml <- marrangeGrob(grobs = pd$all_plots, ncol = 1, nrow = 1)
+ggsave("Trend_diagnostics.pdf", ml, height = 8, width = 12)
+
 # Inspect trends
 pt <- plot_trend(m_trend)
 pt$TZA # shows trend of TZA indicator
+# show all together
+ml <- grid.arrange(grobs = pt, ncol = 3)
+ml
+# save as pdf
+ggsave("Trend_plots.pdf", ml, height = 12, width = 15)
+# show only significant trends
+grid.arrange(
+  grobs = pt[which(m_trend$p_val <= 0.05)],
+  ncol = 2
+	)
+```
 
+### B. Indicator response modeling 
 
-# Indicator response modeling ------------
-
-### Initialize data (combining IND with pressures)
+#### B.1 Initialize data 
+Combine IND with pressures and select training and test period --> default is training data = first 90% of obs)
+```{r, eval = FALSE}
 dat_init <- ind_init(ind_tbl = ind_ex[ ,-1],
-  press_tbl = press_ex[ ,-1], time = ind_ex$Year)
+  press_tbl = press_ex[ ,-1], time = ind_ex$Year,
+	train = 0.9, random = FALSE)
+````
 
-### Model responses
-m_gam <- model_gam(init_tbl = dat_init)
+#### B.2a Model responses using simple GAMs (using default settings here)
+```{r, eval = FALSE}
+m_gam <- model_gam(init_tbl = dat_init, k = 5,
+	family = stats::gaussian(), excl_outlier = NULL)
 
-# Model diagnostics (e.g. first model)
-plot_diagnostics(model_list = m_gam$model[[1]])$all_plots[[1]]
+# Model diagnostics
+pd <- plot_diagnostics(model_list = m_gam$model)  # (might take a while)
+ml <- marrangeGrob(grobs = pd$all_plots, ncol = 1, nrow = 1)
+ggsave("GAM_diagnostics.pdf", ml, height = 8, width = 12)
+
 # Any outlier?
 m_gam$pres_outlier %>% purrr::compact(.)
 # - get number of models with outliers detected
@@ -112,38 +159,69 @@ m_gam %>%
 	dplyr::select(id, ind, press, pres_outlier) %>%
 	dplyr::filter(!purrr::map_lgl(m_gam$pres_outlier, .f = is.null)) %>%
 	tidyr::unnest(pres_outlier)
-# Exclude outlier in models
+
+# Exclude outlier in models (using the returned model output tibble as selector)
 m_gam <- model_gam(init_tbl = dat_init, excl_outlier = m_gam$pres_outlier)
-# Any temporal autocorrelation
+
+# Any temporal autocorrelation (TAC)
 sum(m_gam$tac)
 # - which models
 m_gam %>%
 	dplyr::select(id, ind, press, tac) %>%
 	dplyr::filter(tac)
+```
 
-# If temporal autocorrelation present
+
+#### B.2b Model responses using simple GAMMs if TAC is present 
+(using same default settings here as for GAM, but not exclude observations yet)
+```{r, eval = FALSE}
 m_gamm <- model_gamm(init_tbl = dat_init,
-  filter = m_gam$tac)
+  filter = m_gam$tac) # (apply GAMM only to rows where TAC detected)
+
 # Again, any outlier?
 purrr::map_lgl(m_gamm$pres_outlier, ~!is.null(.)) %>% sum()
 
 # Select best GAMM from different correlation structures
 # (based on AIC)
-best_gamm <- select_model(gam_tbl = m_gam,
-  gamm_tbl = m_gamm)
-plot_diagnostics(model_list = best_gamm$model[[1]])$all_plots[[1]]
-# Merge GAM and GAMMs
+best_gamm <- select_model(gam_tbl = m_gam, gamm_tbl = m_gamm)
+View(best_gamm)
+
+# Still any temporal autocorrelation?
+sum(best_gamm$tac) 
+# - which models
+best_gamm %>%
+  dplyr::select(id, ind, press, tac, corrstruc) %>%
+  dplyr::filter(tac) %>%
+  print(n = 100)
+
+# Inspect diagnostic plots of best GAMMs
+pd <- plot_diagnostics(model_list = best_gamm$model)
+ml <- marrangeGrob(grobs = pd$all_plots, ncol = 1, nrow = 1)
+ggsave("bestGAMM_diagnostics.pdf", ml, height = 8, width = 12)
+```
+
+#### B.2c Merge GAM and GAMMs
+```{r, eval = FALSE}
 m_merged <- merge_models(m_gam[m_gam$tac == FALSE, ], best_gamm)
 
-# Calculate derivatives
-m_calc <- calc_deriv(init_tbl = dat_init,
-  mod_tbl = m_merged)
+# View sign. models
+filter(m_merged, p_val <= 0.05) %>%
+  View() 
+```
 
-# Test for pressure interactions
+#### B.3 Calculate derivatives of (significant) non-linear responses
+```{r, eval = FALSE}
+m_calc <- calc_deriv(init_tbl = dat_init, mod_tbl = m_merged,
+	sign_level = 0.05)
+```
+
+#### B.4 Test for pressure interactions (in significant models only=default)
+```{r, eval = FALSE}
 it <- select_interaction(mod_tbl = m_calc)
 # (creates combinations to test for)
+
 m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
-	 interactions = it)
+	 interactions = it, sign_level = 0.05)
 
 # Inspect diagnostics of threshold models
 pd_thresh <- all_results_ex$thresh_models %>%
@@ -154,18 +232,95 @@ pd_thresh <- all_results_ex$thresh_models %>%
 	keep(~is.list(.x))  %>%
 	plot_diagnostics()
 
-pd_thresh$all_plots[[1]]
-gridExtra::grid.arrange(grobs = pd_thresh$gcvv_plot, ncol = 3)
+ml <- marrangeGrob(grobs = pd_thresh$all_plots, ncol = 1, nrow = 1)
+ggsave("thresholdGAM_diagnostics.pdf", ml, height = 8, width = 10)
+
+# Look at the development of the generalized cross-validation value 
+# at different thresholds level: the plot should show that the GCVV
+# of the final threshold should be clearly lower than of others 
+# (you should see a single sharp trough, not at the edge)
+grid.arrange(grobs = pd_thresh$gcvv_plot, ncol = 3)
+# -> some models do NOT show this (e.g. #4,6,7): here we could set the
+#  $interaction from TRUE to FALSE (for the scoring later) to ignore
+# this potentially spurious interaction found:
+m_all <- m_all %>% mutate(
+	interaction = case_when(
+	(ind ==	"Micro" & press == "Fsprat") |
+		(ind ==	"Cod" & press == "Fher") | 
+		(ind ==	"Cod" & press == "Fcod") ~ FALSE,
+	TRUE ~ interaction))
 
 
-# Scoring based on model output ------------
-scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, press_type = press_type_ex)
+# Show final significant GAM/GAMM (threshold GAM) plots:
+sel <- which(m_all$p_val <= 0.05)
+pm <- plot_model(init_tbl = dat_init[sel, ], mod_tbl = m_all[sel, ])
+# Save all sign. indicator plots
+ml <- gridExtra::marrangeGrob(grobs = pm$all_plots, ncol = 1, nrow = 1)
+ggplot2::ggsave("Final_model_results.pdf", ml, height = 10, width = 12)
+```
+
+### C. Scoring based on model output
+
+```{r, eval = FALSE}
+scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, 
+	press_type = press_type_ex)
+
 # Runs a shiny app to modify the score for the subcriterion 10.1:
-#scores <- expect_resp(mod_tbl = m_all, scores_tbl = scores)
-sum_sc <- summary_sc(scores)
-spie <- plot_spiechart(sum_sc)
-spie$TZA # shows the spiechart of the indicator TZA
+scores <- expect_resp(mod_tbl = m_all, scores_tbl = scores)
 
+# Generate an easy to read summary from the nested scoring tibble
+sum_sc <- summary_sc(scores)
+sum_sc
+```
+
+#### Visualize scores with a spie chart (using the summary object as input)
+```{r, eval = FALSE}
+spie <- plot_spiechart(sum_sc,
+	lab_size = 4, title_size = 4)
+spie$TZA # shows the spiechart of the indicator TZA
+# show all:
+grid.arrange(grobs = spie, ncol = 3)
+```
+
+#### Cluster analysis based on scores to identify redundancies/complementarities
+```{r, eval = FALSE}
+scores_dist <- dist_sc(sum_sc$scores_matrix)
+scores_clust <- clust_sc(scores_dist)
+plot_clust_sc(scores_clust)
+
+# Weighted cluster analysis where distance matrix is averaged across group scores
+# (see ?dist_sc_group for more infos)
+sc_mat <- sum_sc$scores_matrix
+x <- list(sc_mat[,1:2], sc_mat[,3:8], sc_mat[,9:12], sc_mat[,13:16]) 
+scores_w_dist <- dist_sc_group(x)
+scores_w_clust <- clust_sc(scores_w_dist)
+plot_clust_sc(scores_w_clust)
+```
+
+
+### D. State assessment based on final suite of IND
+
+```{r, eval = FALSE}
+# Select subset of complementary indicators and exclude any NAs, e.g.
+ind_noNA <- drop_na(ind_ex)
+ind_sub <- ind_noNA[ , c(2,3,4,12,13)]
+```
+
+#### D.1 Euclidean distance in state space
+```{r, eval = FALSE}
+ed <- statespace_ed(x = ind_sub, time = ind_noNA$Year, ref_time = ind_noNA$Year[1] )
+plot_statespace_ed(ed) 
+````
+
+#### D.2 Convex hull of state space between 2 indicators 
+( or between 2 variables from a multivariate analysis)
+```{r, eval = FALSE}
+ch <- statespace_ch(x = ind_sub$SPF, y = ind_sub$LPF, time = ind_noNA$Year,
+	period_ref = 1984:1986, period_current = 2004:2008)
+
+plot_statespace_ch(ch) + 
+	ggplot2::xlab("Small Predatory Fish") + 
+	ggplot2::ylab("Large Predatory Fish")
 ```
 
 ***
