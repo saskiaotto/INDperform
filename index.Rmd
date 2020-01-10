@@ -56,8 +56,7 @@ ________________________________________________________________________________
 
 *(last update 01/2020)*
 
-<a href="https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.2.2.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="900" height="252"/></a>  
-
+<a href="https://github.com/saskiaotto/cheatsheets/raw/master/Cheatsheet_INDperform_v0.2.2.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="900" height="252"/></a>  
 ____________________________________________________________________________________
 
 ## <i class="fas fa-running" aria-hidden="true"></i> Getting started
