@@ -55,7 +55,17 @@ indicators. Ecological Indicators, 84: 619-631, doi:
 
 ## Important News
 
-In Version 0.2.1, a minor bug with different internal test results under
+In Version 0.2.2 some adjustments were made to account for changes in
+packages INDperform uses and a minor bug fixed in the NRMSE model
+prediction plot. Some of the plotting functions include now also titles
+in the individual panels. A data validation routine was added to check
+for unwanted characters in indicator or pressure names which caused
+models to not build. For more details see the
+[NEWS](https://saskiaotto.github.io/INDperform/news/index.html) file.
+
+-----
+
+In Version 0.2.1 a minor bug with different internal test results under
 different R versions was fixed by modifying some tests. But this bug did
 not affect the modelling results or performance of the previous version.
 
@@ -65,9 +75,10 @@ Version 0.2.0 has been released on CRAN 2019-02-10\! The new version
 includes a few internal changes as adjustments to updated packages it
 depends on. Major changes changes include a new NRMSE calculation based
 on the standard deviation and back-transformation (see
-[https://marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/](https://marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/%20for%20the%20motivation)),
-an NRMSE stand-alone function (`nrmse()`) and a function that allows the
-calculation of the distance matrix averaged across groups (i.e. a
-weighted distance matrix) (`dist_sc_group()`). For more information see
-the [news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md)
+<https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/>
+for the motivation), an NRMSE stand-alone function (`nrmse()`) and a
+function that allows the calculation of the distance matrix averaged
+across groups (i.e. a weighted distance matrix) (`dist_sc_group()`). For
+more information see the
+[news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md)
 file.

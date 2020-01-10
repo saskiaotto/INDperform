@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">INDperform</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -230,14 +230,26 @@
 <a class="sourceLine" id="cb2-72" data-line-number="72">m_all &lt;-<span class="st"> </span><span class="kw"><a href="reference/test_interaction.html">test_interaction</a></span>(<span class="dt">init_tbl =</span> dat_init, <span class="dt">mod_tbl =</span> m_calc,</a>
 <a class="sourceLine" id="cb2-73" data-line-number="73">     <span class="dt">interactions =</span> it)</a>
 <a class="sourceLine" id="cb2-74" data-line-number="74"></a>
-<a class="sourceLine" id="cb2-75" data-line-number="75"></a>
-<a class="sourceLine" id="cb2-76" data-line-number="76"><span class="co"># Scoring based on model output ------------</span></a>
-<a class="sourceLine" id="cb2-77" data-line-number="77">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/scoring.html">scoring</a></span>(<span class="dt">trend_tbl =</span> m_trend, <span class="dt">mod_tbl =</span> m_all, <span class="dt">press_type =</span> press_type_ex)</a>
-<a class="sourceLine" id="cb2-78" data-line-number="78"><span class="co"># Runs a shiny app to modify the score for the subcriterion 10.1:</span></a>
-<a class="sourceLine" id="cb2-79" data-line-number="79"><span class="co">#scores &lt;- expect_resp(mod_tbl = m_all, scores_tbl = scores)</span></a>
-<a class="sourceLine" id="cb2-80" data-line-number="80">sum_sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/summary_sc.html">summary_sc</a></span>(scores)</a>
-<a class="sourceLine" id="cb2-81" data-line-number="81">spie &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_spiechart.html">plot_spiechart</a></span>(sum_sc)</a>
-<a class="sourceLine" id="cb2-82" data-line-number="82">spie<span class="op">$</span>TZA <span class="co"># shows the spiechart of the indicator TZA</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-75" data-line-number="75"><span class="co"># Inspect diagnostics of threshold models</span></a>
+<a class="sourceLine" id="cb2-76" data-line-number="76">pd_thresh &lt;-<span class="st"> </span>all_results_ex<span class="op">$</span>thresh_models <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-77" data-line-number="77"><span class="st">    </span><span class="co"># flatten structure of nested threshold GAMs </span></a>
+<a class="sourceLine" id="cb2-78" data-line-number="78"><span class="st">    </span><span class="kw">flatten</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-79" data-line-number="79"><span class="st">    </span><span class="co"># and remove empty lists (where no threshold GAMs were applied (=NULL) </span></a>
+<a class="sourceLine" id="cb2-80" data-line-number="80"><span class="st">    </span><span class="co"># or no threshold GAMs were better than the simple GAMs (=NA)</span></a>
+<a class="sourceLine" id="cb2-81" data-line-number="81"><span class="st">    </span><span class="kw">keep</span>(<span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">is.list</a></span>(.x))  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-82" data-line-number="82"><span class="st">    </span><span class="kw"><a href="reference/plot_diagnostics.html">plot_diagnostics</a></span>()</a>
+<a class="sourceLine" id="cb2-83" data-line-number="83"></a>
+<a class="sourceLine" id="cb2-84" data-line-number="84">pd_thresh<span class="op">$</span>all_plots[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb2-85" data-line-number="85">gridExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="dt">grobs =</span> pd_thresh<span class="op">$</span>gcvv_plot, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb2-86" data-line-number="86"></a>
+<a class="sourceLine" id="cb2-87" data-line-number="87"></a>
+<a class="sourceLine" id="cb2-88" data-line-number="88"><span class="co"># Scoring based on model output ------------</span></a>
+<a class="sourceLine" id="cb2-89" data-line-number="89">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/scoring.html">scoring</a></span>(<span class="dt">trend_tbl =</span> m_trend, <span class="dt">mod_tbl =</span> m_all, <span class="dt">press_type =</span> press_type_ex)</a>
+<a class="sourceLine" id="cb2-90" data-line-number="90"><span class="co"># Runs a shiny app to modify the score for the subcriterion 10.1:</span></a>
+<a class="sourceLine" id="cb2-91" data-line-number="91"><span class="co">#scores &lt;- expect_resp(mod_tbl = m_all, scores_tbl = scores)</span></a>
+<a class="sourceLine" id="cb2-92" data-line-number="92">sum_sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/summary_sc.html">summary_sc</a></span>(scores)</a>
+<a class="sourceLine" id="cb2-93" data-line-number="93">spie &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_spiechart.html">plot_spiechart</a></span>(sum_sc)</a>
+<a class="sourceLine" id="cb2-94" data-line-number="94">spie<span class="op">$</span>TZA <span class="co"># shows the spiechart of the indicator TZA</span></a></code></pre></div>
 <hr>
 <div id="note-for-spatial-data" class="section level5">
 <h5 class="hasAnchor">

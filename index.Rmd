@@ -145,6 +145,18 @@ it <- select_interaction(mod_tbl = m_calc)
 m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
 	 interactions = it)
 
+# Inspect diagnostics of threshold models
+pd_thresh <- all_results_ex$thresh_models %>%
+	# flatten structure of nested threshold GAMs 
+	flatten() %>%
+	# and remove empty lists (where no threshold GAMs were applied (=NULL) 
+	# or no threshold GAMs were better than the simple GAMs (=NA)
+	keep(~is.list(.x))  %>%
+	plot_diagnostics()
+
+pd_thresh$all_plots[[1]]
+gridExtra::grid.arrange(grobs = pd_thresh$gcvv_plot, ncol = 3)
+
 
 # Scoring based on model output ------------
 scores <- scoring(trend_tbl = m_trend, mod_tbl = m_all, press_type = press_type_ex)

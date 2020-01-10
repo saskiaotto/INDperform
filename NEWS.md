@@ -1,3 +1,10 @@
+# INDperform 0.2.2.9000
+
+* Some function examples excluded from automatic testing with /dontrun due to long running time.
+
+* Some minor fixes to pass all platform builds.
+
+
 # INDperform 0.2.2
 
 * Fixed a minor bug in the NRMSE model prediction plot, where test observations where not shown in plot.
@@ -14,7 +21,6 @@
 
 * Some internal adjustments to changes in the newer R versions and packages (e.g. in all functions that use the nest() and unnest() functions from the tidyr package arguments were removed that are deprecated in the newer tidyr version).
 
-* Some function examples excluded from automatic testing with /dontrun due to long running time.
 
 
 # INDperform 0.2.1

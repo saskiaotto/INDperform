@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">INDperform</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -152,6 +152,15 @@
       <small>Source: <a href='https://github.com/saskiaotto/INDperform/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="indperform-0-2-2-9000" class="section level1">
+<h1 class="page-header">
+<a href="#indperform-0-2-2-9000" class="anchor"></a>INDperform 0.2.2.9000<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>Some function examples excluded from automatic testing with /dontrun due to long running time.</p></li>
+<li><p>Some minor fixes to pass all platform builds.</p></li>
+</ul>
+</div>
     <div id="indperform-0-2-2" class="section level1">
 <h1 class="page-header">
 <a href="#indperform-0-2-2" class="anchor"></a>INDperform 0.2.2<small> 2020-01-09 </small>
@@ -164,7 +173,6 @@
 <li><p>The multipanel plot in <code><a href="../reference/plot_model.html">plot_model()</a></code> includes in the title also the model type in addition to the formula</p></li>
 <li><p>A new data validation routine in the internal <code><a href="../reference/check_ind_press.html">check_ind_press()</a></code> function (used in <code><a href="../reference/model_trend.html">model_trend()</a></code> and <code><a href="../reference/ind_init.html">ind_init()</a></code>) checks for unwanted characters in column names of indicator and pressure datasets, which caused errors when building the models. These characters are now removed or replaced by hyphens.</p></li>
 <li><p>Some internal adjustments to changes in the newer R versions and packages (e.g. in all functions that use the nest() and unnest() functions from the tidyr package arguments were removed that are deprecated in the newer tidyr version).</p></li>
-<li><p>Some function examples excluded from automatic testing with /dontrun due to long running time.</p></li>
 </ul>
 </div>
     <div id="indperform-0-2-1" class="section level1">
@@ -241,6 +249,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#indperform-0-2-2-9000">0.2.2.9000</a></li>
         <li><a href="#indperform-0-2-2">0.2.2</a></li>
         <li><a href="#indperform-0-2-1">0.2.1</a></li>
         <li><a href="#indperform-0-2-0">0.2.0</a></li>
