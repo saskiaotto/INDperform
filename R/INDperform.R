@@ -4,7 +4,8 @@
 #' Otto \emph{et al.} (2018) to validate ecological state indicators
 #' and to select a suite of complimentary and well performing indicators.
 #' This suite can be then used to assess the current state of the system
-#' in comparison to a reference period.
+#' in comparison to a reference period. See also the website:
+#' https://saskiaotto.github.io/INDperform/
 #'
 #' The package builds upon the tidy data principles and offers functions to
 #' \itemize{
@@ -96,6 +97,7 @@
 #' (in that order):
 #' \itemize{
 #'   \item \code{\link{dist_sc}}
+#'   \item \code{\link{dist_sc_group}}
 #'   \item \code{\link{clust_sc}}
 #'   \item \code{\link{plot_clust_sc}}
 #' }
