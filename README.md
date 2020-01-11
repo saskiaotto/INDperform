@@ -12,22 +12,39 @@ status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project
 [![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
 <!-- badges: end -->
 
-<a href="https://saskiaotto.github.io/INDperform/" 
-style="box-shadow: 0px 20px 14px -7px #9c9993;
-    background:linear-gradient(120deg, #D77020, #ffdf1f, #5F8539 );
-    background-color:#9c9993;
-    border-radius:8px;
-    cursor:pointer;
-    color:#ffffff;
-    font-family:Arial;
-    font-size:20px;
-    font-weight:bold;
-    padding:13px 32px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #4c4c4c;
-    margin: auto;
-    display: block;
-    width: 40%;">INDperform website</a>
+<!-- The following does not work for GitHub README files -->
+
+<!-- <a href="https://saskiaotto.github.io/INDperform/"  -->
+
+<!-- style="box-shadow: 0px 20px 14px -7px #9c9993; -->
+
+<!--    background:linear-gradient(120deg, #D77020, #ffdf1f, #5F8539 ); -->
+
+<!--    background-color:#9c9993; -->
+
+<!--    border-radius:8px; -->
+
+<!--    cursor:pointer; -->
+
+<!--    color:#ffffff; -->
+
+<!--    font-family:Arial; -->
+
+<!--    font-size:20px; -->
+
+<!--    font-weight:bold; -->
+
+<!--    padding:13px 32px; -->
+
+<!--    text-decoration:none; -->
+
+<!--    text-shadow:0px 1px 0px #4c4c4c; -->
+
+<!--    margin: auto; -->
+
+<!--    display: block; -->
+
+<!--    width: 40%;">INDperform website</a> -->
 
 ## Overview
 
