@@ -139,7 +139,7 @@
 <hr>
 <p>In Version 0.2.1, a minor bug with different internal test results under different R versions was fixed by modifying some tests. But this bug did not affect the modelling results or performance of the previous version.</p>
 <hr>
-<p>Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes changes include a new NRMSE calculation based on the standard deviation and back-transformation (see <a href="https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/" class="uri">https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/</a> for the motivation), an NRMSE stand-alone function (<code><a href="reference/nrmse.html">nrmse()</a></code>) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (<code><a href="reference/dist_sc_group.html">dist_sc_group()</a></code>). For more information see the <a href="https://github.com/saskiaotto/INDperform/blob/master/NEWS.md">news</a> file.</p>
+<p>Version 0.2.0 has been released on CRAN 2019-02-10! The new version includes a few internal changes as adjustments to updated packages it depends on. Major changes include a new NRMSE calculation based on the standard deviation and back-transformation (see <a href="https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/" class="uri">https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/</a> for the motivation), an NRMSE stand-alone function (<code><a href="reference/nrmse.html">nrmse()</a></code>) and a function that allows the calculation of the distance matrix averaged across groups (i.e. a weighted distance matrix) (<code><a href="reference/dist_sc_group.html">dist_sc_group()</a></code>). For more information see the <a href="https://github.com/saskiaotto/INDperform/blob/master/NEWS.md">news</a> file.</p>
 <hr>
 </div>
 <div id="cheat-sheet" class="section level2">
@@ -289,131 +289,149 @@ ________________________________________________________________________________
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># View sign. models</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(m_merged, p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>() </a></code></pre></div>
+<div id="nrmse-adjustments-on-transformed-inds" class="section level5">
+<h5 class="hasAnchor">
+<a href="#nrmse-adjustments-on-transformed-inds" class="anchor"></a>NRMSE adjustments on transformed INDs</h5>
+<p>To allow a comparison of the model performance across transformed and untransformed indicators using the Normalized Root Mean Square error (NRMSE), the NRMSE has to be calculated on the original scale. The function <code><a href="reference/nrmse.html">nrmse()</a></code> (applied to a single model) or the wrapper function <code><a href="reference/calc_nrmse.html">calc_nrmse()</a></code> (applied to a list of models) take as argument the transformation type that was applied to each indicator prior to the analysis and compute the NRMSE on the back-transformed observations and predictions (see also <a href="https://marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/" class="uri">https://marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/</a>).</p>
+<p>In the example dataset <code>ind_ex</code> all indicators except for <code>MS</code> and <code>rZPPP</code> have been ln-transformed. So let’s calculated a corrected NRMSE for these INDs using the wrapper function <code><a href="reference/calc_nrmse.html">calc_nrmse()</a></code>. To get the respective ids in the model output tibble for selection and replacement, we will use the helper function <code><a href="reference/find_id.html">find_id()</a></code> (the function returns a subset of the model tibble and the <code>id</code> column can be then used as index).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">sel &lt;-<span class="st"> </span><span class="kw"><a href="reference/find_id.html">find_id</a></span>(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="dt">mod_tbl =</span> m_all, </a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="dt">ind_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TZA"</span>,<span class="st">"rCC"</span>,<span class="st">"Cops"</span>, <span class="st">"Micro"</span>, <span class="st">"Sprat"</span>,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">        <span class="st">"Herring"</span>, <span class="st">"Stickle"</span>, <span class="st">"Cod"</span>, <span class="st">"SPF"</span>, <span class="st">"LPF"</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">)<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">m_all<span class="op">$</span>nrmse[sel] &lt;-<span class="st"> </span><span class="kw"><a href="reference/calc_nrmse.html">calc_nrmse</a></span>(</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">    <span class="dt">press =</span> ind_init_ex<span class="op">$</span>press_test[sel], </a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">    <span class="dt">ind =</span> ind_init_ex<span class="op">$</span>ind_test[sel],</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">    <span class="dt">model =</span> m_all<span class="op">$</span>model[sel], </a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">    <span class="dt">transformation =</span> <span class="st">"log"</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">)</a></code></pre></div>
+</div>
 </div>
 <div id="b-3-calculate-derivatives-of-significant-non-linear-responses" class="section level4">
 <h4 class="hasAnchor">
 <a href="#b-3-calculate-derivatives-of-significant-non-linear-responses" class="anchor"></a>B.3 Calculate derivatives of (significant) non-linear responses</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">m_calc &lt;-<span class="st"> </span><span class="kw"><a href="reference/calc_deriv.html">calc_deriv</a></span>(<span class="dt">init_tbl =</span> dat_init, <span class="dt">mod_tbl =</span> m_merged,</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="dt">sign_level =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">m_calc &lt;-<span class="st"> </span><span class="kw"><a href="reference/calc_deriv.html">calc_deriv</a></span>(<span class="dt">init_tbl =</span> dat_init, <span class="dt">mod_tbl =</span> m_merged,</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    <span class="dt">sign_level =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 </div>
 <div id="b-4-test-for-pressure-interactions-in-significant-models-onlydefault" class="section level4">
 <h4 class="hasAnchor">
 <a href="#b-4-test-for-pressure-interactions-in-significant-models-onlydefault" class="anchor"></a>B.4 Test for pressure interactions (in significant models only=default)</h4>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">it &lt;-<span class="st"> </span><span class="kw"><a href="reference/select_interaction.html">select_interaction</a></span>(<span class="dt">mod_tbl =</span> m_calc)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># (creates combinations to test for)</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">m_all &lt;-<span class="st"> </span><span class="kw"><a href="reference/test_interaction.html">test_interaction</a></span>(<span class="dt">init_tbl =</span> dat_init, <span class="dt">mod_tbl =</span> m_calc,</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">     <span class="dt">interactions =</span> it, <span class="dt">sign_level =</span> <span class="fl">0.05</span>)</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># Inspect diagnostics of threshold models</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">pd_thresh &lt;-<span class="st"> </span>all_results_ex<span class="op">$</span>thresh_models <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">    </span><span class="co"># flatten structure of nested threshold GAMs </span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">    </span><span class="kw">flatten</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">    </span><span class="co"># and remove empty lists (where no threshold GAMs were applied (=NULL) </span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">    </span><span class="co"># or no threshold GAMs were better than the simple GAMs (=NA)</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">    </span><span class="kw">keep</span>(<span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">is.list</a></span>(.x))  <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">    </span><span class="kw"><a href="reference/plot_diagnostics.html">plot_diagnostics</a></span>()</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16">ml &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">marrangeGrob</a></span>(<span class="dt">grobs =</span> pd_thresh<span class="op">$</span>all_plots, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="kw">ggsave</span>(<span class="st">"thresholdGAM_diagnostics.pdf"</span>, ml, <span class="dt">height =</span> <span class="dv">8</span>, <span class="dt">width =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co"># Look at the development of the generalized cross-validation value </span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co"># at different thresholds level: the plot should show that the GCVV</span></a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co"># of the final threshold should be clearly lower than of others </span></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co"># (you should see a single sharp trough, not at the edge)</span></a>
-<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="dt">grobs =</span> pd_thresh<span class="op">$</span>gcvv_plot, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co"># -&gt; some models do NOT show this (e.g. #4,6,7): here we could set the</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#  $interaction from TRUE to FALSE (for the scoring later) to ignore</span></a>
-<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co"># this potentially spurious interaction found:</span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27">m_all &lt;-<span class="st"> </span>m_all <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb9-28" data-line-number="28">    <span class="dt">interaction =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb9-29" data-line-number="29">    (ind <span class="op">==</span><span class="st"> "Micro"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fsprat"</span>) <span class="op">|</span></a>
-<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="st">        </span>(ind <span class="op">==</span><span class="st"> "Cod"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fher"</span>) <span class="op">|</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="st">        </span>(ind <span class="op">==</span><span class="st"> "Cod"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fcod"</span>) <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb9-32" data-line-number="32">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>interaction))</a>
-<a class="sourceLine" id="cb9-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb9-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co"># Show final significant GAM/GAMM (threshold GAM) plots:</span></a>
-<a class="sourceLine" id="cb9-36" data-line-number="36">sel &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(m_all<span class="op">$</span>p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)</a>
-<a class="sourceLine" id="cb9-37" data-line-number="37">pm &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_model.html">plot_model</a></span>(<span class="dt">init_tbl =</span> dat_init[sel, ], <span class="dt">mod_tbl =</span> m_all[sel, ])</a>
-<a class="sourceLine" id="cb9-38" data-line-number="38"><span class="co"># Save all sign. indicator plots</span></a>
-<a class="sourceLine" id="cb9-39" data-line-number="39">ml &lt;-<span class="st"> </span>gridExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">marrangeGrob</a></span>(<span class="dt">grobs =</span> pm<span class="op">$</span>all_plots, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb9-40" data-line-number="40">ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span>(<span class="st">"Final_model_results.pdf"</span>, ml, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">12</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">it &lt;-<span class="st"> </span><span class="kw"><a href="reference/select_interaction.html">select_interaction</a></span>(<span class="dt">mod_tbl =</span> m_calc)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co"># (creates combinations to test for)</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">m_all &lt;-<span class="st"> </span><span class="kw"><a href="reference/test_interaction.html">test_interaction</a></span>(<span class="dt">init_tbl =</span> dat_init, <span class="dt">mod_tbl =</span> m_calc,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">     <span class="dt">interactions =</span> it, <span class="dt">sign_level =</span> <span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># Inspect diagnostics of threshold models</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">pd_thresh &lt;-<span class="st"> </span>all_results_ex<span class="op">$</span>thresh_models <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">    </span><span class="co"># flatten structure of nested threshold GAMs </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">    </span><span class="kw">flatten</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">    </span><span class="co"># and remove empty lists (where no threshold GAMs were applied (=NULL) </span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">    </span><span class="co"># or no threshold GAMs were better than the simple GAMs (=NA)</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="st">    </span><span class="kw">keep</span>(<span class="op">~</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">is.list</a></span>(.x))  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="st">    </span><span class="kw"><a href="reference/plot_diagnostics.html">plot_diagnostics</a></span>()</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">ml &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">marrangeGrob</a></span>(<span class="dt">grobs =</span> pd_thresh<span class="op">$</span>all_plots, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="kw">ggsave</span>(<span class="st">"thresholdGAM_diagnostics.pdf"</span>, ml, <span class="dt">height =</span> <span class="dv">8</span>, <span class="dt">width =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co"># Look at the development of the generalized cross-validation value </span></a>
+<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co"># at different thresholds level: the plot should show that the GCVV</span></a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co"># of the final threshold should be clearly lower than of others </span></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co"># (you should see a single sharp trough, not at the edge)</span></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="dt">grobs =</span> pd_thresh<span class="op">$</span>gcvv_plot, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co"># -&gt; some models do NOT show this (e.g. #4,6,7): here we could set the</span></a>
+<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#  $interaction from TRUE to FALSE (for the scoring later) to ignore</span></a>
+<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co"># this potentially spurious interaction found:</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27">m_all &lt;-<span class="st"> </span>m_all <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb10-28" data-line-number="28">    <span class="dt">interaction =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb10-29" data-line-number="29">    (ind <span class="op">==</span><span class="st"> "Micro"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fsprat"</span>) <span class="op">|</span></a>
+<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="st">        </span>(ind <span class="op">==</span><span class="st"> "Cod"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fher"</span>) <span class="op">|</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="st">        </span>(ind <span class="op">==</span><span class="st"> "Cod"</span> <span class="op">&amp;</span><span class="st"> </span>press <span class="op">==</span><span class="st"> "Fcod"</span>) <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb10-32" data-line-number="32">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span>interaction))</a>
+<a class="sourceLine" id="cb10-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb10-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co"># Show final significant GAM/GAMM (threshold GAM) plots:</span></a>
+<a class="sourceLine" id="cb10-36" data-line-number="36">sel &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(m_all<span class="op">$</span>p_val <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb10-37" data-line-number="37">pm &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_model.html">plot_model</a></span>(<span class="dt">init_tbl =</span> dat_init[sel, ], <span class="dt">mod_tbl =</span> m_all[sel, ])</a>
+<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co"># Save all sign. indicator plots</span></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39">ml &lt;-<span class="st"> </span>gridExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">marrangeGrob</a></span>(<span class="dt">grobs =</span> pm<span class="op">$</span>all_plots, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-40" data-line-number="40">ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span>(<span class="st">"Final_model_results.pdf"</span>, ml, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">12</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="c--scoring-based-on-model-output" class="section level3">
 <h3 class="hasAnchor">
 <a href="#c--scoring-based-on-model-output" class="anchor"></a>C. Scoring based on model output</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/scoring.html">scoring</a></span>(<span class="dt">trend_tbl =</span> m_trend, <span class="dt">mod_tbl =</span> m_all, </a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="dt">press_type =</span> press_type_ex)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># Runs a shiny app to modify the score for the subcriterion 10.1:</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/expect_resp.html">expect_resp</a></span>(<span class="dt">mod_tbl =</span> m_all, <span class="dt">scores_tbl =</span> scores)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># Generate an easy to read summary from the nested scoring tibble</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">sum_sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/summary_sc.html">summary_sc</a></span>(scores)</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">sum_sc</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/scoring.html">scoring</a></span>(<span class="dt">trend_tbl =</span> m_trend, <span class="dt">mod_tbl =</span> m_all, </a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    <span class="dt">press_type =</span> press_type_ex)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># Runs a shiny app to modify the score for the subcriterion 10.1:</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">scores &lt;-<span class="st"> </span><span class="kw"><a href="reference/expect_resp.html">expect_resp</a></span>(<span class="dt">mod_tbl =</span> m_all, <span class="dt">scores_tbl =</span> scores)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co"># Generate an easy to read summary from the nested scoring tibble</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">sum_sc &lt;-<span class="st"> </span><span class="kw"><a href="reference/summary_sc.html">summary_sc</a></span>(scores)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">sum_sc</a></code></pre></div>
 <div id="visualize-scores-with-a-spie-chart-using-the-summary-object-as-input" class="section level4">
 <h4 class="hasAnchor">
 <a href="#visualize-scores-with-a-spie-chart-using-the-summary-object-as-input" class="anchor"></a>Visualize scores with a spie chart (using the summary object as input)</h4>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">spie &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_spiechart.html">plot_spiechart</a></span>(sum_sc,</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">    <span class="dt">lab_size =</span> <span class="dv">4</span>, <span class="dt">title_size =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">spie<span class="op">$</span>TZA <span class="co"># shows the spiechart of the indicator TZA</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># show all:</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="dt">grobs =</span> spie, <span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">spie &lt;-<span class="st"> </span><span class="kw"><a href="reference/plot_spiechart.html">plot_spiechart</a></span>(sum_sc,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">    <span class="dt">lab_size =</span> <span class="dv">4</span>, <span class="dt">title_size =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">spie<span class="op">$</span>TZA <span class="co"># shows the spiechart of the indicator TZA</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># show all:</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="dt">grobs =</span> spie, <span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
 </div>
 <div id="cluster-analysis-based-on-scores-to-identify-redundanciescomplementarities" class="section level4">
 <h4 class="hasAnchor">
 <a href="#cluster-analysis-based-on-scores-to-identify-redundanciescomplementarities" class="anchor"></a>Cluster analysis based on scores to identify redundancies/complementarities</h4>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">scores_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc.html">dist_sc</a></span>(sum_sc<span class="op">$</span>scores_matrix)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">scores_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_dist)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_clust)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># Weighted cluster analysis where distance matrix is averaged across group scores</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co"># (see ?dist_sc_group for more infos)</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">sc_mat &lt;-<span class="st"> </span>sum_sc<span class="op">$</span>scores_matrix</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">    sc_mat[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="co"># crit 8 and 11</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">    sc_mat[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>], <span class="co"># crit 9 and 10 - fisheries</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11">    sc_mat[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], <span class="co"># crit 9 and 10 - nutrients</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12">    sc_mat[,<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>] <span class="co"># crit 9 and 10 - climate</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13">    ) </a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">scores_w_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc_group.html">dist_sc_group</a></span>(x)</a>
-<a class="sourceLine" id="cb12-15" data-line-number="15">scores_w_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_w_dist)</a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_w_clust)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">scores_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc.html">dist_sc</a></span>(sum_sc<span class="op">$</span>scores_matrix)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">scores_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_dist)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_clust)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co"># Weighted cluster analysis where distance matrix is averaged across group scores</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co"># (see ?dist_sc_group for more infos)</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">sc_mat &lt;-<span class="st"> </span>sum_sc<span class="op">$</span>scores_matrix</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">    sc_mat[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="co"># crit 8 and 11</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">    sc_mat[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>], <span class="co"># crit 9 and 10 - fisheries</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">    sc_mat[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], <span class="co"># crit 9 and 10 - nutrients</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">    sc_mat[,<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>] <span class="co"># crit 9 and 10 - climate</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">    ) </a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">scores_w_dist &lt;-<span class="st"> </span><span class="kw"><a href="reference/dist_sc_group.html">dist_sc_group</a></span>(x)</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">scores_w_clust &lt;-<span class="st"> </span><span class="kw"><a href="reference/clust_sc.html">clust_sc</a></span>(scores_w_dist)</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="kw"><a href="reference/plot_clust_sc.html">plot_clust_sc</a></span>(scores_w_clust)</a></code></pre></div>
 </div>
 </div>
 <div id="d--state-assessment-based-on-final-suite-of-ind" class="section level3">
 <h3 class="hasAnchor">
 <a href="#d--state-assessment-based-on-final-suite-of-ind" class="anchor"></a>D. State assessment based on final suite of IND</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Select subset of complementary indicators and exclude any NAs, e.g.</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">ind_noNA &lt;-<span class="st"> </span><span class="kw">drop_na</span>(ind_ex)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">ind_sub &lt;-<span class="st"> </span>ind_noNA[ , <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>)]</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Select subset of complementary indicators and exclude any NAs, e.g.</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">ind_noNA &lt;-<span class="st"> </span><span class="kw">drop_na</span>(ind_ex)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">ind_sub &lt;-<span class="st"> </span>ind_noNA[ , <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>)]</a></code></pre></div>
 <div id="d-1-euclidean-distance-in-state-space" class="section level4">
 <h4 class="hasAnchor">
 <a href="#d-1-euclidean-distance-in-state-space" class="anchor"></a>D.1 Euclidean distance in state space</h4>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">ed &lt;-<span class="st"> </span><span class="kw"><a href="reference/statespace_ed.html">statespace_ed</a></span>(<span class="dt">x =</span> ind_sub, <span class="dt">time =</span> ind_noNA<span class="op">$</span>Year, <span class="dt">ref_time =</span> ind_noNA<span class="op">$</span>Year[<span class="dv">1</span>] )</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="reference/plot_statespace_ed.html">plot_statespace_ed</a></span>(ed) </a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ed &lt;-<span class="st"> </span><span class="kw"><a href="reference/statespace_ed.html">statespace_ed</a></span>(<span class="dt">x =</span> ind_sub, <span class="dt">time =</span> ind_noNA<span class="op">$</span>Year, <span class="dt">ref_time =</span> ind_noNA<span class="op">$</span>Year[<span class="dv">1</span>] )</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="reference/plot_statespace_ed.html">plot_statespace_ed</a></span>(ed) </a></code></pre></div>
 </div>
 <div id="d-2-convex-hull-of-state-space-between-2-indicators" class="section level4">
 <h4 class="hasAnchor">
 <a href="#d-2-convex-hull-of-state-space-between-2-indicators" class="anchor"></a>D.2 Convex hull of state space between 2 indicators</h4>
 <p>( or between 2 variables from a multivariate analysis)</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ch &lt;-<span class="st"> </span><span class="kw"><a href="reference/statespace_ch.html">statespace_ch</a></span>(<span class="dt">x =</span> ind_sub<span class="op">$</span>SPF, <span class="dt">y =</span> ind_sub<span class="op">$</span>LPF, <span class="dt">time =</span> ind_noNA<span class="op">$</span>Year,</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">    <span class="dt">period_ref =</span> <span class="dv">1984</span><span class="op">:</span><span class="dv">1986</span>, <span class="dt">period_current =</span> <span class="dv">2004</span><span class="op">:</span><span class="dv">2008</span>)</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw"><a href="reference/plot_statespace_ch.html">plot_statespace_ch</a></span>(ch) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Small Predatory Fish"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Large Predatory Fish"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">ch &lt;-<span class="st"> </span><span class="kw"><a href="reference/statespace_ch.html">statespace_ch</a></span>(<span class="dt">x =</span> ind_sub<span class="op">$</span>SPF, <span class="dt">y =</span> ind_sub<span class="op">$</span>LPF, <span class="dt">time =</span> ind_noNA<span class="op">$</span>Year,</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="dt">period_ref =</span> <span class="dv">1984</span><span class="op">:</span><span class="dv">1986</span>, <span class="dt">period_current =</span> <span class="dv">2004</span><span class="op">:</span><span class="dv">2008</span>)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="kw"><a href="reference/plot_statespace_ch.html">plot_statespace_ch</a></span>(ch) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Small Predatory Fish"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Large Predatory Fish"</span>)</a></code></pre></div>
 <hr>
 <div id="note-for-spatial-data" class="section level5">
 <h5 class="hasAnchor">
 <a href="#note-for-spatial-data" class="anchor"></a>NOTE FOR SPATIAL DATA:</h5>
 <p>All functions are tailored to indicator time series. <strong>Spatial data</strong> and spatial autocorrelation testing is currently not included. However, if you have spatial data you could still use all functions except for <code><a href="reference/model_gamm.html">model_gamm()</a></code> as it incorporates only temporal autocorrelation structures (AR and ARMA). Simply do the following and use as <code>time</code> vector in <code><a href="reference/ind_init.html">ind_init()</a></code> an integer variable with <strong>consecutive</strong> numbers (with no gaps!) representing your different stations.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">### Use of station numbers instead of time vector</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">station_id &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(your_indicator_dfr) </a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">dat_init &lt;-<span class="st"> </span><span class="kw"><a href="reference/ind_init.html">ind_init</a></span>(<span class="dt">ind_tbl =</span> your_indicator_dfr,</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">  <span class="dt">press_tbl =</span> your_pressure_dfr, <span class="dt">time =</span> station_id)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">### Use of station numbers instead of time vector</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">station_id &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(your_indicator_dfr) </a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">dat_init &lt;-<span class="st"> </span><span class="kw"><a href="reference/ind_init.html">ind_init</a></span>(<span class="dt">ind_tbl =</span> your_indicator_dfr,</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">  <span class="dt">press_tbl =</span> your_pressure_dfr, <span class="dt">time =</span> station_id)</a></code></pre></div>
 <hr>
 </div>
 </div>
@@ -500,7 +518,7 @@ ________________________________________________________________________________
 </ol>
 <p>As these are subject to the quality of the underlying data, a thorough determination of whether the indicator as implemented meets the expected requirements is needed. In this package, the scoring scheme for these criteria as proposed by Otto <em>et al.</em> (2018) serves as basis for the quantification of the IND performance. Sensitivity (criterion 9) and robustness (criterion 10) are specified into more detailed sub-criteria to allow for quantification based on statistical models and rated individually for every potential pressure that might affect the IND directly or indirectly.</p>
 <p>However, the scoring scheme can easily be adapted to any kind of state indicator and management scheme by modifying the scores, the weighting of scores or by removing (sub)criteria.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">crit_scores_tmpl</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">crit_scores_tmpl</a></code></pre></div>
 <p>This table contains the scores and weights for each (sub-)criterion. It includes also the variables from the model output tibbles on which each(sub)criterion is based on as well as the condition to determine the actual score. <code>crit_scores_tmpl</code> is set as default in the <code><a href="reference/scoring.html">scoring()</a></code> function and, if needed, should be modified prior to using the function.</p>
 <ul>
 <li>

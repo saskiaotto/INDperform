@@ -16,7 +16,7 @@ calc_nrmse(
 \arguments{
 \item{press}{A list of vectors containing the pressure values.}
 
-\item{ind}{A list of with vectors containing the indicator values.}
+\item{ind}{A list of vectors containing the indicator values.}
 
 \item{model}{A list containing the models.}
 

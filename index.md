@@ -69,8 +69,8 @@ not affect the modelling results or performance of the previous version.
 
 Version 0.2.0 has been released on CRAN 2019-02-10\! The new version
 includes a few internal changes as adjustments to updated packages it
-depends on. Major changes changes include a new NRMSE calculation based
-on the standard deviation and back-transformation (see
+depends on. Major changes include a new NRMSE calculation based on the
+standard deviation and back-transformation (see
 <https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/>
 for the motivation), an NRMSE stand-alone function (`nrmse()`) and a
 function that allows the calculation of the distance matrix averaged
@@ -249,6 +249,41 @@ m_merged <- merge_models(m_gam[m_gam$tac == FALSE, ], best_gamm)
 # View sign. models
 filter(m_merged, p_val <= 0.05) %>%
   View() 
+```
+
+##### NRMSE adjustments on transformed INDs
+
+To allow a comparison of the model performance across transformed and
+untransformed indicators using the Normalized Root Mean Square error
+(NRMSE), the NRMSE has to be calculated on the original scale. The
+function `nrmse()` (applied to a single model) or the wrapper function
+`calc_nrmse()` (applied to a list of models) take as argument the
+transformation type that was applied to each indicator prior to the
+analysis and compute the NRMSE on the back-transformed observations and
+predictions (see also
+<https://marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/>).
+
+In the example dataset `ind_ex` all indicators except for `MS` and
+`rZPPP` have been ln-transformed. So let’s calculated a corrected NRMSE
+for these INDs using the wrapper function `calc_nrmse()`. To get the
+respective ids in the model output tibble for selection and replacement,
+we will use the helper function `find_id()` (the function returns a
+subset of the model tibble and the `id` column can be then used as
+index).
+
+``` r
+sel <- find_id(
+    mod_tbl = m_all, 
+    ind_name = c("TZA","rCC","Cops", "Micro", "Sprat",
+        "Herring", "Stickle", "Cod", "SPF", "LPF")
+)$id
+
+m_all$nrmse[sel] <- calc_nrmse(
+    press = ind_init_ex$press_test[sel], 
+    ind = ind_init_ex$ind_test[sel],
+    model = m_all$model[sel], 
+    transformation = "log"
+)
 ```
 
 #### B.3 Calculate derivatives of (significant) non-linear responses
