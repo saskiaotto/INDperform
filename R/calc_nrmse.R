@@ -7,7 +7,7 @@
 #' \code{\link{nrmse}} can be set for all models the same or individually.
 #'
 #' @param press A list of vectors containing the pressure values.
-#' @param ind  A list of with vectors containing the indicator values.
+#' @param ind  A list of vectors containing the indicator values.
 #' @param model  A list containing the models.
 #' @param method A character string or vector of the same length as the model list
 #' indicating the value(s) to be used for the normalization of the RMSE. The default is
