@@ -50,3 +50,29 @@ test_that("test error messages", {
     4, 8, 10, 11)], time = ind_ex$Year, ref_time = "1975"),
     "The defined reference time is")
 })
+
+
+# Test of NA handling
+
+x <- ind_ex[,c(2,3,4,8,10,11,12)] # 12 has 8 NAs
+time <- ind_ex$Year
+ref_time1 <- ind_ex$Year[2]
+ref_time2 <- "1987"
+na_handle1 <- statespace_ed(x, time, na_rm = TRUE)
+na_handle2 <- statespace_ed(x, time, ref_time = ref_time2, na_rm = TRUE)
+ed_ref_value1 <- na_handle1$ed[ which(complete.cases(x))[1] ]
+ed_ref_value2 <- na_handle2$ed[ which(ref_time2 == na_handle2$time) ]
+log_ref_value1 <- na_handle1$ref_time[ which(complete.cases(x))[1] ]
+log_ref_value2 <- na_handle2$ref_time[ which(ref_time2 == na_handle2$time) ]
+
+test_that("test NA handling", {
+  expect_true(is.na(statespace_ed(x, time, na_rm = FALSE)))
+  expect_error(statespace_ed(x, time, ref_time1),
+    "The defined reference time is")
+  expect_true(tibble::is_tibble(na_handle1))
+  expect_true(tibble::is_tibble(na_handle2))
+  expect_equal(ed_ref_value1, 0)
+  expect_equal(ed_ref_value2, 0)
+  expect_true(log_ref_value1)
+  expect_true(log_ref_value2)
+})

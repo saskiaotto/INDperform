@@ -83,3 +83,6 @@ test_that("test error messages", {
   expect_error(statespace_ch(x, y, time, period_ref = 1980,
     period_current = 2007:2008))
 })
+
+
+# Test of NA handling

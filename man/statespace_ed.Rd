@@ -4,7 +4,7 @@
 \alias{statespace_ed}
 \title{Euclidean distance in state space}
 \usage{
-statespace_ed(x, time, ref_time = NULL)
+statespace_ed(x, time, ref_time = NULL, na_rm = TRUE)
 }
 \arguments{
 \item{x}{A data frame, tibble, matrix or vector of selected indicator(s).}
@@ -14,6 +14,10 @@ statespace_ed(x, time, ref_time = NULL)
 \item{ref_time}{The reference time (single point in time, e.g. specific
 year) on which to base the Euclidean distance. Default is set to the
 first time point.}
+
+\item{na_rm}{A logical value indicating whether rows with NA values should
+be stripped before the computation proceeds. Default is set to TRUE. If set
+to FALSE and data contains NAs, the function returns NA.}
 }
 \value{
 \code{statespace_ed} returns a tibble with the time vector \code{time}, the

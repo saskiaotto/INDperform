@@ -9,6 +9,9 @@
 #' @param ref_time The reference time (single point in time, e.g. specific
 #'  year) on which to base the Euclidean distance. Default is set to the
 #'  first time point.
+#' @param na_rm A logical value indicating whether rows with NA values should
+#'  be stripped before the computation proceeds. Default is set to TRUE. If set
+#'  to FALSE and data contains NAs, the function returns NA.
 #'
 #' @details
 #' This function implements an approach adopted from Tett \emph{et al.} (2013) to
@@ -45,31 +48,42 @@
 #' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = ind_ex$Year[1])
 #' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = 1987)
 #' ed <- statespace_ed(x = ind_sel, time = ind_ex$Year, ref_time = "1987")
-statespace_ed <- function(x, time, ref_time = NULL) {
+statespace_ed <- function(x, time, ref_time = NULL, na_rm = TRUE) {
 
   # Data input validation --------------------
 	 if (missing(x)) {
 	 	stop("Argument x is missing.")
 	 }
-	if (missing(time)) {
+	 if (missing(time)) {
 	 	stop("Argument time is missing.")
 	 }
-
 	 # Check for correct input format
 	 if (any(class(x) == "list")) {
 	 	 stop("x cannot be a list.")
 	 }
 	 time <- check_input_vec(time, "argument time")
 	 # (I added explicitly 'argument' to NOT test for regularity in time steps!)
-  if (is.null(ref_time)) {
-    id <- 1
-  } else {
-    id <- which(time == ref_time)
-    if (length(id) == 0) {
-      stop("The defined reference time is outside the time series.")
-    }
-  }
-  # --------------------------------
+
+	 if (na_rm == FALSE) {
+	 	return(NA)
+	 } else {
+				y <- tibble::tibble(time = time)
+	 	 keep <- stats::complete.cases(x)
+	 	 x <- x[keep, ]
+	 	 time <- time[keep]
+	 	 if (is.null(ref_time)) {
+    		id <- 1
+  		} else {
+	 	 		# Check if reference time still included and get new position
+	 	 		if (!ref_time %in% time) {
+	 		  		stop("The defined reference time is outside the time series OR by removing rows with NAs (if argument 'na.rm' set to TRUE) the reference time got also removed. Please choose another reference time or impute missing values.")
+	 	 		} else {
+	 		  		id <- which(time == ref_time)
+	 	 		}
+  		}
+	 }
+
+	 # --------------------------------
 
   # Standardize indicator time series
   x_stand <- scale(x)  # without year and sd
@@ -81,10 +95,13 @@ statespace_ed <- function(x, time, ref_time = NULL) {
   for (i in 1:nrow(x_stand)) {
     df[i, ] <- df[i, ] - x_stand[id, ]
   }
-  calc.euc <- function(x) sqrt(sum(x^2))
-  ed <- apply(df, FUN = calc.euc, MARGIN = 1)
+  calc_euc <- function(x) sqrt(sum(x^2))
+  ed <- apply(df, FUN = calc_euc, MARGIN = 1)
   out <- tibble::tibble(time = time, ed = ed, ref_time = FALSE)
   out$ref_time[id] <- TRUE
+  out <- suppressMessages( dplyr::left_join(y, out) )
+  out$ref_time[is.na(out$ref_time)] <- FALSE
+
 
   ### END OF FUNCTION ###
   return(out)
