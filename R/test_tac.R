@@ -74,32 +74,3 @@ test_tac <- function(model_resid) {
     tac = tac)
   return(res)
 }
-
-
-test_tac <- function(model_resid) {
-
-  # Check first for which models do we have residuals
-  # (i.e. where do we have models)
-  choose <- purrr::map_lgl(model_resid, is.numeric)
-  # Get acf values
-  acf_val <- purrr::map_if(model_resid, choose, ~as.vector(stats::acf(.,
-    na.action = stats::na.pass, plot = FALSE)$acf))
-  # Get pacf values
-  pacf_val <- purrr::map_if(model_resid, choose,
-    ~as.vector(stats::pacf(., na.action = stats::na.pass,
-      plot = FALSE)$acf))
-
-  # Is there temporal autocorrelation? TRUE = tac
-  # occurs
-  tac <- purrr::map2_lgl(.x = acf_val, .y = pacf_val,
-    ~any((abs(.x[2:6]) > 0.4) & (abs(.y[1:5]) >
-      0.4), na.rm = TRUE))
-  # NAs are automatically defined as FALSE -->
-  # convert manually to NAs
-  tac[which(is.na(model_resid))] <- NA
-
-  # Create output tibble
-  res <- tibble::tibble(acf = acf_val, pacf = pacf_val,
-    tac = tac)
-  return(res)
-}
