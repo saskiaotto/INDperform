@@ -25,6 +25,7 @@ are matched by name, and any missing columns will be filled with NA. The functio
 has also some data validation incorporated to check for double entries.
 }
 \examples{
+\dontrun{
 # Using some models of the Baltic Sea demo data:
 # Merging GAM and GAMM tibbles
 test_ids <- 47:50 # choose subset
@@ -42,4 +43,5 @@ gam_tbl1 <- model_gam(dat_init[1:2, ])
 # treat a subset differently, e.g. when setting k
 gam_tbl2 <- model_gam(dat_init[3:4, ], k = 3)
 merge_models(gam_tbl1, gam_tbl2)
+}
 }
