@@ -152,7 +152,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Euclidean distance in state space</h1>
-    <small class="dont-index">Source: <a href='https://github.com/saskiaotto/INDperform/blob/master/R/statespace_ed.R'><code>R/statespace_ed.R</code></a></small>
+    
     <div class="hidden name"><code>statespace_ed.Rd</code></div>
     </div>
 
@@ -162,7 +162,7 @@
  ecological state indicators.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>statespace_ed</span>(<span class='no'>x</span>, <span class='no'>time</span>, <span class='kw'>ref_time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>statespace_ed</span>(<span class='no'>x</span>, <span class='no'>time</span>, <span class='kw'>ref_time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,6 +180,12 @@
       <td><p>The reference time (single point in time, e.g. specific
 year) on which to base the Euclidean distance. Default is set to the
 first time point.</p></td>
+    </tr>
+    <tr>
+      <th>na_rm</th>
+      <td><p>A logical value indicating whether rows with NA values should
+be stripped before the computation proceeds. Default is set to TRUE. If set
+to FALSE and data contains NAs, the function returns NA.</p></td>
     </tr>
     </table>
 

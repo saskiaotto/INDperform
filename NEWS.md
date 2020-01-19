@@ -1,15 +1,15 @@
 # INDperform 0.2.2.9000
 
-* Some function examples excluded from automatic testing with /dontrun due to long running time.
-
-* Some minor fixes to pass all platform builds.
-
 * `state_space_ed()` and `state_space_ch()` allow now also irregular time series (before an error message was returned).
 
 `state_space_ed()` includes now an argument `na_rm = TRUE` (set as default) to deal with missing values, i.e. cases with NAs are dropped from the dataset prior to the analysis but the returned tibble includes these years (showing NA in the `$ed` column).
 
+* Some function examples excluded from automatic testing with /dontrun due to longer running time.
+
 
 # INDperform 0.2.2
+
+* Some minor fixes to pass all platform builds.
 
 * Fixed a minor bug in the NRMSE model prediction plot, where test observations where not shown in plot.
 

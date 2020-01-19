@@ -16,7 +16,7 @@ Description: An implementation of the 7-step approach suggested by Otto et al.
     in comparison to a reference period. However, the tools in this package 
     are very generic and can be used to test any type of indicator (e.g. social 
     or economic indicators).
-URL: https://github.com/saskiaotto/INDperform
+URL: https://saskiaotto.github.io/INDperform/
 BugReports: https://github.com/SaskiaAOtto/INDperform/issues
 License: GPL
 LazyData: true

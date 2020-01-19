@@ -52,7 +52,7 @@ Science](https://www.biologie.uni-hamburg.de/en/einrichtungen/imf.html)
 ## <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest News
 
 In Version 0.2.2 some adjustments were made to account for changes in
-packages INDperform uses and a minor bug fixed in the NRMSE model
+packages INDperform depends on and a minor bug fixed in the NRMSE model
 prediction plot. Some of the plotting functions include now also titles
 in the individual panels. A data validation routine was added to check
 for unwanted characters in indicator or pressure names which caused

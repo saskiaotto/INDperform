@@ -71,7 +71,7 @@ For guidance on how to apply the functions step-by-step see also the [INDperform
 ## Important News
 
 
-In Version 0.2.2 some adjustments were made to account for changes in packages INDperform uses and a minor bug fixed in the NRMSE model prediction plot. Some of the plotting functions include now also titles in the individual panels. A data validation routine was added to check for unwanted characters in indicator or pressure names which caused models to not build. For more details see the [NEWS]( https://saskiaotto.github.io/INDperform/news/index.html) file.
+In Version 0.2.2 some adjustments were made to account for changes in packages INDperform depends on and a minor bug fixed in the NRMSE model prediction plot. Some of the plotting functions include now also titles in the individual panels. A data validation routine was added to check for unwanted characters in indicator or pressure names which caused models to not build. For more details see the [NEWS]( https://saskiaotto.github.io/INDperform/news/index.html) file.
 
 ---
 

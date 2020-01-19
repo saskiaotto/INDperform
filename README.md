@@ -90,7 +90,7 @@ indicators. Ecological Indicators, 84: 619-631, doi:
 ## Important News
 
 In Version 0.2.2 some adjustments were made to account for changes in
-packages INDperform uses and a minor bug fixed in the NRMSE model
+packages INDperform depends on and a minor bug fixed in the NRMSE model
 prediction plot. Some of the plotting functions include now also titles
 in the individual panels. A data validation routine was added to check
 for unwanted characters in indicator or pressure names which caused
