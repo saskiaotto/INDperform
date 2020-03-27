@@ -445,7 +445,6 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
     p4 <- list(plot_empty())
   }
 
-
   # All Plots combined -----------------------------
 
   # Title
@@ -508,10 +507,14 @@ plot_model <- function(init_tbl, mod_tbl, choose_thresh_gam = NULL,
   }
 
   if ("interaction" %in% names(mod_tbl)) {
-    plot_tab$thresh_plot[is.na(mod_tbl$interaction) |
-      !mod_tbl$interaction | (mod_tbl$interaction &
-      suppressWarnings(any(is.na(mod_tbl$thresh_models[[i]]),
-        is.null(mod_tbl$thresh_models[[i]]))))] <- NA
+    plot_tab$thresh_plot[
+      # any NAs in column
+      is.na(mod_tbl$interaction) |
+      # any tested models where no interaction found
+      !mod_tbl$interaction |
+      # any detected interactions but no models available in list
+      (mod_tbl$interaction & check_4missing_models(mod_tbl$thresh_models))
+    ] <- NA
   } else {
     plot_tab$thresh_plot <- NA
   }
@@ -536,3 +539,16 @@ calc_y_range <- function(y1, y2 = NULL, ci_low, ci_up,
   }
   return(out)
 }
+
+# Check if any thresh_model missing if interaction = TRUE
+check_4missing_models <- function(x) {
+  check_each <- function(y) {
+    if (class(y) != "list") out <- TRUE
+    if (class(y) == "list") {
+      out <- any(purrr::map_lgl(y, ~ any(is.na(.))) )
+    }
+    return(out)
+  }
+  purrr::map_lgl(x, ~ check_each(.))
+}
+
