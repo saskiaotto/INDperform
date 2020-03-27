@@ -4,7 +4,8 @@
 \name{all_results_ex}
 \alias{all_results_ex}
 \title{Output tibble after applying all IND~pressure modeling functions}
-\format{A data frame with 84 rows and 31 variables:
+\format{
+A data frame with 84 rows and 31 variables:
 \describe{
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
   \item{\code{ind}}{Indicator names.}
@@ -81,7 +82,8 @@
   \item{\code{tac_in_thresh}}{logical vector; indicates for every listed
              thresh_model whether temporal autocorrelation (TAC) was
              detected in the residuals. TRUE if model residuals show TAC.}
-}}
+}
+}
 \usage{
 all_results_ex
 }

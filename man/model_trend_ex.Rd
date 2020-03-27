@@ -4,7 +4,8 @@
 \name{model_trend_ex}
 \alias{model_trend_ex}
 \title{Model output tibble from the \code{\link{model_trend}} function}
-\format{A data frame with 12 rows and 9 variables:
+\format{
+A data frame with 12 rows and 9 variables:
 \describe{
   \item{\code{ind_id}}{Indicator IDs.}
   \item{\code{ind}}{Indicator names.}
@@ -19,7 +20,8 @@
              predicted indicator values.}
   \item{\code{ci_low}}{A list-column with the lower 95\% confidence interval of
              predicted indicator values.}
-}}
+}
+}
 \usage{
 model_trend_ex
 }

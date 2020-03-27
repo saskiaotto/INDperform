@@ -4,7 +4,8 @@
 \name{model_gamm_ex}
 \alias{model_gamm_ex}
 \title{Model output tibble from the \code{\link{model_gamm}} function}
-\format{A data frame with 234 rows and 16 variables:
+\format{
+A data frame with 234 rows and 16 variables:
 \describe{
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
   \item{\code{ind}}{Indicator names.}
@@ -35,7 +36,8 @@
   \item{\code{excl_outlier}}{A list-column listing all outliers per model that have been
               excluded in the GAM fitting}
   \item{\code{model}}{A list-column of IND~press-specific gam objects.}
-}}
+}
+}
 \usage{
 model_gamm_ex
 }

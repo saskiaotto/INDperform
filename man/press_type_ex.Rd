@@ -4,11 +4,13 @@
 \name{press_type_ex}
 \alias{press_type_ex}
 \title{Pressure variables and their associated pressure types from our example data}
-\format{A data frame with 7 rows and 2 variables:
+\format{
+A data frame with 7 rows and 2 variables:
 \describe{
 \item{press}{pressure name}
 \item{press_type}{corresponding pressure type}
-}}
+}
+}
 \usage{
 press_type_ex
 }

@@ -4,7 +4,8 @@
 \name{ind_ex}
 \alias{ind_ex}
 \title{Food web indicators of the Central Baltic Sea (Bornholm Basin).}
-\format{A data frame with 30 rows and 13 variables. These indicator time series
+\format{
+A data frame with 30 rows and 13 variables. These indicator time series
 represent a slight modification of the original time series represented in
 Otto et al. (2018).
 \describe{
@@ -21,7 +22,8 @@ Otto et al. (2018).
 \item{Cod}{ln-transformed Cod CPUE (in kg h^-1^)}
 \item{SPF}{ln-transformed Small Predatory Fish (i.e. sprat and herring <10cm) (in million g)}
 \item{LPF}{ln-transformed Large Predatory Fish (i.e. Cod >38cm) (in kg h^-1^)}
-}}
+}
+}
 \usage{
 ind_ex
 }

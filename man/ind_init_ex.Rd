@@ -4,7 +4,8 @@
 \name{ind_init_ex}
 \alias{ind_init_ex}
 \title{Output tibble from the \code{\link{ind_init}} function}
-\format{A data frame with 84 rows and 10 variables:
+\format{
+A data frame with 84 rows and 10 variables:
 \describe{
   \item{\code{id}}{Numerical IDs for the IND~press combinations.}
   \item{\code{ind}}{Indicator names.}
@@ -18,7 +19,8 @@
   \item{\code{train_na}}{logical; indicates the joint missing values in the training
   IND and pressure data. That includes the original NAs as well as randomly selected
   test observations that are within the training period}
-}}
+}
+}
 \usage{
 ind_init_ex
 }

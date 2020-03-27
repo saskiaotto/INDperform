@@ -153,7 +153,7 @@ doi: https://doi.org/10.1016/j.ecolind.2017.05.045
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/saskiaotto/INDperform}
+  \item \url{https://saskiaotto.github.io/INDperform/}
   \item Report bugs at \url{https://github.com/SaskiaAOtto/INDperform/issues}
 }
 

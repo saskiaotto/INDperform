@@ -4,7 +4,8 @@
 \name{crit_scores_tmpl}
 \alias{crit_scores_tmpl}
 \title{Template of (sub-)criteria and corresponding scoring information}
-\format{A data frame with 27 rows and 12 variables:
+\format{
+A data frame with 27 rows and 12 variables:
 \describe{
 \item{crit_id}{ID of main criteria.}
 \item{crit}{A vector of the main criteria.}
@@ -26,7 +27,8 @@
           (sub-)criterion.}
 \item{func_name}{The names of the function that generate output tibbles
           containing the required variables.}
-}}
+}
+}
 \usage{
 crit_scores_tmpl
 }

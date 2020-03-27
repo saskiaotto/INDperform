@@ -5,7 +5,8 @@
 \alias{press_ex}
 \title{Environmental variables representing pressures for pelagic food webs in
 the Central Baltic Sea (Bornholm Basin).}
-\format{A data frame with 30 rows and 8 variables. These indicator time series
+\format{
+A data frame with 30 rows and 8 variables. These indicator time series
 represent a slight modification of the original time series represented in
 Otto et al. (2018)
 \describe{
@@ -17,7 +18,8 @@ Otto et al. (2018)
 \item{Fsprat}{fishing mortality of sprat}
 \item{Fher}{fishing mortality of herring}
 \item{Fcod}{fishing mortality of cod}
-}}
+}
+}
 \usage{
 press_ex
 }
