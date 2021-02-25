@@ -215,3 +215,4 @@ test_that("error messages and filter", {
   expect_error(model_gamm(init_tbl = dat, filter = dat_filter2),
     "Your filter contains no TRUE element")
 })
+

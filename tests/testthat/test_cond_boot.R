@@ -3,7 +3,6 @@ context("test cond_boot")
 
 # Test helper functions ---------------------------
 
-
 # check_n_boot
 new_n_boot <- check_n_boot(n_boot = 50, ci = 1.5)
 
@@ -72,9 +71,9 @@ test_that("test sample_boot", {
 
 ## test only internally (different results depending on R version due to seed)
 # test_that("test sample_boot internal", {
-#   expect_true(test1$considered[1])
-#   expect_true(all(test2$considered[c(1, 2, 4)]))
-#   expect_true(all(test3$considered))
+  # expect_true(test1$considered[1])
+  # expect_true(all(test2$considered[c(1, 2, 4)]))
+  # expect_true(all(test3$considered))
 # })
 
 

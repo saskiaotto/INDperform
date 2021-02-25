@@ -97,8 +97,8 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
         NA))
   }
 
-  dat <- dplyr::left_join(mod_tbl, init_tbl, by = c("id",
-    "ind", "press"))
+  dat <- dplyr::left_join(mod_tbl, init_tbl,
+    by = c("id", "ind", "press"))
 
   # Generate a sequence of pressure values for the
   # predictions
@@ -119,10 +119,12 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   dat$dfF <- purrr::map(dat$edf, ceiling)
 
   # Add starter value depending on the corrstruc
-  value_tib <- tibble::tibble(corrstruc = c("ar1",
-    "ar2", "arma11", "arma12", "arma21"), values = list(c(0.3),
+  value_tib <- tibble::tibble(
+    corrstruc = c("ar1","ar2", "arma11", "arma12", "arma21"),
+    values = list(c(0.3),
     c(0.3, -0.3), c(0.3, 0.3), c(0.3, -0.3, 0.3),
-    c(0.3, 0.3, -0.3)))
+    c(0.3, 0.3, -0.3))
+  )
   dat <- dplyr::left_join(dat, value_tib, by = c("corrstruc"))
 
   # Get model residuals (GAMs need to be refitted
@@ -162,10 +164,13 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
   # Create list of correlation parameter for
   # arima.sim function (when creating bootstrapped
   # y`s with GAMMs)
-  cor_params <- list(ar1 = c("Phi", "Phi1"), ar2 = c("Phi1",
-    "Phi2"), arma11 = c("Phi1", "Theta1"), arma12 = c("Phi1",
-    "Theta1", "Theta2"), arma21 = c("Phi1", "Phi2",
-    "Theta1"))
+  cor_params <- list(
+    ar1 = c("Phi", "Phi1"),
+    ar2 = c("Phi1", "Phi2"),
+    arma11 = c("Phi1", "Theta1"),
+    arma12 = c("Phi1", "Theta1", "Theta2"),
+    arma21 = c("Phi1", "Phi2", "Theta1")
+  )
   get_arma_list <- function(model, cor_params) {
     if (class(model)[1] == "gam") {
       arma_list <- NA
@@ -356,15 +361,16 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
     }
     # Apply the function in a loop now with progress
     # bar (most time consuming step)
-    pb <- dplyr::progress_estimated(length(dat$id))
+    pb <- progress::progress_bar$new(total = length(dat$id))
+    pb$tick(0) # to start before the first (long) iteration starts
+    Sys.sleep(1)
     for (i in seq_along(dat$id)) {
-      boot_per_id[[i]] <- apply_boot_safe(x = dat[i,
-        ], n_bt = n_boot)
-      # Increment progress bar
-      pb$tick()$print()
+      # Increment progress bar at the start
+      pb$tick()
+      Sys.sleep(1 / length(dat$id))
+      boot_per_id[[i]] <- apply_boot_safe(x = dat[i,],
+        n_bt = n_boot)
     }
-    # Stop progress bar
-    pb$stop()
 
   } else {
     # parallel computing
@@ -520,8 +526,8 @@ adj_n_boot <- function(x) {
 # based on the adjusted n_boot for calculating
 # mean/ci of pred/derivs
 sample_boot <- function(x, y) {
-  # x: the boot_tbl to sample from y: number of
-  # required iterations
+  # x: the boot_tbl to sample from
+  # y: number of required iterations
   x$considered <- rep(FALSE, length(x$boot_fit))
   if (!is.na(y)) {
     fit_succ <- which(!purrr::map_lgl(1:length(x$boot_fit),
@@ -538,18 +544,17 @@ calc_ci <- function(x, z, n) {
   return(result)
 }
 
+
 # To apply function like mean to lists
 calc_value <- function(input_list, var, fun, ...) {
   if (is.na(input_list)) {
     result <- NA
   } else {
-    sel <- input_list %>% purrr::flatten_dfr() %>%
-      .$considered
+    sel <- input_list[[1]]$considered
     if (sum(sel) == 0) {
       result <- NA
     } else {
-      x <- input_list %>% purrr::flatten_dfr() %>%
-        .[[var]]
+      x <- input_list[[1]][[var]]
       x <- x[sel]
       result <- do.call(cbind, x) %>% apply(.,
         MARGIN = 1, FUN = fun, ...)
