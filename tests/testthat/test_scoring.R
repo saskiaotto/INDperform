@@ -173,8 +173,3 @@ test_that("test dealing with NAs", {
 })
 
 
-
-######################### Remove criteria #############
-
-
-# Remove criteria
