@@ -139,9 +139,11 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   # Lengthen init_tbl to create 6 models
   temp <- tibble::tibble(id = rep(init_tbl$id, each = 6))
   dat <- dplyr::left_join(temp, init_tbl, by = "id")
-  inputs <- purrr::map(1:nrow(dat), ~tibble::tibble(ind = dat[[.,
-    "ind_train"]], press = dat[[., "press_train"]],
-    time = dat[[., "time_train"]]))
+  inputs <- purrr::map(1:nrow(dat),
+    ~tibble::tibble(ind = dat$ind_train[[.]],
+      press = dat$press_train[[.]],
+      time = dat$time_train[[.]])
+  )
   # Replicate the train_na vector for testing for tac
   train_na_rep <- rep(init_tbl$train_na, each = 6)
   names(train_na_rep) <- rep(names(init_tbl$train_na),
@@ -157,8 +159,9 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       .y, NA))  # (NULLs will not be replaced)
     inputs <- purrr::pmap(.l = list(ind = ind,
       press = press, time = time), .f = function(ind,
-      press, time) tibble::tibble(ind = ind,
-      press = press, time = time))
+        press, time) tibble::tibble(ind = ind,
+          press = press, time = time)
+    )
 
     # Consider excluded outliers also as NAs (=TRUE) in
     # the train_na_rep vector (if randomly selected
@@ -192,7 +195,7 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
 
   # self-made GAMM function to capture side-effects
   # (error messages)
-  gamm_ar0_func <- function(x, y, data, family) {
+  gamm_ar0_func <- function(x, y, data, family, k) {
     form <- stats::as.formula(paste0(y, " ~ s(",
       x, ", k = ", k, ")"))
     temp_mod <- mgcv::gamm(formula = form, data = data,
@@ -202,8 +205,8 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   gamm_ar0_func_safe <- purrr::safely(gamm_ar0_func,
     otherwise = NA)
 
-  gamm_ar_func <- function(x, y, data, family, ar_values,
-    p, q, control) {
+  gamm_ar_func <- function(x, y, data, k = k, family,
+    ar_values, p, q, control) {
     form <- stats::as.formula(paste0(y, " ~ s(",
       x, ", k = ", k, ")"))
     temp_mod <- mgcv::gamm(formula = form, data = data,
@@ -215,18 +218,31 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   gamm_ar_func_safe <- purrr::safely(gamm_ar_func,
     otherwise = NA)
 
+#   i=2
+#   testdf <-inputs[[i]]
+#   test <-  mgcv::gamm(Cod ~ s(Fsprat, k = k), data = testdf, family = family,
+#     correlation = nlme::corARMA(
+#       value = values[[i]],
+#       form = stats::as.formula("~time"),
+#       p = pass_p[i], q = pass_q[i]),
+#     control = lmc)
+#
+# gamm_ar_func_safe()
 
   # Loop with progress bar -------------------------
   # Initialise progress bar
-  pb <- dplyr::progress_estimated(length(inputs))
+  pb <- progress::progress_bar$new(total = length(inputs))
   # Loop over input list
   for (i in seq_along(inputs)) {
+    # Increment progress bar at the start
+    pb$tick()
+    Sys.sleep(1 / length(inputs))
     if (any(match == i)) {
       # Create ar0 GAMMs
       names(inputs[[i]])[1:2] <- unlist(dat[i, c("ind","press")], use.names=FALSE)
       gamms[[i]] <- suppressWarnings(gamm_ar0_func_safe(x = names(inputs[[i]])[2],
         y = names(inputs[[i]])[1], data = inputs[[i]],
-        family = family))
+        k = k, family = family))
       # Save original data in model_gam if fitting
       # successfull
       if (is.null(gamms[[i]]$error)) {
@@ -237,17 +253,13 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       names(inputs[[i]])[1:2] <- unlist(dat[i, c("ind","press")], use.names=FALSE)
       gamms[[i]] <- suppressWarnings(gamm_ar_func_safe(x = names(inputs[[i]])[2],
         y = names(inputs[[i]])[1], data = inputs[[i]],
-        family = family, ar_values = values[[i]],
+        k = k, family = family, ar_values = values[[i]],
         p = pass_p[i], q = pass_q[i], control = lmc))
       if (is.null(gamms[[i]]$error)) {
         gamms[[i]]$result$gam$train_na <- train_na_rep[[i]]
       }
     }
-    # Increment progress bar
-    pb$tick()$print()
   }  # end of loop
-  # Stop progress bar
-  pb$stop()
 
   # Transpose gamm list
   temp_mod <- gamms %>% purrr::transpose()
