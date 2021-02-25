@@ -12,9 +12,9 @@ names(press_type_ex2)[2] <- "something_else"
 
 # Change conditions to create error messages
 crit_scores_mod1 <- crit_scores_tmpl
-crit_scores_mod1[4, "condition"] <- "x < 0.3"
+crit_scores_mod1$condition[[4]] <- "x < 0.3"
 crit_scores_mod2 <- crit_scores_tmpl
-crit_scores_mod2[23, "condition"] <- "x == 2"
+crit_scores_mod2$condition[[23]] <- "x == 2"
 
 
 test_that("test structure of returned object", {
@@ -100,7 +100,7 @@ test_that("test error messages and warnings", {
   expect_error(scoring(model_trend_ex, all_results_ex3,
     INDperform::press_type_ex), "contains no information")
 
-  # Overlap in conditions (subcrit)
+  # Overlap in conditions (subcrit) CHECKKKKKKKKKKKKKKKK
   expect_error(scoring(trend_tbl = model_trend_ex,
     mod_tbl = all_results_ex, press_type = INDperform::press_type_ex,
     crit_scores = crit_scores_mod1))

@@ -60,8 +60,8 @@ ref_time1 <- ind_ex$Year[2]
 ref_time2 <- "1987"
 na_handle1 <- statespace_ed(x, time, na_rm = TRUE)
 na_handle2 <- statespace_ed(x, time, ref_time = ref_time2, na_rm = TRUE)
-ed_ref_value1 <- na_handle1$ed[ which(complete.cases(x))[1] ]
-ed_ref_value2 <- na_handle2$ed[ which(ref_time2 == na_handle2$time) ]
+ed_ref_value1 <- as.numeric(na_handle1$ed[ which(complete.cases(x))[1] ])
+ed_ref_value2 <- as.numeric(na_handle2$ed[ which(ref_time2 == na_handle2$time) ])
 log_ref_value1 <- na_handle1$ref_time[ which(complete.cases(x))[1] ]
 log_ref_value2 <- na_handle2$ref_time[ which(ref_time2 == na_handle2$time) ]
 
