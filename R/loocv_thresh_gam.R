@@ -47,10 +47,8 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   # observations with one observation left out in
   # each (used for the prediction and the MSE
   # calculation )
-  data_train <- purrr::map(1:nrow(data), ~data[-.,
-    ])
-  data_test <- purrr::map(1:nrow(data), ~data[.,
-    ])
+  data_train <- purrr::map(1:nrow(data), ~data[-.,])
+  data_test <- purrr::map(1:nrow(data), ~data[.,])
 
   # Internal check:
   if (!all(purrr::map2_lgl(.x = data_train, .y = data_test,
@@ -60,10 +58,11 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
 
   # Create model lists and result tibble
   thresh_gam_list <- vector(mode = "list", length = length(time))
-  dat <- tibble::tibble(gams_pred = rep(NA_real_,
-    length(time)), thresh_gams_pred = rep(NA_real_,
-    length(time)), observation = rep(NA_real_,
-    length(time)))
+  dat <- tibble::tibble(
+    gams_pred = rep(NA_real_, length(time)),
+    thresh_gams_pred = rep(NA_real_, length(time)),
+    observation = rep(NA_real_, length(time))
+  )
 
   # Capture family and link from the input
   family <- mgcv::summary.gam(model)$family[[1]]
@@ -78,11 +77,12 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
   # Model fitting ------------------------------
 
   # Loop with progress bar
-  pb <- dplyr::progress_estimated(length(time))
-  # (initializes progress bar)
+  pb <- progress::progress_bar$new(total = length(time))
   for (i in seq_along(time)) {
-    # Create input for model (formula cannot handle
-    # [[]])
+    # Increment progress bar
+    pb$tick()
+    Sys.sleep(1 / length(time))
+    # Create input for model (formula cannot handle [[]])
     ind <- data_train[[i]]$ind
     press <- data_train[[i]]$press
     t_var <- data_train[[i]]$t_var
@@ -119,11 +119,7 @@ loocv_thresh_gam <- function(model, ind_vec, press_vec,
       dat$observation[i] <- as.numeric(test[,
         1])
     }
-    # Increment progress bar
-    pb$tick()$print()
   }  # end of loop
-  # Stop progress bar
-  pb$stop()
 
   # Function to calculate the LOOCV by averaging
   # across squared errors of each test observation
