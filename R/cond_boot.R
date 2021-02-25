@@ -319,8 +319,7 @@ cond_boot <- function(init_tbl, mod_tbl, excl_outlier,
           model = x$model[[1]], dfF = x$dfF[[1]],
           v = x$values[[1]])
           m = m + 1
-          if (!is.na(temp_boot_fit[1]) | m ==
-          401) {
+          if (!is.na(temp_boot_fit[1]) | m == 401) {
           break
           }
         }

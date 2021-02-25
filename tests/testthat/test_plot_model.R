@@ -3,8 +3,8 @@ context("test plot_model")
 mod_tbl <- all_results_ex[13:14, ]  # 9:10,
 init_tbl <- ind_init_ex[13:14, ]
 dat <- plot_model(init_tbl, mod_tbl)
-dat2 <- plot_model(init_tbl, mod_tbl = merge_models_ex[13:14,
-  ])
+dat2 <- plot_model(init_tbl,
+  mod_tbl = merge_models_ex[13:14, ])
 
 test_that("structure of returned object", {
   expect_is(dat$id, "integer")

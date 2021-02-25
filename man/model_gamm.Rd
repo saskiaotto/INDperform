@@ -84,6 +84,15 @@ gam_tbl <- model_gam(dat_init)
 gam_tbl$tac
 # Applying model_gamm function and passing the $tac variable as filter
 gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
+
+\donttest{
+ # run analysis will full demo dataset
+ gam_tbl <- model_gam(ind_init_ex)
+ gamm_tbl <- model_gamm(ind_init_ex, filter = gam_tbl$tac)
+ # now run the same analysis but exclude all outliers in the GAMMs
+ gamm_tbl2 <- model_gamm(ind_init_ex, filter = gam_tbl$tac,
+   excl_outlier = gamm_tbl$pres_outlier)
+}
 }
 \references{
 Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018)

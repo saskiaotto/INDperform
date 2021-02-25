@@ -200,7 +200,7 @@
 #' # Using some models of the Baltic Sea demo data
 #' init_tbl <- ind_init_ex[ind_init_ex$id %in% c(5,9,48,75), ]
 #' mod_tbl <- merge_models_ex[merge_models_ex$id  %in% c(5,9,48,75), ]
-#' deriv_tbl <- calc_deriv(init_tbl=init_tbl, mod_tbl=mod_tbl,
+#' deriv_tbl <- calc_deriv(init_tbl = init_tbl, mod_tbl = mod_tbl,
 #'   n_boot = 40, par_comp = FALSE, seed=1)
 #' }
 calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
@@ -356,6 +356,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   if (nrow(mod_tbl[mod_tbl$edf > edf_filter & mod_tbl$p_val <=
     sign_level & is_value(mod_tbl$edf) & is_value(mod_tbl$p_val),
     ]) == 0) {
+
     # Alternative output as no derivatives have to be
     # calculated --> just add prop = 1.00
     alter_output <- mod_tbl
@@ -365,6 +366,7 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
       " or NONE of the significant models is non-linear (edf > edf_filter)! ",
       "Significant linear models will get automatically a proportion (prop) value of 1."))
     return(alter_output)
+
   } else {
 
     # Divide mod_tbl/init_tbl in filtered and
@@ -372,13 +374,12 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
     mod_tbl <- dplyr::arrange(mod_tbl, !!rlang::sym("id"))
     init_tbl <- dplyr::arrange(init_tbl, !!rlang::sym("id"))
     filt <- mod_tbl[is_value(mod_tbl$edf) & is_value(mod_tbl$p_val) &
-      mod_tbl$edf > edf_filter & mod_tbl$p_val <=
-      sign_level, ]
+      mod_tbl$edf > edf_filter & mod_tbl$p_val <= sign_level, ]
     unfilt <- mod_tbl[!mod_tbl$id %in% filt$id, ]
     filt_init <- init_tbl[init_tbl$id %in% filt$id, ]
 
-    # Assign prop of NA or 1.00 to unfiltered ids (if
-    # not (NA if not sign.)
+    # Assign prop of NA or 1.00 to unfiltered ids
+    # (NA if not sign.)
     if (!nrow(unfilt) == 0) {
       unfilt$prop <- NA
       unfilt$prop[is_value(unfilt$p_val) & unfilt$p_val <=
@@ -423,7 +424,6 @@ calc_deriv <- function(init_tbl, mod_tbl, edf_filter = 1.5,
   ### END OF FUNCTION
   return(output_tbl)
 }
-
 
 
 # Internal helper function ------------------------------

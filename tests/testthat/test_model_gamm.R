@@ -102,8 +102,8 @@ test_that("compare manual results", {
 })
 
 # Test outlier
-example <- model_gamm(ind_init_ex[39, ], excl_outlier = as.list(rep(8,
-  6)))  # need to be provided for each GAMM!
+example <- model_gamm(ind_init_ex[39, ],
+	excl_outlier = as.list(rep(8, 6)))  # need to be provided for each GAMM!
 # Manually add an NA to the training data (but then
 # also to the train_na vector!)
 ind_init2 <- ind_init_ex[39, ]
@@ -114,9 +114,10 @@ example2 <- model_gamm(ind_init2)
 test_that("test excl outlier", {
   expect_equivalent(example$p_val, example2$p_val, tolerance = 1e-06)
   expect_equivalent(example$nrmse, example2$nrmse, tolerance = 1e-06)
-  expect_error(model_gamm(ind_init_ex[102, ], excl_outlier = as.list(c(8,
+  expect_error(model_gamm(ind_init_ex[84, ], excl_outlier = as.list(c(8,
     6))))  #only 1 list entry can be recycled
 })
+
 
 # Test filter
 dat <- ind_init_ex[1:5, ]
@@ -128,7 +129,7 @@ test_that("test filter with NAs", {
 })
 
 
-# Binomal distribution
+# Binomial distribution
 set.seed(123)
 vec_train <- sample(x = c(0, 1), size = 27, replace = TRUE)
 vec_test <- sample(x = c(0, 1), size = 3, replace = TRUE)
