@@ -126,7 +126,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     if (any(!c("press", "press_type") %in% names(press_type))) {
       press_var <- c("press", "press_type")
       missing_var <- press_var[!press_var %in%
-        names(press_type)]
+          names(press_type)]
       stop(paste0("The following variables required for this function are missing in press_type (or simply re-name if you used a different column name) : ",
         paste0(missing_var, collapse = ", ")))
     } else {
@@ -139,7 +139,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # (if trend_tbl needed)
   if ("C8" %in% crit_scores$crit == TRUE & !is.null(trend_tbl)) {
     if (!all(unique(mod_tbl$ind) %in% trend_tbl$ind) |
-      !all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
+        !all(trend_tbl$ind %in% unique(mod_tbl$ind))) {
       stop("Some indicators are only present in one input tibble.")
     }
   }
@@ -162,14 +162,14 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       cv_dt = c("numeric", "numeric", "numeric",
         "numeric", "logical"), stringsAsFactors = FALSE)
     req_var <- cond_var_tmpl[cond_var_tmpl$cv %in%
-      cond_var, ]
+        cond_var, ]
     provided_var_dt <- purrr::map_chr(mod_tbl,
       class)
     if (any(provided_var_dt[req_var$cv] != req_var$cv_dt)) {
       wrong_dt <- req_var$cv_dt[req_var$cv_dt !=
-        provided_var_dt[req_var$cv]]
+          provided_var_dt[req_var$cv]]
       var_wrong_dt <- req_var$cv[req_var$cv_dt !=
-        provided_var_dt[req_var$cv]]
+          provided_var_dt[req_var$cv]]
       message(paste0("The following variables required for the scoring (see your crit_scores table) have not the required data types in mod_tbl:"))
       print(data.frame(variable = var_wrong_dt,
         required_data_type = wrong_dt))
@@ -193,10 +193,10 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
       stop("You must provide data for the trend_tbl argument (output of the model_trend function) if you include the trend criterion (C8)!")
     } else {
       c8_var <- unique(crit_scores$condition_var[crit_scores$crit ==
-        "C8"])
+          "C8"])
       if (any(!c8_var %in% names(trend_tbl))) {
         missing_c8_var <- c8_var[!c8_var %in%
-          names(trend_tbl)]
+            names(trend_tbl)]
         stop(paste0("The following variables required for scoring crit. 8 (see your crit_scores table) are not provided in trend_tbl: ",
           paste0(missing_c8_var, collapse = ", ")))
       }
@@ -207,7 +207,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # Sub-criteria in 9 (Sensitivity) and 10
   # (Robustness)
   d <- as.data.frame(unique(crit_scores[crit_scores$crit %in%
-    c("C9", "C10") & crit_scores$subcrit != "C10_1",
+      c("C9", "C10") & crit_scores$subcrit != "C10_1",
     c("condition_var", "func_name")]))
   names(d) <- c("missing_variable", "function")
   d_bool <- d$missing_variable %in% names(mod_tbl)
@@ -235,7 +235,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     press_v <- unique(mod_tbl$press)
     if (any(!press_v %in% press_type$press)) {
       missing_press <- press_v[!press_v %in%
-        press_type$press]
+          press_type$press]
       stop(paste0("The following pressure variables in mod_tbl are not listed in the press_type tibble: ",
         paste0(missing_press, collapse = ", ")))
     }
@@ -299,79 +299,76 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
 
   # Get sub-criteria selected by user (or default)
   subcrit_v <- unique(crit_scores$subcrit[crit_scores$crit %in%
-    c("C9", "C10")])
+      c("C9", "C10")])
 
   if (!is.null(subcrit_v)) {
 
-      # Create empty scoring table with metadata and all
-      # selected sub-criteria
-      if (!is.null(press_type)) {
-        score_c910 <- mod_tbl[, c(1:3, ncol(mod_tbl))]  # adding press_type column
-      } else {
-        score_c910 <- mod_tbl[, c(1:3)]
-      }
-      score_c910[, subcrit_v] <- NA
+    # Create empty scoring table with metadata and all
+    # selected sub-criteria
+    if (!is.null(press_type)) {
+      score_c910 <- mod_tbl[, c(1:3, ncol(mod_tbl))]  # adding press_type column
+    } else {
+      score_c910 <- mod_tbl[, c(1:3)]
+    }
+    score_c910[, subcrit_v] <- NA
 
-      # Split the data based on whether the pressure
-      # effect is significant or not (based on the alpha
-      # level set a priori); in the case of the latter,
-      # all sub-criteria scores are set to zero:
-      mod_tbl_split <- split(mod_tbl, is_value(mod_tbl$p_val) &
+    # Split the data based on whether the pressure
+    # effect is significant or not (based on the alpha
+    # level set a priori); in the case of the latter,
+    # all sub-criteria scores are set to zero:
+    mod_tbl_split <- split(mod_tbl, is_value(mod_tbl$p_val) &
         mod_tbl$p_val <= sign_level)
-      # is_value() has to be included -> otherwise rows
-      # where p_val=NA,NaN,NULL excluded completely
-      score_c910_split <- split(score_c910, is_value(mod_tbl$p_val) &
+    # is_value() has to be included -> otherwise rows
+    # where p_val=NA,NaN,NULL excluded completely
+    score_c910_split <- split(score_c910, is_value(mod_tbl$p_val) &
         mod_tbl$p_val <= sign_level)
 
-      # Non-significant models (`FALSE` list) scored zero
-      if (!is.null(score_c910_split$`FALSE`)) {
-        score_c910_split$`FALSE`[, subcrit_v] <- 0
-      }
+    # Non-significant models (`FALSE` list) scored zero
+    if (!is.null(score_c910_split$`FALSE`)) {
+      score_c910_split$`FALSE`[, subcrit_v] <- 0
+    }
 
 
-      # Score significant models (`TRUE` list) per
-      # sub-criterion --------
-      if (!is.null(mod_tbl_split$`TRUE`)) {
+    # Score significant models (`TRUE` list) per
+    # sub-criterion --------
+    if (!is.null(mod_tbl_split$`TRUE`)) {
 
-          # To get the correct variable for the respective
-          # subcriterion
-          sc_var <- unique(crit_scores[crit_scores$crit %in%
+      # To get the correct variable for the respective
+      # subcriterion
+      sc_var <- unique(crit_scores[crit_scores$crit %in%
           c("C9", "C10"), c("subcrit", "condition_var")])
-          names(sc_var) <- c("scr", "var")
+      names(sc_var) <- c("scr", "var")
 
-          # Wrapper function for Crit 9 and 10 that applies
-          # score_f() vector-wise for each element of the
-          # variable of interest using purrr
-          apply_score <- function(var, crit_df,
-          scr) {
-          crit_df_sub <- crit_df[crit_df$subcrit ==
-            scr, ]
-          temp <- purrr::map_dbl(.x = var,
-            .f = score_f, crit_df_sub = crit_df_sub,
-            scr = scr)
-          return(temp)
-          }
-          # Loop where the apply_score function is applied
-          # for each subcriterion that needs to be scored
-          for (i in 1:length(subcrit_v)) {
-          var_ch <- sc_var$var[sc_var$scr == subcrit_v[i]]
-          var_num <- mod_tbl_split$`TRUE` %>%
-            dplyr::select(!!!rlang::syms(var_ch)) %>%
-            .[[1]]  # .[[1]] needed to get vector, not 1D tibble
-          score_c910_split$`TRUE`[, subcrit_v[i]] <- apply_score(var = var_num,
-            crit_df = crit_scores, scr = subcrit_v[i])
-          }
-        }  # end of if statement for mod_tbl_split$`TRUE` not NULL
-      # Combine both lists and sort by id
+      # Wrapper function for Crit 9 and 10 that applies
+      # score_f() vector-wise for each element of the
+      # variable of interest using purrr
+      apply_score <- function(var, crit_df, scr) {
+        crit_df_sub <- crit_df[crit_df$subcrit == scr, ]
+        temp <- purrr::map_dbl(.x = var, .f = score_f,
+          crit_df_sub = crit_df_sub, scr = scr)
+        return(temp)
+      }
+      # Loop where the apply_score function is applied
+      # for each subcriterion that needs to be scored
+      for (i in 1:length(subcrit_v)) {
+        var_ch <- sc_var$var[sc_var$scr == subcrit_v[i]]
+        var_num <- mod_tbl_split$`TRUE` %>%
+          dplyr::select(!!!rlang::syms(var_ch)) %>%
+          .[[1]]  # .[[1]] needed to get vector, not 1D tibble
+        score_c910_split$`TRUE`[, subcrit_v[i]] <- apply_score(var = var_num,
+          crit_df = crit_scores, scr = subcrit_v[i])
+      }
+    }  # end of if statement for mod_tbl_split$`TRUE` not NULL
+    # Combine both lists and sort by id
 
-      # Merging both tables (if both are present) if not,
-      # bind_rows simply returns the one not NULL
-      score_c910 <- dplyr::bind_rows(score_c910_split$`FALSE`,
-        score_c910_split$`TRUE`)
-      score_c910 <- score_c910 %>%
-        dplyr::arrange(!!rlang::sym("id"))
+    # Merging both tables (if both are present) if not,
+    # bind_rows simply returns the one not NULL
+    score_c910 <- dplyr::bind_rows(score_c910_split$`FALSE`,
+      score_c910_split$`TRUE`)
+    score_c910 <- score_c910 %>%
+      dplyr::arrange(!!rlang::sym("id"))
 
-    }  # end of if statement for C9/10 selection
+  }  # end of if statement for C9/10 selection
 
 
   # Create indicator-specific score table for
@@ -388,62 +385,61 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
   # Create empty scoring table and do the scoring
   # ONLY if C8 and/or C11 are selected
   if (!is.null(crit_v_811)) {
-      # Create scoring table including indicator name and
-      # selected criteria
-      score_c811 <- tibble::tibble(ind = unique(mod_tbl$ind))
-      score_c811[, crit_v_811] <- NA
+    # Create scoring table including indicator name and
+    # selected criteria
+    score_c811 <- tibble::tibble(ind = unique(mod_tbl$ind))
+    score_c811[, crit_v_811] <- NA
 
-      ### Score C8 based on p-value set in crit_score
-      ### significance of trend GAM: p_val
-      if ("C8" %in% crit_v_811) {
-        cr <- "C8"
-        crit_scores_8 <- crit_scores[crit_scores$crit ==
+    ### Score C8 based on p-value set in crit_score
+    ### significance of trend GAM: p_val
+    if ("C8" %in% crit_v_811) {
+      cr <- "C8"
+      crit_scores_8 <- crit_scores[crit_scores$crit ==
           cr, ]
-        score_c811$C8 <- purrr::map_dbl(.x = trend_tbl$p_val,
-          .f = score_f, crit_df_sub = crit_scores_8)
-      }
+      score_c811$C8 <- purrr::map_dbl(.x = trend_tbl$p_val,
+        .f = score_f, crit_df_sub = crit_scores_8)
+    }
 
-      ### Score C11 combinations of significant pressures
-      if ("C11" %in% crit_v_811) {
-          if (is.null(score_c910_split$`TRUE`)) {
-          # i.e. if none of the tested indicator respond to
-          # any pressure
-          score_c811$C11 <- 0
-          } else {
-          cr <- "C11"
-          crit_scores_11 <- crit_scores[crit_scores$crit ==
-            cr, ]
+    ### Score C11 combinations of significant pressures
+    if ("C11" %in% crit_v_811) {
+      if (is.null(score_c910_split$`TRUE`)) {
+        # i.e. if none of the tested indicator respond to
+        # any pressure
+        score_c811$C11 <- 0
+      } else {
+        cr <- "C11"
+        crit_scores_11 <- crit_scores[crit_scores$crit == cr, ]
 
-          # Extract signifiant pressures per ind from
-          # score_c910_split$`TRUE` and save them as list
-          press_per_ind <- split(score_c910_split$`TRUE`$press_type,
-            score_c910_split$`TRUE`$ind)
+        # Extract signifiant pressures per ind from
+        # score_c910_split$`TRUE` and save them as list
+        press_per_ind <- split(score_c910_split$`TRUE`$press_type,
+          score_c910_split$`TRUE`$ind)
 
-          # Calculate the number of pressures and convert to
-          # vector
-          nr_press_per_ind <- purrr::map(press_per_ind,
-            ~length(unique(.)))
-          nr_press_per_ind <- unlist(nr_press_per_ind)
+        # Calculate the number of pressures and convert to
+        # vector
+        nr_press_per_ind <- purrr::map(press_per_ind,
+          ~length(unique(.)))
+        nr_press_per_ind <- unlist(nr_press_per_ind)
 
-          # Apply the helper function score_f
-          score_per_ind <- purrr::map_dbl(.x = nr_press_per_ind,
-            .f = score_f, crit_df_sub = crit_scores_11)
+        # Apply the helper function score_f
+        score_per_ind <- purrr::map_dbl(.x = nr_press_per_ind,
+          .f = score_f, crit_df_sub = crit_scores_11)
 
-          # Merge C11 scores into score_c811 tibble
-          temp <- tibble::tibble(ind = names(score_per_ind),
-            C11 = unlist(score_per_ind))
-          score_c811$C11 <- temp$C11[match(score_c811$ind,
-            temp$ind)]
+        # Merge C11 scores into score_c811 tibble
+        temp <- tibble::tibble(ind = names(score_per_ind),
+          C11 = unlist(score_per_ind))
+        score_c811$C11 <- temp$C11[match(score_c811$ind,
+          temp$ind)]
 
-          # Here add zeros to indicators that did not respond
-          # to any pressure and, hence, are not in
-          # score_c910_split$`TRUE`
-          score_c811$C11[-match(temp$ind,
-            score_c811$ind)] <- 0
+        # Here add zeros to indicators that did not respond
+        # to any pressure and, hence, are not in
+        # score_c910_split$`TRUE`
+        score_c811$C11[-match(temp$ind,
+          score_c811$ind)] <- 0
 
-          }  # end of else condition (if sign press are not null)
-        }  # end of if statement for C11
-    }  # end of if statement for selection of C8/C11
+      }  # end of else condition (if sign press are not null)
+    }  # end of if statement for C11
+  }  # end of if statement for selection of C8/C11
 
 
   # Get data tables ready for export --------------
@@ -455,7 +451,7 @@ scoring <- function(trend_tbl = NULL, mod_tbl, press_type = NULL,
     # Convert table into a nested tibble for merging
     # with other criteria
     score_c910 <- score_c910 %>%
-    dplyr::group_by(!!rlang::sym("ind")) %>%
+      dplyr::group_by(!!rlang::sym("ind")) %>%
       tidyr::nest() %>%
       dplyr::rename(press_spec_sc = !!rlang::sym("data"))
 
