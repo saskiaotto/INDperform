@@ -3,9 +3,6 @@ context("test model_gamm")
 test_id <- 64
 dat <- model_gamm(init_tbl = ind_init_ex[test_id, ])
 
-# set control parameters
-lmc <- nlme::lmeControl(niterEM = 5000, msMaxIter = 1000)
-
 # Manual fitting for comparison -----------
 ind <- ind_init_ex$ind_train[[test_id]]
 i_test <- ind_init_ex$ind_test[[test_id]]
@@ -13,27 +10,26 @@ press <- ind_init_ex$press_train[[test_id]]
 p_test <- ind_init_ex$press_test[[test_id]]
 time <- ind_init_ex$time_train[[test_id]]
 test_dat <- data.frame(ind = ind, press = press, time = time)
-test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5))  #,
-# control = lmc)
+test_ar0 <- mgcv::gamm(formula = ind ~ s(press, k = 5))
 
 test_ar1 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
   correlation = nlme::corARMA(value = 0.3, form = ~time,
-    p = 1, q = 0), control = lmc, data = test_dat)
+    p = 1, q = 0), data = test_dat)
 test_ar2 <- mgcv::gamm(formula = ind ~ s(press, k = 5),
   correlation = nlme::corARMA(value = c(0.3, -0.3),
-    form = ~time, p = 2, q = 0), control = lmc,
+    form = ~time, p = 2, q = 0),
   data = test_dat)
 test_arma11 <- mgcv::gamm(formula = ind ~ s(press,
   k = 5), correlation = nlme::corARMA(value = c(0.3,
-  0.3), form = ~time, p = 1, q = 1), control = lmc,
+  0.3), form = ~time, p = 1, q = 1),
   data = test_dat)
 test_arma12 <- mgcv::gamm(formula = ind ~ s(press,
   k = 5), correlation = nlme::corARMA(value = c(0.3,
-  -0.3, 0.3), form = ~time, p = 1, q = 2), control = lmc,
+  -0.3, 0.3), form = ~time, p = 1, q = 2),
   data = test_dat)
 test_arma21 <- mgcv::gamm(formula = ind ~ s(press,
   k = 5), correlation = nlme::corARMA(value = c(0.3,
-  0.3, -0.3), form = ~time, p = 2, q = 1), control = lmc,
+  0.3, -0.3), form = ~time, p = 2, q = 1),
   data = test_dat)
 model <- list(test_ar0, test_ar1, test_ar2, test_arma11,
   test_arma12, test_arma21)
@@ -98,7 +94,6 @@ test_that("compare manual results", {
   expect_true(all(dat$id == test_id))
   expect_true(all(dat$ind == "Cod"))
   expect_true(all(dat$press == "Tsum"))
-  expect_message(model_gamm(ind_init_ex[44, ]), "NOTE: For the following IND~pressure GAMMs")
 })
 
 # Test outlier
@@ -111,11 +106,12 @@ ind_init2$ind_train[[1]][8] <- NA
 ind_init2$train_na[[1]][8] <- TRUE
 example2 <- model_gamm(ind_init2)
 
-test_that("test excl outlier", {
+test_that("test excl outlier and messages failed fits", {
   expect_equivalent(example$p_val, example2$p_val, tolerance = 1e-06)
   expect_equivalent(example$nrmse, example2$nrmse, tolerance = 1e-06)
   expect_error(model_gamm(ind_init_ex[84, ], excl_outlier = as.list(c(8,
     6))))  #only 1 list entry can be recycled
+  expect_message(model_gamm(ind_init2), "NOTE: For the following IND~pressure GAMMs")
 })
 
 

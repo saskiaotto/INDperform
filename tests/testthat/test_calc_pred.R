@@ -15,7 +15,6 @@ model_list <- dummy$model
 obs_press <- dummy$press_train
 dat2 <- calc_pred(model_list, obs_press)
 
-lmc <- nlme::lmeControl(niterEM = 5000, msMaxIter = 1000)
 test_gamm <- mgcv::predict.gam(dummy$model[[37]]$gam,
   type = "response")
 
@@ -28,8 +27,6 @@ test_that("test calc_pred", {
   expect_true(unique(vapply(dat2$pred, length, integer(1)) ==
     27 | 1))
   expect_equal(dat2$pred[[37]], test_gamm)
-  expect_is(dat2$pred[is.na(model_gamm_ex$model)][[1]],
-    "logical")
   expect_is(dat$pred[[71]][1], "numeric")
   expect_is(dat2$pred[[37]][1], "numeric")
 })
