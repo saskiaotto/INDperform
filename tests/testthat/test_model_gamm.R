@@ -130,6 +130,7 @@ test_that("test filter with NAs", {
 
 
 # Binomial distribution
+suppressWarnings(RNGversion("4.0.3"))
 set.seed(123)
 vec_train <- sample(x = c(0, 1), size = 27, replace = TRUE)
 vec_test <- sample(x = c(0, 1), size = 3, replace = TRUE)
@@ -146,6 +147,7 @@ test_that("test binomial family", {
 })
 
 # Poisson distribution
+suppressWarnings(RNGversion("4.0.3")) # (required  for set.seed for passing CRAN checks (or should it be version 3.5.0?)
 set.seed(123)
 vec_train <- rpois(27, 15)
 vec_test <- rpois(3, 15)
@@ -163,6 +165,7 @@ test_that("test poisson family", {
 
 
 # Negative Binomal distribution
+suppressWarnings(RNGversion("4.0.3")) # (required  for set.seed for passing CRAN checks)
 set.seed(123)
 vec_train <- rnbinom(27, size = 5.855, mu = 1/exp(-3))
 vec_test <- rnbinom(3, size = 5.855, mu = 1/exp(-3))
@@ -215,5 +218,7 @@ test_that("error messages and filter", {
   expect_message(model_gamm(dat5), "For the following")
   expect_error(model_gamm(init_tbl = dat, filter = dat_filter2),
     "Your filter contains no TRUE element")
+  expect_error(model_gamm(init_tbl = dat, lme_control = 2),
+    "For the lme_control argument you")
 })
 

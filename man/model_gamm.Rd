@@ -9,7 +9,8 @@ model_gamm(
   k = 5,
   family = stats::gaussian(),
   excl_outlier = NULL,
-  filter = NULL
+  filter = NULL,
+  lme_control = NULL
 )
 }
 \arguments{
@@ -37,6 +38,11 @@ can be re-run again, then excluding all these outliers provided in
 (row gets selected if value TRUE). That could be the \code{tac} column
 in the \code{model_gam} output tibble which indicates whether the model
 residuals show TAC.}
+
+\item{lme_control}{A specification list of the control values for the lme fit.
+The default is NULL so the control settings in \code{\link[mgcv]{gamm}} are used
+(list(niterEM=0,optimMethod="L-BFGS-B",returnObject=TRUE)). To overwrite these
+values use best the \code{\link[nlme]{lmeControl}} function (see example).}
 }
 \value{
 Returns a model output tibble that contains for each filtered IND~pressure pair
@@ -84,7 +90,11 @@ gam_tbl <- model_gam(dat_init)
 gam_tbl$tac
 # Applying model_gamm function and passing the $tac variable as filter
 gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
-
+# Use different control values for lme fit:
+ gamm_tbl <- model_gamm(
+ dat_init, filter = gam_tbl$tac,
+ lme_control = nlme::lmeControl(niterEM = 100, msMaxIter = 200)
+ )
 \donttest{
  # run analysis will full demo dataset
  gam_tbl <- model_gam(ind_init_ex)

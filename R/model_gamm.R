@@ -26,6 +26,10 @@
 #'  (row gets selected if value TRUE). That could be the \code{tac} column
 #'  in the \code{model_gam} output tibble which indicates whether the model
 #'  residuals show TAC.
+#' @param lme_control A specification list of the control values for the lme fit.
+#'  The default is NULL so the control settings in \code{\link[mgcv]{gamm}} are used
+#'  (list(niterEM=0,optimMethod="L-BFGS-B",returnObject=TRUE)). To overwrite these
+#'  values use best the \code{\link[nlme]{lmeControl}} function (see example).
 #'
 #' @details
 #' Modeling first-differenced indicator time series can be an alternative solution
@@ -81,7 +85,11 @@
 #' gam_tbl$tac
 #' # Applying model_gamm function and passing the $tac variable as filter
 #' gamm_tbl <- model_gamm(dat_init, filter = gam_tbl$tac)
-#'
+#' # Use different control values for lme fit:
+#'  gamm_tbl <- model_gamm(
+#'  dat_init, filter = gam_tbl$tac,
+#'  lme_control = nlme::lmeControl(niterEM = 100, msMaxIter = 200)
+#'  )
 #' \donttest{
 #'  # run analysis will full demo dataset
 #'  gam_tbl <- model_gam(ind_init_ex)
@@ -91,7 +99,7 @@
 #'    excl_outlier = gamm_tbl$pres_outlier)
 #' }
 model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
-  excl_outlier = NULL, filter = NULL) {
+  excl_outlier = NULL, filter = NULL, lme_control = NULL) {
 
   # Data input validation ---------------------
   if (missing(init_tbl)) {
@@ -143,6 +151,12 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
       }
     }
   }
+  # If lme_control is provided check, that it is lmeControl object
+  if (!is.null(lme_control)) {
+    if (!class(lme_control) %in% c("list", "function")) {
+      stop("For the lme_control argument you need to provide a list of fit control parameters for lme to replace the defaults returned by lmeControl or use the nlme::lmeControl() function (see example in the documentation).")
+    }
+  }
 
   # Create input list -------------------------------
   # Lengthen init_tbl to create 6 models
@@ -186,9 +200,14 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
     }
   }
 
-  # Fit GAMMs ------------------------------- Set
-  # control parameters
-  lmc <- nlme::lmeControl(niterEM = 5000, msMaxIter = 1000)
+  # Fit GAMMs -------------------------------
+  # Set control parameters
+  if (is.null(lme_control)) {
+    lmc <- list(niterEM=0,optimMethod="L-BFGS-B",returnObject=TRUE)
+  } else {
+    lmc <- lme_control
+  }
+
   # Generate starting values for corr structure
   pass_p <- c(NA, 1, 2, 1, 1, 2)
   pass_p <- rep(pass_p, length.out = length(inputs))
@@ -226,17 +245,6 @@ model_gamm <- function(init_tbl, k = 5, family = stats::gaussian(),
   }
   gamm_ar_func_safe <- purrr::safely(gamm_ar_func,
     otherwise = NA)
-
-#   i=2
-#   testdf <-inputs[[i]]
-#   test <-  mgcv::gamm(Cod ~ s(Fsprat, k = k), data = testdf, family = family,
-#     correlation = nlme::corARMA(
-#       value = values[[i]],
-#       form = stats::as.formula("~time"),
-#       p = pass_p[i], q = pass_q[i]),
-#     control = lmc)
-#
-# gamm_ar_func_safe()
 
   # Loop with progress bar -------------------------
   # Initialise progress bar
