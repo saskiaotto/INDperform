@@ -14,7 +14,7 @@ approx_deriv(init_tbl, mod_tbl, ci_prop_se)
 best model for each IND~pressure pair.}
 
 \item{ci_prop_se}{A conversion factor for approximating derivative CIs in the
-`approx_method`; it is multiplied with the ratio between s.e. and mean fitted
+`approx_deriv` method; it is multiplied with the ratio between s.e. and mean fitted
 values of the smoothing curve to represent some level of uncertainty around the
 slope proportional to the uncertainty in the smoothing curve. Default is 25,
 which is a compromise representing fairly well the results obtained for the GAMs
