@@ -23,33 +23,33 @@ LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.0)
 Imports:
     cowplot (>= 1.1.1),
     dplyr (>= 1.0.4),
-    grDevices (>= 4.0.3),
+    grDevices,
     ggplot2 (>= 3.3.3),
     htmlwidgets (>= 1.5.3),
     jsonlite (>= 1.7.2),
-    magrittr (>= 2.0.1),
-    mgcv (>= 1.8-34),
-    nlme (>= 3.1-152),
+    magrittr,
+    mgcv,
+    nlme,
     progress (>= 1.2.2),
     purrr (>= 0.3.4),
-    RColorBrewer (>= 1.1-2),
+    RColorBrewer,
     rhandsontable (>= 0.3.7),
     rlang (>= 0.4.10),
-    shiny (>= 1.6.0),
+    shiny,
     stringr (>= 1.4.0),
     tibble (>= 3.1.0),
     tidyr (>= 1.1.2),
-    vegan (>= 2.5-7)
+    vegan
 Suggests:
     doParallel (>= 1.0.16),
     ggdendro  (>= 0.1.22),
     gridExtra (>= 2.3),
     knitr (>= 1.31),
-    parallel (>= 4.0.3),
+    parallel,
     pbapply (>= 1.4-3),
     testthat (>= 3.0.2),
     tripack (>= 1.3-9.1)
