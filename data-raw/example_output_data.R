@@ -25,7 +25,7 @@ merge_models_ex <-merge_models(model_gam_ex[model_gam_ex$tac==FALSE, ],
 
 ### Calculate the derivatives for non-linear responses and the pressure range
 boot_deriv_ex <- calc_deriv(init_tbl = ind_init_ex,
-	mod_tbl = merge_models_ex, n_boot = 200, par_comp = FALSE, seed=1)
+	mod_tbl = merge_models_ex, n_boot = 200, par_comp = TRUE, seed=1)
 
 ### Test whether significant pressures interact with other pressures
 # (so we have all data output together)
