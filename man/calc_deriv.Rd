@@ -48,7 +48,7 @@ The default is set to 200.}
 derivatives. Must be between 0 and 1, default is 0.95.}
 
 \item{ci_prop_se}{A conversion factor for approximating derivative CIs in the
-`approx_method`; it is multiplied with the ratio between s.e. and mean fitted
+`approx_deriv` method; it is multiplied with the ratio between s.e. and mean fitted
 values of the smoothing curve to represent some level of uncertainty around the
 slope proportional to the uncertainty in the smoothing curve. Default is 25,
 which is a compromise representing fairly well the results obtained for the GAMs
@@ -216,7 +216,7 @@ in \code{zero_in_conf}.
 init_tbl <- ind_init_ex[ind_init_ex$id \%in\% c(5,9,48,75), ]
 mod_tbl <- merge_models_ex[merge_models_ex$id  \%in\% c(5,9,48,75), ]
 deriv_tbl <- calc_deriv(init_tbl = init_tbl, mod_tbl = mod_tbl,
-  n_boot = 40, par_comp = FALSE, seed=1)
+  n_boot = 40, par_comp = FALSE, seed=1, method = "approx_deriv")
 }
 }
 \references{
