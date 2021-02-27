@@ -83,8 +83,7 @@ file.
 
 ## Cheat sheet
 
-*(last update
-01/2020)*
+*(last update 01/2020)*
 
 <a href="https://github.com/saskiaotto/cheatsheets/raw/master/Cheatsheet_INDperform_v0.2.2.pdf"><img src="man/figures/INDperform_cheatsheet.png" width="900" height="252"/></a>  
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
@@ -129,7 +128,7 @@ crit_scores_tmpl
 ### A. Trend modeling
 
 ``` r
-m_trend <- model_trend(ind_tbl = ind_ex[ ,-1]
+m_trend <- model_trend(ind_tbl = ind_ex[ ,-1],
   time = ind_ex$Year)
 
 # Model diagnostics
@@ -273,15 +272,15 @@ index).
 
 ``` r
 sel <- find_id(
-    mod_tbl = m_all, 
+    mod_tbl = m_merged, 
     ind_name = c("TZA","rCC","Cops", "Micro", "Sprat",
         "Herring", "Stickle", "Cod", "SPF", "LPF")
 )$id
 
-m_all$nrmse[sel] <- calc_nrmse(
+m_merged$nrmse[sel] <- calc_nrmse(
     press = ind_init_ex$press_test[sel], 
     ind = ind_init_ex$ind_test[sel],
-    model = m_all$model[sel], 
+    model = m_merged$model[sel], 
     transformation = "log"
 )
 ```
@@ -303,7 +302,7 @@ m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
      interactions = it, sign_level = 0.05)
 
 # Inspect diagnostics of threshold models
-pd_thresh <- all_results_ex$thresh_models %>%
+pd_thresh <- m_all$thresh_models %>%
     # flatten structure of nested threshold GAMs 
     flatten() %>%
     # and remove empty lists (where no threshold GAMs were applied (=NULL) 
@@ -400,8 +399,7 @@ plot_statespace_ed(ed)
 
 #### D.2 Convex hull of state space between 2 indicators
 
-( or between 2 variables from a multivariate
-analysis)
+( or between 2 variables from a multivariate analysis)
 
 ``` r
 ch <- statespace_ch(x = ind_sub$SPF, y = ind_sub$LPF, time = ind_noNA$Year,
@@ -448,21 +446,21 @@ using Generalized Additive Models (GAMs) (based on the mgcv package).
   - `ind_init()` combines the time vector and the IND and press data
     into one tibble with defined training and test observations. All
     INDs are combined with all pressures.
-  - `model_gam()` applies GAMs to each IND~pressure combination created
+  - `model_gam()` applies GAMs to each IND\~pressure combination created
     in `ind_init()` and returns a tibble including the model output and
     diagnostics.
   - `model_gamm()` accounts for temporal autocorrelation in the time
     series by including correlation structures in the model (using
     Generalized Additive Mixed Models (GAMMs): AR1, AR2, ARMA1.1,
     ARMA2.1, ARMA1.2.
-  - `select_model()` selects for each IND~pressure the best correlation
+  - `select_model()` selects for each IND\~pressure the best correlation
     structure computed with `model_gamm()` based on the Akaike
     Information Criterion.
   - `merge_models()` merges any 2 model output tibbles.
   - `calc_deriv()` calculates for non-linear responses the 1st
     derivative of the smoothing function and the proportion of pressure
     range in which the IND shows a response. Output is input tibble with
-    few additional variables, incl. mean and confidence interval of
+    few additional variables, incl. mean and confidence interval of
     smoothing function and derivatives from bootstrapped GAMs.
   - `test_interaction()` tests for each significant GAM(M) whether a
     selection of pressure variables modifies the IND response to the
@@ -494,7 +492,7 @@ To show the model diagnostics or complete model results
         square error (NRMSE) for the test data as a measure of model
         robustness.
       - `$deriv_plot` shows the first derivative of non-linear
-        IND~pressure response curves and the proportion of the pressure
+        IND\~pressure response curves and the proportion of the pressure
         range where the IND shows no further significant change (i.e.,
         slope approximates zero).
       - `$thresh_plot` shows the IND response curve under a low and high

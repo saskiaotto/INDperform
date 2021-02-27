@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,7 +53,6 @@
 model_gam, and model_gamm and extracts from a list
 of summary.gam objects specific values defined in `varname`." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -67,7 +70,7 @@ of summary.gam objects specific values defined in `varname`." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -89,20 +92,20 @@ of summary.gam objects specific values defined in `varname`." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Articles
      
@@ -119,7 +122,7 @@ of summary.gam objects specific values defined in `varname`." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     News
   </a>
@@ -128,13 +131,13 @@ of summary.gam objects specific values defined in `varname`." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fa fa-send"></span>
+    <span class="fas fa-send"></span>
      
   </a>
 </li>
@@ -152,7 +155,7 @@ of summary.gam objects specific values defined in `varname`." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract specific outputs from the GAM(M) summary</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/get_sum_output.R'><code>R/get_sum_output.R</code></a></small>
     <div class="hidden name"><code>get_sum_output.Rd</code></div>
     </div>
 
@@ -162,7 +165,7 @@ of summary.gam objects specific values defined in `varname`." />
 of <code>summary.gam</code> objects specific values defined in `varname`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sum_output</span>(<span class='no'>sum_list</span>, <span class='no'>varname</span>, <span class='kw'>cell</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sum_output</span><span class='op'>(</span><span class='va'>sum_list</span>, <span class='va'>varname</span>, cell <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,46 +196,43 @@ extracted values.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using some models of the Baltic Sea demo data:</span>
-<span class='no'>sum_list</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>model_gam_ex</span>$<span class='no'>model</span>, ~<span class='kw pkg'>mgcv</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/summary.gam.html'>summary.gam</a></span>(<span class='no'>.</span>) )
-<span class='fu'>get_sum_output</span>(<span class='no'>sum_list</span>, <span class='kw'>varname</span> <span class='kw'>=</span> <span class='st'>"edf"</span>)</div><div class='output co'>#&gt;  [1] 1.921618 2.740511 1.000000 1.000000 3.519834 1.288505 2.120201 1.000002
+<span class='va'>sum_list</span> <span class='op'>&lt;-</span> <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>model_gam_ex</span><span class='op'>$</span><span class='va'>model</span>, <span class='op'>~</span><span class='fu'>mgcv</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/summary.gam.html'>summary.gam</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>)</span>
+<span class='fu'>get_sum_output</span><span class='op'>(</span><span class='va'>sum_list</span>, varname <span class='op'>=</span> <span class='st'>"edf"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1.921618 2.740511 1.000000 1.000000 3.519834 1.288505 2.120201 1.000002
 #&gt;  [9] 1.739864 1.160793 1.000001 1.000000 1.000002 1.000001 1.000000 1.000000
 #&gt; [17] 1.000000 3.272188 1.096102 2.496702 1.000000 1.771744 1.000000 1.000000
 #&gt; [25] 1.000000 1.000000 1.000000 1.844621 1.000000 2.754318 1.000000 1.000000
 #&gt; [33] 3.357938 1.000000 1.559080 1.000000 1.137822 1.000000 1.000000 1.000000
 #&gt; [41] 1.000000 1.861183 1.000000 2.165295 1.617269 2.340655 1.000000 1.564503
-#&gt; [49] 1.000000 1.000000 3.337382 1.000000 1.000000 1.000000 1.000000 1.960560
+#&gt; [49] 1.000000 1.000000 3.337381 1.000000 1.000000 1.000000 1.000000 1.960560
 #&gt; [57] 1.000000 1.632750 1.000000 1.643545 1.000000 3.701285 3.335511 1.000000
 #&gt; [65] 1.519520 1.997382 1.141977 1.000000 3.913887 2.792943 1.000000 1.850246
 #&gt; [73] 1.000000 1.000000 2.109077 1.000000 1.000000 3.015632 1.000000 2.369817
 #&gt; [81] 1.833623 1.000000 1.000000 1.000000</div><div class='input'>
 <span class='co'># Get p-val with cell argument:</span>
-<span class='fu'>get_sum_output</span>(<span class='no'>sum_list</span>, <span class='st'>"s.table"</span>, <span class='kw'>cell</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt;  [1] 1.455635e-01 7.719958e-02 6.991983e-01 6.821579e-01 9.539812e-04
-#&gt;  [6] 4.631689e-02 7.539967e-02 8.828124e-01 1.871878e-02 2.021004e-01
-#&gt; [11] 9.315649e-01 4.104841e-01 3.215409e-02 7.005543e-01 7.382023e-05
-#&gt; [16] 7.980791e-01 2.827565e-01 1.725010e-01 9.182195e-01 1.519263e-01
-#&gt; [21] 8.169444e-01 3.853007e-01 5.173233e-01 3.696555e-01 8.955471e-01
-#&gt; [26] 2.449802e-01 7.258123e-01 4.851479e-01 6.210798e-03 3.251312e-01
-#&gt; [31] 7.159061e-01 6.167581e-01 2.545820e-02 6.735817e-02 4.031123e-01
-#&gt; [36] 1.359406e-02 6.892301e-01 6.498481e-01 9.693019e-01 1.433137e-01
-#&gt; [41] 3.651521e-01 1.988939e-01 5.583602e-02 5.490926e-02 2.559344e-01
-#&gt; [46] 6.347853e-02 1.930749e-01 3.261327e-03 3.609634e-01 2.493204e-01
-#&gt; [51] 9.197584e-02 7.516344e-02 4.301833e-01 1.267355e-01 9.633124e-01
-#&gt; [56] 2.268141e-01 1.106198e-01 4.953339e-01 7.704678e-02 1.396545e-01
-#&gt; [61] 7.084900e-02 1.447595e-03 2.514511e-03 6.483280e-01 1.140138e-01
-#&gt; [66] 2.319460e-01 5.871091e-01 7.746839e-01 5.606838e-05 2.261879e-02
-#&gt; [71] 1.212727e-01 3.169262e-01 1.804906e-02 7.340162e-01 8.364861e-02
-#&gt; [76] 1.824235e-01 2.896260e-01 2.843832e-01 9.617033e-01 2.148061e-01
-#&gt; [81] 2.257218e-01 1.804776e-02 5.436467e-02 7.133096e-03</div></pre>
+<span class='fu'>get_sum_output</span><span class='op'>(</span><span class='va'>sum_list</span>, <span class='st'>"s.table"</span>, cell <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1.454804e-01 7.780815e-02 6.991980e-01 6.821577e-01 1.182017e-03
+#&gt;  [6] 4.546479e-02 7.497407e-02 8.828158e-01 1.909333e-02 2.023175e-01
+#&gt; [11] 9.315681e-01 4.105204e-01 3.232688e-02 7.005542e-01 9.057454e-05
+#&gt; [16] 7.980784e-01 2.828459e-01 1.723759e-01 9.608774e-01 1.516782e-01
+#&gt; [21] 8.169433e-01 3.862497e-01 5.173232e-01 3.697066e-01 8.955468e-01
+#&gt; [26] 2.450883e-01 7.258118e-01 4.875993e-01 6.324655e-03 3.257445e-01
+#&gt; [31] 7.159059e-01 6.167576e-01 2.547381e-02 6.754193e-02 4.071651e-01
+#&gt; [36] 1.373752e-02 7.225548e-01 6.498475e-01 9.693019e-01 1.434734e-01
+#&gt; [41] 3.652050e-01 1.990617e-01 5.601913e-02 5.457886e-02 2.567769e-01
+#&gt; [46] 6.307901e-02 1.932095e-01 3.468997e-03 3.610180e-01 2.494263e-01
+#&gt; [51] 9.160440e-02 7.534634e-02 4.302132e-01 1.269027e-01 9.633123e-01
+#&gt; [56] 2.271321e-01 1.107934e-01 4.954978e-01 7.722947e-02 1.402428e-01
+#&gt; [61] 7.103254e-02 1.705351e-03 2.692455e-03 6.483275e-01 1.142668e-01
+#&gt; [66] 2.322822e-01 6.038028e-01 7.746836e-01 1.060957e-04 2.314342e-02
+#&gt; [71] 1.215057e-01 3.179277e-01 1.827412e-02 7.340177e-01 8.337973e-02
+#&gt; [76] 1.826171e-01 2.897463e-01 2.849954e-01 9.617034e-01 2.150511e-01
+#&gt; [81] 2.260096e-01 1.820168e-02 5.454763e-02 7.252151e-03</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -243,7 +243,7 @@ extracted values.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

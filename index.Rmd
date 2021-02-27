@@ -214,15 +214,15 @@ To allow a comparison of the model performance across transformed and untransfor
 In the example dataset `ind_ex` all indicators except for `MS` and `rZPPP` have been ln-transformed. So let's calculated a corrected NRMSE for these INDs using the wrapper function `calc_nrmse()`. To get the respective ids in the model output tibble for selection and replacement, we will use the helper function `find_id()` (the function returns a subset of the model tibble and the `id` column can be then used as index).
 ```{r, eval = FALSE}
 sel <- find_id(
-	mod_tbl = m_all, 
+	mod_tbl = m_merged, 
 	ind_name = c("TZA","rCC","Cops", "Micro", "Sprat",
 		"Herring", "Stickle", "Cod", "SPF", "LPF")
 )$id
 
-m_all$nrmse[sel] <- calc_nrmse(
+m_merged$nrmse[sel] <- calc_nrmse(
 	press = ind_init_ex$press_test[sel], 
 	ind = ind_init_ex$ind_test[sel],
-	model = m_all$model[sel], 
+	model = m_merged$model[sel], 
 	transformation = "log"
 )
 ```
@@ -242,7 +242,7 @@ m_all <- test_interaction(init_tbl = dat_init, mod_tbl = m_calc,
 	 interactions = it, sign_level = 0.05)
 
 # Inspect diagnostics of threshold models
-pd_thresh <- all_results_ex$thresh_models %>%
+pd_thresh <- m_all$thresh_models %>%
 	# flatten structure of nested threshold GAMs 
 	flatten() %>%
 	# and remove empty lists (where no threshold GAMs were applied (=NULL) 

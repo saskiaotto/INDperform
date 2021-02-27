@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -50,7 +54,6 @@ criterion as well as the pressure-specific sub-criteria scores (in crit.
 9 and 10) can be easily compared and used for further score-based IND
 performance functions." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -68,7 +71,7 @@ performance functions." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,20 +93,20 @@ performance functions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Articles
      
@@ -120,7 +123,7 @@ performance functions." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     News
   </a>
@@ -129,13 +132,13 @@ performance functions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fa fa-send"></span>
+    <span class="fas fa-send"></span>
      
   </a>
 </li>
@@ -153,7 +156,7 @@ performance functions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of indicator performance scores</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/summary_sc.R'><code>R/summary_sc.R</code></a></small>
     <div class="hidden name"><code>summary_sc.Rd</code></div>
     </div>
 
@@ -164,7 +167,7 @@ criterion as well as the pressure-specific sub-criteria scores (in crit.
 performance functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summary_sc</span>(<span class='no'>scores_tbl</span>, <span class='kw'>crit_scores</span> <span class='kw'>=</span> <span class='kw pkg'>INDperform</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/INDperform/man/crit_scores_tmpl.html'>crit_scores_tmpl</a></span>)</pre>
+    <pre class="usage"><span class='fu'>summary_sc</span><span class='op'>(</span><span class='va'>scores_tbl</span>, crit_scores <span class='op'>=</span> <span class='fu'>INDperform</span><span class='fu'>::</span><span class='va'><a href='crit_scores_tmpl.html'>crit_scores_tmpl</a></span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,7 +188,7 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a list of 3 data frames</p><dl class='dl-horizontal'>
+    <p>The function returns a list of 3 data frames</p><dl>
   <dt><code>overview</code></dt><dd><p>IND-specific scores and percentages from
         max. score for all criteria (crit 9 and 10 averaged across
         all sign. pressures and the number of significant pressures).</p></dd>
@@ -208,9 +211,10 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the Baltic Sea demo data in this package</span>
-<span class='no'>scores_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='scoring.html'>scoring</a></span>(<span class='kw'>trend_tbl</span> <span class='kw'>=</span> <span class='no'>model_trend_ex</span>, <span class='kw'>mod_tbl</span> <span class='kw'>=</span> <span class='no'>all_results_ex</span>,
-  <span class='kw'>press_type</span> <span class='kw'>=</span> <span class='no'>press_type_ex</span>)
-<span class='fu'>summary_sc</span>(<span class='no'>scores_tbl</span>)</div><div class='output co'>#&gt; $overview
+<span class='va'>scores_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='scoring.html'>scoring</a></span><span class='op'>(</span>trend_tbl <span class='op'>=</span> <span class='va'>model_trend_ex</span>, mod_tbl <span class='op'>=</span> <span class='va'>all_results_ex</span>,
+  press_type <span class='op'>=</span> <span class='va'>press_type_ex</span><span class='op'>)</span>
+<span class='fu'>summary_sc</span><span class='op'>(</span><span class='va'>scores_tbl</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $overview
 #&gt;        ind nr_sign_press C8  C9 C10 C11 C8_in% C9_in% C10_in% C11_in%
 #&gt; 1      TZA             2  0 5.0 2.0   2      0     83      33     100
 #&gt; 2       MS             2  0 4.0 2.5   1      0     67      42      50
@@ -221,7 +225,7 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 #&gt; 7    Sprat             1  1 2.0 1.0   2    100     33      17     100
 #&gt; 8  Herring             0  1 0.0 0.0   0    100      0       0       0
 #&gt; 9  Stickle             0  1 0.0 0.0   0    100      0       0       0
-#&gt; 10     Cod             2  1 4.5 1.5   2    100     75      25     100
+#&gt; 10     Cod             2  1 5.5 1.5   2    100     92      25     100
 #&gt; 11     SPF             1  1 5.0 4.0   2    100     83      67     100
 #&gt; 12     LPF             1  1 5.0 5.0   2    100     83      83     100
 #&gt; 
@@ -237,7 +241,7 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 #&gt; 8  rZPPP   Tsum        Climate    1    3     1     1     2     1  4   5     67
 #&gt; 9  Sprat   Fher        Fishing    2    0     1     0     0     0  2   1     33
 #&gt; 10   Cod   Fher        Fishing    3    3     1     0     0     0  6   1    100
-#&gt; 11   Cod   Fcod        Fishing    2    1     1     0     1     0  3   2     50
+#&gt; 11   Cod   Fcod        Fishing    2    3     1     0     1     0  5   2     83
 #&gt; 12   SPF   Pwin Eutrophication    2    3     1     1     1     1  5   4     83
 #&gt; 13   LPF   Fcod        Fishing    2    3     1     1     2     1  5   5     83
 #&gt;    C10_in%
@@ -266,7 +270,7 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 #&gt; Sprat    1   2        0       0        1       2          0         0        0
 #&gt; Herring  1   0        0       0        0       0          0         0        0
 #&gt; Stickle  1   0        0       0        0       0          0         0        0
-#&gt; Cod      1   2        2       3        1       6          0         0        0
+#&gt; Cod      1   2        2       5        1       6          0         0        0
 #&gt; SPF      1   2        0       0        0       0          0         0        0
 #&gt; LPF      1   2        5       5        0       0          0         0        0
 #&gt;         Nwin_C9 Pwin_C10 Pwin_C9 Swin_C10 Swin_C9 Tsum_C10 Tsum_C9
@@ -284,15 +288,10 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 #&gt; LPF           0        0       0        0       0        0       0
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -303,7 +302,7 @@ is the unmodified template <code>crit_scores_tmpl</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

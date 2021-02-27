@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,7 +53,6 @@
 Generalized Additive Models (GAM) and returns a tibble with
 IND-specific GAM outputs." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -67,7 +70,7 @@ IND-specific GAM outputs." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -89,20 +92,20 @@ IND-specific GAM outputs." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Articles
      
@@ -119,7 +122,7 @@ IND-specific GAM outputs." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     News
   </a>
@@ -128,13 +131,13 @@ IND-specific GAM outputs." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fa fa-send"></span>
+    <span class="fas fa-send"></span>
      
   </a>
 </li>
@@ -152,7 +155,7 @@ IND-specific GAM outputs." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Modeling of indicator trends</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/model_trend.R'><code>R/model_trend.R</code></a></small>
     <div class="hidden name"><code>model_trend.Rd</code></div>
     </div>
 
@@ -162,14 +165,14 @@ Generalized Additive Models (GAM) and returns a tibble with
 IND-specific GAM outputs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_trend</span>(
-  <span class='no'>ind_tbl</span>,
-  <span class='no'>time</span>,
-  <span class='kw'>train</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>random</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>gaussian</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>model_trend</span><span class='op'>(</span>
+  <span class='va'>ind_tbl</span>,
+  <span class='va'>time</span>,
+  train <span class='op'>=</span> <span class='fl'>1</span>,
+  random <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  k <span class='op'>=</span> <span class='fl'>4</span>,
+  family <span class='op'>=</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>gaussian</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,7 +217,7 @@ or <code><a href='https://rdrr.io/pkg/mgcv/man/negbin.html'>nb</a></code>).</p><
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>, which is a trimmed down version of
-the data.frame(), including the following elements:</p><dl class='dl-horizontal'>
+the data.frame(), including the following elements:</p><dl>
   <dt><code>ind_id</code></dt><dd><p>Indicator IDs.</p></dd>
   <dt><code>ind</code></dt><dd><p>Indicator names. These might be modified to exclude any character, which
               is not in the model formula (e.g. hyphens, brackets, etc. are replaced by an
@@ -255,41 +258,37 @@ maximum level of non-linearity by setting the number of knots:</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the Baltic Sea demo data in this package</span>
-<span class='no'>ind_tbl</span> <span class='kw'>&lt;-</span> <span class='no'>ind_ex</span>[ ,-<span class='fl'>1</span>] <span class='co'># excluding the year</span>
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>ind_ex</span>$<span class='no'>Year</span>
+<span class='va'>ind_tbl</span> <span class='op'>&lt;-</span> <span class='va'>ind_ex</span><span class='op'>[</span> ,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='co'># excluding the year</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>ind_ex</span><span class='op'>$</span><span class='va'>Year</span>
 <span class='co'># Using the default settings</span>
-<span class='no'>trend_tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>model_trend</span>(<span class='no'>ind_tbl</span>, <span class='no'>time</span>)
+<span class='va'>trend_tbl</span> <span class='op'>&lt;-</span> <span class='fu'>model_trend</span><span class='op'>(</span><span class='va'>ind_tbl</span>, <span class='va'>time</span><span class='op'>)</span>
 <span class='co'># Change the training and test data assignment</span>
-<span class='fu'>model_trend</span>(<span class='no'>ind_tbl</span>, <span class='no'>time</span>, <span class='kw'>train</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>random</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 x 9</span><span>
+<span class='fu'>model_trend</span><span class='op'>(</span><span class='va'>ind_tbl</span>, <span class='va'>time</span>, train <span class='op'>=</span> <span class='fl'>.5</span>, random <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 x 9</span><span>
 #&gt;    ind_id ind        p_val model  ind_train  time_train pred    ci_up   ci_low  
 #&gt;     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>      1 TZA      9.41</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>      2 MS       8.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>      3 rCC      5.93</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>      4 Cops     5.85</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>      5 Micro    5.56</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>      6 rZPPP    5.76</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>      7 Sprat    1.23</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>      8 Herri…   7.40</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>      9 Stick…   5.34</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     10 Cod      5.97</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>     11 SPF      1.79</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>     12 LPF      3.03</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-3</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…</div><div class='input'><span class='co'># To keep the name when testing only one indicator, coerce vector to data frame</span>
-<span class='fu'>model_trend</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>MS</span> <span class='kw'>=</span> <span class='no'>ind_tbl</span>$<span class='no'>MS</span>), <span class='no'>time</span>, <span class='kw'>train</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>random</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 9</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>      1 TZA     0.063</span><span style='text-decoration: underline;'>3</span><span>   </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>      2 MS      0.442    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>      3 rCC     0.836    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>      4 Cops    0.791    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>      5 Micro   0.617    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>      6 rZPPP   0.391    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>      7 Sprat   0.152    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>      8 Herring 0.419    </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>      9 Stickle 0.000</span><span style='text-decoration: underline;'>209</span><span> </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     10 Cod     0.030</span><span style='text-decoration: underline;'>2</span><span>   </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span>     11 SPF     0.047</span><span style='text-decoration: underline;'>7</span><span>   </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span>     12 LPF     0.041</span><span style='text-decoration: underline;'>9</span><span>   </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [</span><span>… </span><span style='color: #949494;'>&lt;dbl [1</span><span>…</div><div class='input'><span class='co'># To keep the name when testing only one indicator, coerce vector to data frame</span>
+<span class='fu'>model_trend</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>MS <span class='op'>=</span> <span class='va'>ind_tbl</span><span class='op'>$</span><span class='va'>MS</span><span class='op'>)</span>, <span class='va'>time</span>, train <span class='op'>=</span> <span class='fl'>.5</span>, random <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 9</span><span>
 #&gt;   ind_id ind   p_val model  ind_train  time_train pred       ci_up     ci_low   
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>      1 MS    0.352 </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15</span><span>… </span><span style='color: #949494;'>&lt;dbl [15</span><span>…</div></span></pre>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>      1 MS    0.602 </span><span style='color: #949494;'>&lt;gam&gt;</span><span>  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15</span><span>… </span><span style='color: #949494;'>&lt;dbl [15</span><span>…</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -300,7 +299,7 @@ maximum level of non-linearity by setting the number of knots:</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -50,7 +54,6 @@ specific indicator(IND), pressure or IND~pressure combination. The `id` in
 the returned tibble can then be used for filtering tibbles when using the
 other IND~pressure modeling functions." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -68,7 +71,7 @@ other IND~pressure modeling functions." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,20 +93,20 @@ other IND~pressure modeling functions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Articles
      
@@ -120,7 +123,7 @@ other IND~pressure modeling functions." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     News
   </a>
@@ -129,13 +132,13 @@ other IND~pressure modeling functions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fa fa-send"></span>
+    <span class="fas fa-send"></span>
      
   </a>
 </li>
@@ -153,7 +156,7 @@ other IND~pressure modeling functions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extracts the IND~pressure IDs in the tibble.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/find_id.R'><code>R/find_id.R</code></a></small>
     <div class="hidden name"><code>find_id.Rd</code></div>
     </div>
 
@@ -164,7 +167,7 @@ the returned tibble can then be used for filtering tibbles when using the
 other IND~pressure modeling functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_id</span>(<span class='no'>mod_tbl</span>, <span class='kw'>ind_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>press_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>find_id</span><span class='op'>(</span><span class='va'>mod_tbl</span>, ind_name <span class='op'>=</span> <span class='cn'>NULL</span>, press_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,44 +205,42 @@ and/or `press`.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Using the Baltic Sea demo data:</span>
 <span class='co'># Look for specific INDs in combination with every pressure</span>
-<span class='no'>ind_name</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TZA"</span>,<span class='st'>"MS"</span>)
-<span class='fu'>find_id</span>(<span class='no'>model_gam_ex</span>, <span class='no'>ind_name</span>)$<span class='no'>id</span></div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14</div><div class='input'><span class='co'># Look for specific IND~pressure combinations</span>
-<span class='no'>press_name</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tsum"</span>, <span class='st'>"Swin"</span>)
-<span class='fu'>find_id</span>(<span class='no'>model_gam_ex</span>, <span class='no'>ind_name</span>, <span class='no'>press_name</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 17</span><span>
+<span class='va'>ind_name</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TZA"</span>,<span class='st'>"MS"</span><span class='op'>)</span>
+<span class='fu'>find_id</span><span class='op'>(</span><span class='va'>model_gam_ex</span>, <span class='va'>ind_name</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span>
+</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14</div><div class='input'><span class='co'># Look for specific IND~pressure combinations</span>
+<span class='va'>press_name</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Tsum"</span>, <span class='st'>"Swin"</span><span class='op'>)</span>
+<span class='fu'>find_id</span><span class='op'>(</span><span class='va'>model_gam_ex</span>, <span class='va'>ind_name</span>, <span class='va'>press_name</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 17</span><span>
 #&gt;      id ind   press model_type corrstruc    aic   edf  p_val signif_code    r_sq
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 TZA   Tsum  gam        none        49.8  1.92 0.146  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.138 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 TZA   Swin  gam        none        48.1  2.74 0.077</span><span style='text-decoration: underline;'>2</span><span> </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>          0.211 
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 TZA   Tsum  gam        none        49.8  1.92 0.145  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>          0.138 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 TZA   Swin  gam        none        48.1  2.74 0.077</span><span style='text-decoration: underline;'>8</span><span> </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>          0.211 
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8 MS    Tsum  gam        none      -</span><span style='color: #BB0000;'>247.</span><span>   1.00 0.883  </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>         -</span><span style='color: #BB0000;'>0.039</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     9 MS    Swin  gam        none      -</span><span style='color: #BB0000;'>256.</span><span>   1.74 0.018</span><span style='text-decoration: underline;'>7</span><span> </span><span style='color: #949494;'>"</span><span>*</span><span style='color: #949494;'>"</span><span>          0.257 
-#&gt; </span><span style='color: #949494;'># … with 7 more variables: expl_dev </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, nrmse </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
-#&gt; #   tac </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #949494;'>, pres_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, excl_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, model </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'><span class='co'># Look for specific pressures in combination with every IND</span>
-<span class='fu'>find_id</span>(<span class='no'>model_gam_ex</span>, <span class='kw'>press_name</span> <span class='kw'>=</span> <span class='no'>press_name</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 24 x 17</span><span>
-#&gt;       id ind   press model_type corrstruc    aic   edf   p_val signif_code
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 TZA   Tsum  gam        none        49.8  1.92 1.46</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2 TZA   Swin  gam        none        48.1  2.74 7.72</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     8 MS    Tsum  gam        none      -</span><span style='color: #BB0000;'>247.</span><span>   1.00 8.83</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     9 MS    Swin  gam        none      -</span><span style='color: #BB0000;'>256.</span><span>   1.74 1.87</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-2</span><span> </span><span style='color: #949494;'>"</span><span>*</span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>    15 rCC   Tsum  gam        none        92.7  1.   7.38</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span><span> </span><span style='color: #949494;'>"</span><span>***</span><span style='color: #949494;'>"</span><span>      
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>    16 rCC   Swin  gam        none       110.   1.   7.98</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>    22 Cops  Tsum  gam        none        31.0  1.77 3.85</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>    23 Cops  Swin  gam        none        32.4  1.   5.17</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    29 Micro Tsum  gam        none        95.1  1.   6.21</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-3</span><span> </span><span style='color: #949494;'>"</span><span>**</span><span style='color: #949494;'>"</span><span>       
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    30 Micro Swin  gam        none       101.   2.75 3.25</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-1</span><span> </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
-#&gt; </span><span style='color: #949494;'># … with 14 more rows, and 8 more variables: r_sq </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, expl_dev </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,
-#&gt; #   nrmse </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, ks_test </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, tac </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #949494;'>, pres_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>,
-#&gt; #   excl_outlier </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, model </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     9 MS    Swin  gam        none      -</span><span style='color: #BB0000;'>256.</span><span>   1.74 0.019</span><span style='text-decoration: underline;'>1</span><span> </span><span style='color: #949494;'>"</span><span>*</span><span style='color: #949494;'>"</span><span>          0.257 
+#&gt; </span><span style='color: #949494;'># … with 7 more variables: expl_dev &lt;dbl&gt;, nrmse &lt;dbl&gt;, ks_test &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   tac &lt;lgl&gt;, pres_outlier &lt;list&gt;, excl_outlier &lt;list&gt;, model &lt;list&gt;</span><span></div><div class='input'><span class='co'># Look for specific pressures in combination with every IND</span>
+<span class='fu'>find_id</span><span class='op'>(</span><span class='va'>model_gam_ex</span>, press_name <span class='op'>=</span> <span class='va'>press_name</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 24 x 17</span><span>
+#&gt;       id ind   press model_type corrstruc    aic   edf     p_val signif_code
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 TZA   Tsum  gam        none        49.8  1.92 0.145     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2 TZA   Swin  gam        none        48.1  2.74 0.077</span><span style='text-decoration: underline;'>8</span><span>    </span><span style='color: #949494;'>"</span><span>.</span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     8 MS    Tsum  gam        none      -</span><span style='color: #BB0000;'>247.</span><span>   1.00 0.883     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     9 MS    Swin  gam        none      -</span><span style='color: #BB0000;'>256.</span><span>   1.74 0.019</span><span style='text-decoration: underline;'>1</span><span>    </span><span style='color: #949494;'>"</span><span>*</span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>    15 rCC   Tsum  gam        none        92.7  1.   0.000</span><span style='text-decoration: underline;'>090</span><span>6 </span><span style='color: #949494;'>"</span><span>***</span><span style='color: #949494;'>"</span><span>      
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>    16 rCC   Swin  gam        none       110.   1.   0.798     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>    22 Cops  Tsum  gam        none        31.0  1.77 0.386     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>    23 Cops  Swin  gam        none        32.4  1.   0.517     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    29 Micro Tsum  gam        none        95.1  1.   0.006</span><span style='text-decoration: underline;'>32</span><span>   </span><span style='color: #949494;'>"</span><span>**</span><span style='color: #949494;'>"</span><span>       
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    30 Micro Swin  gam        none       101.   2.75 0.326     </span><span style='color: #949494;'>"</span><span> </span><span style='color: #949494;'>"</span><span>        
+#&gt; </span><span style='color: #949494;'># … with 14 more rows, and 8 more variables: r_sq &lt;dbl&gt;, expl_dev &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   nrmse &lt;dbl&gt;, ks_test &lt;dbl&gt;, tac &lt;lgl&gt;, pres_outlier &lt;list&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   excl_outlier &lt;list&gt;, model &lt;list&gt;</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -250,7 +251,7 @@ and/or `press`.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
