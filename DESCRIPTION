@@ -23,7 +23,7 @@ LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Depends:
-    R (>= 4.0)
+    R (>= 4.0
 Imports:
     cowplot (>= 1.1.1),
     dplyr (>= 1.0.4),
