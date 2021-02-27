@@ -23,7 +23,7 @@ LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Depends:
-    R (>= 4.0)
+    R (>= 3.6)
 Imports:
     cowplot (>= 1.1.1),
     dplyr (>= 1.0.4),
@@ -41,7 +41,7 @@ Imports:
     rlang (>= 0.4.10),
     shiny,
     stringr (>= 1.4.0),
-    tibble (>= 3.1.0),
+    tibble (>= 3.0.6),
     tidyr (>= 1.1.2),
     vegan
 Suggests:

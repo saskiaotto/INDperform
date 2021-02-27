@@ -1,6 +1,9 @@
 language: r
 cache: packages
 
+os:
+		- linux
+
 r:
   - oldrel
   - release
