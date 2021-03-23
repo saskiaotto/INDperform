@@ -41,14 +41,14 @@ plot_thresh <- function(thresh_sublist, choose_thresh_gam) {
   # below/above threshold value
   add_pred <- function(mod, t_val, which) {
     press_seq <- seq(from = min(mod$model[, 2]),
-      to = max(mod$model[, 2]), length.out = 200) # here 200 -> rougly 100 per regime
+      to = max(mod$model[, 2]), length.out = 200) # here 200 -> roughly 100 per regime
     if (which == "below") {
       new_dat <- data.frame(press = press_seq,
-        t_var = rep((t_val - (t_val * 0.1)),
+        t_var = rep((t_val - (abs(t_val) * 0.1)),
           times = 200))
     } else {
       new_dat <- data.frame(press = press_seq,
-        t_var = rep((t_val + (t_val * 0.1)),
+        t_var = rep((t_val + (abs(t_val) * 0.1)),
           times = 200))
     }
     names(new_dat) <- names(mod$original_data)[2:3]
