@@ -38,7 +38,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 <!-- 	display: block; -->
 <!-- 	width: 40%;">INDperform website</a> -->
 
-## Overview
+## OVERVIEW
 
 INDperform is an R package for validating the performance of ecological state indicators and assessing the ecological status based on a suite of indicators.
 
