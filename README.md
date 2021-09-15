@@ -46,7 +46,7 @@ status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project
 
 <!--    width: 40%;">INDperform website</a> -->
 
-## OVERVIEW
+## Overview
 
 INDperform is an R package for validating the performance of ecological
 state indicators and assessing the ecological status based on a suite of
