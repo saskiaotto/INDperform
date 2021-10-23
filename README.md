@@ -5,9 +5,10 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml/badge.svg)](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project.org/package=INDperform)
-[![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
+[![](https://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
 <!-- badges: end -->
 
 <!-- The following does not work for GitHub README files -->
@@ -83,7 +84,7 @@ statistical tools implemented in this package see
 *Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018):
 A quantitative framework for selecting and validating food web
 indicators. Ecological Indicators, 84: 619-631, doi:
-[https://doi.org/10.1016/j.ecolind.2017.05.045](http://www.sciencedirect.com/science/article/pii/S1470160X1730300X)*
+[https://doi.org/10.1016/j.ecolind.2017.05.045](https://www.sciencedirect.com/science/article/abs/pii/S1470160X1730300X)*
 
 ## Important News
 

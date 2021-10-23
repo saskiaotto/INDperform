@@ -3,11 +3,10 @@
 
 <!-- badges: start -->
 
-[![Build
-Status](https://travis-ci.com/saskiaotto/INDperform.svg?branch=master)](https://travis-ci.com/saskiaotto/INDperform)
+[![R-CMD-check](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml/badge.svg)](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project.org/package=INDperform)
-[![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
+[![](https://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
 <!-- badges: end -->
 
 INDperform is an R package for validating the performance of ecological
@@ -171,13 +170,14 @@ grid.arrange(
 Combine IND with pressures and select training and test period –\>
 default is training data = first 90% of obs)
 
-``` r
+````` r
 dat_init <- ind_init(ind_tbl = ind_ex[ ,-1],
   press_tbl = press_ex[ ,-1], time = ind_ex$Year,
     train = 0.9, random = FALSE)
-```
+````
 
 #### B.2a Model responses using simple GAMs (using default settings here)
+`````
 
 ``` r
 m_gam <- model_gam(init_tbl = dat_init, k = 5,
@@ -392,14 +392,14 @@ ind_sub <- ind_noNA[ , c(2,3,4,12,13)]
 
 #### D.1 Euclidean distance in state space
 
-``` r
+````` r
 ed <- statespace_ed(x = ind_sub, time = ind_noNA$Year, ref_time = ind_noNA$Year[1] )
 plot_statespace_ed(ed) 
-```
+````
 
-#### D.2 Convex hull of state space between 2 indicators
-
+#### D.2 Convex hull of state space between 2 indicators 
 ( or between 2 variables from a multivariate analysis)
+`````
 
 ``` r
 ch <- statespace_ch(x = ind_sub$SPF, y = ind_sub$LPF, time = ind_noNA$Year,
