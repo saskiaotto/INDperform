@@ -53,13 +53,13 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="reference/index.html">
-    <span class="fas fa-file-code-o"></span>
+    <span class="fa fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
@@ -83,7 +83,7 @@
 </li>
 <li>
   <a href="news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     News
   </a>
@@ -92,13 +92,13 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="mailto:saskia.otto@uni-hamburg.de">
-    <span class="fas fa-send"></span>
+    <span class="fa fa-send"></span>
      
   </a>
 </li>
@@ -166,7 +166,7 @@ ________________________________________________________________________________
 <a href="#workflow" class="anchor"></a>Workflow</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://saskiaotto.github.io/INDperform/">INDperform</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span>
 
 <span class="co"># Using the demo data</span>
@@ -221,14 +221,12 @@ ________________________________________________________________________________
 <h4 class="hasAnchor">
 <a href="#b1-initialize-data" class="anchor"></a>B.1 Initialize data</h4>
 <p>Combine IND with pressures and select training and test period –&gt; default is training data = first 90% of obs)</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dat_init</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ind_init.html">ind_init</a></span><span class="op">(</span>ind_tbl <span class="op">=</span> <span class="va">ind_ex</span><span class="op">[</span> ,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
-  press_tbl <span class="op">=</span> <span class="va">press_ex</span><span class="op">[</span> ,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>, time <span class="op">=</span> <span class="va">ind_ex</span><span class="op">$</span><span class="va">Year</span>,
-    train <span class="op">=</span> <span class="fl">0.9</span>, random <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="b2a-model-responses-using-simple-gams-using-default-settings-here" class="section level4">
-<h4 class="hasAnchor">
-<a href="#b2a-model-responses-using-simple-gams-using-default-settings-here" class="anchor"></a>B.2a Model responses using simple GAMs (using default settings here)</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dat_init &lt;-<span class="st"> </span><span class="kw">ind_init</span>(<span class="dt">ind_tbl =</span> ind_ex[ ,<span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">press_tbl =</span> press_ex[ ,<span class="op">-</span><span class="dv">1</span>], <span class="dt">time =</span> ind_ex<span class="op">$</span>Year,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">train =</span> <span class="fl">0.9</span>, <span class="dt">random =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">````</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#### B.2a Model responses using simple GAMs (using default settings here)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m_gam</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/model_gam.html">model_gam</a></span><span class="op">(</span>init_tbl <span class="op">=</span> <span class="va">dat_init</span>, k <span class="op">=</span> <span class="fl">5</span>,
     family <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">gaussian</a></span><span class="op">(</span><span class="op">)</span>, excl_outlier <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
@@ -424,14 +422,12 @@ ________________________________________________________________________________
 <div id="d1-euclidean-distance-in-state-space" class="section level4">
 <h4 class="hasAnchor">
 <a href="#d1-euclidean-distance-in-state-space" class="anchor"></a>D.1 Euclidean distance in state space</h4>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ed</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/statespace_ed.html">statespace_ed</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ind_sub</span>, time <span class="op">=</span> <span class="va">ind_noNA</span><span class="op">$</span><span class="va">Year</span>, ref_time <span class="op">=</span> <span class="va">ind_noNA</span><span class="op">$</span><span class="va">Year</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">)</span>
-<span class="fu"><a href="reference/plot_statespace_ed.html">plot_statespace_ed</a></span><span class="op">(</span><span class="va">ed</span><span class="op">)</span> </code></pre></div>
-</div>
-<div id="d2-convex-hull-of-state-space-between-2-indicators" class="section level4">
-<h4 class="hasAnchor">
-<a href="#d2-convex-hull-of-state-space-between-2-indicators" class="anchor"></a>D.2 Convex hull of state space between 2 indicators</h4>
-<p>( or between 2 variables from a multivariate analysis)</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>ed &lt;-<span class="st"> </span><span class="kw">statespace_ed</span>(<span class="dt">x =</span> ind_sub, <span class="dt">time =</span> ind_noNA<span class="op">$</span>Year, <span class="dt">ref_time =</span> ind_noNA<span class="op">$</span>Year[<span class="dv">1</span>] )</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">plot_statespace_ed</span>(ed) </span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">````</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#### D.2 Convex hull of state space between 2 indicators </span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>( or between <span class="dv">2</span> variables from a multivariate analysis)</span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ch</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/statespace_ch.html">statespace_ch</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ind_sub</span><span class="op">$</span><span class="va">SPF</span>, y <span class="op">=</span> <span class="va">ind_sub</span><span class="op">$</span><span class="va">LPF</span>, time <span class="op">=</span> <span class="va">ind_noNA</span><span class="op">$</span><span class="va">Year</span>,
     period_ref <span class="op">=</span> <span class="fl">1984</span><span class="op">:</span><span class="fl">1986</span>, period_current <span class="op">=</span> <span class="fl">2004</span><span class="op">:</span><span class="fl">2008</span><span class="op">)</span>
@@ -606,9 +602,9 @@ ________________________________________________________________________________
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=INDperform">https://​cloud.r-project.org/​package=INDperform</a>
 </li>
-<li>Browse source code at <br><a href="https://github.com/SaskiaAOtto/INDperform/">https://​github.com/​SaskiaAOtto/​INDperform/​</a>
+<li>Browse source code at <br><a href="https://github.com/saskiaotto/INDperform/">https://​github.com/​saskiaotto/​INDperform/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/SaskiaAOtto/INDperform/issues">https://​github.com/​SaskiaAOtto/​INDperform/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/saskiaotto/INDperform/issues">https://​github.com/​saskiaotto/​INDperform/​issues</a>
 </li>
 </ul>
 </div>
@@ -634,9 +630,9 @@ ________________________________________________________________________________
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.com/saskiaotto/INDperform"><img src="https://travis-ci.com/saskiaotto/INDperform.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml"><img src="https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://CRAN.R-project.org/package=INDperform"><img src="https://www.r-pkg.org/badges/version/INDperform" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/package=INDperform"><img src="http://cranlogs.r-pkg.org/badges/INDperform"></a></li>
+<li><a href="https://cran.r-project.org/package=INDperform"><img src="https://cranlogs.r-pkg.org/badges/INDperform"></a></li>
 </ul>
 </div>
 </div>

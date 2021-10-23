@@ -89,14 +89,11 @@ file.
 
 ## <i class="fas fa-running" aria-hidden="true"></i> Getting started
 
-Install the latest version from CRAN or the development version from
-GitHub:
+Install the development version from GitHub using ‘remotes’:
 
 ``` r
-install.packages("INDperform")
-
-# install.packages("devtools")
-devtools::install_github("saskiaotto/INDperform")
+# install.packages("remotes")
+remotes::install_github("saskiaotto/INDperform")
 ```
 
 INDperform offers function that can be applied individually to some

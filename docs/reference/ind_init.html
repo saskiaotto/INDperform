@@ -92,13 +92,13 @@ with all pressures provided as input." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-file-code-o"></span>
+    <span class="fa fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
@@ -122,7 +122,7 @@ with all pressures provided as input." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     News
   </a>
@@ -131,13 +131,13 @@ with all pressures provided as input." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fas fa-send"></span>
+    <span class="fa fa-send"></span>
      
   </a>
 </li>
@@ -155,7 +155,7 @@ with all pressures provided as input." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Initialization of indicator-pressure models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/ind_init.R'><code>R/ind_init.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/saskiaotto/INDperform/blob/master/R/ind_init.R'><code>R/ind_init.R</code></a></small>
     <div class="hidden name"><code>ind_init.Rd</code></div>
     </div>
 
@@ -256,28 +256,28 @@ e.g. <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</
 <span class='co'># Assign randomly 50% of the observations as training data and</span>
 <span class='co'># the other 50% as test data</span>
 <span class='fu'>ind_init</span><span class='op'>(</span><span class='va'>ind_tbl</span>, <span class='va'>press_tbl</span>, <span class='va'>time</span>, train <span class='op'>=</span> <span class='fl'>0.5</span>, random <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 84 x 10</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 84 × 10</span>
 #&gt;       id ind   press  ind_train  press_train time_train ind_test   press_test
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 TZA   Tsum   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2 TZA   Swin   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3 TZA   Pwin   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4 TZA   Nwin   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5 TZA   Fsprat </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6 TZA   Fher   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7 TZA   Fcod   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8 MS    Tsum   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9 MS    Swin   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10 MS    Pwin   </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># … with 74 more rows, and 2 more variables: time_test &lt;list&gt;, train_na &lt;list&gt;</span><span></div><div class='input'><span class='co'># To keep the name when testing only one indicator and pressure, coerce both vectors</span>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1 TZA   Tsum   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span>     2 TZA   Swin   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span>     3 TZA   Pwin   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span>     4 TZA   Nwin   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span>     5 TZA   Fsprat <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span>     6 TZA   Fher   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span>     7 TZA   Fcod   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span>     8 MS    Tsum   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span>     9 MS    Swin   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>10</span>    10 MS    Pwin   <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #949494;'># … with 74 more rows, and 2 more variables: time_test &lt;list&gt;, train_na &lt;list&gt;</span></div><div class='input'><span class='co'># To keep the name when testing only one indicator and pressure, coerce both vectors</span>
 <span class='co'># data frames</span>
 <span class='fu'>ind_init</span><span class='op'>(</span>ind_tbl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>MS <span class='op'>=</span> <span class='va'>ind_tbl</span><span class='op'>$</span><span class='va'>MS</span><span class='op'>)</span>, press_tbl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Tsum <span class='op'>=</span> <span class='va'>press_tbl</span><span class='op'>$</span><span class='va'>Tsum</span><span class='op'>)</span>,
  <span class='va'>time</span>, train <span class='op'>=</span> <span class='fl'>.5</span>, random <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 10</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 10</span>
 #&gt;      id ind   press ind_train  press_train time_train ind_test   press_test
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 MS    Tsum  </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>  </span><span style='color: #949494;'>&lt;int [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span> </span><span style='color: #949494;'>&lt;dbl [15]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># … with 2 more variables: time_test &lt;list&gt;, train_na &lt;list&gt;</span><span></div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span>     1 MS    Tsum  <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>  <span style='color: #949494;'>&lt;int [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span> <span style='color: #949494;'>&lt;dbl [15]&gt;</span>
+#&gt; <span style='color: #949494;'># … with 2 more variables: time_test &lt;list&gt;, train_na &lt;list&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -61,15 +61,12 @@ ________________________________________________________________________________
 
 ## <i class="fas fa-running" aria-hidden="true"></i> Getting started
 
-Install the latest version from CRAN or the development version from GitHub:
+Install the development version from GitHub using 'remotes':
 
 ```{r, eval = FALSE}
-install.packages("INDperform")
-
-# install.packages("devtools")
-devtools::install_github("saskiaotto/INDperform")
+# install.packages("remotes")
+remotes::install_github("saskiaotto/INDperform")
 ```
-
 
 INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto *et al.* (2018) (see also the package's cheatsheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto *et al.*, 2018).
 

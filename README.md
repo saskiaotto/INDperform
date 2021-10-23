@@ -53,17 +53,11 @@ indicators.
 
 ## Installation
 
-Install the CRAN version:
+Install the development version from GitHub using ‘remotes’:
 
 ``` r
-install.packages("INDperform")
-```
-
-Or install the development version from GitHub:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("saskiaotto/INDperform")
+# install.packages("remotes")
+remotes::install_github("saskiaotto/INDperform")
 ```
 
 If you encounter a clear bug, please file a minimal reproducible example

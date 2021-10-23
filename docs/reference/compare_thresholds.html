@@ -95,13 +95,13 @@ values (above and below the t_val)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-file-code-o"></span>
+    <span class="fa fa-file-code-o"></span>
      
     Datasets &amp; Functions
   </a>
@@ -125,7 +125,7 @@ values (above and below the t_val)." />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     News
   </a>
@@ -134,13 +134,13 @@ values (above and below the t_val)." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/saskiaotto/INDperform">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../mailto:saskia.otto@uni-hamburg.de">
-    <span class="fas fa-send"></span>
+    <span class="fa fa-send"></span>
      
   </a>
 </li>
@@ -158,7 +158,7 @@ values (above and below the t_val)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compare changes in t_var based on different threshold levels.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SaskiaAOtto/INDperform/blob/master/R/compare_thresholds.R'><code>R/compare_thresholds.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/saskiaotto/INDperform/blob/master/R/compare_thresholds.R'><code>R/compare_thresholds.R</code></a></small>
     <div class="hidden name"><code>compare_thresholds.Rd</code></div>
     </div>
 
@@ -206,20 +206,20 @@ values (above and below the t_val).</p>
 <span class='va'>upper</span> <span class='op'>&lt;-</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>t_var</span>, prob <span class='op'>=</span> <span class='fl'>.8</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>t_val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='va'>lower</span>, to <span class='op'>=</span> <span class='va'>upper</span>, by <span class='op'>=</span> <span class='op'>(</span><span class='va'>upper</span> <span class='op'>-</span> <span class='va'>lower</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>20</span><span class='op'>)</span>
 <span class='fu'>compare_thresholds</span><span class='op'>(</span><span class='va'>t_val</span>, <span class='va'>t_var</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 21 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 21 × 2</span>
 #&gt;     t_val change
-#&gt;     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> -</span><span style='color: #BB0000;'>1.45</span><span>  TRUE  
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> -</span><span style='color: #BB0000;'>1.35</span><span>  TRUE  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> -</span><span style='color: #BB0000;'>1.25</span><span>  FALSE 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> -</span><span style='color: #BB0000;'>1.15</span><span>  FALSE 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> -</span><span style='color: #BB0000;'>1.05</span><span>  FALSE 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> -</span><span style='color: #BB0000;'>0.945</span><span> FALSE 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> -</span><span style='color: #BB0000;'>0.845</span><span> TRUE  
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> -</span><span style='color: #BB0000;'>0.745</span><span> FALSE 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> -</span><span style='color: #BB0000;'>0.644</span><span> FALSE 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> -</span><span style='color: #BB0000;'>0.544</span><span> TRUE  
-#&gt; </span><span style='color: #949494;'># … with 11 more rows</span><span></div></span></pre>
+#&gt;     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'> 1</span> -<span style='color: #BB0000;'>1.45</span>  TRUE  
+#&gt; <span style='color: #BCBCBC;'> 2</span> -<span style='color: #BB0000;'>1.35</span>  TRUE  
+#&gt; <span style='color: #BCBCBC;'> 3</span> -<span style='color: #BB0000;'>1.25</span>  FALSE 
+#&gt; <span style='color: #BCBCBC;'> 4</span> -<span style='color: #BB0000;'>1.15</span>  FALSE 
+#&gt; <span style='color: #BCBCBC;'> 5</span> -<span style='color: #BB0000;'>1.05</span>  FALSE 
+#&gt; <span style='color: #BCBCBC;'> 6</span> -<span style='color: #BB0000;'>0.945</span> FALSE 
+#&gt; <span style='color: #BCBCBC;'> 7</span> -<span style='color: #BB0000;'>0.845</span> TRUE  
+#&gt; <span style='color: #BCBCBC;'> 8</span> -<span style='color: #BB0000;'>0.745</span> FALSE 
+#&gt; <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>0.644</span> FALSE 
+#&gt; <span style='color: #BCBCBC;'>10</span> -<span style='color: #BB0000;'>0.544</span> TRUE  
+#&gt; <span style='color: #949494;'># … with 11 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
