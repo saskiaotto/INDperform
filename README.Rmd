@@ -15,9 +15,9 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 # INDperform <img src="man/figures/logo.png" align="right" width="100" height="112" />
 
 <!-- badges: start -->
-
+[![R-CMD-check](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml/badge.svg)](https://github.com/saskiaotto/INDperform/actions/workflows/check-full.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project.org/package=INDperform)
-[![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
+[![](https://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
 <!-- badges: end -->
 
 <!-- The following does not work for GitHub README files -->
@@ -65,7 +65,7 @@ If you encounter a clear bug, please file a minimal reproducible example on gith
 
 For guidance on how to apply the functions step-by-step see also the [INDperform cheatsheet](https://raw.githubusercontent.com/saskiaotto/cheatsheets/476bad4a8876939a7b3e1784a5bf61567ed4a715/Cheatsheet_INDperform_v0.1.0.pdf). We are currently working on the Vignette but if you want more information on the framework for quantifying IND performances and its statistical tools implemented in this package see
 
-*Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018): A quantitative framework for selecting and validating food web indicators. Ecological Indicators, 84: 619-631, doi: [https://doi.org/10.1016/j.ecolind.2017.05.045](http://www.sciencedirect.com/science/article/pii/S1470160X1730300X)*
+*Otto, S.A., Kadin, M., Casini, M., Torres, M.A., Blenckner, T. (2018): A quantitative framework for selecting and validating food web indicators. Ecological Indicators, 84: 619-631, doi: [https://doi.org/10.1016/j.ecolind.2017.05.045](https://www.sciencedirect.com/science/article/abs/pii/S1470160X1730300X)*
 
 
 ## Important News

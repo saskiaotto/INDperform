@@ -17,7 +17,7 @@ Description: An implementation of the 7-step approach suggested by Otto et al.
     are very generic and can be used to test any type of indicator (e.g. social 
     or economic indicators).
 URL: https://saskiaotto.github.io/INDperform/
-BugReports: https://github.com/SaskiaAOtto/INDperform/issues
+BugReports: https://github.com/saskiaotto/INDperform/issues
 License: GPL
 LazyData: true
 Encoding: UTF-8
