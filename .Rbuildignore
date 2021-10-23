@@ -8,6 +8,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^\.travis.yml$
 ^index.md$
 ^index.Rmd$
+^\.github$

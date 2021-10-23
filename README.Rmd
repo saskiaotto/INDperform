@@ -15,7 +15,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 # INDperform <img src="man/figures/logo.png" align="right" width="100" height="112" />
 
 <!-- badges: start -->
-[![Build Status](https://travis-ci.com/saskiaotto/INDperform.svg?branch=master)](https://travis-ci.com/saskiaotto/INDperform)
+
 [![CRAN status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project.org/package=INDperform)
 [![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
 <!-- badges: end -->

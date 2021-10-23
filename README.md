@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Build
-Status](https://travis-ci.com/saskiaotto/INDperform.svg?branch=master)](https://travis-ci.com/saskiaotto/INDperform)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/INDperform)](https://CRAN.R-project.org/package=INDperform)
 [![](http://cranlogs.r-pkg.org/badges/INDperform)](https://cran.r-project.org/package=INDperform)
