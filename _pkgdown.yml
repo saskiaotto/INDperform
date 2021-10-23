@@ -73,7 +73,7 @@ reference:
       - ind_init
       - model_gam
       - model_gamm
-      - select model
+      - select_model
       - merge_models
       - calc_deriv
       - select_interaction
@@ -119,10 +119,10 @@ reference:
       - get_sum_output
       - is_value
       - loocv_thresh_gam
-      - nmrse
+      - nrmse
       - pipe
       - place_text
       - plot_thresh
-      - sort_output
+      - sort_output_tbl
       - test_tac
       - thresh_gam

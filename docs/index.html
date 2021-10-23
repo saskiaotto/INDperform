@@ -152,12 +152,10 @@ ________________________________________________________________________________
 <div id="-getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#-getting-started" class="anchor"></a><i class="fas fa-running" aria-hidden="true"></i> Getting started</h2>
-<p>Install the latest version from CRAN or the development version from GitHub:</p>
+<p>Install the development version from GitHub using ‘remotes’:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"INDperform"</span><span class="op">)</span>
-
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"saskiaotto/INDperform"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"saskiaotto/INDperform"</span><span class="op">)</span></code></pre></div>
 <p>INDperform offers function that can be applied individually to some extent but mostly build upon each other to follow the 7-step process proposed in Otto <em>et al.</em> (2018) (see also the package’s cheatsheet for detailed instructions). For demonstration purposes the package provides a dataset of food web indicators and pressure variables in the Central Baltic Sea (modified from Otto <em>et al.</em>, 2018).</p>
 <p>This is a suggested workflow demonstrated on the example data included in the package:</p>
 </div>
