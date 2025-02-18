@@ -23,10 +23,10 @@ tailored to meet regional conditions and specific management needs as
 described in Otto *et al.* (2018). The package builds upon the tidy data
 principles and offers functions to
 
-  - identify temporal indicator changes,
-  - model relationships to pressures while taking non-linear responses
-    and temporal autocorrelation into account, and to
-  - quantify the robustness of these models.
+- identify temporal indicator changes,
+- model relationships to pressures while taking non-linear responses and
+  temporal autocorrelation into account, and to
+- quantify the robustness of these models.
 
 These functions can be executed on any number of indicators and
 pressures. Based on these analyses and a scoring scheme for selected
@@ -46,7 +46,7 @@ Fisheries
 Science](https://www.biologie.uni-hamburg.de/en/einrichtungen/imf.html)
 (IMF), University of Hamburg, Germany***
 
------
+------------------------------------------------------------------------
 
 ## <i class="fa fa-newspaper-o" aria-hidden="true"></i> Latest News
 
@@ -58,15 +58,15 @@ for unwanted characters in indicator or pressure names which caused
 models to not build. For more details see the
 [NEWS](https://saskiaotto.github.io/INDperform/news/index.html) file.
 
------
+------------------------------------------------------------------------
 
 In Version 0.2.1, a minor bug with different internal test results under
 different R versions was fixed by modifying some tests. But this bug did
 not affect the modelling results or performance of the previous version.
 
------
+------------------------------------------------------------------------
 
-Version 0.2.0 has been released on CRAN 2019-02-10\! The new version
+Version 0.2.0 has been released on CRAN 2019-02-10! The new version
 includes a few internal changes as adjustments to updated packages it
 depends on. Major changes include a new NRMSE calculation based on the
 standard deviation and back-transformation (see
@@ -78,7 +78,7 @@ more information see the
 [news](https://github.com/saskiaotto/INDperform/blob/master/NEWS.md)
 file.
 
------
+------------------------------------------------------------------------
 
 ## Cheat sheet
 
@@ -167,14 +167,13 @@ grid.arrange(
 Combine IND with pressures and select training and test period –\>
 default is training data = first 90% of obs)
 
-````` r
+``` r
 dat_init <- ind_init(ind_tbl = ind_ex[ ,-1],
   press_tbl = press_ex[ ,-1], time = ind_ex$Year,
     train = 0.9, random = FALSE)
-````
+```
 
 #### B.2a Model responses using simple GAMs (using default settings here)
-`````
 
 ``` r
 m_gam <- model_gam(init_tbl = dat_init, k = 5,
@@ -275,8 +274,8 @@ sel <- find_id(
 )$id
 
 m_merged$nrmse[sel] <- calc_nrmse(
-    press = ind_init_ex$press_test[sel], 
-    ind = ind_init_ex$ind_test[sel],
+    press = dat_init$press_test[sel], 
+    ind = dat_init$ind_test[sel],
     model = m_merged$model[sel], 
     transformation = "log"
 )
@@ -389,14 +388,14 @@ ind_sub <- ind_noNA[ , c(2,3,4,12,13)]
 
 #### D.1 Euclidean distance in state space
 
-````` r
+``` r
 ed <- statespace_ed(x = ind_sub, time = ind_noNA$Year, ref_time = ind_noNA$Year[1] )
 plot_statespace_ed(ed) 
-````
+```
 
-#### D.2 Convex hull of state space between 2 indicators 
+#### D.2 Convex hull of state space between 2 indicators
+
 ( or between 2 variables from a multivariate analysis)
-`````
 
 ``` r
 ch <- statespace_ch(x = ind_sub$SPF, y = ind_sub$LPF, time = ind_noNA$Year,
@@ -407,7 +406,7 @@ plot_statespace_ch(ch) +
     ggplot2::ylab("Large Predatory Fish")
 ```
 
------
+------------------------------------------------------------------------
 
 ##### NOTE FOR SPATIAL DATA:
 
@@ -417,7 +416,7 @@ if you have spatial data you could still use all functions except for
 `model_gamm()` as it incorporates only temporal autocorrelation
 structures (AR and ARMA). Simply do the following and use as `time`
 vector in `ind_init()` an integer variable with **consecutive** numbers
-(with no gaps\!) representing your different stations.
+(with no gaps!) representing your different stations.
 
 ``` r
 ### Use of station numbers instead of time vector
@@ -426,7 +425,7 @@ dat_init <- ind_init(ind_tbl = your_indicator_dfr,
   press_tbl = your_pressure_dfr, time = station_id)
 ```
 
------
+------------------------------------------------------------------------
 
 ## <i class="fas fa-info" aria-hidden="true"></i> Details
 
@@ -437,64 +436,62 @@ dat_init <- ind_init(ind_tbl = your_indicator_dfr,
 Each IND is modeled as a function of time or a single pressure variable
 using Generalized Additive Models (GAMs) (based on the mgcv package).
 
-  - `model_trend()` models the long-term trend of each IND and returns a
-    tibble with all GAM outputs, the model object, and predicted time
-    series per IND.
-  - `ind_init()` combines the time vector and the IND and press data
-    into one tibble with defined training and test observations. All
-    INDs are combined with all pressures.
-  - `model_gam()` applies GAMs to each IND\~pressure combination created
-    in `ind_init()` and returns a tibble including the model output and
-    diagnostics.
-  - `model_gamm()` accounts for temporal autocorrelation in the time
-    series by including correlation structures in the model (using
-    Generalized Additive Mixed Models (GAMMs): AR1, AR2, ARMA1.1,
-    ARMA2.1, ARMA1.2.
-  - `select_model()` selects for each IND\~pressure the best correlation
-    structure computed with `model_gamm()` based on the Akaike
-    Information Criterion.
-  - `merge_models()` merges any 2 model output tibbles.
-  - `calc_deriv()` calculates for non-linear responses the 1st
-    derivative of the smoothing function and the proportion of pressure
-    range in which the IND shows a response. Output is input tibble with
-    few additional variables, incl. mean and confidence interval of
-    smoothing function and derivatives from bootstrapped GAMs.
-  - `test_interaction()` tests for each significant GAM(M) whether a
-    selection of pressure variables modifies the IND response to the
-    original pressure using a threshold-GAM formulation. Output is input
-    tibble with few additional variables.
+- `model_trend()` models the long-term trend of each IND and returns a
+  tibble with all GAM outputs, the model object, and predicted time
+  series per IND.
+- `ind_init()` combines the time vector and the IND and press data into
+  one tibble with defined training and test observations. All INDs are
+  combined with all pressures.
+- `model_gam()` applies GAMs to each IND~pressure combination created in
+  `ind_init()` and returns a tibble including the model output and
+  diagnostics.
+- `model_gamm()` accounts for temporal autocorrelation in the time
+  series by including correlation structures in the model (using
+  Generalized Additive Mixed Models (GAMMs): AR1, AR2, ARMA1.1, ARMA2.1,
+  ARMA1.2.
+- `select_model()` selects for each IND~pressure the best correlation
+  structure computed with `model_gamm()` based on the Akaike Information
+  Criterion.
+- `merge_models()` merges any 2 model output tibbles.
+- `calc_deriv()` calculates for non-linear responses the 1st derivative
+  of the smoothing function and the proportion of pressure range in
+  which the IND shows a response. Output is input tibble with few
+  additional variables, incl. mean and confidence interval of smoothing
+  function and derivatives from bootstrapped GAMs.
+- `test_interaction()` tests for each significant GAM(M) whether a
+  selection of pressure variables modifies the IND response to the
+  original pressure using a threshold-GAM formulation. Output is input
+  tibble with few additional variables.
 
 To show the model diagnostics or complete model results
 
-  - `plot_diagnostics()` creates a tibble with 6 individual plots
-    (ggplot2 objects) and one combined plot (cowplot object):
-      - `$cooks_dist` shows the cooks distance of all observations.
-      - `$acf_plot` shows the autocorrelation function.
-      - `$pacf_plot` shows the partial autocorrelation function.
-      - `$resid_plot` shows residuals vs. fitted values.
-      - `$qq_plot` shows the quantile-quantile plot for normality.
-      - `$gcvv_plot` shows the development of the generalized
-        cross-validation value at different thresholds level of the
-        modifying pressure variable in the threshold-GAM.
-      - `$all_plots` shows all five (six if threshold-GAM) plots
-        together.
-  - `plot_trend()` creates a list of ggplot2 objects with all IND trends
-    from the input tibble.
-  - `plot_model()` creates a tibble with 4 individual plots (ggplot2
-    objects) and one combined plot (cowplot object):
-      - `$response_plot` shows the observed and predicted IND response
-        to the single pressure (based on the training data).
-      - `$predict_plot` shows the test (and train) observations
-        predicted from the model. Included is the normalized root mean
-        square error (NRMSE) for the test data as a measure of model
-        robustness.
-      - `$deriv_plot` shows the first derivative of non-linear
-        IND\~pressure response curves and the proportion of the pressure
-        range where the IND shows no further significant change (i.e.,
-        slope approximates zero).
-      - `$thresh_plot` shows the IND response curve under a low and high
-        regime of an interacting 2nd pressure variable.
-      - `$all_plots` shows all plots together.
+- `plot_diagnostics()` creates a tibble with 6 individual plots (ggplot2
+  objects) and one combined plot (cowplot object):
+  - `$cooks_dist` shows the cooks distance of all observations.
+  - `$acf_plot` shows the autocorrelation function.
+  - `$pacf_plot` shows the partial autocorrelation function.
+  - `$resid_plot` shows residuals vs. fitted values.
+  - `$qq_plot` shows the quantile-quantile plot for normality.
+  - `$gcvv_plot` shows the development of the generalized
+    cross-validation value at different thresholds level of the
+    modifying pressure variable in the threshold-GAM.
+  - `$all_plots` shows all five (six if threshold-GAM) plots together.
+- `plot_trend()` creates a list of ggplot2 objects with all IND trends
+  from the input tibble.
+- `plot_model()` creates a tibble with 4 individual plots (ggplot2
+  objects) and one combined plot (cowplot object):
+  - `$response_plot` shows the observed and predicted IND response to
+    the single pressure (based on the training data).
+  - `$predict_plot` shows the test (and train) observations predicted
+    from the model. Included is the normalized root mean square error
+    (NRMSE) for the test data as a measure of model robustness.
+  - `$deriv_plot` shows the first derivative of non-linear IND~pressure
+    response curves and the proportion of the pressure range where the
+    IND shows no further significant change (i.e., slope approximates
+    zero).
+  - `$thresh_plot` shows the IND response curve under a low and high
+    regime of an interacting 2nd pressure variable.
+  - `$all_plots` shows all plots together.
 
 #### Scoring IND performance based on model output
 
@@ -534,45 +531,40 @@ each(sub)criterion is based on as well as the condition to determine the
 actual score. `crit_scores_tmpl` is set as default in the `scoring()`
 function and, if needed, should be modified prior to using the function.
 
-  - `scoring()` models the long-term trend of each IND and returns a
-    tibble with all GAM outputs, the model object, and predicted time
-    series per IND.
-  - `expect_resp()` runs a shiny app to modify manually the score for
-    the sub-criterion 10.1 (IND response as expected) based on the
-    response curves (default score 1 for neutral / no expectation).
+- `scoring()` models the long-term trend of each IND and returns a
+  tibble with all GAM outputs, the model object, and predicted time
+  series per IND.
+- `expect_resp()` runs a shiny app to modify manually the score for the
+  sub-criterion 10.1 (IND response as expected) based on the response
+  curves (default score 1 for neutral / no expectation).
 
 <p align="center">
-
 <img src="man/figures/shiny_app_expect_resp.png" width="700">
-
 </p>
 
 <br>
 
-  - `summary_sc()` provides a user-friendly summary of the scoring
-    output tibble.
-  - `plot_spiechart()` generates a list of ggplot2 objects (one for each
-    IND). A spie chart superimposes a normal pie chart with a modified
-    polar area chart to permit the comparison of two sets of related
-    data.
+- `summary_sc()` provides a user-friendly summary of the scoring output
+  tibble.
+- `plot_spiechart()` generates a list of ggplot2 objects (one for each
+  IND). A spie chart superimposes a normal pie chart with a modified
+  polar area chart to permit the comparison of two sets of related data.
 
 <p align="center">
-
 <img src="man/figures/README_spiechart.png" width="400" height="300">
-
 </p>
 
 <br>
 
 **Examining redundancies and selecting robust indicator suites**
 
-  - `dist_sc()` Calculates a (Euclidean) distance matrix based on all
-    scores.
-  - `clust_sc()` applies a hierarchical group-average cluster analysis,
-    returns a `hclust` object and prints the Gower distance and
-    Cophonetic correlation coefficient.
-  - `plot_clust_sc()` creates a dendrogram (ggplot2 object) from the
-    cluster analysis.
+- `dist_sc()` Calculates a (Euclidean) distance matrix based on all
+  scores.
+- `clust_sc()` applies a hierarchical group-average cluster analysis,
+  returns a `hclust` object and prints the Gower distance and Cophonetic
+  correlation coefficient.
+- `plot_clust_sc()` creates a dendrogram (ggplot2 object) from the
+  cluster analysis.
 
 ### Assessment of current state status
 
@@ -584,10 +576,10 @@ space of possible locations of IND variables)
 1.  Calculation of the **Euclidean distance** in state space of any
     dimensionality between each single year (or any other time step
     used) and a defined reference year.
-    
-      - `statespace_ed()` calculates the Euclidean distance over time.
-      - `plot_statespace_ed()` creates a ggplot2 object of the Euclidean
-        distance trend.
+
+    - `statespace_ed()` calculates the Euclidean distance over time.
+    - `plot_statespace_ed()` creates a ggplot2 object of the Euclidean
+      distance trend.
 
 2.  Given the identification of a reference domain in state space, more
     recent observations might lie within or outside this domain. The
@@ -596,11 +588,11 @@ space of possible locations of IND variables)
     reference points in Euclidean plane or space. For visualization,
     only 2 dimensions considered (dimension reduction through
     e.g. Principal Component Analysis suggested).
-    
-      - `statespace_ch()` calculates the convex hull for 2 defined
-        periods (current and reference) in the x-y space (i.e. 2 IND or
-        2 Principal Components).
-      - `plot_statespace_ch()` creates a ggplot2 object showing all
-        observed combinations in x-y space as well as the convex hull of
-        both periods. The proportion of the recent time period within
-        the reference space is additionally provided.
+
+    - `statespace_ch()` calculates the convex hull for 2 defined periods
+      (current and reference) in the x-y space (i.e. 2 IND or 2
+      Principal Components).
+    - `plot_statespace_ch()` creates a ggplot2 object showing all
+      observed combinations in x-y space as well as the convex hull of
+      both periods. The proportion of the recent time period within the
+      reference space is additionally provided.

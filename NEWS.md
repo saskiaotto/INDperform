@@ -1,3 +1,8 @@
+# INDperform 0.2.3.9000
+
+* TAC test now based on 0.95 confidence interval accounting for the time series length instead of a fixed value (of 0.4).
+
+
 # INDperform 0.2.2.9000
 
 * `state_space_ed()` and `state_space_ch()` allow now also irregular time series (before an error message was returned).
@@ -5,8 +10,6 @@
 `state_space_ed()` includes now an argument `na_rm = TRUE` (set as default) to deal with missing values, i.e. cases with NAs are dropped from the dataset prior to the analysis but the returned tibble includes these years (showing NA in the `$ed` column).
 
 * Some function examples excluded from automatic testing with /dontrun due to longer running time.
-
-* TAC test now based on 0.95 confidence interval accounting for the time series length instead of a fixed value (of 0.4).
 
 
 # INDperform 0.2.2
