@@ -187,8 +187,8 @@ dynamics of a key copepod. \emph{Marine Ecology Progress Series} 498, 73-84.
 Other IND~pressure modeling functions: 
 \code{\link{find_id}()},
 \code{\link{ind_init}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_diagnostics}()},
 \code{\link{plot_model}()},
 \code{\link{scoring}()},

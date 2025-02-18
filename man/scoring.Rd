@@ -107,8 +107,8 @@ inverse operation
 
 Other score-based IND performance functions: 
 \code{\link{clust_sc}()},
-\code{\link{dist_sc_group}()},
 \code{\link{dist_sc}()},
+\code{\link{dist_sc_group}()},
 \code{\link{expect_resp}()},
 \code{\link{plot_clust_sc}()},
 \code{\link{plot_spiechart}()},
@@ -117,8 +117,8 @@ Other score-based IND performance functions:
 Other IND~pressure modeling functions: 
 \code{\link{find_id}()},
 \code{\link{ind_init}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_diagnostics}()},
 \code{\link{plot_model}()},
 \code{\link{select_model}()},

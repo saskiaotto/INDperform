@@ -31,8 +31,11 @@ they need to be accounted for in the residual vector. Observations with
 one or more NAs in-between will be otherwise considered as having a lag of 1.
 
 The test for temporal autocorrelation is based on the following condition: If
-any of the acf \strong{and} any of the pacf values of lag 1 - 5 is greater or
-lower than 0.4, a TRUE is returned.
+any of the acf \strong{and} any of the pacf values of lag 1 - 5 is outside the
+0.95 confidence interval (CI), a TRUE is returned. This CI is the same as shown
+in the acf plot using the default settings and accounts for the length of the
+time series. It is calculated as follows:
+qnorm((1-0.95)/2)/sqrt(length(timeseries))
 }
 \examples{
 # Using models of the Baltic Sea demo data:

@@ -121,8 +121,8 @@ dat$all_plots[[2]]
 Other IND~pressure modeling functions: 
 \code{\link{find_id}()},
 \code{\link{ind_init}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_diagnostics}()},
 \code{\link{scoring}()},
 \code{\link{select_model}()},

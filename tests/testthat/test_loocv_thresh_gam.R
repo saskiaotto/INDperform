@@ -18,12 +18,12 @@ t_var_vec <- dat_init$press_train[[1]]
 time <- dat_init$time_train[[2]]
 model <- gam_tbl$model[[2]]
 test2 <- loocv_thresh_gam(model, ind_vec, press_vec,
-  t_var_vec, name_t_var = "Tsum", k = 4, a = 0.2,
+  t_var_vec, name_t_var = "Tsum", k = 6, a = 0.2,
   b = 0.8, time)
 
 test_that("test output loocv for threshold-GAM", {
   expect_false(test$result)
   expect_true(is.na(test$error))
   expect_true(is.na(test2$result))
-  expect_equal(test2$error, "Model has more coefficients than data")
+  expect_equal(test2$error, "A term has fewer unique covariate combinations than specified maximum degrees of freedom")
 })

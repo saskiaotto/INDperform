@@ -543,9 +543,10 @@ calc_y_range <- function(y1, y2 = NULL, ci_low, ci_up,
 # Check if any thresh_model missing if interaction = TRUE
 check_4missing_models <- function(x) {
   check_each <- function(y) {
-    if (class(y) != "list") out <- TRUE
-    if (class(y) == "list") {
+    if (inherits(y, "list")) {
       out <- any(purrr::map_lgl(y, ~ any(is.na(.))) )
+    } else {
+    	out <- TRUE
     }
     return(out)
   }

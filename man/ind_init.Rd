@@ -83,8 +83,8 @@ ind_init(ind_tbl = data.frame(MS = ind_tbl$MS), press_tbl = data.frame(Tsum = pr
 
 Other IND~pressure modeling functions: 
 \code{\link{find_id}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_diagnostics}()},
 \code{\link{plot_model}()},
 \code{\link{scoring}()},

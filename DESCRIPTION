@@ -21,7 +21,7 @@ BugReports: https://github.com/saskiaotto/INDperform/issues
 License: GPL
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1
 Depends:
     R (>= 4.0)
 Imports:

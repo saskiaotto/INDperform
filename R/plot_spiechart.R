@@ -91,7 +91,7 @@ plot_spiechart <- function(summary_tbl, col_press_type = NULL,
     stop("Argument summary_tbl is missing.")
   }
   # Check input list
-  if (class(summary_tbl) != "list") {
+  if (!inherits(summary_tbl, "list")) {
     stop("summary_tbl has to be a list (output of summary_sc() function)!")
   }
 

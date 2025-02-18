@@ -6,6 +6,8 @@
 
 * Some function examples excluded from automatic testing with /dontrun due to longer running time.
 
+* TAC test now based on 0.95 confidence interval accounting for the time series length instead of a fixed value (of 0.4).
+
 
 # INDperform 0.2.2
 

@@ -39,8 +39,8 @@ for the data extraction from the \code{hclust} object to produce the dendrogram
 
 Other score-based IND performance functions: 
 \code{\link{clust_sc}()},
-\code{\link{dist_sc_group}()},
 \code{\link{dist_sc}()},
+\code{\link{dist_sc_group}()},
 \code{\link{expect_resp}()},
 \code{\link{plot_spiechart}()},
 \code{\link{scoring}()},

@@ -79,11 +79,11 @@
 #'               residuals to test for normal distribution. P-values > 0.05 indicate
 #'               normally distributed residuals.}
 #'   \item{\code{tac}}{logical; indicates whether temporal autocorrelation (TAC) was detected
-#'               in the residuals. TRUE if model residuals show TAC. NAs in the time series
-#'               due to real missing values, test data extraction or exclusion of outliers
+#'               in the residuals. TRUE if model residuals show TAC. NA values in the time
+#'               series—due to real missing values, test data extraction, or outlier exclusion—
 #'               are explicitly considered. The test is based on the following condition:
-#'               if any of the acf \strong{and} pacf values of lag 1 - 5 are greater than 0.4
-#'               or lower than -0.4, a TRUE is returned.}
+#'               if any of the ACF \strong{or} PACF values at lags 1 to 5 fall outside the
+#'               0.95 confidence interval, \code{TRUE} is returned.}
 #'   \item{\code{pres_outlier}}{A list-column with all indices of values identified as outliers
 #'               in each model (i.e.cook`s distance > 1). The indices present the position in
 #'               the training data, including NAs.}

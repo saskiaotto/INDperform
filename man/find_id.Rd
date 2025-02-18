@@ -37,8 +37,8 @@ find_id(model_gam_ex, press_name = press_name)
 \seealso{
 Other IND~pressure modeling functions: 
 \code{\link{ind_init}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_diagnostics}()},
 \code{\link{plot_model}()},
 \code{\link{scoring}()},

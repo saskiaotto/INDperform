@@ -32,7 +32,7 @@ clust_sc <- function(dist_mat, method_clust = "average",
   if (missing(dist_mat)) {
     stop("Argument dist_mat is missing.")
   }
-  if (class(dist_mat) != "dist") {
+  if (!inherits(dist_mat, "dist")) {
     stop("dist_mat is not an object of class dist! Is this the correct output from the dist_sc() function?")
   }
   # --------------------

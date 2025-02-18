@@ -100,8 +100,8 @@ plots <- plot_diagnostics(model_list)
 Other IND~pressure modeling functions: 
 \code{\link{find_id}()},
 \code{\link{ind_init}()},
-\code{\link{model_gamm}()},
 \code{\link{model_gam}()},
+\code{\link{model_gamm}()},
 \code{\link{plot_model}()},
 \code{\link{scoring}()},
 \code{\link{select_model}()},

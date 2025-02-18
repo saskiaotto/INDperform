@@ -54,8 +54,8 @@ of the expectation scores.
 
 Other score-based IND performance functions: 
 \code{\link{clust_sc}()},
-\code{\link{dist_sc_group}()},
 \code{\link{dist_sc}()},
+\code{\link{dist_sc_group}()},
 \code{\link{plot_clust_sc}()},
 \code{\link{plot_spiechart}()},
 \code{\link{scoring}()},

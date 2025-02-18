@@ -14,8 +14,11 @@
 #' one or more NAs in-between will be otherwise considered as having a lag of 1.
 #'
 #' The test for temporal autocorrelation is based on the following condition: If
-#' any of the acf \strong{and} any of the pacf values of lag 1 - 5 is greater or
-#' lower than 0.4, a TRUE is returned.
+#' any of the acf \strong{and} any of the pacf values of lag 1 - 5 is outside the
+#' 0.95 confidence interval (CI), a TRUE is returned. This CI is the same as shown
+#' in the acf plot using the default settings and accounts for the length of the
+#' time series. It is calculated as follows:
+#' qnorm((1-0.95)/2)/sqrt(length(timeseries))
 #'
 #' @return
 #' The function returns a tibble with one row for each model and three columns:
@@ -62,9 +65,17 @@ test_tac <- function(model_resid) {
 
   # Is there temporal autocorrelation? TRUE = tac
   # occurs
-  tac <- purrr::map2_lgl(.x = acf_val, .y = pacf_val,
-    ~any((abs(.x[2:6]) > 0.4) & (abs(.y[1:5]) >
-      0.4), na.rm = TRUE))
+		ci <- 0.95
+		n_resid <- purrr::map(model_resid, length)
+		ci95_lim <- purrr::map(n_resid, ~qnorm((1+ci)/2)/sqrt(.))
+
+		get_tac <- function(x, y, ci_lim) {
+			tac_lgl <- any((abs(x[2:6]) > ci_lim) & (abs(y[1:5]) > ci_lim), na.rm = TRUE)
+			return(tac_lgl)
+		}
+		tac <- purrr::pmap(.l = list(x = acf_val, y = pacf_val, ci_lim = ci95_lim),
+			.f = get_tac) |> unlist()
+
   # NAs are automatically defined as FALSE -->
   # convert manually to NAs
   tac[which(is.na(model_resid))] <- NA
