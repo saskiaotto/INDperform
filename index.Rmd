@@ -217,8 +217,8 @@ sel <- find_id(
 )$id
 
 m_merged$nrmse[sel] <- calc_nrmse(
-	press = ind_init_ex$press_test[sel], 
-	ind = ind_init_ex$ind_test[sel],
+	press = dat_init$press_test[sel], 
+	ind = dat_init$ind_test[sel],
 	model = m_merged$model[sel], 
 	transformation = "log"
 )
